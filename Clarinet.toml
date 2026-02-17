@@ -1,0 +1,58 @@
+[project]
+name = 'chess-protocol'
+description = ''
+authors = []
+telemetry = true
+cache_dir = './.cache'
+requirements = []
+[contracts.chess-token]
+path = 'contracts/chess-token.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.escrow]
+path = 'contracts/escrow.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.logic]
+path = 'contracts/logic.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.ranking]
+path = 'contracts/ranking.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.registry]
+path = 'contracts/registry.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.router]
+path = 'contracts/router.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.timer]
+path = 'contracts/timer.clar'
+clarity_version = 4
+epoch = 'latest'
+[repl.analysis]
+passes = [
+    'check_checker',
+    'call_checker',
+]
+
+[repl.analysis.lints]
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
+
+[repl.remote_data]
+enabled = false
+api_url = 'https://api.hiro.so'

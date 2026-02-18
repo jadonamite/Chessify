@@ -32,7 +32,7 @@
 )
 
 ;; -------------------------------------------------------
-;; Initialize Escrow for New Game
+;; Initialize escrow for New Game
 ;; -------------------------------------------------------
 
 (define-public (init-game (game-id uint) (white principal) (amount uint))

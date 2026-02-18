@@ -1,0 +1,60 @@
+---
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: "https://api.testnet.hiro.so"
+bitcoin-node: "http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: chess-token
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 56380
+            path: contracts/chess-token.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: escrow
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 35750
+            path: contracts/escrow.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: logic
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 30050
+            path: contracts/logic.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: ranking
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 49460
+            path: contracts/ranking.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: registry
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 53920
+            path: contracts/registry.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: timer
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 40240
+            path: contracts/timer.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: router
+            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
+            cost: 68230
+            path: contracts/router.clar
+            anchor-block-only: true
+            clarity-version: 4
+      epoch: "3.3"

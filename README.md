@@ -364,7 +364,7 @@ User → router.claim-timeout
 
 # 🔐 SECURITY BOUNDARIES
 
-Escrow:
+escrow:
 • Cannot change game state
 
 Registry:

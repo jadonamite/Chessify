@@ -8,13 +8,7 @@ plan:
   batches:
     - id: 0
       transactions:
-        - contract-publish:
-            contract-name: chess-escrow
-            expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 35750
-            path: contracts/chess-escrow.clar
-            anchor-block-only: true
-            clarity-version: 4
+       
         - contract-publish:
             contract-name: chess-token
             expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39

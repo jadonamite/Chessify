@@ -8,52 +8,39 @@ plan:
   batches:
     - id: 0
       transactions:
-        - contract-publish:
-            contract-name: chess-escrow
-            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1580471
-            path: contracts/chess-escrow.clar
-            anchor-block-only: true
-            clarity-version: 4
-        - contract-publish:
-            contract-name: chess-token
-            expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1583033
-            path: contracts/chess-token.clar
-            anchor-block-only: true
-            clarity-version: 4
+     
         - contract-publish:
             contract-name: logic
             expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1579617
+            cost: 30050
             path: contracts/logic.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
             contract-name: ranking
             expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1582179
+            cost: 49460
             path: contracts/ranking.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
             contract-name: registry
             expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1582749
+            cost: 53920
             path: contracts/registry.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
             contract-name: timer
             expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1581041
+            cost: 40240
             path: contracts/timer.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
             contract-name: router
             expected-sender: ST6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZ00NN8H
-            cost: 1584741
+            cost: 68530
             path: contracts/router.clar
             anchor-block-only: true
             clarity-version: 4

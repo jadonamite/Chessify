@@ -10,8 +10,8 @@ path = 'contracts/chess-token.clar'
 clarity_version = 4
 epoch = 'latest'
 
-[contracts.escrow]
-path = 'contracts/escrow.clar'
+[contracts.chess-escrow]
+path = 'contracts/chess-escrow.clar'
 clarity_version = 4
 epoch = 'latest'
 

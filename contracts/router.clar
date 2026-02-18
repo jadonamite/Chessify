@@ -27,7 +27,7 @@
       (game-id (unwrap! (contract-call? .registry create-game tx-sender wager) ERR-GAME-NOT-FOUND))
     )
     ;; Initialize escrow
-    (unwrap! (contract-call? .escrow init-game game-id tx-sender wager) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .chess-escrow init-game game-id tx-sender wager) ERR-GAME-NOT-FOUND)
     
     ;; Initialize timeout
     (unwrap! (contract-call? .timer init-timeout game-id) ERR-GAME-NOT-FOUND)
@@ -55,7 +55,7 @@
     (unwrap! (contract-call? .registry assign-black game-id tx-sender) ERR-GAME-NOT-FOUND)
     
     ;; Add black wager to escrow
-    (unwrap! (contract-call? .escrow add-black-wager game-id tx-sender wager) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .chess-escrow add-black-wager game-id tx-sender wager) ERR-GAME-NOT-FOUND)
     
     ;; Activate game
     (unwrap! (contract-call? .registry activate-game game-id) ERR-GAME-NOT-FOUND)
@@ -124,7 +124,7 @@
     (unwrap! (contract-call? .registry finish-game game-id (some winner)) ERR-GAME-NOT-FOUND)
     
     ;; Release escrow to winner
-    (unwrap! (contract-call? .escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .chess-escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
     
     ;; Update rankings
     (unwrap! (contract-call? .ranking record-win winner tx-sender) ERR-GAME-NOT-FOUND)
@@ -157,7 +157,7 @@
     (unwrap! (contract-call? .registry finish-game game-id (some winner)) ERR-GAME-NOT-FOUND)
     
     ;; Release escrow to winner
-    (unwrap! (contract-call? .escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .chess-escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
     
     ;; Update rankings
     (unwrap! (contract-call? .ranking record-win winner loser) ERR-GAME-NOT-FOUND)
@@ -184,7 +184,7 @@
     (unwrap! (contract-call? .registry cancel-game game-id) ERR-GAME-NOT-FOUND)
     
     ;; Refund escrow
-    (unwrap! (contract-call? .escrow refund-game game-id) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .chess-escrow refund-game game-id) ERR-GAME-NOT-FOUND)
     
     (ok true)
   )

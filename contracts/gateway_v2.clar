@@ -39,7 +39,7 @@
     )
     ;; Lock white wager into chess-token vault (skip if free game)
     (if (> wager u0)
-      (try! (contract-call? .chess-token transfer
+      (try! (contract-call? .chess-token_v2 transfer
         wager
         tx-sender
         .chess-token
@@ -74,7 +74,7 @@
 
     ;; Lock black wager into chess-token vault
     (if (> wager u0)
-      (try! (contract-call? .chess-token transfer
+      (try! (contract-call? .chess-token_v2 transfer
         wager
         tx-sender
         .chess-token
@@ -149,7 +149,7 @@
 
     ;; Release tokens via chess-token's privileged gateway-release
     (if (> total-payout u0)
-      (try! (contract-call? .chess-token gateway-release total-payout winner))
+      (try! (contract-call? .chess-token_v2 gateway-release total-payout winner))
       true
     )
 
@@ -181,7 +181,7 @@
     (unwrap! (contract-call? .chess-escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
 
     (if (> total-payout u0)
-      (try! (contract-call? .chess-token gateway-release total-payout winner))
+      (try! (contract-call? .chess-token_v2 gateway-release total-payout winner))
       true
     )
 
@@ -208,7 +208,7 @@
     (unwrap! (contract-call? .chess-escrow refund-game game-id) ERR-GAME-NOT-FOUND)
 
     (if (> wager u0)
-      (try! (contract-call? .chess-token gateway-release wager white-player))
+      (try! (contract-call? .chess-token_v2 gateway-release wager white-player))
       true
     )
 

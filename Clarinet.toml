@@ -11,6 +11,17 @@ path = 'contracts/gateway.clar'
 clarity_version = 2
 epoch = 'latest'
 
+[contracts.gateway_v2]
+path = 'contracts/gateway_v2.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.chess-token_v2]
+path = 'contracts/chess-token_v2.clar'
+clarity_version = 4
+epoch = 'latest'
+
+
 [contracts.chess-token]
 path = 'contracts/chess-token.clar'
 clarity_version = 4

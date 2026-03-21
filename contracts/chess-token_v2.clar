@@ -114,7 +114,7 @@
 
 (define-public (gateway-release (amount uint) (recipient principal))
   (begin
-    (asserts! (is-eq contract-caller .gateway) ERR-NOT-AUTHORIZED)
+    (asserts! (is-eq contract-caller .gateway_v2) ERR-NOT-AUTHORIZED)
     (asserts! (> amount u0) ERR-INVALID-AMOUNT)
     (ft-transfer? chess-token amount .chess-token recipient)
   )

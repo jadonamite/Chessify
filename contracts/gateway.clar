@@ -1,15 +1,15 @@
 ;; ============================================================
 ;; chessify-gateway.clar
-;; Master Orchestrator + Token Vault — Single Entry Point
+;; Master Orchestrator + Token Vault - Single Entry Point
 ;; Replaces router.clar (Contract 7 of 7)
-;; 
-;; KEY FIX OVER router.clar:
-;;   Real ft-transfer? calls added to create-game, join-game,
-;;   resign, claim-timeout, and cancel-game.
-;;   The gateway contract itself holds wagers in escrow.
-;;   Uses (as-contract ...) to release tokens outward.
 ;;
-;; Built by Velocity Labs — CHESSIFY Protocol
+;; TOKEN FLOW:
+;;   IN  (user -> contract): recipient is .chessify-gateway
+;;       expressed as a self-referential principal - no as-contract needed
+;;   OUT (contract -> user): (as-contract (contract-call? ...))
+;;       flips tx-sender to this contract so it can sign the transfer
+;;
+;; Built by Velocity Labs - CHESSIFY Protocol
 ;; ============================================================
 
 ;; -------------------------------------------------------
@@ -28,10 +28,10 @@
 
 ;; -------------------------------------------------------
 ;; Create Game
-;; 
-;; NEW: If wager > 0, white player transfers CHESS tokens
-;;      to this contract immediately on game creation.
-;;      Tokens sit in the gateway until the game resolves.
+;;
+;; White player transfers CHESS into this contract.
+;; Recipient is .chessify-gateway (self-reference as principal).
+;; No as-contract needed for receiving tokens.
 ;; -------------------------------------------------------
 
 (define-public (create-game (wager uint))
@@ -39,18 +39,18 @@
     (
       (game-id (unwrap! (contract-call? .registry create-game tx-sender wager) ERR-GAME-NOT-FOUND))
     )
-    ;; Lock white's wager in this contract (skip if free game)
+    ;; Lock white wager - recipient is this contract's own principal
     (if (> wager u0)
       (try! (contract-call? .chess-token transfer
         wager
         tx-sender
-        (as-contract tx-sender)
+        .chessify-gateway
         none
       ))
       true
     )
 
-    ;; Initialize escrow accounting record
+    ;; Initialize escrow accounting
     (unwrap! (contract-call? .chess-escrow init-game game-id tx-sender wager) ERR-GAME-NOT-FOUND)
 
     ;; Initialize timeout clock
@@ -63,39 +63,39 @@
 ;; -------------------------------------------------------
 ;; Join Game
 ;;
-;; NEW: If wager > 0, black player transfers matching CHESS
-;;      tokens to this contract. Both sides now locked.
+;; Black player transfers matching CHESS into this contract.
+;; Both wagers are now held by .chessify-gateway.
 ;; -------------------------------------------------------
 
 (define-public (join-game (game-id uint))
   (let
     (
-      (game-opt (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
-      (game     (unwrap! game-opt ERR-GAME-NOT-FOUND))
-      (wager    (get wager game))
+      (game-opt     (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
+      (game         (unwrap! game-opt ERR-GAME-NOT-FOUND))
+      (wager        (get wager game))
       (white-player (get white game))
     )
     ;; Caller cannot be the white player
     (asserts! (not (is-eq tx-sender white-player)) ERR-INVALID-OPPONENT)
 
-    ;; Lock black's wager in this contract (skip if free game)
+    ;; Lock black wager into this contract
     (if (> wager u0)
       (try! (contract-call? .chess-token transfer
         wager
         tx-sender
-        (as-contract tx-sender)
+        .chessify-gateway
         none
       ))
       true
     )
 
-    ;; Register black player in registry
+    ;; Register black player
     (unwrap! (contract-call? .registry assign-black game-id tx-sender) ERR-GAME-NOT-FOUND)
 
     ;; Update escrow accounting
     (unwrap! (contract-call? .chess-escrow add-black-wager game-id tx-sender wager) ERR-GAME-NOT-FOUND)
 
-    ;; Activate game — both players locked in
+    ;; Activate game - both players locked in
     (unwrap! (contract-call? .registry activate-game game-id) ERR-GAME-NOT-FOUND)
 
     (ok true)
@@ -104,23 +104,21 @@
 
 ;; -------------------------------------------------------
 ;; Submit Move
-;; (No token changes — logic unchanged from router.clar)
+;; No token movement - unchanged from router.clar
 ;; -------------------------------------------------------
 
 (define-public (submit-move (game-id uint) (move-str (string-ascii 10)))
   (let
     (
-      (game-opt (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
-      (game     (unwrap! game-opt ERR-GAME-NOT-FOUND))
-      (current-turn (get turn game))
-      (move-count   (get move-count game))
-      (white-player (get white game))
+      (game-opt         (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
+      (game             (unwrap! game-opt ERR-GAME-NOT-FOUND))
+      (current-turn     (get turn game))
+      (move-count       (get move-count game))
+      (white-player     (get white game))
       (black-player-opt (get black game))
     )
-    ;; Only the player whose turn it is may submit
     (asserts! (is-eq tx-sender current-turn) ERR-NOT-YOUR-TURN)
 
-    ;; Record move on-chain in logic contract
     (unwrap! (contract-call? .logic record-move game-id move-count tx-sender move-str) ERR-GAME-NOT-FOUND)
 
     (let
@@ -129,12 +127,8 @@
                        (unwrap! black-player-opt ERR-GAME-NOT-FOUND)
                        white-player))
       )
-      ;; Flip turn in registry
       (unwrap! (contract-call? .registry update-turn game-id next-player) ERR-GAME-NOT-FOUND)
-
-      ;; Reset timeout clock
       (unwrap! (contract-call? .timer reset-timer game-id) ERR-GAME-NOT-FOUND)
-
       (ok true)
     )
   )
@@ -143,83 +137,30 @@
 ;; -------------------------------------------------------
 ;; Resign
 ;;
-;; NEW: After updating game state, the gateway releases the
-;;      full combined wager to the winner using (as-contract).
-;;      (as-contract) flips tx-sender to the contract itself,
-;;      allowing the contract to sign the outgoing transfer.
+;; Gateway releases combined wager to the winner.
+;; (as-contract ...) is valid here because it wraps a
+;; contract-call - this is the only supported usage.
+;; caller is captured before as-contract flips tx-sender.
 ;; -------------------------------------------------------
 
 (define-public (resign (game-id uint))
   (let
     (
-      (game-opt (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
-      (game     (unwrap! game-opt ERR-GAME-NOT-FOUND))
-      (white-player (get white game))
+      (game-opt         (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
+      (game             (unwrap! game-opt ERR-GAME-NOT-FOUND))
+      (white-player     (get white game))
       (black-player-opt (get black game))
-      (winner (if (is-eq tx-sender white-player)
-                (unwrap! black-player-opt ERR-GAME-NOT-FOUND)
-                white-player))
-      (total-payout (* (get wager game) u2))
+      (caller           tx-sender)
+      (winner           (if (is-eq tx-sender white-player)
+                          (unwrap! black-player-opt ERR-GAME-NOT-FOUND)
+                          white-player))
+      (total-payout     (* (get wager game) u2))
     )
-    ;; Record resignation in logic contract
-    (unwrap! (contract-call? .logic record-resignation game-id tx-sender) ERR-GAME-NOT-FOUND)
-
-    ;; Mark game finished in registry
+    (unwrap! (contract-call? .logic record-resignation game-id caller) ERR-GAME-NOT-FOUND)
     (unwrap! (contract-call? .registry finish-game game-id (some winner)) ERR-GAME-NOT-FOUND)
-
-    ;; Mark escrow claimed
     (unwrap! (contract-call? .chess-escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
 
-    ;; Release tokens to winner — contract signs as itself
-    (if (> total-payout u0)
-      (try! (as-contract (contract-call? .chess-token transfer
-        total-payout
-        tx-sender   ;; inside as-contract, tx-sender = this contract
-        winner
-        none
-      )))
-      true
-    )
-
-    ;; Update Elo ratings
-    (unwrap! (contract-call? .ranking record-win winner tx-sender) ERR-GAME-NOT-FOUND)
-
-    (ok winner)
-  )
-)
-
-;; -------------------------------------------------------
-;; Claim Timeout Win
-;;
-;; NEW: Same payout pattern as resign — gateway releases
-;;      combined wager to the non-timed-out player.
-;; -------------------------------------------------------
-
-(define-public (claim-timeout (game-id uint))
-  (let
-    (
-      (game-opt (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
-      (game     (unwrap! game-opt ERR-GAME-NOT-FOUND))
-      (white-player (get white game))
-      (black-player-opt (get black game))
-      (current-turn (get turn game))
-      ;; The player whose turn it is has timed out — opponent wins
-      (winner (if (is-eq current-turn white-player)
-                (unwrap! black-player-opt ERR-GAME-NOT-FOUND)
-                white-player))
-      (loser current-turn)
-      (total-payout (* (get wager game) u2))
-    )
-    ;; Validate timeout has actually elapsed
-    (unwrap! (contract-call? .timer validate-timeout game-id) ERR-GAME-NOT-FOUND)
-
-    ;; Mark game finished
-    (unwrap! (contract-call? .registry finish-game game-id (some winner)) ERR-GAME-NOT-FOUND)
-
-    ;; Mark escrow claimed
-    (unwrap! (contract-call? .chess-escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
-
-    ;; Release tokens to winner
+    ;; Release tokens - as-contract wraps contract-call (valid usage)
     (if (> total-payout u0)
       (try! (as-contract (contract-call? .chess-token transfer
         total-payout
@@ -230,43 +171,72 @@
       true
     )
 
-    ;; Update Elo ratings
-    (unwrap! (contract-call? .ranking record-win winner loser) ERR-GAME-NOT-FOUND)
+    ;; Use captured caller - tx-sender is now the contract inside as-contract
+    (unwrap! (contract-call? .ranking record-win winner caller) ERR-GAME-NOT-FOUND)
 
     (ok winner)
   )
 )
 
 ;; -------------------------------------------------------
+;; Claim Timeout Win
+;; -------------------------------------------------------
+
+(define-public (claim-timeout (game-id uint))
+  (let
+    (
+      (game-opt         (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
+      (game             (unwrap! game-opt ERR-GAME-NOT-FOUND))
+      (white-player     (get white game))
+      (black-player-opt (get black game))
+      (current-turn     (get turn game))
+      (winner           (if (is-eq current-turn white-player)
+                          (unwrap! black-player-opt ERR-GAME-NOT-FOUND)
+                          white-player))
+      (loser            current-turn)
+      (total-payout     (* (get wager game) u2))
+    )
+    (unwrap! (contract-call? .timer validate-timeout game-id) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .registry finish-game game-id (some winner)) ERR-GAME-NOT-FOUND)
+    (unwrap! (contract-call? .chess-escrow release-to-winner game-id winner) ERR-GAME-NOT-FOUND)
+
+    (if (> total-payout u0)
+      (try! (as-contract (contract-call? .chess-token transfer
+        total-payout
+        tx-sender
+        winner
+        none
+      )))
+      true
+    )
+
+    (unwrap! (contract-call? .ranking record-win winner loser) ERR-GAME-NOT-FOUND)
+    (ok winner)
+  )
+)
+
+;; -------------------------------------------------------
 ;; Cancel Game
-;;
-;; NEW: If white cancels before anyone joins, their wager
-;;      is refunded from the gateway back to them.
-;;      Only callable while game is STATUS-WAITING.
+;; Refunds white's wager if no opponent has joined yet
 ;; -------------------------------------------------------
 
 (define-public (cancel-game (game-id uint))
   (let
     (
-      (game-opt (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
-      (game     (unwrap! game-opt ERR-GAME-NOT-FOUND))
+      (game-opt     (unwrap! (contract-call? .registry get-game game-id) ERR-GAME-NOT-FOUND))
+      (game         (unwrap! game-opt ERR-GAME-NOT-FOUND))
       (white-player (get white game))
-      (wager (get wager game))
+      (wager        (get wager game))
     )
-    ;; Only white player can cancel their own open game
     (asserts! (is-eq tx-sender white-player) ERR-NOT-AUTHORIZED)
 
-    ;; Cancel in registry (also validates STATUS-WAITING)
     (unwrap! (contract-call? .registry cancel-game game-id) ERR-GAME-NOT-FOUND)
-
-    ;; Mark escrow as refunded
     (unwrap! (contract-call? .chess-escrow refund-game game-id) ERR-GAME-NOT-FOUND)
 
-    ;; Refund white's wager from the gateway back to them
     (if (> wager u0)
       (try! (as-contract (contract-call? .chess-token transfer
         wager
-        tx-sender   ;; inside as-contract = this contract
+        tx-sender
         white-player
         none
       )))
@@ -278,7 +248,7 @@
 )
 
 ;; -------------------------------------------------------
-;; Read-Only: Delegate to registry and ranking
+;; Read-Only
 ;; -------------------------------------------------------
 
 (define-read-only (get-game-info (game-id uint))

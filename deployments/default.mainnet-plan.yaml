@@ -8,47 +8,25 @@ plan:
   batches:
     - id: 0
       transactions:
-       
         - contract-publish:
-            contract-name: chess-token
+            contract-name: chess-token_v2
             expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 56380
-            path: contracts/chess-token.clar
+            cost: 65480
+            path: contracts/chess-token_v2.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
-            contract-name: logic
+            contract-name: gateway
             expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 30050
-            path: contracts/logic.clar
+            cost: 90940
+            path: contracts/gateway.clar
             anchor-block-only: true
-            clarity-version: 4
+            clarity-version: 2
         - contract-publish:
-            contract-name: ranking
+            contract-name: gateway_v2
             expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 49460
-            path: contracts/ranking.clar
-            anchor-block-only: true
-            clarity-version: 4
-        - contract-publish:
-            contract-name: registry
-            expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 53920
-            path: contracts/registry.clar
-            anchor-block-only: true
-            clarity-version: 4
-        - contract-publish:
-            contract-name: timer
-            expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 40240
-            path: contracts/timer.clar
-            anchor-block-only: true
-            clarity-version: 4
-        - contract-publish:
-            contract-name: router
-            expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-            cost: 68530
-            path: contracts/router.clar
+            cost: 83960
+            path: contracts/gateway_v2.clar
             anchor-block-only: true
             clarity-version: 4
       epoch: "3.3"

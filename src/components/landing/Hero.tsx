@@ -19,7 +19,7 @@ function Navbar() {
       </div>
 
       {/* Links */}
-      <div className="sku-pill" style={{ display:'flex', alignItems:'center', gap:28, borderRadius:999, padding:'10px 28px' }}>
+      <div className="sku-pill" style={{ display:'flex', alignItems:'center', gap:28, borderRadius:999, padding:'15px 30px' }}>
         {['How it works','Leaderboard','Faucet'].map(l => (
           <a key={l} href={`#${l.toLowerCase().replace(' ','-')}`}
             style={{ fontFamily:'var(--fd)', fontSize:10, fontWeight:500, color:'var(--t2)', textDecoration:'none', letterSpacing:'.06em', transition:'color .2s' }}

@@ -193,7 +193,7 @@ function Navbar() {
           width={100}
           height={22}
           style={{ objectFit: "contain" }}
-        />{" "}
+        />}
       </div>
       <div
         className="nav-surface"

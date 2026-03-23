@@ -166,28 +166,78 @@ function RookPiece() {
 
 function Navbar() {
   return (
-    <nav style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'18px 56px',position:'relative',zIndex:20}}>
-      <div className="nav-surface" style={{height:40,padding:'0 16px',borderRadius:999,display:'flex',alignItems:'center',gap:10}}>
-        <Image src="/piece.png" alt="" width={22} height={22} style={{objectFit:'contain',borderRadius:4}}/>
-        <Image src="/chessify.png" alt="Chessify" width={82} height={18} style={{objectFit:'contain'}}/>
+    <nav
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "18px 56px",
+        position: "relative",
+        zIndex: 20,
+      }}
+    >
+      <div
+        className="nav-surface"
+        style={{
+          height: 40,
+          padding: "0 16px",
+          borderRadius: 999,
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
+        <Image
+          src="/chessify.png"
+          alt="Chessify"
+          width={100}
+          height={22}
+          style={{ objectFit: "contain" }}
+        />{" "}
       </div>
-      <div className="nav-surface" style={{display:'flex',gap:28,borderRadius:999,padding:'10px 28px'}}>
-        {['How it works','Leaderboard','Faucet'].map(l=>(
-          <a key={l} href={`#${l.toLowerCase().replace(' ','-')}`}
-            style={{fontFamily:'var(--fd)',fontSize:10,fontWeight:500,color:'var(--t2)',textDecoration:'none',letterSpacing:'.06em',transition:'color .2s'}}
-            onMouseEnter={e=>{(e.currentTarget as HTMLAnchorElement).style.color='var(--c)'}}
-            onMouseLeave={e=>{(e.currentTarget as HTMLAnchorElement).style.color='var(--t2)'}}
-          >{l}</a>
+      <div
+        className="nav-surface"
+        style={{
+          display: "flex",
+          gap: 28,
+          borderRadius: 999,
+          padding: "10px 28px",
+        }}
+      >
+        {["How it works", "Leaderboard", "Faucet"].map((l) => (
+          <a
+            key={l}
+            href={`#${l.toLowerCase().replace(" ", "-")}`}
+            style={{
+              fontFamily: "var(--fd)",
+              fontSize: 10,
+              fontWeight: 500,
+              color: "var(--t2)",
+              textDecoration: "none",
+              letterSpacing: ".06em",
+              transition: "color .2s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--t2)";
+            }}
+          >
+            {l}
+          </a>
         ))}
       </div>
-      <div style={{display:'flex',gap:10,alignItems:'center'}}>
-        <ThemeToggle/>
+      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <ThemeToggle />
         <Link href="/app/lobby">
-          <GlowButton variant="brand" size="sm">Launch App</GlowButton>
+          <GlowButton variant="brand" size="sm">
+            Launch App
+          </GlowButton>
         </Link>
       </div>
     </nav>
-  )
+  );
 }
 
 export default function Hero() {

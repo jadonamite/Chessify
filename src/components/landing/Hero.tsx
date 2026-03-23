@@ -15,13 +15,13 @@ const KEYFRAMES = `
 @keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 `
 
-const GRADIENTS = {
-  kbg:   'linear-gradient(160deg,#353566 0%,#1a1a45 40%,#05050f 100%)',
-  qbg:   'linear-gradient(160deg,#dcdcf8 0%,#aaaacc 30%,#585875 65%,#1e1e32 100%)',
-  bbg:   'linear-gradient(160deg,#2a2a52 0%,#04040c 100%)',
-  ngbg:  'linear-gradient(160deg,#d4d4ec 0%,#8c8caa 32%,#444460 72%,#161626 100%)',
-  rbg:   'linear-gradient(160deg,#242445 0%,#04040c 100%)',
-}
+// const GRADIENTS = {
+//   kbg:   'linear-gradient(160deg,#353566 0%,#1a1a45 40%,#05050f 100%)',
+//   qbg:   'linear-gradient(160deg,#dcdcf8 0%,#aaaacc 30%,#585875 65%,#1e1e32 100%)',
+//   bbg:   'linear-gradient(160deg,#2a2a52 0%,#04040c 100%)',
+//   ngbg:  'linear-gradient(160deg,#d4d4ec 0%,#8c8caa 32%,#444460 72%,#161626 100%)',
+//   rbg:   'linear-gradient(160deg,#242445 0%,#04040c 100%)',
+// }
 
 function KingPiece() {
   return (
@@ -107,34 +107,105 @@ function BishopPiece() {
     </svg>
   )
 }
-
 function KnightPiece() {
   return (
     <svg viewBox="0 0 90 150" width="100%">
       <defs>
-        <linearGradient id="ngbg" x1="18%" y1="0%" x2="82%" y2="100%"><stop offset="0%" stopColor="#d4d4ec"/><stop offset="32%" stopColor="#8c8caa"/><stop offset="72%" stopColor="#444460"/><stop offset="100%" stopColor="#161626"/></linearGradient>
-        <radialGradient id="ns" cx="22%" cy="16%" r="42%"><stop offset="0%" stopColor="rgba(255,255,255,.42)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
-        <linearGradient id="nr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(255,255,255,.3)"/><stop offset="40%" stopColor="rgba(255,255,255,0)"/></linearGradient>
-      </defs>
-      <ellipse cx="45" cy="143" rx="26" ry="7.5" fill="rgba(0,0,0,.55)"/>
-      <path d="M18 138Q17 135 15 128L21 121L69 121L75 128Q73 135 72 138Z" fill="url(#ngbg)" stroke="rgba(255,255,255,.12)" strokeWidth="0.8"/>
-      <path d="M18 138Q17 135 15 128L21 121L69 121L75 128Q73 135 72 138Z" fill="url(#ns)"/>
-      <path d="M21 121Q19 98 25 79L33 63L57 63L65 79Q71 98 69 121Z" fill="url(#ngbg)"/>
-      <path d="M21 121Q19 98 25 79L31 69L31 63L33 63L25 79Q19 98 21 121Z" fill="url(#nr)" opacity="0.7"/>
-      <path d="M21 121Q19 98 25 79L31 69L31 63L33 63L25 79Q19 98 21 121Z" fill="url(#ns)" opacity="0.4"/>
-      <ellipse cx="45" cy="85" rx="21" ry="3.5" fill="rgba(0,0,0,.28)"/>
-      <path d="M27 82Q27 76 45 74Q63 76 63 82Q63 88 45 90Q27 88 27 82Z" fill="url(#ngbg)" stroke="rgba(0,204,255,.3)" strokeWidth="0.9"/>
-      <path d="M23 63Q19 40 27 28Q33 18 47 14Q64 12 72 22Q80 32 78 47Q76 57 65 62Q56 66 23 63Z" fill="url(#ngbg)" stroke="rgba(255,255,255,.09)" strokeWidth="0.7"/>
-      <path d="M23 63Q19 40 27 28Q25 38 25 63Z" fill="url(#ns)" opacity="0.55"/>
-      <path d="M29 44Q31 35 40 27Q48 22 57 22" fill="none" stroke="rgba(255,255,255,.1)" strokeWidth="1.8" strokeLinecap="round"/>
-      <path d="M29 63Q25 53 25 42Q25 32 31 24" fill="none" stroke="rgba(0,0,0,.28)" strokeWidth="3.5" strokeLinecap="round"/>
-      <circle cx="63" cy="29" r="4.5" fill="#0c0c1e"/>
-      <circle cx="61.5" cy="27.5" r="1.5" fill="rgba(255,255,255,.55)"/>
-      <ellipse cx="71" cy="45" rx="2.5" ry="2" fill="rgba(0,0,0,.45)"/>
-    </svg>
-  )
-}
+        <linearGradient id="kbg" x1="20%" y1="0%" x2="80%" y2="100%">
+          <stop offset="0%" stopColor="#2a2a52" />
+          <stop offset="100%" stopColor="#04040c" />
+        </linearGradient>
 
+        <radialGradient id="ks" cx="30%" cy="20%" r="40%">
+          <stop offset="0%" stopColor="rgba(255,255,255,.16)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </radialGradient>
+
+        <linearGradient id="kr" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="rgba(0,204,255,.5)" />
+          <stop offset="30%" stopColor="rgba(0,204,255,.08)" />
+          <stop offset="100%" stopColor="rgba(0,204,255,0)" />
+        </linearGradient>
+      </defs>
+
+      {/* Shadow */}
+      <ellipse cx="45" cy="142" rx="26" ry="7" fill="rgba(0,0,0,.55)" />
+
+      {/* Base */}
+      <path
+        d="M18 137Q16 132 14 125L22 118L68 118L76 125Q74 132 72 137Z"
+        fill="url(#kbg)"
+        stroke="rgba(0,204,255,.16)"
+        strokeWidth="0.8"
+      />
+      <path
+        d="M18 137Q16 132 14 125L22 118L68 118L76 125Q74 132 72 137Z"
+        fill="url(#ks)"
+      />
+
+      {/* Neck + body */}
+      <path
+        d="M24 118Q22 95 32 75L40 62L55 60L66 75Q72 95 70 118Z"
+        fill="url(#kbg)"
+      />
+
+      {/* Mane edge highlight */}
+      <path
+        d="M40 62L35 52L42 48L48 54L52 48L58 52L55 60Z"
+        fill="url(#kr)"
+        opacity="0.7"
+      />
+
+      {/* Head (sharp, angular horse profile) */}
+      <path
+        d="
+        M40 62
+        L36 48
+        L42 30
+        L52 20
+        L66 26
+        L70 36
+        L66 46
+        L60 52
+        L55 60
+        Z"
+        fill="url(#kbg)"
+        stroke="rgba(0,204,255,.25)"
+        strokeWidth="0.8"
+      />
+
+      {/* Jaw cut (gives aggressive silhouette) */}
+      <path d="M52 20L46 34L58 34Z" fill="rgba(0,0,0,.35)" />
+
+      {/* Eye glow */}
+      <circle
+        cx="58"
+        cy="34"
+        r="2.5"
+        fill="#00ccff"
+        style={{
+          filter:
+            "drop-shadow(0 0 6px #00ccff) drop-shadow(0 0 14px rgba(0,204,255,.7))",
+        }}
+      />
+
+      {/* Forehead highlight */}
+      <path d="M42 30L52 20L46 34Z" fill="url(#kr)" opacity="0.6" />
+
+      {/* Neck highlight */}
+      <path d="M32 75L36 62L40 62L32 95Z" fill="url(#kr)" opacity="0.5" />
+
+      {/* Collar ring */}
+      <ellipse cx="47" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.3)" />
+      <path
+        d="M30 82Q30 75 47 73Q64 75 64 82Q64 89 47 91Q30 89 30 82Z"
+        fill="url(#kbg)"
+        stroke="rgba(0,204,255,.3)"
+        strokeWidth="0.8"
+      />
+    </svg>
+  );
+}
 function RookPiece() {
   return (
     <svg viewBox="0 0 80 140" width="100%">
@@ -177,15 +248,15 @@ function Navbar() {
       }}
     >
       <div
-        // className="nav-surface"
-        // style={{
-        //   height: 40,
-        //   padding: "0 16px",
-        //   borderRadius: 999,
-        //   display: "flex",
-        //   alignItems: "center",
-        //   gap: 10,
-        // }}
+      // className="nav-surface"
+      // style={{
+      //   height: 40,
+      //   padding: "0 16px",
+      //   borderRadius: 999,
+      //   display: "flex",
+      //   alignItems: "center",
+      //   gap: 10,
+      // }}
       >
         <Image
           src="/chessify.png"
@@ -210,18 +281,25 @@ function Navbar() {
             href={`#${l.toLowerCase().replace(" ", "-")}`}
             style={{
               fontFamily: "var(--fd)",
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 500,
               color: "var(--t2)",
               textDecoration: "none",
               letterSpacing: ".06em",
               transition: "color .2s",
             }}
+            // onMouseEnter={(e) => {
+            //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
+            // }}
+            // onMouseLeave={(e) => {
+            //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--t2)";
+            // }}
+
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
+              (e.currentTarget as HTMLElement).style.color = "var(--c)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "var(--t2)";
+              (e.currentTarget as HTMLElement).style.color = "var(--t2)";
             }}
           >
             {l}

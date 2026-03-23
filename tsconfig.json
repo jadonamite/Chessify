@@ -3,7 +3,9 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": [
+"lib": [
+      "dom",
+      "dom.iterable",
       "ESNext"
     ],
     "skipLibCheck": true,

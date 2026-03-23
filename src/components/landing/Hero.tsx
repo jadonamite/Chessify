@@ -177,21 +177,21 @@ function Navbar() {
       }}
     >
       <div
-        className="nav-surface"
-        style={{
-          height: 40,
-          padding: "0 16px",
-          borderRadius: 999,
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-        }}
+        // className="nav-surface"
+        // style={{
+        //   height: 40,
+        //   padding: "0 16px",
+        //   borderRadius: 999,
+        //   display: "flex",
+        //   alignItems: "center",
+        //   gap: 10,
+        // }}
       >
         <Image
           src="/chessify.png"
           alt="Chessify"
-          width={100}
-          height={22}
+          width={200}
+          height={50}
           style={{ objectFit: "contain" }}
         />
       </div>

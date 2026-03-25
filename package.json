@@ -1,16 +1,44 @@
 {
   "name": "chessify-protocol",
   "version": "0.1.0",
-  "private": true,
+  "description": "A decentralized chess protocol built on the Stacks blockchain.",
   "type": "module",
+  "private": false,
+  "author": "jadonamite",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "contracts"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:lib": "tsup src/lib/index.ts --format esm --dts --clean",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
+  },
+  "keywords": [
+    "stacks",
+    "bitcoin",
+    "clarity",
+    "chess",
+    "web3",
+    "protocol"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -24,10 +52,12 @@
     "framer-motion": "^12.38.0",
     "next": "16.2.1",
     "next-themes": "^0.4.6",
-    "react": "19.2.4",
     "react-chessboard": "^5.10.0",
-    "react-dom": "19.2.4",
     "zustand": "^5.0.12"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@stacks/clarinet-sdk": "^3.9.0",
@@ -40,6 +70,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "tailwindcss": "^4",
+    "tsup": "^8.5.1",
     "typescript": "^5",
     "vitest": "^4.0.7",
     "vitest-environment-clarinet": "^3.0.0"

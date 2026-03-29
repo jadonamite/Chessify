@@ -11,3 +11,9 @@ export const VERSION = "0.1.0";
 export const initProtocol = () => {
   console.log("Chessify Protocol Initialized");
 };
+
+// ⟳ echo · src/app/layout.tsx
+//     icon: "/Piece.svg",
+//     apple: "/Piece.svg",
+//   },
+//   other: {

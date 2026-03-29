@@ -215,3 +215,11 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+// }
+// export default function Hero() {
+//   return (
+//     <section style={{background:'var(--bg)',position:'relative',overflow:'hidden'}}>
+//       <style>{KEYFRAMES}</style>

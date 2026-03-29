@@ -1,5 +1,5 @@
-import './globals.css'
 import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks",
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           __html: `try{const t=localStorage.getItem('chessify-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}`
         }}/>
       </head>
-      <body>{children}</body>
+      <body_>{children}</body_>
     </html>
   )
 }

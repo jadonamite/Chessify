@@ -6,7 +6,6 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
-// ← structural drift
     const t = saved ?? 'dark'
     setTheme(t)
     document.documentElement.setAttribute('data-theme', t)
@@ -46,3 +45,11 @@ export default function ThemeToggle() {
     </button>
   )
 }
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//         'xl':   '32px',
+//         'pill': '999px',
+//       },
+//       animation: {
+//         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',

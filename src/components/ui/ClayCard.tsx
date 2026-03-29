@@ -6,7 +6,7 @@ interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
   hover?: boolean
   glow?: boolean
-  padding_?: 'none' | 'sm' | 'md' | 'lg'
+  padding?: 'none' | 'sm' | 'md' | 'lg'
 }
 
 const paddingMap = {
@@ -29,7 +29,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       variant = 'default',
       hover = false,
       glow = false,
-      padding_ = 'md',
+      padding = 'md',
       className = '',
       children,
       ...props
@@ -38,7 +38,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
   ) => {
     const classes = [
       variantMap[variant],
-      paddingMap[padding_],
+      paddingMap[padding],
       glow ? 'glow-cyan' : '',
       hover ? 'cursor-pointer active:scale-[0.98]' : '',
       'relative overflow-hidden',
@@ -58,3 +58,11 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//       // style={{
+//       //   height: 40,
+//       //   padding: "0 16px",
+//       //   borderRadius: 999,
+//       //   display: "flex",

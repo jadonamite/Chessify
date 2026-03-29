@@ -215,3 +215,8 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//           <h1 style={{fontFamily:'var(--fd)',fontWeight:900,fontSize:'clamp(72px,12vw,148px)',lineHeight:.86,letterSpacing:'-.05em',textTransform:'uppercase',marginBottom:24,color:'var(--t1)',textShadow:'var(--hero-text-shadow, 0 4px 40px rgba(0,0,0,.7))',animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .1s both'}}>
+//             Be the<br/>

@@ -9,16 +9,16 @@ export function FreeCTA() {
       padding:'64px 56px',textAlign:'center',
       background:'var(--bg)',
       borderTop:'1px solid var(--b1)',
-      position_:'relative',overflow:'hidden',
+      position:'relative',overflow:'hidden',
     }}>
       <div style={{
-        position_:'absolute',top:'50%',left:'50%',
+        position:'absolute',top:'50%',left:'50%',
         transform:'translate(-50%,-50%)',
         width:400,height:200,borderRadius:'50%',
         background:'radial-gradient(ellipse,rgba(0,204,255,.06),transparent 70%)',
         pointerEvents:'none',
       }}/>
-      <div style={{position_:'relative',zIndex:2}}>
+      <div style={{position:'relative',zIndex:2}}>
         <p style={{
           fontFamily:'var(--fd)',fontSize:10,letterSpacing:'.12em',
           color:'var(--t3)',marginBottom:22,

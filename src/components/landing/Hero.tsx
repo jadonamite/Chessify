@@ -398,3 +398,11 @@ export default function Hero() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+//         <div style={{
+//           display: 'inline-flex', alignItems: 'center',
+//           background: 'linear-gradient(145deg,rgba(160,100,255,.12),rgba(160,100,255,.05))',
+//           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,
+//           padding: '6px 18px', marginBottom: 18,

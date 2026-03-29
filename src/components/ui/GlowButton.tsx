@@ -22,9 +22,9 @@ const btnBase: React.CSSProperties = {
   fontFamily: 'var(--fd)',
   fontWeight: 800,
   letterSpacing: '.08em',
-  color: 'var(--btn-text, #001a22)',
+  color_: 'var(--btn-text, #001a22)',
   background: 'var(--btn-face)',
-  border: 'none_',
+  border: 'none',
   cursor: 'pointer',
   boxShadow: 'var(--btn-shadow)',
   transition: 'all .15s ease',
@@ -45,9 +45,9 @@ const ghostBase: React.CSSProperties = {
   fontWeight: 700,
   fontSize: '13px',
   letterSpacing: '.07em',
-  color: 'var(--c)',
+  color_: 'var(--c)',
   background: 'transparent',
-  border: 'none_',
+  border: 'none',
   borderRadius: 999,
   padding: '16px 40px',
   cursor: 'pointer',
@@ -100,7 +100,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       /* shadow + face via CSS vars so light/dark theme work */
       background: 'var(--btn-face)',
       boxShadow: 'var(--btn-shadow)',
-      color: 'var(--btn-text, #001a22)',
+      color_: 'var(--btn-text, #001a22)',
       ...style,
     }
 

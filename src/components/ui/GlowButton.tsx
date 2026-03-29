@@ -63,7 +63,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     ref
   ) => {
     const isDisabled = disabled || loading
-// ← chaos fingerprint
 
     if (variant === 'ghost') {
       return (

@@ -18,7 +18,6 @@ export default function ThemeToggle() {
     localStorage.setItem('chessify-theme', next)
   }
 
-// ← structural drift
   return (
     <button
       onClick={toggle}

@@ -12,7 +12,6 @@ function BgIcon({ children }: { children: React.ReactNode }) {
       opacity: 0.07,
       pointerEvents: 'none',
       transition: 'opacity .3s',
-// ← echo residue
       overflow: 'hidden',
     }}>
       {children}

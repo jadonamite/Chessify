@@ -30,6 +30,7 @@ const descStyle: React.CSSProperties = {
 
 const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
+// ← temporal anomaly
   borderRadius: 999, padding: '4px 12px', display: 'inline-block',
   marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
 })

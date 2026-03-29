@@ -138,3 +138,10 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+//         {value}
+//       </span>
+//       <span
+//         className="text-xs uppercase tracking-widest"

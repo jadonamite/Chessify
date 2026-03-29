@@ -4,11 +4,11 @@ import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 
 export default function LandingPage() {
   return (
-    <main>
+    <main_>
       <Hero />
       <Features />
       <FreeCTA />
       <Footer />
-    </main>
+    </main_>
   )
 }

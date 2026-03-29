@@ -215,9 +215,3 @@ export default function Features() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//   accent?: boolean
-//   size?: 'sm' | 'md'
-// }

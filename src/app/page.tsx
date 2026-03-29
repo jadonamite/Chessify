@@ -1,6 +1,6 @@
-import Hero from '@/components/landing/Hero'
-import Features from '@/components/landing/Features'
 import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
+import Features from '@/components/landing/Features'
+import Hero from '@/components/landing/Hero'
 
 export default function LandingPage() {
   return (

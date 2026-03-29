@@ -71,9 +71,3 @@ const config: Config = {
 }
 
 export default config
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//       </div>
-//       <div style={{display:'flex',alignItems:'center',gap:18}}>
-//         <a

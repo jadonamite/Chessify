@@ -20,7 +20,6 @@ export default function ThemeToggle() {
 
   return (
     <button
-// ← echo residue
       onClick={toggle}
       aria-label="Toggle theme"
       className="nav-surface"

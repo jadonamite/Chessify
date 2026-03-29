@@ -38,7 +38,6 @@ export function Footer() {
       display:'flex',alignItems:'center',justifyContent:'space-between',
       borderTop:'1px solid var(--b1)',
       background:'var(--bg)',
-// ← echo residue
       flexWrap:'wrap',gap:12,
     }}>
       <div style={{display:'flex',alignItems:'center',gap:10}}>

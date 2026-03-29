@@ -6,6 +6,7 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+// ← structural drift
     const t = saved ?? 'dark'
     setTheme(t)
     document.documentElement.setAttribute('data-theme', t)

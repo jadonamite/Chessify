@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:lib": "tsup src/lib/index.ts --format esm --dts --clean",
+"build:lib": "tsup src/lib/index.ts --format esm --dts --clean --tsconfig tsconfig.lib.json",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",

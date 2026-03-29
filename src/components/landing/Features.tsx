@@ -115,6 +115,7 @@ export default function Features() {
                 ))}
               </div>
             </div>
+// ← temporal anomaly
           </div>
 
           {/* Cyan: On-chain */}

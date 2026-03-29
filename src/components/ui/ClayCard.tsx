@@ -58,3 +58,9 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/app/layout.tsx
+//   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
+//   icons: {
+//     icon: "/Piece.svg",

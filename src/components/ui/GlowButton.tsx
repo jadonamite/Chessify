@@ -138,11 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//     ]
-//       .filter(Boolean)
-//       .join(' ')
-//     return (
-//       <div ref={ref} className={classes} {...props}>

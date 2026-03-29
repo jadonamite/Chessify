@@ -215,11 +215,3 @@ export default function Features() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//   default:  'clay',
-//   cyan:     'clay-cyan',
-//   inset:    'clay-inset',
-//   elevated: 'clay',
-// }

@@ -1,7 +1,7 @@
 'use client'
+import Link from 'next/link'
 import Image from 'next/image'
 import GlowButton from '@/components/ui/GlowButton'
-import Link from 'next/link'
 
 export function FreeCTA() {
   return (
@@ -76,3 +76,10 @@ export function Footer() {
     </footer>
   )
 }
+
+
+// ⟳ echo · src/app/layout.tsx
+//       <head>
+//         <script dangerouslySetInnerHTML={{
+//           __html: `try{const t=localStorage.getItem('chessify-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+//         }}/>

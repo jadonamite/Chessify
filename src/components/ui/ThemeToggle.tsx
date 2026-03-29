@@ -45,11 +45,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//         'xl':   '32px',
-//         'pill': '999px',
-//       },
-//       animation: {
-//         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',

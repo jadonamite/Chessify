@@ -58,3 +58,8 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//       <path d="M17 121Q15 98 21 79L27 68L27 62L29 62L21 79Q15 98 17 121Z" fill="url(#bs)" opacity="0.6"/>
+//       <ellipse cx="37" cy="84" rx="19" ry="3.5" fill="rgba(0,0,0,.3)"/>

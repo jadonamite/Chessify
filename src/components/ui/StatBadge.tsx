@@ -28,3 +28,9 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
+
+
+// ⟳ echo · src/app/layout.tsx
+// import './globals.css'
+// export const metadata: Metadata = {
+//   title: "CHESSIFY — Play Chess on Stacks",

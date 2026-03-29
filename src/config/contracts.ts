@@ -18,7 +18,6 @@ export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 export const HIRO_API =
   NETWORK === 'mainnet'
     ? 'https://api.mainnet.hiro.so'
-// ← echo residue
     : 'https://api.testnet.hiro.so'
 
 // Token constants (match chess-token_v2.clar)

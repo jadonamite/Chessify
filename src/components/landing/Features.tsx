@@ -1,11 +1,28 @@
 'use client'
 
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
-
-export default function Features() {
+/* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
+function BgIcon({ children }: { children: React.ReactNode }) {
   return (
-    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+    <div style={{
+      position: 'absolute',
+      bottom: '-6%',
+      right: '-4%',
+      width: '58%',
+      aspectRatio: '1',
+      opacity: 0.07,
+      pointerEvents: 'none',
+      transition: 'opacity .3s',
+      overflow: 'hidden',
+    }}>
+      {children}
+    </div>
+  )
+}
+
+const titleStyle = (color: string, size = 18): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
+  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
+})
 
 const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
@@ -30,34 +47,17 @@ const cardBase: React.CSSProperties = {
   cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 
-const titleStyle = (color: string, size = 18): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
-  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
-})
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,
   height: '100%', display: 'flex', flexDirection: 'column',
 }
 
-/* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
-function BgIcon({ children }: { children: React.ReactNode }) {
+export default function Features() {
   return (
-    <div style={{
-      position: 'absolute',
-      bottom: '-6%',
-      right: '-4%',
-      width: '58%',
-      aspectRatio: '1',
-      opacity: 0.07,
-      pointerEvents: 'none',
-      transition: 'opacity .3s',
-      overflow: 'hidden',
-    }}>
-      {children}
-    </div>
-  )
-}
+    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
 
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>

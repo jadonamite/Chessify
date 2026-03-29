@@ -71,8 +71,3 @@ const config: Config = {
 }
 
 export default config
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//           rel="noreferrer"
-//           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}

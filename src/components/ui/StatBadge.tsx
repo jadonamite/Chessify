@@ -13,15 +13,15 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
       <span
         className="font-display font-bold leading-none"
         style={{
-          color: accent ? 'var(--cyan)' : 'var(--text_-primary)',
+          color: accent ? 'var(--cyan)' : 'var(--text-primary)',
           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
         }}
       >
         {value}
       </span>
       <span
-        className="text_-xs uppercase tracking-widest"
-        style={{ color: 'var(--text_-tertiary)', fontFamily: 'var(--font-display)' }}
+        className="text-xs uppercase tracking-widest"
+        style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
       >
         {label}
       </span>

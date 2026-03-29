@@ -248,7 +248,7 @@ function Navbar() {
       }}
     >
       <div
-      // className_="nav-surface"
+      // className="nav-surface"
       // style={{
       //   height: 40,
       //   padding: "0 16px",
@@ -267,7 +267,7 @@ function Navbar() {
         />
       </div>
       <div
-        className_="nav-surface"
+        className="nav-surface"
         style={{
           display: "flex",
           gap: 28,

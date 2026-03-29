@@ -27,8 +27,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/config/contracts.ts
-//   NETWORK === 'mainnet'
-//     ? 'https://api.mainnet.hiro.so'

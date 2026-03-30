@@ -15,7 +15,6 @@ export const CONTRACTS = {
 
 export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
-// ← chaos fingerprint
 export const HIRO_API =
   NETWORK === 'mainnet'
     ? 'https://api.mainnet.hiro.so'

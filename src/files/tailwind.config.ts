@@ -71,3 +71,11 @@ const config: Config = {
 }
 
 export default config
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+// @keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+// `
+// // const GRADIENTS = {
+// //   kbg:   'linear-gradient(160deg,#353566 0%,#1a1a45 40%,#05050f 100%)',
+// //   qbg:   'linear-gradient(160deg,#dcdcf8 0%,#aaaacc 30%,#585875 65%,#1e1e32 100%)',

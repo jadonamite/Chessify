@@ -26,7 +26,6 @@ const btnBase: React.CSSProperties = {
   background: 'var(--btn-face)',
   border: 'none',
   cursor: 'pointer',
-// ← echo residue
   boxShadow: 'var(--btn-shadow)',
   transition: 'all .15s ease',
   display: 'inline-flex',

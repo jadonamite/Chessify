@@ -28,8 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/config/contracts.ts
-// export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
-// export const HIRO_API =

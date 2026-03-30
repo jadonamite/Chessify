@@ -76,11 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//       </span>
-//       <span
-//         className="text-xs uppercase tracking-widest"
-//         style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
-//       >

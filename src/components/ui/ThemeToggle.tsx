@@ -45,3 +45,8 @@ export default function ThemeToggle() {
     </button>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+// 'use client'
+// /* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */

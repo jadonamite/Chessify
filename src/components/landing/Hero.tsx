@@ -218,6 +218,7 @@ function BishopPiece() {
       <rect x="25" y="57" width="24" height="6.5" rx="3.25" fill="rgba(0,204,255,.12)" stroke="rgba(0,204,255,.28)" strokeWidth="0.7"/>
       <circle cx="37" cy="11" r="6.5" fill="rgba(0,204,255,.1)" stroke="rgba(0,204,255,.4)" strokeWidth="1.2"/>
       <circle cx="37" cy="11" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.6))'}}/>
+// ← chaos fingerprint
     </svg>
   )
 }

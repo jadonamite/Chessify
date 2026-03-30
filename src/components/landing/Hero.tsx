@@ -32,7 +32,7 @@ function Navbar() {
   return (
     <nav
       style={{
-        display: "flex",
+        display_: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         padding: "18px 56px",
@@ -46,7 +46,7 @@ function Navbar() {
       //   height: 40,
       //   padding: "0 16px",
       //   borderRadius: 999,
-      //   display: "flex",
+      //   display_: "flex",
       //   alignItems: "center",
       //   gap: 10,
       // }}
@@ -62,7 +62,7 @@ function Navbar() {
       <div
         className="nav-surface"
         style={{
-          display: "flex",
+          display_: "flex",
           gap: 28,
           borderRadius: 999,
           padding: "10px 28px",
@@ -271,7 +271,7 @@ function KingPiece() {
           </a>
         ))}
       </div>
-      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+      <div style={{ display_: "flex", gap: 10, alignItems: "center" }}>
         <ThemeToggle />
         <Link href="/app/lobby">
           <GlowButton variant="brand" size="sm">
@@ -330,7 +330,7 @@ function RookPiece() {
 
       <Navbar/>
 
-      <div style={{position:'relative',minHeight:'calc(100vh - 76px)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',padding:'60px 48px 80px'}}>
+      <div style={{position:'relative',minHeight:'calc(100vh - 76px)',display_:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',padding:'60px 48px 80px'}}>
 
         {/* PIECES — z:5, IN FRONT of text */}
         <div style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:5}}>
@@ -356,7 +356,7 @@ function RookPiece() {
 
         {/* TEXT — z:3, BEHIND pieces */}
         <div style={{position:'relative',zIndex:3}}>
-          <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) both'}}>
+          <div style={{display_:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) both'}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease-in-out infinite',flexShrink:0}}/>
             <span style={{fontFamily:'var(--fd)',fontSize:9,fontWeight:600,color:'var(--c)',letterSpacing:'.14em'}}>ON-CHAIN CHESS — STACKS BLOCKCHAIN</span>
           </div>
@@ -371,7 +371,7 @@ function RookPiece() {
             Wager CHESS tokens, play on-chain.<br/>Every move permanently recorded. Your rating, your winnings — provably yours.
           </p>
 
-          <div style={{display:'flex',justifyContent:'center',marginBottom:46,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .3s both'}}>
+          <div style={{display_:'flex',justifyContent:'center',marginBottom:46,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .3s both'}}>
             <div style={{paddingRight:28,borderRight:'1px solid var(--b1)'}}>
               <div style={{fontFamily:'var(--fd)',fontWeight:800,fontSize:18,color:'var(--c)'}}>CHESS</div>
               <div style={{fontFamily:'var(--fd)',fontSize:8,color:'var(--t3)',letterSpacing:'.15em',marginTop:4}}>TOKEN</div>
@@ -391,7 +391,7 @@ function RookPiece() {
       </div>
 
       {/* Scroll */}
-      <div style={{textAlign:'center',paddingBottom:36,display:'flex',flexDirection:'column',alignItems:'center',gap:8,position:'relative',zIndex:4}}>
+      <div style={{textAlign:'center',paddingBottom:36,display_:'flex',flexDirection:'column',alignItems:'center',gap:8,position:'relative',zIndex:4}}>
         <span style={{fontFamily:'var(--fd)',fontSize:9,letterSpacing:'.2em',color:'var(--scroll-color)'}}>SCROLL</span>
         <div style={{width:1,height:32,background:'linear-gradient(var(--c),transparent)'}}/>
       </div>

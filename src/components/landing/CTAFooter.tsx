@@ -33,7 +33,7 @@ export function FreeCTA() {
 
 export function Footer() {
   return (
-    <footer style={{
+    <footer_ style={{
       padding:'18px 56px',
       display:'flex',alignItems:'center',justifyContent:'space-between',
       borderTop:'1px solid var(--b1)',
@@ -73,6 +73,6 @@ export function Footer() {
           </svg>
         </a>
       </div>
-    </footer>
+    </footer_>
   )
 }

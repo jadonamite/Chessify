@@ -23,7 +23,7 @@ const btnBase: React.CSSProperties = {
   fontWeight: 800,
   letterSpacing: '.08em',
   color: 'var(--btn-text, #001a22)',
-  background_: 'var(--btn-face)',
+  background: 'var(--btn-face)',
   border: 'none',
   cursor: 'pointer',
   boxShadow: 'var(--btn-shadow)',
@@ -46,7 +46,7 @@ const ghostBase: React.CSSProperties = {
   fontSize: '13px',
   letterSpacing: '.07em',
   color: 'var(--c)',
-  background_: 'transparent',
+  background: 'transparent',
   border: 'none',
   borderRadius: 999,
   padding: '16px 40px',
@@ -70,8 +70,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           ref={ref}
           disabled={isDisabled}
           style={{ ...ghostBase, opacity: isDisabled ? .45 : 1, width: fullWidth ? '100%' : undefined, ...style }}
-          onMouseEnter={e => { if (!isDisabled) { const el = e.currentTarget; el.style.background_ = 'rgba(0,204,255,.05)'; el.style.boxShadow = '0 0 0 1px rgba(0,204,255,.55), 0 4px 0 rgba(0,50,70,.5), 0 16px 40px rgba(0,204,255,.2)'; el.style.transform = 'translateY(-1px)' }}}
-          onMouseLeave={e => { const el = e.currentTarget; el.style.background_ = 'transparent'; el.style.boxShadow = '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)'; el.style.transform = '' }}
+          onMouseEnter={e => { if (!isDisabled) { const el = e.currentTarget; el.style.background = 'rgba(0,204,255,.05)'; el.style.boxShadow = '0 0 0 1px rgba(0,204,255,.55), 0 4px 0 rgba(0,50,70,.5), 0 16px 40px rgba(0,204,255,.2)'; el.style.transform = 'translateY(-1px)' }}}
+          onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'transparent'; el.style.boxShadow = '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)'; el.style.transform = '' }}
           onMouseDown={e => { e.currentTarget.style.transform = 'translateY(2px)' }}
           onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
           className={className}
@@ -98,7 +98,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,
       /* shadow + face via CSS vars so light/dark theme work */
-      background_: 'var(--btn-face)',
+      background: 'var(--btn-face)',
       boxShadow: 'var(--btn-shadow)',
       color: 'var(--btn-text, #001a22)',
       ...style,

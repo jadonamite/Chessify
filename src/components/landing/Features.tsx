@@ -39,7 +39,7 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
   padding: '7px 17px', borderRadius: 999, display: 'inline-block',
   marginTop: 12, marginRight: 7,
   background: bg, border: `1px solid ${border}`, color,
-  boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
+  boxShadow_: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
 })
 
 const cardBase: React.CSSProperties = {
@@ -88,7 +88,7 @@ export default function Features() {
               ...cardBase, minHeight: 290,
               background: 'linear-gradient(135deg,#18093a,#0c0520)',
               border: '1px solid rgba(160,100,255,.24)',
-              boxShadow: '0 2px 0 rgba(180,120,255,.14) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(120,60,220,.22)',
+              boxShadow_: '0 2px 0 rgba(180,120,255,.14) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(120,60,220,.22)',
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
@@ -123,7 +123,7 @@ export default function Features() {
               ...cardBase, minHeight: 290,
               background: 'linear-gradient(135deg,#031624,#010810)',
               border: '1px solid rgba(0,204,255,.26)',
-              boxShadow: '0 2px 0 rgba(0,204,255,.16) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(0,180,240,.18)',
+              boxShadow_: '0 2px 0 rgba(0,204,255,.16) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(0,180,240,.18)',
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
@@ -149,7 +149,7 @@ export default function Features() {
               ...cardBase, minHeight: 238,
               background: 'linear-gradient(135deg,#051c14,#020c04)',
               border: '1px solid rgba(0,220,120,.2)',
-              boxShadow: '0 2px 0 rgba(0,220,120,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(0,180,100,.14)',
+              boxShadow_: '0 2px 0 rgba(0,220,120,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(0,180,100,.14)',
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
@@ -171,7 +171,7 @@ export default function Features() {
               ...cardBase, minHeight: 238,
               background: 'linear-gradient(135deg,#1c0e00,#0c0600)',
               border: '1px solid rgba(255,180,0,.2)',
-              boxShadow: '0 2px 0 rgba(255,180,0,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(220,150,0,.14)',
+              boxShadow_: '0 2px 0 rgba(255,180,0,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(220,150,0,.14)',
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
@@ -192,7 +192,7 @@ export default function Features() {
               ...cardBase, minHeight: 238,
               background: 'linear-gradient(135deg,#101020,#080810)',
               border: '1px solid rgba(255,255,255,.08)',
-              boxShadow: '0 2px 0 rgba(255,255,255,.06) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 16px 44px rgba(0,0,0,.55)',
+              boxShadow_: '0 2px 0 rgba(255,255,255,.06) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 16px 44px rgba(0,0,0,.55)',
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >

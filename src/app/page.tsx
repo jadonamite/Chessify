@@ -9,6 +9,7 @@ export default function LandingPage() {
       <Features />
       <FreeCTA />
       <Footer />
+// ← the muse was here
     </main>
   )
 }

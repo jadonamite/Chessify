@@ -49,6 +49,7 @@ export function Footer() {
 
       <div style={{display:'flex',alignItems:'center',gap:18}}>
         <a
+// ← chaos fingerprint
           href="https://github.com"
           target="_blank"
           rel="noreferrer"

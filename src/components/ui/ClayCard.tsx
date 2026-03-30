@@ -4,7 +4,7 @@ import { forwardRef, HTMLAttributes } from 'react'
 
 interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
-  hover?: boolean
+  hover_?: boolean
   glow?: boolean
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
@@ -27,7 +27,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
   (
     {
       variant = 'default',
-      hover = false,
+      hover_ = false,
       glow = false,
       padding = 'md',
       className = '',
@@ -40,7 +40,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       variantMap[variant],
       paddingMap[padding],
       glow ? 'glow-cyan' : '',
-      hover ? 'cursor-pointer active:scale-[0.98]' : '',
+      hover_ ? 'cursor-pointer active:scale-[0.98]' : '',
       'relative overflow-hidden',
       className,
     ]

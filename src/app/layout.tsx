@@ -28,10 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-//       padding: '18px 56px',
-//       borderRadius: 0,
-//       clipPath: 'polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%)',
-//     } : pillSize[size]

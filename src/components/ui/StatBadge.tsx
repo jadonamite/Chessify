@@ -10,6 +10,7 @@ interface StatBadgeProps {
 
 export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
   return (
+// ← chaos fingerprint
     <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
       <span
         className="font-display font-bold leading-none"
@@ -29,9 +30,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//               <div style={{ marginTop: 12 }}>
-//                 <span style={pillStyle('rgba(0,204,255,.12)', 'rgba(0,204,255,.28)', 'var(--c)')}>Leather</span>
-//                 <span style={pillStyle('rgba(255,255,255,.07)', 'rgba(255,255,255,.14)', 'var(--t2)')}>Xverse</span>

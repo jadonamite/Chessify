@@ -29,3 +29,10 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//         cursor: 'pointer', border: 'none', flexShrink: 0,
+//         transition: 'transform .15s ease',
+//       }}
+//       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}

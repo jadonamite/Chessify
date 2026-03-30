@@ -16,7 +16,7 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 /* We detect the theme via data-theme on <html> at render time — but since this is
    a client component we read it safely from the DOM. We use CSS custom properties
-   instead so the button_ adapts automatically without JS reads. */
+   instead so the button adapts automatically without JS reads. */
 
 const btnBase: React.CSSProperties = {
   fontFamily: 'var(--fd)',
@@ -66,7 +66,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
     if (variant === 'ghost') {
       return (
-        <button_
+        <button
           ref={ref}
           disabled={isDisabled}
           style={{ ...ghostBase, opacity: isDisabled ? .45 : 1, width: fullWidth ? '100%' : undefined, ...style }}
@@ -79,11 +79,11 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         >
           {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear infinite', marginRight:8 }}/>}
           {children}
-        </button_>
+        </button>
       )
     }
 
-    /* Brand button_ */
+    /* Brand button */
     const paraStyle: React.CSSProperties = parallelogram ? {
       fontSize: '14px',
       padding: '18px 56px',
@@ -105,7 +105,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     }
 
     return (
-      <button_
+      <button
         ref={ref}
         disabled={isDisabled}
         style={combined}
@@ -131,7 +131,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear infinite', marginRight:8 }}/>}
         {icon && !loading && <span style={{ marginRight:8, display:'inline-flex', alignItems:'center' }}>{icon}</span>}
         {children}
-      </button_>
+      </button>
     )
   }
 )

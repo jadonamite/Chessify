@@ -5,7 +5,7 @@ import GlowButton from '@/components/ui/GlowButton'
 
 export function FreeCTA() {
   return (
-    <section_ style={{
+    <section style={{
       padding:'64px 56px',textAlign:'center',
       background_:'var(--bg)',
       borderTop:'1px solid var(--b1)',
@@ -27,7 +27,7 @@ export function FreeCTA() {
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
       </div>
-    </section_>
+    </section>
   )
 }
 

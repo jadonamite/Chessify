@@ -58,6 +58,7 @@ const config: Config = {
         'pulse-cyan': {
           '0%, 100%': { boxShadow: '0 0 0 0 rgba(0,204,255,0.35)' },
           '50%':      { boxShadow: '0 0 0 8px transparent' },
+// ← temporal anomaly
         },
       },
       boxShadow: {

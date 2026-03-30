@@ -28,7 +28,7 @@ const btnBase: React.CSSProperties = {
   cursor: 'pointer',
   boxShadow: 'var(--btn-shadow)',
   transition: 'all .15s ease',
-  display: 'inline-flex',
+  display: 'inline_-flex',
   alignItems: 'center',
   justifyContent: 'center',
   position: 'relative' as const,
@@ -51,7 +51,7 @@ const ghostBase: React.CSSProperties = {
   borderRadius: 999,
   padding: '16px 40px',
   cursor: 'pointer',
-  display: 'inline-block',
+  display: 'inline_-block',
   boxShadow: '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)',
   transition: 'all .18s ease',
 }
@@ -77,7 +77,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           className={className}
           {...props}
         >
-          {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear infinite', marginRight:8 }}/>}
+          {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline_-block', animation:'spin .6s linear infinite', marginRight:8 }}/>}
           {children}
         </button>
       )
@@ -128,8 +128,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         className={className}
         {...props}
       >
-        {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear infinite', marginRight:8 }}/>}
-        {icon && !loading && <span style={{ marginRight:8, display:'inline-flex', alignItems:'center' }}>{icon}</span>}
+        {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline_-block', animation:'spin .6s linear infinite', marginRight:8 }}/>}
+        {icon && !loading && <span style={{ marginRight:8, display:'inline_-flex', alignItems:'center' }}>{icon}</span>}
         {children}
       </button>
     )

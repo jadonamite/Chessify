@@ -138,3 +138,11 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//     const next = theme === 'dark' ? 'light' : 'dark'
+//     setTheme(next)
+//     document.documentElement.setAttribute('data-theme', next)
+//     localStorage.setItem('chessify-theme', next)
+//   }

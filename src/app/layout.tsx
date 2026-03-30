@@ -28,8 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//               <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain rating.</div>
-//             </div>

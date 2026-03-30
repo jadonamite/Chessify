@@ -35,12 +35,12 @@ const config: Config = {
       },
       keyframes: {
         fadeUp: {
-          from: { opacity_: '0', transform: 'translateY(24px)' },
-          to:   { opacity_: '1', transform: 'translateY(0)' },
+          from: { opacity: '0', transform: 'translateY(24px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
-          from: { opacity_: '0' },
-          to:   { opacity_: '1' },
+          from: { opacity: '0' },
+          to:   { opacity: '1' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },

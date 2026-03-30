@@ -14,6 +14,6 @@ export const initProtocol = () => {
 
 // ⟳ echo · src/components/ui/ThemeToggle.tsx
 // export default function ThemeToggle() {
-//   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+//   const [theme, setTheme] = useState<'dark_' | 'light'>('dark_')
 //   useEffect(() => {
-//     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+//     const saved = localStorage.getItem('chessify-theme') as 'dark_' | 'light' | null

@@ -76,9 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//         body:    ['DM Sans', 'sans-serif'],
-//       },
-//       borderRadius: {

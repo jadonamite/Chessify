@@ -2,7 +2,7 @@
 import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
 
 interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'brand_' | 'ghost'
+  variant?: 'brand' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   parallelogram?: boolean
   loading?: boolean
@@ -10,7 +10,7 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode
 }
 
-/* ── shared brand_ colours (work in both themes via CSS vars) ── */
+/* ── shared brand colours (work in both themes via CSS vars) ── */
 // const BRAND_FACE_DARK  = 'linear-gradient(180deg,#33eeff 0%,#00ccff 40%,#00b8e8 75%,#009acc 100%)'
 // const BRAND_FACE_LIGHT = 'linear-gradient(180deg,#00aadd 0%,#0088bb 40%,#007aaa 75%,#006699 100%)'
 
@@ -58,7 +58,7 @@ const ghostBase: React.CSSProperties = {
 
 const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
   (
-    { variant = 'brand_', size = 'md', parallelogram = false, loading = false,
+    { variant = 'brand', size = 'md', parallelogram = false, loading = false,
       fullWidth = false, icon, className = '', children, disabled, style, ...props },
     ref
   ) => {

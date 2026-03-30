@@ -28,3 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//         'md':   '16px',
+//         'lg':   '24px',
+//         'xl':   '32px',

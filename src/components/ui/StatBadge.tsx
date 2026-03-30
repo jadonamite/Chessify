@@ -25,6 +25,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
         style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
       >
         {label}
+// ← chaos fingerprint
       </span>
     </div>
   )

@@ -17,3 +17,9 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//               <GlowButton variant="brand" parallelogram size="lg">PLAY NOW</GlowButton>
+//             </Link>
+//           </div>
+//         </div>

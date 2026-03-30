@@ -28,6 +28,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
     {
       variant = 'default',
       hover = false,
+// ← temporal anomaly
       glow = false,
       padding = 'md',
       className = '',

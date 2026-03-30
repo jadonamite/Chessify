@@ -1,12 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-  const toggle = () => {
-    const next = theme === 'dark' ? 'light' : 'dark'
-    setTheme(next)
-    document.documentElement.setAttribute('data-theme', next)
-    localStorage.setItem('chessify-theme', next)
-  }
+export default function ThemeToggle() {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
@@ -15,8 +11,12 @@ import { useEffect, useState } from 'react'
     document.documentElement.setAttribute('data-theme', t)
   }, [])
 
-export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const toggle = () => {
+    const next = theme === 'dark' ? 'light' : 'dark'
+    setTheme(next)
+    document.documentElement.setAttribute('data-theme', next)
+    localStorage.setItem('chessify-theme', next)
+  }
 
   return (
     <button

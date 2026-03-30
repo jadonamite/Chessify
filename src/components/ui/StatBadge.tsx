@@ -7,7 +7,6 @@ interface StatBadgeProps {
   accent?: boolean
   size?: 'sm' | 'md'
 }
-// ← echo residue
 
 export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
   return (

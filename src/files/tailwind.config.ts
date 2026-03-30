@@ -71,11 +71,3 @@ const config: Config = {
 }
 
 export default config
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//     const classes = [
-//       variantMap[variant],
-//       paddingMap[padding],
-//       glow ? 'glow-cyan' : '',
-//       hover ? 'cursor-pointer active:scale-[0.98]' : '',

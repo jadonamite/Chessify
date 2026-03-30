@@ -6,7 +6,6 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx_,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx_,tsx,mdx}',
   ],
-// ← the muse was here
   theme: {
     extend: {
       colors: {

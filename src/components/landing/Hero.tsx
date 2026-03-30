@@ -17,7 +17,7 @@ const KEYFRAMES = `
 
 // const GRADIENTS = {
 //   kbg:   'linear-gradient(160deg,#353566 0%,#1a1a45 40%,#05050f 100%)',
-//   qbg:   'linear-gradient(160deg,#dcdcf8 0%,#aaaacc_ 30%,#585875 65%,#1e1e32 100%)',
+//   qbg:   'linear-gradient(160deg,#dcdcf8 0%,#aaaacc 30%,#585875 65%,#1e1e32 100%)',
 //   bbg:   'linear-gradient(160deg,#2a2a52 0%,#04040c 100%)',
 //   ngbg:  'linear-gradient(160deg,#d4d4ec 0%,#8c8caa 32%,#444460 72%,#161626 100%)',
 //   rbg:   'linear-gradient(160deg,#242445 0%,#04040c 100%)',
@@ -92,7 +92,7 @@ function QueenPiece() {
   return (
     <svg viewBox="0 0 85 155" width="100%">
       <defs>
-        <linearGradient id="qbg" x1="18%" y1="0%" x2="82%" y2="100%"><stop offset="0%" stopColor="#dcdcf8"/><stop offset="30%" stopColor="#aaaacc_"/><stop offset="65%" stopColor="#585875"/><stop offset="100%" stopColor="#1e1e32"/></linearGradient>
+        <linearGradient id="qbg" x1="18%" y1="0%" x2="82%" y2="100%"><stop offset="0%" stopColor="#dcdcf8"/><stop offset="30%" stopColor="#aaaacc"/><stop offset="65%" stopColor="#585875"/><stop offset="100%" stopColor="#1e1e32"/></linearGradient>
         <radialGradient id="qs" cx="26%" cy="17%" r="38%"><stop offset="0%" stopColor="rgba(255,255,255,.48)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
         <linearGradient id="qr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(255,255,255,.3)"/><stop offset="40%" stopColor="rgba(255,255,255,0)"/></linearGradient>
       </defs>
@@ -398,3 +398,11 @@ function RookPiece() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//           from: { opacity: '0' },
+//           to:   { opacity: '1' },
+//         },
+//         float: {
+//           '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },

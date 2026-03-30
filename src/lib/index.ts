@@ -17,3 +17,10 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/app/layout.tsx
+//   title: "CHESSIFY — Play Chess on Stacks",
+//   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
+//   icons: {
+//     icon: "/Piece.svg",
+//     apple: "/Piece.svg",

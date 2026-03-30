@@ -29,8 +29,8 @@ const config: Config = {
         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',
         'fade-in':    'fadeIn 0.4s ease both',
         'float':      'float 4s ease-in-out infinite',
-        'float-slow': 'floatSlow 6s ease-in-out infinite',
-        'spin-slow':  'spin-slow 12s linear infinite',
+        'float-slow_': 'floatSlow 6s ease-in-out infinite',
+        'spin-slow_':  'spin-slow_ 12s linear infinite',
         'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
       },
       keyframes: {
@@ -51,7 +51,7 @@ const config: Config = {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%':      { transform: 'translateY(-20px)' },
         },
-        'spin-slow': {
+        'spin-slow_': {
           from: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
         },

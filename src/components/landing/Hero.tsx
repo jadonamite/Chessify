@@ -23,36 +23,6 @@ const KEYFRAMES = `
 //   rbg:   'linear-gradient(160deg,#242445 0%,#04040c 100%)',
 // }
 
-function KingPiece() {
-  return (
-    <svg viewBox="0 0 90 160" width="100%">
-      <defs>
-        <linearGradient id="kbg" x1="25%" y1="0%" x2="75%" y2="100%"><stop offset="0%" stopColor="#353566"/><stop offset="40%" stopColor="#1a1a45"/><stop offset="100%" stopColor="#05050f"/></linearGradient>
-        <radialGradient id="ks" cx="26%" cy="16%" r="36%"><stop offset="0%" stopColor="rgba(255,255,255,.22)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
-        <linearGradient id="kr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(0,204,255,.52)"/><stop offset="28%" stopColor="rgba(0,204,255,.1)"/><stop offset="100%" stopColor="rgba(0,204,255,0)"/></linearGradient>
-      </defs>
-      <ellipse cx="45" cy="154" rx="28" ry="7.5" fill="rgba(0,0,0,.55)"/>
-      <path d="M16 148Q15 145 13 138L19 130L71 130L77 138Q75 145 74 148Z" fill="url(#kbg)" stroke="rgba(0,204,255,.18)" strokeWidth="0.8"/>
-      <path d="M16 148Q15 145 13 138L19 130L71 130L77 138Q75 145 74 148Z" fill="url(#ks)"/>
-      <path d="M19 130Q17 107 23 88L32 73L58 73L67 88Q73 107 71 130Z" fill="url(#kbg)" stroke="rgba(255,255,255,.06)" strokeWidth="0.5"/>
-      <path d="M19 130Q17 107 23 88L30 80L30 73L32 73L23 88Q17 107 19 130Z" fill="url(#kr)"/>
-      <path d="M19 130Q17 107 23 88L30 80L30 73L32 73L23 88Q17 107 19 130Z" fill="url(#ks)" opacity="0.65"/>
-      <ellipse cx="45" cy="100" rx="23" ry="4" fill="rgba(0,0,0,.35)"/>
-      <path d="M25 97Q25 91 45 89Q65 91 65 97Q65 103 45 105Q25 103 25 97Z" fill="url(#kbg)" stroke="rgba(0,204,255,.4)" strokeWidth="1"/>
-      <path d="M25 97Q25 91 45 89Q35 91 30 97Q35 103 45 105Q25 103 25 97Z" fill="url(#ks)"/>
-      <rect x="34" y="61" width="22" height="15" rx="4.5" fill="url(#kbg)" stroke="rgba(0,204,255,.22)" strokeWidth="0.8"/>
-      <ellipse cx="45" cy="62" rx="12" ry="3" fill="rgba(0,0,0,.28)"/>
-      <path d="M25 61Q25 34 45 27Q65 34 65 61Z" fill="url(#kbg)" stroke="rgba(255,255,255,.07)" strokeWidth="0.5"/>
-      <path d="M25 61Q25 34 45 27Q33 34 29 61Z" fill="url(#ks)"/>
-      <rect x="43" y="4" width="4.5" height="24" rx="2.25" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 20px rgba(0,204,255,.6))'}}/>
-      <rect x="33" y="11" width="24" height="4.5" rx="2.25" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 20px rgba(0,204,255,.6))'}}/>
-      <circle cx="29" cy="54" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 7px #00ccff) drop-shadow(0 0 16px rgba(0,204,255,.7))'}}/>
-      <circle cx="45" cy="47" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 9px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.7))'}}/>
-      <circle cx="61" cy="54" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 7px #00ccff) drop-shadow(0 0 16px rgba(0,204,255,.7))'}}/>
-    </svg>
-  )
-}
-
 function QueenPiece() {
   return (
     <svg viewBox="0 0 85 155" width="100%">
@@ -80,6 +50,11 @@ function QueenPiece() {
     </svg>
   )
 }
+
+export default function Hero() {
+  return (
+    <section style={{background:'var(--bg)',position:'relative',overflow:'hidden'}}>
+      <style>{KEYFRAMES}</style>
 
 function BishopPiece() {
   return (
@@ -318,10 +293,35 @@ function Navbar() {
   );
 }
 
-export default function Hero() {
+function KingPiece() {
   return (
-    <section style={{background:'var(--bg)',position:'relative',overflow:'hidden'}}>
-      <style>{KEYFRAMES}</style>
+    <svg viewBox="0 0 90 160" width="100%">
+      <defs>
+        <linearGradient id="kbg" x1="25%" y1="0%" x2="75%" y2="100%"><stop offset="0%" stopColor="#353566"/><stop offset="40%" stopColor="#1a1a45"/><stop offset="100%" stopColor="#05050f"/></linearGradient>
+        <radialGradient id="ks" cx="26%" cy="16%" r="36%"><stop offset="0%" stopColor="rgba(255,255,255,.22)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
+        <linearGradient id="kr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(0,204,255,.52)"/><stop offset="28%" stopColor="rgba(0,204,255,.1)"/><stop offset="100%" stopColor="rgba(0,204,255,0)"/></linearGradient>
+      </defs>
+      <ellipse cx="45" cy="154" rx="28" ry="7.5" fill="rgba(0,0,0,.55)"/>
+      <path d="M16 148Q15 145 13 138L19 130L71 130L77 138Q75 145 74 148Z" fill="url(#kbg)" stroke="rgba(0,204,255,.18)" strokeWidth="0.8"/>
+      <path d="M16 148Q15 145 13 138L19 130L71 130L77 138Q75 145 74 148Z" fill="url(#ks)"/>
+      <path d="M19 130Q17 107 23 88L32 73L58 73L67 88Q73 107 71 130Z" fill="url(#kbg)" stroke="rgba(255,255,255,.06)" strokeWidth="0.5"/>
+      <path d="M19 130Q17 107 23 88L30 80L30 73L32 73L23 88Q17 107 19 130Z" fill="url(#kr)"/>
+      <path d="M19 130Q17 107 23 88L30 80L30 73L32 73L23 88Q17 107 19 130Z" fill="url(#ks)" opacity="0.65"/>
+      <ellipse cx="45" cy="100" rx="23" ry="4" fill="rgba(0,0,0,.35)"/>
+      <path d="M25 97Q25 91 45 89Q65 91 65 97Q65 103 45 105Q25 103 25 97Z" fill="url(#kbg)" stroke="rgba(0,204,255,.4)" strokeWidth="1"/>
+      <path d="M25 97Q25 91 45 89Q35 91 30 97Q35 103 45 105Q25 103 25 97Z" fill="url(#ks)"/>
+      <rect x="34" y="61" width="22" height="15" rx="4.5" fill="url(#kbg)" stroke="rgba(0,204,255,.22)" strokeWidth="0.8"/>
+      <ellipse cx="45" cy="62" rx="12" ry="3" fill="rgba(0,0,0,.28)"/>
+      <path d="M25 61Q25 34 45 27Q65 34 65 61Z" fill="url(#kbg)" stroke="rgba(255,255,255,.07)" strokeWidth="0.5"/>
+      <path d="M25 61Q25 34 45 27Q33 34 29 61Z" fill="url(#ks)"/>
+      <rect x="43" y="4" width="4.5" height="24" rx="2.25" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 20px rgba(0,204,255,.6))'}}/>
+      <rect x="33" y="11" width="24" height="4.5" rx="2.25" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 20px rgba(0,204,255,.6))'}}/>
+      <circle cx="29" cy="54" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 7px #00ccff) drop-shadow(0 0 16px rgba(0,204,255,.7))'}}/>
+      <circle cx="45" cy="47" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 9px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.7))'}}/>
+      <circle cx="61" cy="54" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 7px #00ccff) drop-shadow(0 0 16px rgba(0,204,255,.7))'}}/>
+    </svg>
+  )
+}
 
       {/* Ambient mesh */}
       <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)',pointerEvents:'none'}}/>

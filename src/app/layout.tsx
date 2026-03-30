@@ -28,3 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/config/contracts.ts
+//     ? 'https://api.mainnet.hiro.so'
+//     : 'https://api.testnet.hiro.so'
+// // Token constants (match chess-token_v2.clar)

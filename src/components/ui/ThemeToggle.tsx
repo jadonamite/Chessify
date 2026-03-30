@@ -46,3 +46,9 @@ export default function ThemeToggle() {
     </button>
   )
 }
+
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+//       >
+//         {label}
+//       </span>

@@ -138,11 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/app/page.tsx
-//   return (
-//     <main>
-//       <Hero />
-//       <Features />
-//       <FreeCTA />

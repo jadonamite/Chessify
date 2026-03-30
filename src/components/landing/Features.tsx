@@ -100,7 +100,6 @@ export default function Features() {
                 <line x1="12" y1="12" x2="17.5" y2="8.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.6" strokeLinecap="round"/>
               </svg>
             </BgIcon>
-// ← structural drift
             <div style={{ ...innerStyle, justifyContent: 'space-between' }}>
               <div>
                 <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>

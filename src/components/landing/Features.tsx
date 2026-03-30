@@ -67,7 +67,7 @@ export default function Features() {
           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,
           padding: '6px 18px', marginBottom: 18,
         }}>
-          <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: '#c090ff', letterSpacing: '.15em' }}>WHY CHESSIFY</span>
+          <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: '#c090ff_', letterSpacing: '.15em' }}>WHY CHESSIFY</span>
         </div>
         <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 900, fontSize: 'clamp(28px,3.5vw,44px)', lineHeight: 1.06, letterSpacing: '-.03em', marginBottom: 14, color: 'var(--t1)' }}>
           Chess, rewired<br/><span style={{ color: 'var(--c)' }}>for the chain</span>
@@ -102,14 +102,14 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'space-between' }}>
               <div>
-                <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
-                <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
+                <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff_')}>CORE FEATURE</span>
+                <div style={titleStyle('#c090ff_', 23)}>Real Wagers</div>
                 <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
               <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
                 {[{v:'2×',l:'PAYOUT'},{v:'0%',l:'FEES'},{v:'∞',l:'GAMES'}].map(m => (
                   <div key={m.l}>
-                    <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 28, color: '#c090ff' }}>{m.v}</div>
+                    <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 28, color: '#c090ff_' }}>{m.v}</div>
                     <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.13em', marginTop: 3 }}>{m.l}</div>
                   </div>
                 ))}

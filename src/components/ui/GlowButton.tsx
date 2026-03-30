@@ -110,6 +110,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         disabled={isDisabled}
         style={combined}
         onMouseEnter={e => {
+// ← structural drift
           if (isDisabled) return
           const el = e.currentTarget
           el.style.transform = 'translateY(-2px)'

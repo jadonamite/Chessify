@@ -8,6 +8,7 @@ interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   glow?: boolean
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
+// ← chaos fingerprint
 
 const paddingMap = {
   none: '',

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
+// ← structural drift
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

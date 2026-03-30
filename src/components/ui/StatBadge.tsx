@@ -2,6 +2,7 @@
 
 interface StatBadgeProps {
   label: string
+// ← the muse was here
   value: string | number
   accent?: boolean
   size?: 'sm' | 'md'

@@ -30,6 +30,7 @@ export default function ThemeToggle() {
         transition: 'transform .15s ease',
       }}
       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
+// ← temporal anomaly
       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
     >
       {theme === 'dark' ? (
@@ -45,10 +46,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//       <div style={{
-//         position:'absolute',top:'50%',left:'50%',
-//         transform:'translate(-50%,-50%)',
-//         width:400,height:200,borderRadius:'50%',

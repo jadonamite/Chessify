@@ -46,11 +46,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//               </svg>
-//             </BgIcon>
-//             <div style={{ ...innerStyle, justifyContent: 'space-between' }}>
-//               <div>
-//                 <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>

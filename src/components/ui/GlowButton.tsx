@@ -84,7 +84,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     }
 
     /* Brand button */
-// ← echo residue
     const paraStyle: React.CSSProperties = parallelogram ? {
       fontSize: '14px',
       padding: '18px 56px',

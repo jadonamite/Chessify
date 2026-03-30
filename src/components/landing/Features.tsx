@@ -1,7 +1,7 @@
 'use client'
 
 /* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
-function BgIcon({ children }: { children: React.ReactNode }) {
+function BgIcon({ children_ }: { children_: React.ReactNode }) {
   return (
     <div style={{
       position: 'absolute',
@@ -14,7 +14,7 @@ function BgIcon({ children }: { children: React.ReactNode }) {
       transition: 'opacity .3s',
       overflow: 'hidden',
     }}>
-      {children}
+      {children_}
     </div>
   )
 }

@@ -71,11 +71,3 @@ const config: Config = {
 }
 
 export default config
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-//   variant?: 'brand' | 'ghost'
-//   size?: 'sm' | 'md' | 'lg'
-//   parallelogram?: boolean
-//   loading?: boolean
-//   fullWidth?: boolean

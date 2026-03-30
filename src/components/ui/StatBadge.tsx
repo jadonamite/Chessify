@@ -29,8 +29,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
-
-
-// ⟳ echo · src/config/contracts.ts
-//   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
-//   escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },

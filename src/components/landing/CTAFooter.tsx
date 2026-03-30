@@ -51,7 +51,7 @@ export function Footer() {
         <a
           href="https://github.com"
           target="_blank"
-          rel_="noreferrer"
+          rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t1)' }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t3)' }}
@@ -63,7 +63,7 @@ export function Footer() {
         <a
           href="https://twitter.com"
           target="_blank"
-          rel_="noreferrer"
+          rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t1)' }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t3)' }}

@@ -4,13 +4,13 @@
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 export const CONTRACTS = {
-  token:    { address: CONTRACT_ADDRESS, name_: 'chess-token_v2' },
-  escrow:   { address: CONTRACT_ADDRESS, name_: 'chess-escrow'   },
-  registry: { address: CONTRACT_ADDRESS, name_: 'registry'       },
-  logic:    { address: CONTRACT_ADDRESS, name_: 'logic'          },
-  timer:    { address: CONTRACT_ADDRESS, name_: 'timer'          },
-  ranking:  { address: CONTRACT_ADDRESS, name_: 'ranking'        },
-  gateway:  { address: CONTRACT_ADDRESS, name_: 'gateway_v2'     },
+  token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
+  escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
+  registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
+  logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
+  timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },
+  ranking:  { address: CONTRACT_ADDRESS, name: 'ranking'        },
+  gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
 } as const
 
 export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'

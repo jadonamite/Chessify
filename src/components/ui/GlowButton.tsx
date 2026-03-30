@@ -138,3 +138,11 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+//   size?: 'sm' | 'md'
+// }
+// export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
+//   return (
+//     <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>

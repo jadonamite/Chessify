@@ -71,3 +71,8 @@ const config: Config = {
 }
 
 export default config
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//       <path d="M21 48L27 56L42 30L57 56L63 48L58 56L26 56Z" fill="url(#qs)" opacity="0.45"/>
+//       <circle cx="21" cy="45" r="4" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.7))'}}/>

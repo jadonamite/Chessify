@@ -29,3 +29,11 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
+
+
+// ⟳ echo · src/components/ui/GlowButton.tsx
+//         ref={ref}
+//         disabled={isDisabled}
+//         style={combined}
+//         onMouseEnter={e => {
+//           if (isDisabled) return

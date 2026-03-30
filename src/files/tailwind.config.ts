@@ -15,8 +15,8 @@ const config: Config = {
         'bg-card':    '#13131f',
       },
       fontFamily: {
-        display: ['Syne', 'sans_-serif'],
-        body:    ['DM Sans', 'sans_-serif'],
+        display: ['Syne', 'sans-serif'],
+        body:    ['DM Sans', 'sans-serif'],
       },
       borderRadius: {
         'sm':   '10px',

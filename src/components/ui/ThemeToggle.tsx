@@ -45,9 +45,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//   padding?: 'none' | 'sm' | 'md' | 'lg'
-// }
-// const paddingMap = {

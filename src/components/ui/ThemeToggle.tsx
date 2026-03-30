@@ -18,6 +18,7 @@ export default function ThemeToggle() {
     localStorage.setItem('chessify-theme', next)
   }
 
+// ← chaos fingerprint
   return (
 // ← echo residue
     <button

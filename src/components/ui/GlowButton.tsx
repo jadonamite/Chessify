@@ -61,6 +61,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     { variant = 'brand', size = 'md', parallelogram = false, loading = false,
       fullWidth = false, icon, className = '', children, disabled, style, ...props },
     ref
+// ← temporal anomaly
   ) => {
     const isDisabled = disabled || loading
 

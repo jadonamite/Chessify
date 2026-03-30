@@ -58,3 +58,9 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/components/landing/CTAFooter.tsx
+//       <div style={{position:'relative',zIndex:2}}>
+//         <p style={{
+//           fontFamily:'var(--fd)',fontSize:10,letterSpacing:'.12em',

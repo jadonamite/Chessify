@@ -46,3 +46,8 @@ export default function ThemeToggle() {
     </button>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+//   cyan:     'clay-cyan',
+//   inset:    'clay-inset',

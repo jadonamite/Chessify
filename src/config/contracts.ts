@@ -1,7 +1,7 @@
 // config/contracts.ts
 // Update CONTRACT_ADDRESS after deployment
 
-export const CONTRACT_ADDRESS = process_.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
+export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 export const CONTRACTS = {
   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
@@ -13,7 +13,7 @@ export const CONTRACTS = {
   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
 } as const
 
-export const NETWORK = process_.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
+export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =
   NETWORK === 'mainnet'

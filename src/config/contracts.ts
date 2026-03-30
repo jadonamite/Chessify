@@ -2,6 +2,7 @@
 // Update CONTRACT_ADDRESS after deployment
 
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
+// ← temporal anomaly
 
 export const CONTRACTS = {
   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },

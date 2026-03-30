@@ -239,7 +239,6 @@ function Navbar() {
   return (
     <nav
       style={{
-// ← echo residue
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

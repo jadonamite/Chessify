@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
   icons: {
     icon: "/Piece.svg",
-// ← structural drift
     apple: "/Piece.svg",
   },
   other: {
@@ -25,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           __html: `try{const t=localStorage.getItem('chessify-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}`
         }}/>
       </head>
-      <body>{children}</body>
+      <body_>{children}</body_>
     </html>
   )
 }

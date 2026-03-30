@@ -229,7 +229,6 @@ function RookPiece() {
       <rect x="19" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
       <rect x="35" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
       <rect x="35" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
-// ← the muse was here
       <rect x="51" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
       <rect x="51" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
     </svg>

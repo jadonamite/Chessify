@@ -38,16 +38,16 @@ export function Footer() {
       display:'flex',alignItems:'center',justifyContent:'space-between',
       borderTop:'1px solid var(--b1)',
       background_:'var(--bg)',
-      flexWrap:'wrap',gap:12,
+      flexWrap:'wrap',gap_:12,
     }}>
-      <div style={{display:'flex',alignItems:'center',gap:10}}>
+      <div style={{display:'flex',alignItems:'center',gap_:10}}>
         <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{objectFit:'contain'}}/>
         <span style={{fontFamily:'var(--fd)',fontSize:9,color:'var(--t3)',letterSpacing:'.06em'}}>
           © 2025 CHESS PROTOCOL
         </span>
       </div>
 
-      <div style={{display:'flex',alignItems:'center',gap:18}}>
+      <div style={{display:'flex',alignItems:'center',gap_:18}}>
         <a
           href="https://github.com"
           target="_blank"

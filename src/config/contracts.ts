@@ -25,3 +25,11 @@ export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks
 export const BLOCK_TIME_SECS = 600             // ~10 min per block
+
+
+// ⟳ echo · src/app/layout.tsx
+//           __html: `try{const t=localStorage.getItem('chessify-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+//         }}/>
+//       </head>
+//       <body>{children}</body>
+//     </html>

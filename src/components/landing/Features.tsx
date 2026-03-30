@@ -215,3 +215,9 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+//     const t = saved ?? 'dark'
+//     setTheme(t)

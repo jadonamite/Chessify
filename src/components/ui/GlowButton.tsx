@@ -23,7 +23,7 @@ const btnBase: React.CSSProperties = {
   fontWeight: 800,
   letterSpacing: '.08em',
   color: 'var(--btn-text, #001a22)',
-  background: 'var(--btn-face_)',
+  background: 'var(--btn-face)',
   border: 'none',
   cursor: 'pointer',
   boxShadow: 'var(--btn-shadow)',
@@ -97,8 +97,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       opacity: isDisabled ? .45 : 1,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,
-      /* shadow + face_ via CSS vars so light/dark theme work */
-      background: 'var(--btn-face_)',
+      /* shadow + face via CSS vars so light/dark theme work */
+      background: 'var(--btn-face)',
       boxShadow: 'var(--btn-shadow)',
       color: 'var(--btn-text, #001a22)',
       ...style,

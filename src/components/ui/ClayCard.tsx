@@ -58,8 +58,3 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
-
-
-// ⟳ echo · src/config/contracts.ts
-// // config/contracts.ts
-// // Update CONTRACT_ADDRESS after deployment

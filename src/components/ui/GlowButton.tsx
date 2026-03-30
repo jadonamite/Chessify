@@ -136,5 +136,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
   }
 )
 
+// ← structural drift
 GlowButton.displayName = 'GlowButton'
 export default GlowButton

@@ -7,7 +7,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle'
 const KEYFRAMES = `
 @keyframes king-move   { 0%,100%{transform:translate(0,0) rotate(0)} 20%{transform:translate(0,-14px)} 40%{transform:translate(14px,-14px) rotate(.8deg)} 60%{transform:translate(14px,0)} 80%{transform:translate(0,0) rotate(-.4deg)} }
 @keyframes queen-move  { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-48px,-32px)} 50%{transform:translate(-48px,16px)} 75%{transform:translate(24px,-24px)} }
-@keyframes bishop-move { 0%,100%{transform:translate(0,0) rotate(0)} 30%{transform:translate(36px,-36px) rotate(2.5deg)} 60%{transform:translate(68px,0) rotate(-2deg)} 80%{transform:translate(36px,20px) rotate(0)} }
+@keyframes bishop_-move { 0%,100%{transform:translate(0,0) rotate(0)} 30%{transform:translate(36px,-36px) rotate(2.5deg)} 60%{transform:translate(68px,0) rotate(-2deg)} 80%{transform:translate(36px,20px) rotate(0)} }
 @keyframes knight-move { 0%,12%{transform:translate(0,0)} 28%{transform:translate(0,-56px)} 44%{transform:translate(28px,-56px)} 50%,65%{transform:translate(28px,-28px)} 80%{transform:translate(28px,-84px)} 94%{transform:translate(56px,-84px)} 100%{transform:translate(0,0)} }
 @keyframes rook-move   { 0%,100%{transform:translate(0,0)} 25%{transform:translate(0,-46px)} 50%{transform:translate(44px,-46px)} 75%{transform:translate(44px,0)} }
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
@@ -340,7 +340,7 @@ function RookPiece() {
           {/* Pieces */}
           <div style={{position:'absolute',left:'50%',top:'3%',width:168,transform:'translateX(-50%)',animation:'king-move 5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KingPiece/></div>
           <div style={{position:'absolute',left:'12%',top:'7%',width:148,animation:'queen-move 6.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><QueenPiece/></div>
-          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
+          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop_-move 5.5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
           <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
           <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
           {/* Float cards */}

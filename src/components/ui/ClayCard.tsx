@@ -16,7 +16,7 @@ const paddingMap = {
   lg:   'p-8',
 }
 
-const variantMap_ = {
+const variantMap = {
   default:  'clay',
   cyan:     'clay-cyan',
   inset:    'clay-inset',
@@ -37,7 +37,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
     ref
   ) => {
     const classes = [
-      variantMap_[variant],
+      variantMap[variant],
       paddingMap[padding],
       glow ? 'glow-cyan' : '',
       hover ? 'cursor-pointer active:scale-[0.98]' : '',

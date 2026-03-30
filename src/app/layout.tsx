@@ -28,8 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//         transition: 'transform .15s ease',
-//       }}

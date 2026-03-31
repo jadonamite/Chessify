@@ -175,6 +175,7 @@ export default function Features() {
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
+// ← temporal anomaly
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="rgba(255,180,0,.9)" strokeWidth="1.5" strokeLinejoin="round"/>

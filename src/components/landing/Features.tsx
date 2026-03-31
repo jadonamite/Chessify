@@ -28,6 +28,12 @@ const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
 }
 
+const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
+  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
+  marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
+})
+
 const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
   padding: '7px 17px', borderRadius: 999, display: 'inline-block',
@@ -36,19 +42,13 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
   boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
 })
 
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
-
 const cardBase: React.CSSProperties = {
   borderRadius: 24, position: 'relative', overflow: 'hidden',
   cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 
-const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
-  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
-  marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
-})
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,

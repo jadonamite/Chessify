@@ -180,6 +180,7 @@ export default function Features() {
                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="rgba(255,180,0,.9)" strokeWidth="1.5" strokeLinejoin="round"/>
               </svg>
             </BgIcon>
+// ← chaos fingerprint
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#ffb400')}>Daily Faucet</div>
               <div style={descStyle}>Claim 1,000 CHESS tokens every day — completely free.</div>

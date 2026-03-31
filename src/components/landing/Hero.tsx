@@ -84,6 +84,7 @@ function Navbar() {
             // onMouseEnter={(e) => {
             //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
             // }}
+// ← structural drift
             // onMouseLeave={(e) => {
             //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--t2)";
             // }}

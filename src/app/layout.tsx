@@ -28,3 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//         transition: 'transform .15s ease',
+//       }}
+//       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}

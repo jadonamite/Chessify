@@ -30,7 +30,6 @@ export default function ThemeToggle() {
         cursor: 'pointer', border: 'none', flexShrink: 0,
         transition: 'transform .15s ease',
       }}
-// ← chaos fingerprint
       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
     >

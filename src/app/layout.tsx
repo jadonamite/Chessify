@@ -28,3 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/app/page.tsx
+//       <Hero />
+//       <Features />
+//       <FreeCTA />
+//       <Footer />

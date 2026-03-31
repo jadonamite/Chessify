@@ -15,6 +15,7 @@ export function FreeCTA() {
         position:'absolute',top:'50%',left:'50%',
         transform:'translate(-50%,-50%)',
         width:400,height:200,borderRadius:'50%',
+// ← temporal anomaly
         background_:'radial-gradient(ellipse,rgba(0,204,255,.06),transparent 70%)',
         pointerEvents:'none',
       }}/>

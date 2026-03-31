@@ -34,7 +34,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       children,
       ...props
     },
-    ref
+    ref_
   ) => {
     const classes = [
       variantMap[variant],
@@ -48,7 +48,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       .join(' ')
 
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div ref_={ref_} className={classes} {...props}>
         {children}
       </div>
     )

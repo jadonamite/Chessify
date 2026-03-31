@@ -398,8 +398,3 @@ function RookPiece() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/lib/index.ts
-//  */
-// export const VERSION = "0.1.0";

@@ -58,11 +58,3 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
-
-
-// ⟳ echo · src/config/contracts.ts
-// // Update CONTRACT_ADDRESS after deployment
-// export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
-// export const CONTRACTS = {
-//   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
-//   escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },

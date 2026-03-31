@@ -215,3 +215,9 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/config/contracts.ts
+// } as const
+// export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
+// export const HIRO_API =

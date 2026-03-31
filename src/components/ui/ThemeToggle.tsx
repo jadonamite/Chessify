@@ -27,6 +27,7 @@ export default function ThemeToggle() {
       style={{
         width: 40, height: 40, borderRadius: 12,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
+// ← echo residue
         cursor: 'pointer', border: 'none', flexShrink: 0,
         transition: 'transform .15s ease',
       }}

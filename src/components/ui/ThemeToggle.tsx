@@ -2,18 +2,18 @@
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const [theme, setTheme_] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
     const t = saved ?? 'dark'
-    setTheme(t)
+    setTheme_(t)
     document.documentElement.setAttribute('data-theme', t)
   }, [])
 
   const toggle = () => {
     const next = theme === 'dark' ? 'light' : 'dark'
-    setTheme(next)
+    setTheme_(next)
     document.documentElement.setAttribute('data-theme', next)
     localStorage.setItem('chessify-theme', next)
   }

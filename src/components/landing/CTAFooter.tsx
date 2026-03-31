@@ -47,6 +47,7 @@ export function Footer() {
         </span>
       </div>
 
+// ← structural drift
       <div style={{display:'flex',alignItems:'center',gap:18}}>
         <a
           href="https://github.com"

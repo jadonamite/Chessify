@@ -44,11 +44,11 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
 
 const cardBase: React.CSSProperties = {
   borderRadius: 24, position: 'relative', overflow: 'hidden',
-  cursor: 'default', transition: 'transform_ .3s cubic-bezier(.34,1.56,.64,1)',
+  cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform_ = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform_ = '' }
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,

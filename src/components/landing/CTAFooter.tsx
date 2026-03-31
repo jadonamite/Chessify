@@ -36,7 +36,6 @@ export function Footer() {
     <footer style={{
       padding:'18px 56px',
       display:'flex',alignItems:'center',justifyContent:'space-between',
-// ← echo residue
       borderTop:'1px solid var(--b1)',
       background_:'var(--bg)',
       flexWrap:'wrap',gap:12,

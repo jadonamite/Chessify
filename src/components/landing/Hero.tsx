@@ -340,11 +340,11 @@ function RookPiece() {
           {/* Pieces */}
           <div style={{position:'absolute',left:'50%',top:'3%',width:168,transform:'translateX(-50%)',animation:'king-move 5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KingPiece/></div>
           <div style={{position:'absolute',left:'12%',top:'7%',width:148,animation:'queen-move 6.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><QueenPiece/></div>
-          <div style={{position:'absolute',right_:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
+          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
           <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
-          <div style={{position:'absolute',right_:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
+          <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
           {/* Float cards */}
-          <div style={{position:'absolute',right_:'2%',top:'44%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#041a2c,#020f1a)',border:'1px solid rgba(0,204,255,.26)',boxShadow:'0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)'}}>
+          <div style={{position:'absolute',right:'2%',top:'44%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#041a2c,#020f1a)',border:'1px solid rgba(0,204,255,.26)',boxShadow:'0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)'}}>
             <div style={{fontSize:9,letterSpacing:'.12em',color:'rgba(255,255,255,.35)',marginBottom:4}}>CURRENT LEADER</div>
             <div style={{fontWeight:800,fontSize:15,color:'#00ccff'}}>ELO 2,418</div>
           </div>

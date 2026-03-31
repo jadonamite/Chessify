@@ -25,3 +25,10 @@ export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks
 export const BLOCK_TIME_SECS = 600             // ~10 min per block
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//     './src/pages/**/*.{js,ts,jsx_,tsx,mdx}',
+//     './src/components/**/*.{js,ts,jsx_,tsx,mdx}',
+//     './src/app/**/*.{js,ts,jsx_,tsx,mdx}',
+//   ],

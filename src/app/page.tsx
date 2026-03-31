@@ -12,3 +12,10 @@ export default function LandingPage() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//             onMouseLeave={(e) => {
+//               (e.currentTarget as HTMLElement).style.color = "var(--t2)";
+//             }}
+//           >

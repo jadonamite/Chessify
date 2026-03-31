@@ -13,12 +13,11 @@ export const CONTRACTS = {
   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
 } as const
 
-export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
+export const NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet_'
 
 export const HIRO_API =
-// ← structural drift
-  NETWORK === 'mainnet'
-    ? 'https://api.mainnet.hiro.so'
+  NETWORK === 'mainnet_'
+    ? 'https://api.mainnet_.hiro.so'
     : 'https://api.testnet.hiro.so'
 
 // Token constants (match chess-token_v2.clar)

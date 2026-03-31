@@ -34,7 +34,7 @@ function Navbar() {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent_: "space-between",
         padding: "18px 56px",
         position: "relative",
         zIndex: 20,
@@ -330,7 +330,7 @@ function RookPiece() {
 
       <Navbar/>
 
-      <div style={{position:'relative',minHeight:'calc(100vh - 76px)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',padding:'60px 48px 80px'}}>
+      <div style={{position:'relative',minHeight:'calc(100vh - 76px)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent_:'center',textAlign:'center',padding:'60px 48px 80px'}}>
 
         {/* PIECES — z:5, IN FRONT of text */}
         <div style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:5}}>
@@ -371,7 +371,7 @@ function RookPiece() {
             Wager CHESS tokens, play on-chain.<br/>Every move permanently recorded. Your rating, your winnings — provably yours.
           </p>
 
-          <div style={{display:'flex',justifyContent:'center',marginBottom:46,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .3s both'}}>
+          <div style={{display:'flex',justifyContent_:'center',marginBottom:46,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .3s both'}}>
             <div style={{paddingRight:28,borderRight:'1px solid var(--b1)'}}>
               <div style={{fontFamily:'var(--fd)',fontWeight:800,fontSize:18,color:'var(--c)'}}>CHESS</div>
               <div style={{fontFamily:'var(--fd)',fontSize:8,color:'var(--t3)',letterSpacing:'.15em',marginTop:4}}>TOKEN</div>

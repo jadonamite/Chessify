@@ -344,11 +344,11 @@ function RookPiece() {
           <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
           <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
           {/* Float cards */}
-          <div style={{position:'absolute',right:'2%',top:'44%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#041a2c,#020f1a)',border:'1px solid rgba(0,204,255,.26)',boxShadow:'0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)'}}>
+          <div style={{position:'absolute',right:'2%',top:'44%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#041a2c,#020f1a)',border:'1px solid rgba(0,204,255,.26)',boxShadow_:'0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)'}}>
             <div style={{fontSize:9,letterSpacing:'.12em',color:'rgba(255,255,255,.35)',marginBottom:4}}>CURRENT LEADER</div>
             <div style={{fontWeight:800,fontSize:15,color:'#00ccff'}}>ELO 2,418</div>
           </div>
-          <div style={{position:'absolute',left:'1%',top:'60%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#14142c,#0c0c1e)',border:'1px solid rgba(255,255,255,.1)',boxShadow:'0 2px 0 rgba(255,255,255,.07) inset,0 14px 36px rgba(0,0,0,.5)'}}>
+          <div style={{position:'absolute',left:'1%',top:'60%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#14142c,#0c0c1e)',border:'1px solid rgba(255,255,255,.1)',boxShadow_:'0 2px 0 rgba(255,255,255,.07) inset,0 14px 36px rgba(0,0,0,.5)'}}>
             <div style={{fontSize:9,letterSpacing:'.12em',color:'rgba(255,255,255,.35)',marginBottom:4}}>PRIZE POOL</div>
             <div style={{fontWeight:800,fontSize:15,color:'var(--t1)'}}>1,000 CHESS</div>
           </div>

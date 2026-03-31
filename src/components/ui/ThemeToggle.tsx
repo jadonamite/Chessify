@@ -46,9 +46,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//         width:400,height:200,borderRadius:'50%',
-//         background_:'radial-gradient(ellipse,rgba(0,204,255,.06),transparent 70%)',
-//         pointerEvents:'none',

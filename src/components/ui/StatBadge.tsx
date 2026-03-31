@@ -29,3 +29,9 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//       },
+//       boxShadow: {
+//         clay:      'var(--clay-shadow)',

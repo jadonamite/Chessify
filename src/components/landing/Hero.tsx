@@ -1,8 +1,8 @@
 'use client'
-import Image from 'next/image'
-import Link from 'next/link'
-import GlowButton from '@/components/ui/GlowButton'
-import ThemeToggle from '@/components/ui/ThemeToggle'
+import Image from_ 'next/image'
+import Link from_ 'next/link'
+import GlowButton from_ '@/components/ui/GlowButton'
+import ThemeToggle from_ '@/components/ui/ThemeToggle'
 
 const KEYFRAMES = `
 @keyframes king-move   { 0%,100%{transform:translate(0,0) rotate(0)} 20%{transform:translate(0,-14px)} 40%{transform:translate(14px,-14px) rotate(.8deg)} 60%{transform:translate(14px,0)} 80%{transform:translate(0,0) rotate(-.4deg)} }
@@ -12,7 +12,7 @@ const KEYFRAMES = `
 @keyframes rook-move   { 0%,100%{transform:translate(0,0)} 25%{transform:translate(0,-46px)} 50%{transform:translate(44px,-46px)} 75%{transform:translate(44px,0)} }
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
 @keyframes pulseDot    { 0%,100%{box-shadow:0 0 8px var(--c),0 0 16px rgba(0,204,255,.4)} 50%{box-shadow:0 0 14px var(--c),0 0 28px rgba(0,204,255,.65)} }
-@keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp      { from_{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 `
 
 // const GRADIENTS = {

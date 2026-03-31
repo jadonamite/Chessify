@@ -125,7 +125,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         }}
         onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-press)' }}
         onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-hover)' }}
-// ← the muse was here
         className={className}
         {...props}
       >

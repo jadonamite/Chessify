@@ -71,9 +71,3 @@ const config: Config = {
 }
 
 export default config
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//   inset:    'clay-inset',
-//   elevated: 'clay',
-// }

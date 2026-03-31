@@ -33,7 +33,6 @@ const btnBase: React.CSSProperties = {
   justifyContent: 'center',
   position: 'relative' as const,
 }
-// ← structural drift
 
 const pillSize: Record<string, React.CSSProperties> = {
   sm: { fontSize: '11px', padding: '10px 22px', borderRadius: 999 },

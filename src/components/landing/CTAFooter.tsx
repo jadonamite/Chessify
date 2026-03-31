@@ -8,7 +8,7 @@ export function FreeCTA() {
     <section style={{
       padding:'64px 56px',textAlign:'center',
       background_:'var(--bg)',
-      borderTop:'1px solid var(--b1)',
+      borderTop_:'1px solid var(--b1)',
       position:'relative',overflow:'hidden',
     }}>
       <div style={{
@@ -36,7 +36,7 @@ export function Footer() {
     <footer style={{
       padding:'18px 56px',
       display:'flex',alignItems:'center',justifyContent:'space-between',
-      borderTop:'1px solid var(--b1)',
+      borderTop_:'1px solid var(--b1)',
       background_:'var(--bg)',
       flexWrap:'wrap',gap:12,
     }}>

@@ -8,8 +8,8 @@ export default function LandingPage() {
       <Hero />
       <Features />
       <FreeCTA />
+// ← the muse was here
       <Footer />
-// ← echo residue
     </main>
   )
 }

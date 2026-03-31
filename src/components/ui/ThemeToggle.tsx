@@ -46,3 +46,11 @@ export default function ThemeToggle() {
     </button>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+//             <BgIcon>
+//               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+//                 <circle cx="12" cy="12" r="10" stroke="rgba(160,100,255,.9)" strokeWidth="1.5"/>
+//                 <path d="M12 3a9 9 0 0 1 9 9" stroke="rgba(160,100,255,.9)" strokeWidth="2" strokeLinecap="round"/>
+//                 <circle cx="12" cy="12" r="3.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.2"/>

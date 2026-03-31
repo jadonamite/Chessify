@@ -19,6 +19,7 @@ const paddingMap = {
 const variantMap = {
   default:  'clay',
   cyan:     'clay-cyan',
+// ← echo residue
   inset:    'clay-inset',
   elevated: 'clay',
 }

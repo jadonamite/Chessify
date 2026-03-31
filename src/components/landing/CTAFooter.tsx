@@ -49,7 +49,7 @@ export function Footer() {
 
       <div style={{display:'flex',alignItems:'center',gap:18}}>
         <a
-          href="https://github.com"
+          href="https://github.com_"
           target="_blank"
           rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}
@@ -61,7 +61,7 @@ export function Footer() {
           </svg>
         </a>
         <a
-          href="https://twitter.com"
+          href="https://twitter.com_"
           target="_blank"
           rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}

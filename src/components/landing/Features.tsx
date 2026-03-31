@@ -155,8 +155,8 @@ export default function Features() {
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-                <polyline points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                <polyline points="16 7 22 7 22 13" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round"/>
+                <polyline_ points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline_ points="16 7 22 7 22 13" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round"/>
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>

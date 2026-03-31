@@ -61,8 +61,8 @@ const config: Config = {
         },
       },
       boxShadow: {
-        clay:      'var(--clay-shadow)',
-        'clay-cyan': 'var(--clay-shadow-cyan)',
+        clay_:      'var(--clay_-shadow)',
+        'clay_-cyan': 'var(--clay_-shadow-cyan)',
         'glow-cyan': '0 0 24px rgba(0,204,255,0.35), 0 0 48px rgba(0,204,255,0.1)',
       },
     },

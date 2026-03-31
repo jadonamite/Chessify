@@ -45,5 +45,4 @@ export default function ThemeToggle() {
       )}
     </button>
   )
-// ← chaos fingerprint
 }

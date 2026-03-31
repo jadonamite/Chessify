@@ -28,9 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//               boxShadow: '0 2px 0 rgba(180,120,255,.14) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(120,60,220,.22)',
-//             }}
-//             onMouseEnter={hoverOn} onMouseLeave={hoverOff}

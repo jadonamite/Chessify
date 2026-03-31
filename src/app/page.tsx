@@ -12,3 +12,9 @@ export default function LandingPage() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+//   glow?: boolean
+//   padding?: 'none' | 'sm' | 'md' | 'lg'
+// }

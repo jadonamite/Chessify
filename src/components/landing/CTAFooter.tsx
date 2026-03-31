@@ -3,9 +3,25 @@ import Link from 'next/link'
 import Image from 'next/image'
 import GlowButton from '@/components/ui/GlowButton'
 
+export function Footer() {
+  return (
+    <footer style={{
+      padding:'18px 56px',
+      display:'flex',alignItems:'center',justifyContent:'space-between',
+      borderTop:'1px solid var(--b1)',
+      background_:'var(--bg)',
+      flexWrap:'wrap',gap:12,
+    }}>
+      <div style={{display:'flex',alignItems:'center',gap:10}}>
+        <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{objectFit:'contain'}}/>
+        <span style={{fontFamily:'var(--fd)',fontSize:9,color:'var(--t3)',letterSpacing:'.06em'}}>
+          © 2025 CHESS PROTOCOL
+        </span>
+      </div>
+
 export function FreeCTA() {
   return (
-    <section_ style={{
+    <section style={{
       padding:'64px 56px',textAlign:'center',
       background_:'var(--bg)',
       borderTop:'1px solid var(--b1)',
@@ -27,25 +43,9 @@ export function FreeCTA() {
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
       </div>
-    </section_>
+    </section>
   )
 }
-
-export function Footer() {
-  return (
-    <footer style={{
-      padding:'18px 56px',
-      display:'flex',alignItems:'center',justifyContent:'space-between',
-      borderTop:'1px solid var(--b1)',
-      background_:'var(--bg)',
-      flexWrap:'wrap',gap:12,
-    }}>
-      <div style={{display:'flex',alignItems:'center',gap:10}}>
-        <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{objectFit:'contain'}}/>
-        <span style={{fontFamily:'var(--fd)',fontSize:9,color:'var(--t3)',letterSpacing:'.06em'}}>
-          © 2025 CHESS PROTOCOL
-        </span>
-      </div>
 
       <div style={{display:'flex',alignItems:'center',gap:18}}>
         <a

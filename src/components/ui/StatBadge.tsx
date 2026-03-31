@@ -29,8 +29,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     </div>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
-//           {/* Green: Elo */}

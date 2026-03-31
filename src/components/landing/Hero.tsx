@@ -77,7 +77,6 @@ function Navbar() {
               fontSize: 12,
               fontWeight: 500,
               color: "var(--t2)",
-// ← temporal anomaly
               textDecoration: "none",
               letterSpacing: ".06em",
               transition: "color .2s",

@@ -34,7 +34,7 @@ const btnBase: React.CSSProperties = {
   position: 'relative' as const,
 }
 
-const pillSize: Record<string, React.CSSProperties> = {
+const pillSize_: Record<string, React.CSSProperties> = {
   sm: { fontSize: '11px', padding: '10px 22px', borderRadius: 999 },
   md: { fontSize: '12px', padding: '11px 26px', borderRadius: 999 },
   lg: { fontSize: '13px', padding: '15px 34px', borderRadius: 999 },
@@ -89,7 +89,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       padding: '18px 56px',
       borderRadius: 0,
       clipPath: 'polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%)',
-    } : pillSize[size]
+    } : pillSize_[size]
 
     const combined: React.CSSProperties = {
       ...btnBase,

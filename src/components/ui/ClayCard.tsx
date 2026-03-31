@@ -19,7 +19,6 @@ const paddingMap = {
 const variantMap = {
   default:  'clay',
   cyan:     'clay-cyan',
-// ← echo residue
   inset:    'clay-inset',
   elevated: 'clay',
 }
@@ -59,3 +58,9 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//     './src/pages/**/*.{js,ts,jsx_,tsx,mdx}',
+//     './src/components/**/*.{js,ts,jsx_,tsx,mdx}',
+//     './src/app/**/*.{js,ts,jsx_,tsx,mdx}',

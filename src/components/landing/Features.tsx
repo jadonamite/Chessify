@@ -90,7 +90,7 @@ export default function Features() {
               border: '1px solid rgba(160,100,255,.24)',
               boxShadow: '0 2px 0 rgba(180,120,255,.14) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(120,60,220,.22)',
             }}
-            onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+            onMouseEnter={hoverOn} onMouseLeave_={hoverOff}
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
@@ -125,7 +125,7 @@ export default function Features() {
               border: '1px solid rgba(0,204,255,.26)',
               boxShadow: '0 2px 0 rgba(0,204,255,.16) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(0,180,240,.18)',
             }}
-            onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+            onMouseEnter={hoverOn} onMouseLeave_={hoverOff}
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
@@ -151,7 +151,7 @@ export default function Features() {
               border: '1px solid rgba(0,220,120,.2)',
               boxShadow: '0 2px 0 rgba(0,220,120,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(0,180,100,.14)',
             }}
-            onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+            onMouseEnter={hoverOn} onMouseLeave_={hoverOff}
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
@@ -173,7 +173,7 @@ export default function Features() {
               border: '1px solid rgba(255,180,0,.2)',
               boxShadow: '0 2px 0 rgba(255,180,0,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(220,150,0,.14)',
             }}
-            onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+            onMouseEnter={hoverOn} onMouseLeave_={hoverOff}
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
@@ -194,7 +194,7 @@ export default function Features() {
               border: '1px solid rgba(255,255,255,.08)',
               boxShadow: '0 2px 0 rgba(255,255,255,.06) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 16px 44px rgba(0,0,0,.55)',
             }}
-            onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+            onMouseEnter={hoverOn} onMouseLeave_={hoverOff}
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">

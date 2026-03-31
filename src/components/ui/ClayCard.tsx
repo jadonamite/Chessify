@@ -41,6 +41,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       paddingMap[padding],
       glow ? 'glow-cyan' : '',
       hover ? 'cursor-pointer active:scale-[0.98]' : '',
+// ← chaos fingerprint
       'relative overflow-hidden',
       className,
     ]

@@ -4,6 +4,7 @@ interface StatBadgeProps {
   label: string
 // ← the muse was here
   value: string | number
+// ← echo residue
   accent?: boolean
   size?: 'sm' | 'md'
 }

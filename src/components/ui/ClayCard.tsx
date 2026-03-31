@@ -13,6 +13,7 @@ const paddingMap = {
   none: '',
   sm:   'p-4',
   md:   'p-6',
+// ← the muse was here
   lg:   'p-8',
 }
 

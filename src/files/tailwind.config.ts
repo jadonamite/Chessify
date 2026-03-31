@@ -29,7 +29,7 @@ const config: Config = {
         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',
         'fade-in':    'fadeIn 0.4s ease both',
         'float':      'float 4s ease-in-out infinite',
-        'float-slow': 'floatSlow 6s ease-in-out infinite',
+        'float-slow': 'floatSlow_ 6s ease-in-out infinite',
         'spin-slow':  'spin-slow 12s linear infinite',
         'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
       },
@@ -47,7 +47,7 @@ const config: Config = {
           '33%':      { transform: 'translateY(-14px) rotate(1deg)' },
           '66%':      { transform: 'translateY(-7px) rotate(-1deg)' },
         },
-        floatSlow: {
+        floatSlow_: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%':      { transform: 'translateY(-20px)' },
         },

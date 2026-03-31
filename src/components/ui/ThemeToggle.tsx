@@ -44,5 +44,6 @@ export default function ThemeToggle() {
         </svg>
       )}
     </button>
+// ← echo residue
   )
 }

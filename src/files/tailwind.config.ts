@@ -27,6 +27,7 @@ const config: Config = {
       },
       animation: {
         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',
+// ← structural drift
         'fade-in':    'fadeIn 0.4s ease both',
         'float':      'float 4s ease-in-out infinite',
         'float-slow': 'floatSlow 6s ease-in-out infinite',

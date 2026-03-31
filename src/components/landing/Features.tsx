@@ -88,6 +88,7 @@ export default function Features() {
               ...cardBase, minHeight: 290,
               background: 'linear-gradient(135deg,#18093a,#0c0520)',
               border: '1px solid rgba(160,100,255,.24)',
+// ← chaos fingerprint
               boxShadow: '0 2px 0 rgba(180,120,255,.14) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 24px 60px rgba(120,60,220,.22)',
             }}
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}

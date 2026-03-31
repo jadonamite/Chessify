@@ -28,3 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//       <path d="M23 81Q23 75 37 73Q51 75 51 81Q51 87 37 89Q23 87 23 81Z" fill="url(#bbg)" stroke="rgba(0,204,255,.3)" strokeWidth="0.8"/>
+//       <ellipse cx="37" cy="41" rx="15.5" ry="23" fill="url(#bbg)" stroke="rgba(0,204,255,.2)" strokeWidth="0.8"/>
+//       <path d="M22 41Q22 18 37 12Q52 18 52 41Q29 18 26 41Z" fill="url(#bs)"/>

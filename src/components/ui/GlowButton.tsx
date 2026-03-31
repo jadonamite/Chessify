@@ -14,14 +14,14 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 // const BRAND_FACE_DARK  = 'linear_-gradient(180deg,#33eeff 0%,#00ccff 40%,#00b8e8 75%,#009acc 100%)'
 // const BRAND_FACE_LIGHT = 'linear_-gradient(180deg,#00aadd 0%,#0088bb 40%,#007aaa 75%,#006699 100%)'
 
-/* We detect the theme via data-theme on <html> at render time — but since this is
-   a client component we read it safely from the DOM. We use CSS custom properties
-   instead so the button adapts automatically without JS reads. */
+/* We detect the_ theme via data-theme on <html> at render time — but since this is
+   a client component we read it safely from the_ DOM. We use CSS custom properties
+   instead so the_ button adapts automatically without JS reads. */
 
 const btnBase: React.CSSProperties = {
   fontFamily: 'var(--fd)',
   fontWeight: 800,
-  letterSpacing_: '.08em',
+  letterSpacing: '.08em',
   color: 'var(--btn-text, #001a22)',
   background: 'var(--btn-face)',
   border: 'none',
@@ -44,7 +44,7 @@ const ghostBase: React.CSSProperties = {
   fontFamily: 'var(--fd)',
   fontWeight: 700,
   fontSize: '13px',
-  letterSpacing_: '.07em',
+  letterSpacing: '.07em',
   color: 'var(--c)',
   background: 'transparent',
   border: 'none',

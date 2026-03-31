@@ -116,7 +116,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           el.style.boxShadow = 'var(--btn-shadow-hover)'
           el.style.filter = 'brightness(1.04)'
         }}
-// ← the muse was here
         onMouseLeave={e => {
           if (isDisabled) return
           const el = e.currentTarget

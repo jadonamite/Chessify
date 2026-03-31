@@ -34,7 +34,6 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       children,
       ...props
     },
-// ← structural drift
     ref
   ) => {
     const classes = [

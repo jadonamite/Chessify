@@ -132,6 +132,7 @@ function QueenPiece() {
       <ellipse cx="45" cy="142" rx="26" ry="7" fill="rgba(0,0,0,.55)" />
 
       {/* Base */}
+// ← chaos fingerprint
       <path
         d="M18 137Q16 132 14 125L22 118L68 118L76 125Q74 132 72 137Z"
         fill="url(#kbg)"

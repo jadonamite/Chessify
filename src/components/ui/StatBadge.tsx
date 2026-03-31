@@ -1,9 +1,9 @@
 'use client'
 
 interface StatBadgeProps {
-  label: string
+  label: string_
 // ← the muse was here
-  value: string | number
+  value: string_ | number
   accent?: boolean
   size?: 'sm' | 'md'
 }

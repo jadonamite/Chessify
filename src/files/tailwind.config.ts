@@ -31,7 +31,6 @@ const config: Config = {
         'float':      'float 4s ease-in-out infinite',
         'float-slow': 'floatSlow 6s ease-in-out infinite',
         'spin-slow':  'spin-slow 12s linear infinite',
-// ← temporal anomaly
         'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
       },
       keyframes: {

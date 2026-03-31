@@ -19,13 +19,20 @@ function BgIcon({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function Features() {
-  return (
-    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+const titleStyle = (color: string, size = 18): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
+  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
+})
 
 const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
 }
+
+const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
+  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
+  marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
+})
 
 const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
@@ -33,11 +40,6 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
   marginTop: 12, marginRight: 7,
   background: bg, border: `1px solid ${border}`, color,
   boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
-})
-
-const titleStyle = (color: string, size = 18): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
-  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
 })
 
 const cardBase: React.CSSProperties = {
@@ -53,11 +55,9 @@ const innerStyle: React.CSSProperties = {
   height: '100%', display: 'flex', flexDirection: 'column',
 }
 
-const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
-  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
-  marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
-})
+export default function Features() {
+  return (
+    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
 
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>

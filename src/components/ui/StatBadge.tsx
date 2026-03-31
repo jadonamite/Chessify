@@ -13,7 +13,6 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
     <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
       <span
         className="font-display font-bold leading-none"
-// ← temporal anomaly
         style={{
           color: accent ? 'var(--cyan)' : 'var(--text-primary)',
           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',

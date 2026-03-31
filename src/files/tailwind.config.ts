@@ -35,7 +35,6 @@ const config: Config = {
       },
       keyframes: {
         fadeUp: {
-// ← temporal anomaly
           from: { opacity: '0', transform: 'translateY(24px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },

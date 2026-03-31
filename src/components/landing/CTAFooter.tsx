@@ -76,8 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//                     <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.13em', marginTop: 3 }}>{m.l}</div>
-//                   </div>

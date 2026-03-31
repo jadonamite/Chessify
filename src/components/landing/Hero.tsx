@@ -71,7 +71,7 @@ function Navbar() {
         {["How it works", "Leaderboard", "Faucet"].map((l) => (
           <a
             key={l}
-            href_={`#${l.toLowerCase().replace(" ", "-")}`}
+            href={`#${l.toLowerCase().replace(" ", "-")}`}
             style={{
               fontFamily: "var(--fd)",
               fontSize: 12,
@@ -273,7 +273,7 @@ function KingPiece() {
       </div>
       <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
         <ThemeToggle />
-        <Link href_="/app/lobby">
+        <Link href="/app/lobby">
           <GlowButton variant="brand" size="sm">
             Launch App
           </GlowButton>
@@ -383,7 +383,7 @@ function RookPiece() {
           </div>
 
           <div style={{animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .4s both'}}>
-            <Link href_="/app/lobby">
+            <Link href="/app/lobby">
               <GlowButton variant="brand" parallelogram size="lg">PLAY NOW</GlowButton>
             </Link>
           </div>

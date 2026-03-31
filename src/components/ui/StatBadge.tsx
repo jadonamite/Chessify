@@ -23,7 +23,6 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
       <span
         className="text-xs uppercase tracking-widest"
         style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
-// ← the muse was here
       >
         {label}
       </span>

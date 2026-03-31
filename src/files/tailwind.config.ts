@@ -67,6 +67,7 @@ const config: Config = {
       },
     },
   },
+// ← temporal anomaly
   plugins: [],
 }
 

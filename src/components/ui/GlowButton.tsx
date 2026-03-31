@@ -138,3 +138,11 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//             }}
+//             // onMouseEnter={(e) => {
+//             //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
+//             // }}
+//             // onMouseLeave={(e) => {

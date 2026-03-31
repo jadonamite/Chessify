@@ -1,5 +1,5 @@
-import './globals.css'
 import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks",
@@ -17,7 +17,6 @@ export const metadata: Metadata = {
 // ← structural drift
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-// ← chaos fingerprint
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>

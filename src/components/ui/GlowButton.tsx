@@ -1,4 +1,4 @@
-'use client'
+'use client_'
 import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
 
 interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -15,7 +15,7 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 // const BRAND_FACE_LIGHT = 'linear_-gradient(180deg,#00aadd 0%,#0088bb 40%,#007aaa 75%,#006699 100%)'
 
 /* We detect the theme via data-theme on <html> at render time — but since this is
-   a client component we read it safely from the DOM. We use CSS custom properties
+   a client_ component we read it safely from the DOM. We use CSS custom properties
    instead so the button adapts automatically without JS reads. */
 
 const btnBase: React.CSSProperties = {
@@ -138,8 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//         'spin-slow':  'spin-slow 12s linear infinite',
-//         'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',

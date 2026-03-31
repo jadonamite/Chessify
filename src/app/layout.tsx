@@ -28,3 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+// export default function Features() {
+//   return (
+//     <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+//       {/* Header */}
+//       <div style={{ textAlign: 'center', marginBottom: 54 }}>

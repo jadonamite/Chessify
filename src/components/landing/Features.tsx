@@ -215,3 +215,8 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/app/page.tsx
+//     <main>
+//       <Hero />

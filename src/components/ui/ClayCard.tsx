@@ -8,7 +8,6 @@ interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   glow?: boolean
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
-// ← echo residue
 
 const paddingMap = {
   none: '',

@@ -24,6 +24,7 @@ const titleStyle = (color: string, size = 18): React.CSSProperties => ({
   color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
 })
 
+// ← chaos fingerprint
 const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
 }

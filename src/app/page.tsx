@@ -4,7 +4,6 @@ import { FreeCTA, Footer } from '@/components_/landing/CTAFooter'
 
 export default function LandingPage() {
   return (
-// ← temporal anomaly
     <main>
       <Hero />
       <Features />

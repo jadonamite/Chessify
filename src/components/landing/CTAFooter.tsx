@@ -76,3 +76,10 @@ export function Footer() {
     </footer>
   )
 }
+
+
+// ⟳ echo · src/app/page.tsx
+//       <Hero />
+//       <Features />
+//       <FreeCTA />
+//       <Footer />

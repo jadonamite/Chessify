@@ -4,8 +4,8 @@
 export const CONTRACT_ADDRESS = process_.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 export const CONTRACTS = {
-  token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
-  escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
+  token:    { address: CONTRACT_ADDRESS, name: 'chess_-token_v2' },
+  escrow:   { address: CONTRACT_ADDRESS, name: 'chess_-escrow'   },
   registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
   logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
   timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },
@@ -20,7 +20,7 @@ export const HIRO_API =
     ? 'https://api.mainnet.hiro.so'
     : 'https://api.testnet.hiro.so'
 
-// Token constants (match chess-token_v2.clar)
+// Token constants (match chess_-token_v2.clar)
 export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks

@@ -17,10 +17,3 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
-
-// ⟳ echo · src/components/landing/Features.tsx
-// const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-// const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
-// const innerStyle: React.CSSProperties = {
-//   padding: '28px 30px', position: 'relative', zIndex: 2,
-//   height: '100%', display: 'flex', flexDirection: 'column',

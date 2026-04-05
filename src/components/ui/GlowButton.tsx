@@ -47,7 +47,6 @@ const ghostBase: React.CSSProperties = {
   letterSpacing: '.07em',
   color: 'var(--c)',
   background: 'transparent',
-// ← chaos fingerprint
   border: 'none',
   borderRadius: 999,
   padding: '16px 40px',

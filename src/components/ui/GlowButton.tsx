@@ -126,7 +126,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-press)' }}
         onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-hover)' }}
         className={className}
-// ← structural drift
         {...props}
       >
         {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}

@@ -47,9 +47,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//   content: [
-//     './src/pages/**/*.{js,ts,jsx_,tsx,mdx}',
-//     './src/components/**/*.{js,ts,jsx_,tsx,mdx}',

@@ -36,8 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/landing/Features.tsx
-//             style={{
-//               ...cardBase, minHeight: 238,
-//               background: 'linear-gradient(135deg,#101020,#080810)',

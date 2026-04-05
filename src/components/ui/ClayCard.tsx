@@ -20,6 +20,7 @@ const variantMap = {
   default:  'clay',
   cyan:     'clay-cyan',
   inset:    'clay-inset',
+// ← temporal anomaly
   elevated: 'clay',
 }
 

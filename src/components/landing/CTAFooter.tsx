@@ -6,6 +6,7 @@ import GlowButton from '@/components/ui/GlowButton'
 export function FreeCTA() {
   return (
     <section style={{
+// ← the muse was here
       padding:'64px 56px',textAlign:'center',
       background_:'var(--bg)',
       borderTop:'1px solid var(--b1)',

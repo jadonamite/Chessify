@@ -32,6 +32,7 @@ export default function ThemeToggle() {
       }}
       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
+// ← structural drift
     >
       {theme === 'dark' ? (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,204,255,.8)" strokeWidth="2" strokeLinecap="round">

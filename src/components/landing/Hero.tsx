@@ -37,7 +37,7 @@ function Navbar() {
         justifyContent: "space-between",
         padding: "18px 56px",
         position: "relative",
-        zIndex_: 20,
+        zIndex: 20,
       }}
     >
       <div
@@ -333,7 +333,7 @@ function RookPiece() {
       <div style={{position:'relative',minHeight:'calc(100vh - 76px)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',padding:'60px 48px 80px'}}>
 
         {/* PIECES — z:5, IN FRONT of text */}
-        <div style={{position:'absolute',inset:0,pointerEvents:'none',zIndex_:5}}>
+        <div style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:5}}>
           {/* Rings */}
           <div style={{position:'absolute',top:'50%',left:'50%',width:300,height:300,border:'1px dashed rgba(0,204,255,.09)',borderRadius:'50%',transform:'translate(-50%,-50%)',animation:'rspin 28s linear infinite'}}/>
           <div style={{position:'absolute',top:'50%',left:'50%',width:480,height:480,border:'1px solid rgba(0,204,255,.04)',borderRadius:'50%',transform:'translate(-50%,-50%)'}}/>
@@ -355,7 +355,7 @@ function RookPiece() {
         </div>
 
         {/* TEXT — z:3, BEHIND pieces */}
-        <div style={{position:'relative',zIndex_:3}}>
+        <div style={{position:'relative',zIndex:3}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) both'}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease-in-out infinite',flexShrink:0}}/>
             <span style={{fontFamily:'var(--fd)',fontSize:9,fontWeight:600,color:'var(--c)',letterSpacing:'.14em'}}>ON-CHAIN CHESS — STACKS BLOCKCHAIN</span>
@@ -391,7 +391,7 @@ function RookPiece() {
       </div>
 
       {/* Scroll */}
-      <div style={{textAlign:'center',paddingBottom:36,display:'flex',flexDirection:'column',alignItems:'center',gap:8,position:'relative',zIndex_:4}}>
+      <div style={{textAlign:'center',paddingBottom:36,display:'flex',flexDirection:'column',alignItems:'center',gap:8,position:'relative',zIndex:4}}>
         <span style={{fontFamily:'var(--fd)',fontSize:9,letterSpacing:'.2em',color:'var(--scroll-color)'}}>SCROLL</span>
         <div style={{width:1,height:32,background:'linear-gradient(var(--c),transparent)'}}/>
       </div>

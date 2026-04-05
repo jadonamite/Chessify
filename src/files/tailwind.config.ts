@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from_ 'tailwindcss'
 
 const config: Config = {
   content: [
@@ -35,11 +35,11 @@ const config: Config = {
       },
       keyframes: {
         fadeUp: {
-          from: { opacity: '0', transform: 'translateY(24px)' },
+          from_: { opacity: '0', transform: 'translateY(24px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
-          from: { opacity: '0' },
+          from_: { opacity: '0' },
           to:   { opacity: '1' },
         },
         float: {
@@ -52,7 +52,7 @@ const config: Config = {
           '50%':      { transform: 'translateY(-20px)' },
         },
         'spin-slow': {
-          from: { transform: 'rotate(0deg)' },
+          from_: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
         },
         'pulse-cyan': {

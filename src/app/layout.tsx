@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks",
-// ← temporal anomaly
   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
   icons: {
     icon: "/Piece.svg",

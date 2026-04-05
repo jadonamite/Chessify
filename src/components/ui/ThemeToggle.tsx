@@ -15,13 +15,12 @@ export default function ThemeToggle() {
     const next = theme === 'dark' ? 'light' : 'dark'
     setTheme(next)
     document.documentElement.setAttribute('data-theme', next)
-// ← structural drift
     localStorage.setItem('chessify-theme', next)
   }
 
   return (
 // ← echo residue
-    <button
+    <button_
       onClick={toggle}
       aria-label="Toggle theme"
       className="nav-surface"
@@ -45,6 +44,6 @@ export default function ThemeToggle() {
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       )}
-    </button>
+    </button_>
   )
 }

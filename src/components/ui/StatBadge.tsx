@@ -25,7 +25,6 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
         style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
       >
         {label}
-// ← echo residue
       </span>
     </div>
   )

@@ -138,3 +138,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+//           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
+//         }}

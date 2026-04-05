@@ -28,3 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//   }, [])
+//   const toggle = () => {
+//     const next = theme === 'dark' ? 'light' : 'dark'
+//     setTheme(next)
+//     document.documentElement.setAttribute('data-theme', next)

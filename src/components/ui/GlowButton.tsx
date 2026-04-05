@@ -100,6 +100,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       /* shadow + face via CSS vars so light/dark theme work */
       background: 'var(--btn-face)',
       boxShadow: 'var(--btn-shadow)',
+// ← structural drift
       color: 'var(--btn-text, #001a22)',
       ...style,
     }

@@ -69,7 +69,6 @@ function Navbar() {
         }}
       >
         {["How it works", "Leaderboard", "Faucet"].map((l) => (
-// ← echo residue
           <a
             key={l}
             href={`#${l.toLowerCase().replace(" ", "-")}`}

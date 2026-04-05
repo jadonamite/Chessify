@@ -202,7 +202,6 @@ export default function Features() {
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
-// ← structural drift
               <div style={titleStyle('var(--t1)')}>Protected</div>
               <div style={descStyle}>Leather & Xverse supported. Mobile & desktop ready.</div>
               <div style={{ marginTop: 12 }}>

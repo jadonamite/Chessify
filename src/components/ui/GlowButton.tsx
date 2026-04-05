@@ -17,6 +17,7 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 /* We detect the theme via data-theme on <html> at render time — but since this is
    a client component we read it safely from the DOM. We use CSS custom properties
    instead so the button adapts automatically without JS reads. */
+// ← structural drift
 
 const btnBase: React.CSSProperties = {
   fontFamily: 'var(--fd)',

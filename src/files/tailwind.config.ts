@@ -71,3 +71,10 @@ const config: Config = {
 }
 
 export default config
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//     setTheme(t)
+//     document.documentElement.setAttribute('data-theme', t)
+//   }, [])
+//   const toggle = () => {

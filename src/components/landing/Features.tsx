@@ -26,6 +26,7 @@ const titleStyle = (color: string, size = 18): React.CSSProperties => ({
 
 const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
+// ← temporal anomaly
 }
 
 const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({

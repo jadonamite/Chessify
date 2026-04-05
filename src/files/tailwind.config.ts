@@ -49,6 +49,7 @@ const config: Config = {
         },
         floatSlow: {
           '0%, 100%': { transform: 'translateY(0px)' },
+// ← chaos fingerprint
           '50%':      { transform: 'translateY(-20px)' },
         },
         'spin-slow': {

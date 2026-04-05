@@ -12,7 +12,7 @@ const KEYFRAMES = `
 @keyframes rook-move   { 0%,100%{transform:translate(0,0)} 25%{transform:translate(0,-46px)} 50%{transform:translate(44px,-46px)} 75%{transform:translate(44px,0)} }
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
 @keyframes pulseDot    { 0%,100%{box-shadow:0 0 8px var(--c),0 0 16px rgba(0,204,255,.4)} 50%{box-shadow:0 0 14px var(--c),0 0 28px rgba(0,204,255,.65)} }
-@keyframes fadeUp_      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 `
 
 // const GRADIENTS = {
@@ -356,22 +356,22 @@ function RookPiece() {
 
         {/* TEXT — z:3, BEHIND pieces */}
         <div style={{position:'relative',zIndex:3}}>
-          <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp_ .6s cubic-bezier(.16,1,.3,1) both'}}>
+          <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) both'}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease-in-out infinite',flexShrink:0}}/>
             <span style={{fontFamily:'var(--fd)',fontSize:9,fontWeight:600,color:'var(--c)',letterSpacing:'.14em'}}>ON-CHAIN CHESS — STACKS BLOCKCHAIN</span>
           </div>
 
-          <h1 style={{fontFamily:'var(--fd)',fontWeight:900,fontSize:'clamp(72px,12vw,148px)',lineHeight:.86,letterSpacing:'-.05em',textTransform:'uppercase',marginBottom:24,color:'var(--t1)',textShadow:'var(--hero-text-shadow, 0 4px 40px rgba(0,0,0,.7))',animation:'fadeUp_ .6s cubic-bezier(.16,1,.3,1) .1s both'}}>
+          <h1 style={{fontFamily:'var(--fd)',fontWeight:900,fontSize:'clamp(72px,12vw,148px)',lineHeight:.86,letterSpacing:'-.05em',textTransform:'uppercase',marginBottom:24,color:'var(--t1)',textShadow:'var(--hero-text-shadow, 0 4px 40px rgba(0,0,0,.7))',animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .1s both'}}>
             Be the<br/>
             <span style={{color:'var(--c)',textShadow:'var(--king-text-shadow, 0 0 80px rgba(0,204,255,.45))'}}>King</span><br/>
             of Chess
           </h1>
 
-          <p style={{fontSize:17,color:'var(--t2)',lineHeight:1.72,margin:'0 auto 38px',maxWidth:500,fontWeight:300,animation:'fadeUp_ .6s cubic-bezier(.16,1,.3,1) .2s both'}}>
+          <p style={{fontSize:17,color:'var(--t2)',lineHeight:1.72,margin:'0 auto 38px',maxWidth:500,fontWeight:300,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .2s both'}}>
             Wager CHESS tokens, play on-chain.<br/>Every move permanently recorded. Your rating, your winnings — provably yours.
           </p>
 
-          <div style={{display:'flex',justifyContent:'center',marginBottom:46,animation:'fadeUp_ .6s cubic-bezier(.16,1,.3,1) .3s both'}}>
+          <div style={{display:'flex',justifyContent:'center',marginBottom:46,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .3s both'}}>
             <div style={{paddingRight:28,borderRight:'1px solid var(--b1)'}}>
               <div style={{fontFamily:'var(--fd)',fontWeight:800,fontSize:18,color:'var(--c)'}}>CHESS</div>
               <div style={{fontFamily:'var(--fd)',fontSize:8,color:'var(--t3)',letterSpacing:'.15em',marginTop:4}}>TOKEN</div>
@@ -382,7 +382,7 @@ function RookPiece() {
             </div>
           </div>
 
-          <div style={{animation:'fadeUp_ .6s cubic-bezier(.16,1,.3,1) .4s both'}}>
+          <div style={{animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) .4s both'}}>
             <Link href="/app/lobby">
               <GlowButton variant="brand" parallelogram size="lg">PLAY NOW</GlowButton>
             </Link>

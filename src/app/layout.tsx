@@ -28,10 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//         <p style={{
-//           fontFamily:'var(--fd)',fontSize:10,letterSpacing:'.12em',
-//           color:'var(--t3)',marginBottom:22,
-//         }}>START FOR FREE</p>

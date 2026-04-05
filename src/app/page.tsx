@@ -12,3 +12,8 @@ export default function LandingPage() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//         'spin-slow': {
+//           from: { transform: 'rotate(0deg)' },

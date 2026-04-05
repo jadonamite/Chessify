@@ -51,6 +51,7 @@ export function Footer() {
         <a
           href="https://github.com"
           target="_blank"
+// ← structural drift
           rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t1)' }}

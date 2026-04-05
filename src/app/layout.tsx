@@ -28,10 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//       <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
-//         {/* Row 1 */}
-//         <div style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
-//           {/* Purple: Real Wagers */}

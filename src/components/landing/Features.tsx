@@ -1,41 +1,26 @@
 'use client'
 
-const titleStyle = (color: string, size = 18): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
-  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
-})
-
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
-
-const descStyle: React.CSSProperties = {
-  fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
-}
-
 const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
   borderRadius: 999, padding: '4px 12px', display: 'inline-block',
   marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
 })
 
-/* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
-function BgIcon({ children }: { children: React.ReactNode }) {
+export default function Features() {
   return (
-    <div style={{
-      position: 'absolute',
-      bottom: '-6%',
-      right: '-4%',
-      width: '58%',
-      aspectRatio: '1',
-      opacity: 0.07,
-      pointerEvents: 'none',
-      transition: 'opacity .3s',
-      overflow: 'hidden',
-    }}>
-      {children}
-    </div>
-  )
+    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+
+const descStyle: React.CSSProperties = {
+  fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
 }
+
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
+
+const titleStyle = (color: string, size = 18): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
+  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
+})
 
 const cardBase: React.CSSProperties = {
   borderRadius: 24, position: 'relative', overflow: 'hidden',
@@ -55,9 +40,24 @@ const innerStyle: React.CSSProperties = {
   height: '100%', display: 'flex', flexDirection: 'column',
 }
 
-export default function Features() {
+/* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
+function BgIcon({ children }: { children: React.ReactNode }) {
   return (
-    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+    <div style={{
+      position: 'absolute',
+      bottom: '-6%',
+      right: '-4%',
+      width: '58%',
+      aspectRatio: '1',
+      opacity: 0.07,
+      pointerEvents: 'none',
+      transition: 'opacity .3s',
+      overflow: 'hidden',
+    }}>
+      {children}
+    </div>
+  )
+}
 
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>

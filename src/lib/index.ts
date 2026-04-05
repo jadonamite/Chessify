@@ -12,9 +12,12 @@ export const initProtocol = () => {
   console.log("Chessify Protocol Initialized");
 };
 
-// ← chaos fingerprint
 // ⟳ echo · src/components/ui/ThemeToggle.tsx
 // export default function ThemeToggle() {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//       {/* Base */}
+//       <path

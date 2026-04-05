@@ -398,11 +398,3 @@ function RookPiece() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-// const config: Config = {
-//   content: [
-//     './src/pages/**/*.{js,ts,jsx_,tsx,mdx}',
-//     './src/components/**/*.{js,ts,jsx_,tsx,mdx}',
-//     './src/app/**/*.{js,ts,jsx_,tsx,mdx}',

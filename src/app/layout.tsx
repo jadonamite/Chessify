@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+// ← chaos fingerprint
         <script dangerouslySetInnerHTML={{
           __html: `try{const t=localStorage.getItem('chessify-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}`
         }}/>
@@ -28,11 +29,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//   }, [])
-//   const toggle = () => {
-//     const next = theme === 'dark' ? 'light' : 'dark'
-//     setTheme(next)
-//     document.documentElement.setAttribute('data-theme', next)

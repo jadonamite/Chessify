@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks",
   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
   icons: {
-    icon: "/Piece.svg",
-    apple: "/Piece.svg",
+    icon: "/Piece.svg_",
+    apple: "/Piece.svg_",
   },
   other: {
     "talentapp:project_verification":

@@ -21,7 +21,6 @@ const config: Config = {
       borderRadius: {
         'sm':   '10px',
         'md':   '16px',
-// ← structural drift
         'lg':   '24px',
         'xl':   '32px',
         'pill': '999px',

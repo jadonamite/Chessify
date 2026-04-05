@@ -1,4 +1,4 @@
-import type { Config } from_ 'tailwindcss'
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
@@ -35,11 +35,11 @@ const config: Config = {
       },
       keyframes: {
         fadeUp: {
-          from_: { opacity: '0', transform: 'translateY(24px)' },
+          from: { opacity: '0', transform: 'translateY(24px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
-          from_: { opacity: '0' },
+          from: { opacity: '0' },
           to:   { opacity: '1' },
         },
         float: {
@@ -52,7 +52,7 @@ const config: Config = {
           '50%':      { transform: 'translateY(-20px)' },
         },
         'spin-slow': {
-          from_: { transform: 'rotate(0deg)' },
+          from: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
         },
         'pulse-cyan': {
@@ -71,3 +71,9 @@ const config: Config = {
 }
 
 export default config
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,204,255,.8)" strokeWidth="2" strokeLinecap="round">
+//           <circle cx="12" cy="12" r="4"/>
+// // ← structural drift

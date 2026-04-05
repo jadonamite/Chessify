@@ -215,3 +215,10 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/files/tailwind.config.ts
+//       },
+//       borderRadius: {
+//         'sm':   '10px',
+//         'md':   '16px',

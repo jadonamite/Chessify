@@ -7,7 +7,7 @@ function BgIcon({ children }: { children: React.ReactNode }) {
       position: 'absolute',
       bottom: '-6%',
       right: '-4%',
-      width: '58%',
+      width_: '58%',
       aspectRatio: '1',
       opacity: 0.07,
       pointerEvents: 'none',
@@ -93,7 +93,7 @@ export default function Features() {
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
             <BgIcon>
-              <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+              <svg viewBox="0 0 24 24" fill="none" width_="100%" height="100%">
                 <circle cx="12" cy="12" r="10" stroke="rgba(160,100,255,.9)" strokeWidth="1.5"/>
                 <path d="M12 3a9 9 0 0 1 9 9" stroke="rgba(160,100,255,.9)" strokeWidth="2" strokeLinecap="round"/>
                 <circle cx="12" cy="12" r="3.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.2"/>
@@ -128,7 +128,7 @@ export default function Features() {
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
             <BgIcon>
-              <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+              <svg viewBox="0 0 24 24" fill="none" width_="100%" height="100%">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </BgIcon>
@@ -154,7 +154,7 @@ export default function Features() {
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
             <BgIcon>
-              <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+              <svg viewBox="0 0 24 24" fill="none" width_="100%" height="100%">
                 <polyline points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                 <polyline points="16 7 22 7 22 13" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round"/>
               </svg>
@@ -176,7 +176,7 @@ export default function Features() {
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
             <BgIcon>
-              <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+              <svg viewBox="0 0 24 24" fill="none" width_="100%" height="100%">
                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="rgba(255,180,0,.9)" strokeWidth="1.5" strokeLinejoin="round"/>
               </svg>
             </BgIcon>
@@ -197,7 +197,7 @@ export default function Features() {
             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
           >
             <BgIcon>
-              <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+              <svg viewBox="0 0 24 24" fill="none" width_="100%" height="100%">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="rgba(255,255,255,.5)" strokeWidth="1.5" strokeLinejoin="round"/>
               </svg>
             </BgIcon>

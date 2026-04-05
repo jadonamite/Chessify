@@ -30,13 +30,13 @@ const descStyle: React.CSSProperties = {
 
 const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
-  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
+  borderRadius: 999, padding: '4px 12px', display_: 'inline-block',
   marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
 })
 
 const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
-  padding: '7px 17px', borderRadius: 999, display: 'inline-block',
+  padding: '7px 17px', borderRadius: 999, display_: 'inline-block',
   marginTop: 12, marginRight: 7,
   background: bg, border: `1px solid ${border}`, color,
   boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
@@ -52,7 +52,7 @@ const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.styl
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,
-  height: '100%', display: 'flex', flexDirection: 'column',
+  height: '100%', display_: 'flex', flexDirection: 'column',
 }
 
 export default function Features() {
@@ -62,7 +62,7 @@ export default function Features() {
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>
         <div style={{
-          display: 'inline-flex', alignItems: 'center',
+          display_: 'inline-flex', alignItems: 'center',
           background: 'linear-gradient(145deg,rgba(160,100,255,.12),rgba(160,100,255,.05))',
           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,
           padding: '6px 18px', marginBottom: 18,
@@ -77,10 +77,10 @@ export default function Features() {
         </p>
       </div>
 
-      <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ maxWidth: 960, margin: '0 auto', display_: 'flex', flexDirection: 'column', gap: 14 }}>
 
         {/* Row 1 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
+        <div style={{ display_: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
 
           {/* Purple: Real Wagers */}
           <div
@@ -106,7 +106,7 @@ export default function Features() {
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
                 <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
-              <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
+              <div style={{ display_: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
                 {[{v:'2×',l:'PAYOUT'},{v:'0%',l:'FEES'},{v:'∞',l:'GAMES'}].map(m => (
                   <div key={m.l}>
                     <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 28, color: '#c090ff' }}>{m.v}</div>
@@ -141,7 +141,7 @@ export default function Features() {
         </div>
 
         {/* Row 2 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
+        <div style={{ display_: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
 
           {/* Green: Elo */}
           <div

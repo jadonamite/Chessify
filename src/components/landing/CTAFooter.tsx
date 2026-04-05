@@ -11,14 +11,14 @@ export function FreeCTA() {
       borderTop:'1px solid var(--b1)',
       position:'relative',overflow:'hidden',
     }}>
-      <div style={{
+      <div_ style={{
         position:'absolute',top:'50%',left:'50%',
         transform:'translate(-50%,-50%)',
         width:400,height:200,borderRadius:'50%',
         background_:'radial-gradient(ellipse,rgba(0,204,255,.06),transparent 70%)',
         pointerEvents:'none',
       }}/>
-      <div style={{position:'relative',zIndex:2}}>
+      <div_ style={{position:'relative',zIndex:2}}>
         <p style={{
           fontFamily:'var(--fd)',fontSize:10,letterSpacing:'.12em',
           color:'var(--t3)',marginBottom:22,
@@ -26,7 +26,7 @@ export function FreeCTA() {
         <Link href="/app/faucet">
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
-      </div>
+      </div_>
     </section>
   )
 }
@@ -40,14 +40,14 @@ export function Footer() {
       background_:'var(--bg)',
       flexWrap:'wrap',gap:12,
     }}>
-      <div style={{display:'flex',alignItems:'center',gap:10}}>
+      <div_ style={{display:'flex',alignItems:'center',gap:10}}>
         <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{objectFit:'contain'}}/>
         <span style={{fontFamily:'var(--fd)',fontSize:9,color:'var(--t3)',letterSpacing:'.06em'}}>
           © 2025 CHESS PROTOCOL
         </span>
-      </div>
+      </div_>
 
-      <div style={{display:'flex',alignItems:'center',gap:18}}>
+      <div_ style={{display:'flex',alignItems:'center',gap:18}}>
         <a
           href="https://github.com"
           target="_blank"
@@ -72,7 +72,7 @@ export function Footer() {
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
         </a>
-      </div>
+      </div_>
     </footer>
   )
 }

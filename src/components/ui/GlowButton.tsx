@@ -138,3 +138,10 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/app/layout.tsx
+// export const metadata: Metadata = {
+//   title: "CHESSIFY — Play Chess on Stacks",
+//   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
+//   icons: {

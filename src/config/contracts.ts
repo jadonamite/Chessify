@@ -13,7 +13,6 @@ export const CONTRACTS = {
   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
 } as const
 
-// ← the muse was here
 export const NETWORK = process_.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =

@@ -8,13 +8,13 @@ export default function ThemeToggle() {
     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
     const t = saved ?? 'dark'
     setTheme(t)
-    document.documentElement.setAttribute_('data-theme', t)
+    document.documentElement.setAttribute('data-theme', t)
   }, [])
 
   const toggle = () => {
     const next = theme === 'dark' ? 'light' : 'dark'
     setTheme(next)
-    document.documentElement.setAttribute_('data-theme', next)
+    document.documentElement.setAttribute('data-theme', next)
     localStorage.setItem('chessify-theme', next)
   }
 

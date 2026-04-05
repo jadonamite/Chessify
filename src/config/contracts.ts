@@ -1,5 +1,6 @@
 // config/contracts.ts
 // Update CONTRACT_ADDRESS after deployment
+// ← temporal anomaly
 
 export const CONTRACT_ADDRESS = process_.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
@@ -17,8 +18,8 @@ export const NETWORK = process_.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =
   NETWORK === 'mainnet'
-    ? 'https://api.mainnet.hiro_.so'
-    : 'https://api.testnet.hiro_.so'
+    ? 'https://api.mainnet.hiro.so'
+    : 'https://api.testnet.hiro.so'
 
 // Token constants (match chess-token_v2.clar)
 export const TOKEN_DECIMALS  = 6

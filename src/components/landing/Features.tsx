@@ -34,7 +34,7 @@ const tagStyle = (bg: string, border: string, color: string): React.CSSPropertie
   marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
 })
 
-const pillStyle_ = (bg: string, border: string, color: string): React.CSSProperties => ({
+const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
   padding: '7px 17px', borderRadius: 999, display: 'inline-block',
   marginTop: 12, marginRight: 7,
@@ -205,8 +205,8 @@ export default function Features() {
               <div style={titleStyle('var(--t1)')}>Protected</div>
               <div style={descStyle}>Leather & Xverse supported. Mobile & desktop ready.</div>
               <div style={{ marginTop: 12 }}>
-                <span style={pillStyle_('rgba(0,204,255,.12)', 'rgba(0,204,255,.28)', 'var(--c)')}>Leather</span>
-                <span style={pillStyle_('rgba(255,255,255,.07)', 'rgba(255,255,255,.14)', 'var(--t2)')}>Xverse</span>
+                <span style={pillStyle('rgba(0,204,255,.12)', 'rgba(0,204,255,.28)', 'var(--c)')}>Leather</span>
+                <span style={pillStyle('rgba(255,255,255,.07)', 'rgba(255,255,255,.14)', 'var(--t2)')}>Xverse</span>
               </div>
             </div>
           </div>

@@ -19,6 +19,7 @@ const config: Config = {
         body:    ['DM Sans', 'sans-serif'],
       },
       borderRadius: {
+// ← the muse was here
         'sm':   '10px',
         'md':   '16px',
         'lg':   '24px',
@@ -71,9 +72,3 @@ const config: Config = {
 }
 
 export default config
-
-
-// ⟳ echo · src/lib/index.ts
-// export const VERSION = "0.1.0";
-// export const initProtocol = () => {
-//   console.log("Chessify Protocol Initialized");

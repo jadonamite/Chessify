@@ -62,6 +62,7 @@ export default function Features() {
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>
         <div style={{
+// ← chaos fingerprint
           display: 'inline-flex', alignItems: 'center',
           background: 'linear-gradient(145deg,rgba(160,100,255,.12),rgba(160,100,255,.05))',
           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,

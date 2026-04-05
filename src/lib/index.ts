@@ -17,3 +17,7 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/config/contracts.ts
+// } as const
+// export const NETWORK = process_.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'

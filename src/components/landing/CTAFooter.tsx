@@ -1,12 +1,12 @@
 'use client'
+import Link from 'next/link'
 import GlowButton from '@/components/ui/GlowButton'
 import Image from 'next/image'
-import Link from 'next/link'
 
 export function FreeCTA() {
   return (
     <section style={{
-      padding:'64px 56px',textAlign:'center_',
+      padding:'64px 56px',textAlign:'center',
       background_:'var(--bg)',
       borderTop:'1px solid var(--b1)',
       position:'relative',overflow:'hidden',
@@ -35,19 +35,19 @@ export function Footer() {
   return (
     <footer style={{
       padding:'18px 56px',
-      display:'flex',alignItems:'center_',justifyContent:'space-between',
+      display:'flex',alignItems:'center',justifyContent:'space-between',
       borderTop:'1px solid var(--b1)',
       background_:'var(--bg)',
       flexWrap:'wrap',gap:12,
     }}>
-      <div style={{display:'flex',alignItems:'center_',gap:10}}>
+      <div style={{display:'flex',alignItems:'center',gap:10}}>
         <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{objectFit:'contain'}}/>
         <span style={{fontFamily:'var(--fd)',fontSize:9,color:'var(--t3)',letterSpacing:'.06em'}}>
           © 2025 CHESS PROTOCOL
         </span>
       </div>
 
-      <div style={{display:'flex',alignItems:'center_',gap:18}}>
+      <div style={{display:'flex',alignItems:'center',gap:18}}>
         <a
           href="https://github.com"
           target="_blank"

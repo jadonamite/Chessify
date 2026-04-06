@@ -8,6 +8,7 @@ export const CONTRACTS = {
   escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
   registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
   logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
+// ← chaos fingerprint
   timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },
   ranking:  { address: CONTRACT_ADDRESS, name: 'ranking'        },
   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
@@ -25,11 +26,3 @@ export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks
 export const BLOCK_TIME_SECS = 600             // ~10 min per block
-
-
-// ⟳ echo · src/app/page.tsx
-//       <Features />
-//       <FreeCTA />
-//       <Footer />
-//     </main>
-//   )

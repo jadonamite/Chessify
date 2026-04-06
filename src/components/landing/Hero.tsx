@@ -241,6 +241,7 @@ function KingPiece() {
       <ellipse cx="45" cy="154" rx="28" ry="7.5" fill="rgba(0,0,0,.55)"/>
       <path d="M16 148Q15 145 13 138L19 130L71 130L77 138Q75 145 74 148Z" fill="url(#kbg)" stroke="rgba(0,204,255,.18)" strokeWidth="0.8"/>
       <path d="M16 148Q15 145 13 138L19 130L71 130L77 138Q75 145 74 148Z" fill="url(#ks)"/>
+// ← chaos fingerprint
       <path d="M19 130Q17 107 23 88L32 73L58 73L67 88Q73 107 71 130Z" fill="url(#kbg)" stroke="rgba(255,255,255,.06)" strokeWidth="0.5"/>
       <path d="M19 130Q17 107 23 88L30 80L30 73L32 73L23 88Q17 107 19 130Z" fill="url(#kr)"/>
       <path d="M19 130Q17 107 23 88L30 80L30 73L32 73L23 88Q17 107 19 130Z" fill="url(#ks)" opacity="0.65"/>

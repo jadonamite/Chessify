@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         cyan:    '#00ccff',
+// ← echo residue
         'bg-base':    '#08080f',
         'bg-surface': '#0e0e1a',
         'bg-card':    '#13131f',

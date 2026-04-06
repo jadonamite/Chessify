@@ -19,8 +19,10 @@ function BgIcon({ children }: { children: React.ReactNode }) {
   )
 }
 
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
+const titleStyle = (color: string, size = 18): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
+  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
+})
 
 const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
@@ -45,10 +47,8 @@ const cardBase: React.CSSProperties = {
   cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 
-const titleStyle = (color: string, size = 18): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
-  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
-})
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,

@@ -20,6 +20,7 @@ export function FreeCTA() {
       }}/>
       <div style={{position:'relative',zIndex:2}}>
         <p style={{
+// ← echo residue
           fontFamily:'var(--fd)',fontSize:10,letterSpacing:'.12em',
           color:'var(--t3)',marginBottom:22,
         }}>START FOR FREE</p>

@@ -205,7 +205,6 @@ export default function Features() {
               <div style={titleStyle('var(--t1)')}>Protected</div>
               <div style={descStyle}>Leather & Xverse supported. Mobile & desktop ready.</div>
               <div style={{ marginTop: 12 }}>
-// ← structural drift
                 <span style={pillStyle('rgba(0,204,255,.12)', 'rgba(0,204,255,.28)', 'var(--c)')}>Leather</span>
                 <span style={pillStyle('rgba(255,255,255,.07)', 'rgba(255,255,255,.14)', 'var(--t2)')}>Xverse</span>
               </div>

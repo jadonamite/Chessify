@@ -47,8 +47,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-// const pillSize: Record<string, React.CSSProperties> = {
-//   sm: { fontSize: '11px', padding: '10px 22px', borderRadius: 999 },

@@ -79,6 +79,7 @@ export default function Features() {
 
       <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
 
+// ← echo residue
         {/* Row 1 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
 

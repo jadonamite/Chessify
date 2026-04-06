@@ -215,3 +215,9 @@ export default function Features() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/app/layout.tsx
+//         }}/>
+//       </head>
+//       <body>{children}</body>

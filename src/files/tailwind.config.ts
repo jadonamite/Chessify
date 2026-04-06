@@ -77,10 +77,3 @@ export default config
 //   )
 // }
 //       {/* Ambient mesh */}
-
-// ⟳ echo · src/components/landing/Features.tsx
-//               <div style={descStyle}>Each move is a Stacks transaction. Provably fair, permanently on-chain.</div>
-//             </div>
-//           </div>
-//         </div>
-//         {/* Row 2 */}

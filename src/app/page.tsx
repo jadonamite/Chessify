@@ -12,3 +12,10 @@ export default function LandingPage() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/config/contracts.ts
+//   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
+// } as const
+// export const NETWORK = process_.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
+// export const HIRO_API =

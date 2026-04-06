@@ -22,7 +22,6 @@ export const HIRO_API =
 
 // Token constants (match chess-token_v2.clar)
 export const TOKEN_DECIMALS  = 6
-// ← structural drift
 export const FAUCET_AMOUNT   = 1_000_000_000  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks
 export const BLOCK_TIME_SECS = 600             // ~10 min per block

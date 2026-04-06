@@ -12,10 +12,3 @@ export default function LandingPage() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//       hover = false,
-//       glow = false,
-//       padding = 'md',
-//       className = '',

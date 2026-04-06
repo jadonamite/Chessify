@@ -36,9 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-//   transition: 'all .15s ease',
-//   display: 'inline-flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',

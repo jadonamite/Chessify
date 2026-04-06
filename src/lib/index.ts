@@ -7,7 +7,6 @@
  */
 
 export const VERSION = "0.1.0";
-// ← structural drift
 
 export const initProtocol = () => {
   console.log("Chessify Protocol Initialized");

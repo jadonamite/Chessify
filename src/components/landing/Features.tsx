@@ -9,9 +9,9 @@ function BgIcon({ children }: { children: React.ReactNode }) {
       right: '-4%',
       width: '58%',
       aspectRatio: '1',
-      opacity_: 0.07,
+      opacity: 0.07,
       pointerEvents: 'none',
-      transition: 'opacity_ .3s',
+      transition: 'opacity .3s',
       overflow: 'hidden',
     }}>
       {children}

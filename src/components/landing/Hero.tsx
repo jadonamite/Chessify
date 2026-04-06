@@ -23,71 +23,6 @@ const KEYFRAMES = `
 //   rbg:   'linear-gradient(160deg,#242445 0%,#04040c 100%)',
 // }
 
-export default function Hero() {
-  return (
-    <section style={{background:'var(--bg)',position:'relative',overflow:'hidden'}}>
-      <style>{KEYFRAMES}</style>
-
-function Navbar() {
-  return (
-    <nav
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "18px 56px",
-        position: "relative",
-        zIndex: 20,
-      }}
-    >
-      <div
-      // className="nav-surface"
-      // style={{
-      //   height: 40,
-      //   padding: "0 16px",
-      //   borderRadius: 999,
-      //   display: "flex",
-      //   alignItems: "center",
-      //   gap: 10,
-      // }}
-      >
-        <Image
-          src="/chessify.png"
-          alt="Chessify"
-          width={200}
-          height={50}
-          style={{ objectFit: "contain" }}
-        />
-      </div>
-      <div
-        className="nav-surface"
-        style={{
-          display: "flex",
-          gap: 28,
-          borderRadius: 999,
-          padding: "10px 28px",
-        }}
-      >
-        {["How it works", "Leaderboard", "Faucet"].map((l) => (
-          <a
-            key={l}
-            href={`#${l.toLowerCase().replace(" ", "-")}`}
-            style={{
-              fontFamily: "var(--fd)",
-              fontSize: 12,
-              fontWeight: 500,
-              color: "var(--t2)",
-              textDecoration: "none",
-              letterSpacing: ".06em",
-              transition: "color .2s",
-            }}
-            // onMouseEnter={(e) => {
-            //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
-            // }}
-            // onMouseLeave={(e) => {
-            //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--t2)";
-            // }}
-
 function QueenPiece() {
   return (
     <svg viewBox="0 0 85 155" width="100%">
@@ -115,6 +50,81 @@ function QueenPiece() {
     </svg>
   )
 }
+
+      {/* Collar ring */}
+      <ellipse cx="47" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.3)" />
+      <path
+        d="M30 82Q30 75 47 73Q64 75 64 82Q64 89 47 91Q30 89 30 82Z"
+        fill="url(#kbg)"
+        stroke="rgba(0,204,255,.3)"
+        strokeWidth="0.8"
+      />
+    </svg>
+  );
+}
+function RookPiece() {
+  return (
+    <svg viewBox="0 0 80 140" width="100%">
+      <defs>
+        <linearGradient id="rbg" x1="25%" y1="0%" x2="75%" y2="100%"><stop offset="0%" stopColor="#242445"/><stop offset="100%" stopColor="#04040c"/></linearGradient>
+        <radialGradient id="rs" cx="24%" cy="17%" r="40%"><stop offset="0%" stopColor="rgba(255,255,255,.15)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
+        <linearGradient id="rr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(0,204,255,.44)"/><stop offset="28%" stopColor="rgba(0,204,255,.08)"/><stop offset="100%" stopColor="rgba(0,204,255,0)"/></linearGradient>
+      </defs>
+      <ellipse cx="40" cy="133" rx="25" ry="7" fill="rgba(0,0,0,.55)"/>
+      <path d="M15 129Q13 126 11 119L17 112L63 112L69 119Q67 126 65 129Z" fill="url(#rbg)" stroke="rgba(0,204,255,.16)" strokeWidth="0.8"/>
+      <path d="M15 129Q13 126 11 119L17 112L63 112L69 119Q67 126 65 129Z" fill="url(#rs)"/>
+      <path d="M17 112Q15 88 21 68L27 52L53 52L59 68Q65 88 63 112Z" fill="url(#rbg)"/>
+      <path d="M17 112Q15 88 21 68L25 58L25 52L27 52L21 68Q15 88 17 112Z" fill="url(#rr)"/>
+      <path d="M17 112Q15 88 21 68L25 58L25 52L27 52L21 68Q15 88 17 112Z" fill="url(#rs)" opacity="0.55"/>
+      <ellipse cx="40" cy="75" rx="21" ry="3.5" fill="rgba(0,0,0,.28)"/>
+      <path d="M23 72Q23 66 40 64Q57 66 57 72Q57 78 40 80Q23 78 23 72Z" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
+      <ellipse cx="40" cy="52" rx="20" ry="3" fill="rgba(0,0,0,.22)"/>
+      <rect x="19" y="36" width="42" height="18" rx="3" fill="url(#rbg)" stroke="rgba(0,204,255,.2)" strokeWidth="0.8"/>
+      <rect x="19" y="36" width="14" height="18" rx="3" fill="url(#rs)" opacity="0.55"/>
+      <rect x="19" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
+      <rect x="19" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
+      <rect x="35" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
+      <rect x="35" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
+      <rect x="51" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
+      <rect x="51" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
+    </svg>
+  )
+}
+
+function BishopPiece() {
+  return (
+    <svg viewBox="0 0 75 148" width="100%">
+      <defs>
+        <linearGradient id="bbg" x1="25%" y1="0%" x2="75%" y2="100%"><stop offset="0%" stopColor="#2a2a52"/><stop offset="100%" stopColor="#04040c"/></linearGradient>
+        <radialGradient id="bs" cx="25%" cy="16%" r="38%"><stop offset="0%" stopColor="rgba(255,255,255,.16)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
+        <linearGradient id="br" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(0,204,255,.46)"/><stop offset="28%" stopColor="rgba(0,204,255,.08)"/><stop offset="100%" stopColor="rgba(0,204,255,0)"/></linearGradient>
+      </defs>
+      <ellipse cx="37" cy="142" rx="23" ry="6.5" fill="rgba(0,0,0,.55)"/>
+      <path d="M14 137Q13 134 11 128L17 121L57 121L63 128Q61 134 60 137Z" fill="url(#bbg)" stroke="rgba(0,204,255,.16)" strokeWidth="0.8"/>
+      <path d="M14 137Q13 134 11 128L17 121L57 121L63 128Q61 134 60 137Z" fill="url(#bs)"/>
+      <path d="M17 121Q15 98 21 79L29 62L45 62L53 79Q59 98 57 121Z" fill="url(#bbg)"/>
+      <path d="M17 121Q15 98 21 79L27 68L27 62L29 62L21 79Q15 98 17 121Z" fill="url(#br)"/>
+      <path d="M17 121Q15 98 21 79L27 68L27 62L29 62L21 79Q15 98 17 121Z" fill="url(#bs)" opacity="0.6"/>
+      <ellipse cx="37" cy="84" rx="19" ry="3.5" fill="rgba(0,0,0,.3)"/>
+      <path d="M23 81Q23 75 37 73Q51 75 51 81Q51 87 37 89Q23 87 23 81Z" fill="url(#bbg)" stroke="rgba(0,204,255,.3)" strokeWidth="0.8"/>
+      <ellipse cx="37" cy="41" rx="15.5" ry="23" fill="url(#bbg)" stroke="rgba(0,204,255,.2)" strokeWidth="0.8"/>
+      <path d="M22 41Q22 18 37 12Q52 18 52 41Q29 18 26 41Z" fill="url(#bs)"/>
+      <path d="M22 41Q22 18 37 12Q29 18 26 41Z" fill="url(#br)" opacity="0.55"/>
+      <ellipse cx="37" cy="60" rx="13" ry="3" fill="rgba(0,0,0,.25)"/>
+      <rect x="25" y="57" width="24" height="6.5" rx="3.25" fill="rgba(0,204,255,.12)" stroke="rgba(0,204,255,.28)" strokeWidth="0.7"/>
+      <circle cx="37" cy="11" r="6.5" fill="rgba(0,204,255,.1)" stroke="rgba(0,204,255,.4)" strokeWidth="1.2"/>
+      <circle cx="37" cy="11" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.6))'}}/>
+    </svg>
+  )
+}
+function KnightPiece() {
+  return (
+    <svg viewBox="0 0 90 150" width="100%">
+      <defs>
+        <linearGradient id="kbg" x1="20%" y1="0%" x2="80%" y2="100%">
+          <stop offset="0%" stopColor="#2a2a52" />
+          <stop offset="100%" stopColor="#04040c" />
+        </linearGradient>
 
         <radialGradient id="ks" cx="30%" cy="20%" r="40%">
           <stop offset="0%" stopColor="rgba(255,255,255,.16)" />
@@ -195,40 +205,10 @@ function QueenPiece() {
       {/* Neck highlight */}
       <path d="M32 75L36 62L40 62L32 95Z" fill="url(#kr)" opacity="0.5" />
 
-function BishopPiece() {
+export default function Hero() {
   return (
-    <svg viewBox="0 0 75 148" width="100%">
-      <defs>
-        <linearGradient id="bbg" x1="25%" y1="0%" x2="75%" y2="100%"><stop offset="0%" stopColor="#2a2a52"/><stop offset="100%" stopColor="#04040c"/></linearGradient>
-        <radialGradient id="bs" cx="25%" cy="16%" r="38%"><stop offset="0%" stopColor="rgba(255,255,255,.16)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
-        <linearGradient id="br" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(0,204,255,.46)"/><stop offset="28%" stopColor="rgba(0,204,255,.08)"/><stop offset="100%" stopColor="rgba(0,204,255,0)"/></linearGradient>
-      </defs>
-      <ellipse cx="37" cy="142" rx="23" ry="6.5" fill="rgba(0,0,0,.55)"/>
-      <path d="M14 137Q13 134 11 128L17 121L57 121L63 128Q61 134 60 137Z" fill="url(#bbg)" stroke="rgba(0,204,255,.16)" strokeWidth="0.8"/>
-      <path d="M14 137Q13 134 11 128L17 121L57 121L63 128Q61 134 60 137Z" fill="url(#bs)"/>
-      <path d="M17 121Q15 98 21 79L29 62L45 62L53 79Q59 98 57 121Z" fill="url(#bbg)"/>
-      <path d="M17 121Q15 98 21 79L27 68L27 62L29 62L21 79Q15 98 17 121Z" fill="url(#br)"/>
-      <path d="M17 121Q15 98 21 79L27 68L27 62L29 62L21 79Q15 98 17 121Z" fill="url(#bs)" opacity="0.6"/>
-      <ellipse cx="37" cy="84" rx="19" ry="3.5" fill="rgba(0,0,0,.3)"/>
-      <path d="M23 81Q23 75 37 73Q51 75 51 81Q51 87 37 89Q23 87 23 81Z" fill="url(#bbg)" stroke="rgba(0,204,255,.3)" strokeWidth="0.8"/>
-      <ellipse cx="37" cy="41" rx="15.5" ry="23" fill="url(#bbg)" stroke="rgba(0,204,255,.2)" strokeWidth="0.8"/>
-      <path d="M22 41Q22 18 37 12Q52 18 52 41Q29 18 26 41Z" fill="url(#bs)"/>
-      <path d="M22 41Q22 18 37 12Q29 18 26 41Z" fill="url(#br)" opacity="0.55"/>
-      <ellipse cx="37" cy="60" rx="13" ry="3" fill="rgba(0,0,0,.25)"/>
-      <rect x="25" y="57" width="24" height="6.5" rx="3.25" fill="rgba(0,204,255,.12)" stroke="rgba(0,204,255,.28)" strokeWidth="0.7"/>
-      <circle cx="37" cy="11" r="6.5" fill="rgba(0,204,255,.1)" stroke="rgba(0,204,255,.4)" strokeWidth="1.2"/>
-      <circle cx="37" cy="11" r="3.5" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.6))'}}/>
-    </svg>
-  )
-}
-function KnightPiece() {
-  return (
-    <svg viewBox="0 0 90 150" width="100%">
-      <defs>
-        <linearGradient id="kbg" x1="20%" y1="0%" x2="80%" y2="100%">
-          <stop offset="0%" stopColor="#2a2a52" />
-          <stop offset="100%" stopColor="#04040c" />
-        </linearGradient>
+    <section style={{background:'var(--bg)',position:'relative',overflow:'hidden'}}>
+      <style>{KEYFRAMES}</style>
 
 function KingPiece() {
   return (
@@ -283,45 +263,65 @@ function KingPiece() {
   );
 }
 
-      {/* Collar ring */}
-      <ellipse cx="47" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.3)" />
-      <path
-        d="M30 82Q30 75 47 73Q64 75 64 82Q64 89 47 91Q30 89 30 82Z"
-        fill="url(#kbg)"
-        stroke="rgba(0,204,255,.3)"
-        strokeWidth="0.8"
-      />
-    </svg>
-  );
-}
-function RookPiece() {
+function Navbar() {
   return (
-    <svg viewBox="0 0 80 140" width="100%">
-      <defs>
-        <linearGradient id="rbg" x1="25%" y1="0%" x2="75%" y2="100%"><stop offset="0%" stopColor="#242445"/><stop offset="100%" stopColor="#04040c"/></linearGradient>
-        <radialGradient id="rs" cx="24%" cy="17%" r="40%"><stop offset="0%" stopColor="rgba(255,255,255,.15)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>
-        <linearGradient id="rr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(0,204,255,.44)"/><stop offset="28%" stopColor="rgba(0,204,255,.08)"/><stop offset="100%" stopColor="rgba(0,204,255,0)"/></linearGradient>
-      </defs>
-      <ellipse cx="40" cy="133" rx="25" ry="7" fill="rgba(0,0,0,.55)"/>
-      <path d="M15 129Q13 126 11 119L17 112L63 112L69 119Q67 126 65 129Z" fill="url(#rbg)" stroke="rgba(0,204,255,.16)" strokeWidth="0.8"/>
-      <path d="M15 129Q13 126 11 119L17 112L63 112L69 119Q67 126 65 129Z" fill="url(#rs)"/>
-      <path d="M17 112Q15 88 21 68L27 52L53 52L59 68Q65 88 63 112Z" fill="url(#rbg)"/>
-      <path d="M17 112Q15 88 21 68L25 58L25 52L27 52L21 68Q15 88 17 112Z" fill="url(#rr)"/>
-      <path d="M17 112Q15 88 21 68L25 58L25 52L27 52L21 68Q15 88 17 112Z" fill="url(#rs)" opacity="0.55"/>
-      <ellipse cx="40" cy="75" rx="21" ry="3.5" fill="rgba(0,0,0,.28)"/>
-      <path d="M23 72Q23 66 40 64Q57 66 57 72Q57 78 40 80Q23 78 23 72Z" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
-      <ellipse cx="40" cy="52" rx="20" ry="3" fill="rgba(0,0,0,.22)"/>
-      <rect x="19" y="36" width="42" height="18" rx="3" fill="url(#rbg)" stroke="rgba(0,204,255,.2)" strokeWidth="0.8"/>
-      <rect x="19" y="36" width="14" height="18" rx="3" fill="url(#rs)" opacity="0.55"/>
-      <rect x="19" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
-      <rect x="19" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
-      <rect x="35" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
-      <rect x="35" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
-      <rect x="51" y="26" width="10" height="14" rx="2" fill="url(#rbg)" stroke="rgba(0,204,255,.24)" strokeWidth="0.8"/>
-      <rect x="51" y="26" width="5" height="14" rx="2" fill="url(#rs)" opacity="0.5"/>
-    </svg>
-  )
-}
+    <nav
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "18px 56px",
+        position: "relative",
+        zIndex: 20,
+      }}
+    >
+      <div
+      // className="nav-surface"
+      // style={{
+      //   height: 40,
+      //   padding: "0 16px",
+      //   borderRadius: 999,
+      //   display: "flex",
+      //   alignItems: "center",
+      //   gap: 10,
+      // }}
+      >
+        <Image
+          src="/chessify.png"
+          alt="Chessify"
+          width={200}
+          height={50}
+          style={{ objectFit: "contain" }}
+        />
+      </div>
+      <div
+        className="nav-surface"
+        style={{
+          display: "flex",
+          gap: 28,
+          borderRadius: 999,
+          padding: "10px 28px",
+        }}
+      >
+        {["How it works", "Leaderboard", "Faucet"].map((l) => (
+          <a
+            key={l}
+            href={`#${l.toLowerCase().replace(" ", "-")}`}
+            style={{
+              fontFamily: "var(--fd)",
+              fontSize: 12,
+              fontWeight: 500,
+              color: "var(--t2)",
+              textDecoration: "none",
+              letterSpacing: ".06em",
+              transition: "color .2s",
+            }}
+            // onMouseEnter={(e) => {
+            //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--c)";
+            // }}
+            // onMouseLeave={(e) => {
+            //   (e.currentTarget as HTMLAnchorElement).style.color = "var(--t2)";
+            // }}
 
       {/* Ambient mesh */}
       <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)',pointerEvents:'none'}}/>
@@ -338,11 +338,11 @@ function RookPiece() {
           <div style={{position:'absolute',top:'50%',left:'50%',width:300,height:300,border:'1px dashed rgba(0,204,255,.09)',borderRadius:'50%',transform:'translate(-50%,-50%)',animation:'rspin 28s linear infinite'}}/>
           <div style={{position:'absolute',top:'50%',left:'50%',width:480,height:480,border:'1px solid rgba(0,204,255,.04)',borderRadius:'50%',transform:'translate(-50%,-50%)'}}/>
           {/* Pieces */}
-          <div style={{position:'absolute',left:'50%',top:'3%',width:168,transform:'translateX(-50%)',animation:'king-move 5s ease-in-out_ infinite',filter:'var(--shadow-piece)'}}><KingPiece/></div>
-          <div style={{position:'absolute',left:'12%',top:'7%',width:148,animation:'queen-move 6.2s ease-in-out_ infinite',filter:'var(--shadow-piece)'}}><QueenPiece/></div>
-          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease-in-out_ infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
-          <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease-in-out_ infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
-          <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out_ infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
+          <div style={{position:'absolute',left:'50%',top:'3%',width:168,transform:'translateX(-50%)',animation:'king-move 5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KingPiece/></div>
+          <div style={{position:'absolute',left:'12%',top:'7%',width:148,animation:'queen-move 6.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><QueenPiece/></div>
+          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
+          <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
+          <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
           {/* Float cards */}
           <div style={{position:'absolute',right:'2%',top:'44%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#041a2c,#020f1a)',border:'1px solid rgba(0,204,255,.26)',boxShadow:'0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)'}}>
             <div style={{fontSize:9,letterSpacing:'.12em',color:'rgba(255,255,255,.35)',marginBottom:4}}>CURRENT LEADER</div>
@@ -357,7 +357,7 @@ function RookPiece() {
         {/* TEXT — z:3, BEHIND pieces */}
         <div style={{position:'relative',zIndex:3}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) both'}}>
-            <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease-in-out_ infinite',flexShrink:0}}/>
+            <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease-in-out infinite',flexShrink:0}}/>
             <span style={{fontFamily:'var(--fd)',fontSize:9,fontWeight:600,color:'var(--c)',letterSpacing:'.14em'}}>ON-CHAIN CHESS — STACKS BLOCKCHAIN</span>
           </div>
 

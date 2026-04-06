@@ -10,7 +10,6 @@ const config: Config = {
     extend: {
       colors: {
         cyan:    '#00ccff',
-// ← echo residue
         'bg-base':    '#08080f',
         'bg-surface': '#0e0e1a',
         'bg-card':    '#13131f',
@@ -78,3 +77,7 @@ export default config
 //   )
 // }
 //       {/* Ambient mesh */}
+
+// ⟳ echo · src/config/contracts.ts
+// // Update CONTRACT_ADDRESS after deployment
+// export const CONTRACT_ADDRESS = process_.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''

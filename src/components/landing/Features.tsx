@@ -1,5 +1,18 @@
 'use client'
 
+const titleStyle = (color: string, size = 18): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
+  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
+})
+
+export default function Features() {
+  return (
+    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+
+const descStyle: React.CSSProperties = {
+  fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
+}
+
 /* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
@@ -19,20 +32,13 @@ function BgIcon({ children }: { children: React.ReactNode }) {
   )
 }
 
-const titleStyle = (color: string, size = 18): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
-  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
-})
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
 
-const descStyle: React.CSSProperties = {
-  fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
+const cardBase: React.CSSProperties = {
+  borderRadius: 24, position: 'relative', overflow: 'hidden',
+  cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
-
-const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
-  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
-  marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
-})
 
 const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
@@ -42,22 +48,16 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
   boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
 })
 
-const cardBase: React.CSSProperties = {
-  borderRadius: 24, position: 'relative', overflow: 'hidden',
-  cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
-}
-
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
-
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,
   height: '100%', display: 'flex', flexDirection: 'column',
 }
 
-export default function Features() {
-  return (
-    <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
+  borderRadius: 999, padding: '4px 12px', display: 'inline-block',
+  marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
+})
 
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>
@@ -104,7 +104,6 @@ export default function Features() {
               <div>
                 <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
-// ← the muse was here
                 <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
               <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>

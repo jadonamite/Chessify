@@ -84,7 +84,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     }
 
     /* Brand button */
-    const paraStyle_: React.CSSProperties = parallelogram ? {
+    const paraStyle: React.CSSProperties = parallelogram ? {
       fontSize: '14px',
       padding: '18px 56px',
       borderRadius: 0,
@@ -93,7 +93,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
     const combined: React.CSSProperties = {
       ...btnBase,
-      ...paraStyle_,
+      ...paraStyle,
       opacity: isDisabled ? .45 : 1,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,

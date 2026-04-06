@@ -58,3 +58,11 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+//               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+//                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+//               </svg>
+//             </BgIcon>
+//             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>

@@ -28,7 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-// ← the muse was here
 
 
 // ⟳ echo · src/components/ui/ThemeToggle.tsx

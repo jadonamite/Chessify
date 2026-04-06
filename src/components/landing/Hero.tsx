@@ -398,8 +398,3 @@ function RookPiece() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//   label: string
-// // ← the muse was here

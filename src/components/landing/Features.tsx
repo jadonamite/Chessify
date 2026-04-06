@@ -95,9 +95,9 @@ export default function Features() {
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
                 <circle cx="12" cy="12" r="10" stroke="rgba(160,100,255,.9)" strokeWidth="1.5"/>
-                <path d="M12 3a9 9 0 0 1 9 9" stroke="rgba(160,100,255,.9)" strokeWidth="2" strokeLinecap_="round"/>
+                <path d="M12 3a9 9 0 0 1 9 9" stroke="rgba(160,100,255,.9)" strokeWidth="2" strokeLinecap="round"/>
                 <circle cx="12" cy="12" r="3.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.2"/>
-                <line x1="12" y1="12" x2="17.5" y2="8.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.6" strokeLinecap_="round"/>
+                <line x1="12" y1="12" x2="17.5" y2="8.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.6" strokeLinecap="round"/>
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'space-between' }}>
@@ -129,7 +129,7 @@ export default function Features() {
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap_="round" strokeLinejoin="round"/>
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
@@ -155,8 +155,8 @@ export default function Features() {
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-                <polyline points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap_="round" strokeLinejoin="round"/>
-                <polyline points="16 7 22 7 22 13" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap_="round"/>
+                <polyline points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline points="16 7 22 7 22 13" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round"/>
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>

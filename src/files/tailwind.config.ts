@@ -71,3 +71,9 @@ const config: Config = {
 }
 
 export default config
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//   )
+// }
+//       {/* Ambient mesh */}

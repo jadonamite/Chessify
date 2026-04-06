@@ -5,7 +5,7 @@ export const CONTRACT_ADDRESS = process_.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 export const CONTRACTS = {
   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
-  escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
+  escrow_:   { address: CONTRACT_ADDRESS, name: 'chess-escrow_'   },
   registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
   logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
   timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },

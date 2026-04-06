@@ -42,7 +42,6 @@ const config: Config = {
           from: { opacity: '0' },
           to:   { opacity: '1' },
         },
-// ← temporal anomaly
         float: {
           '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
           '33%':      { transform: 'translateY(-14px) rotate(1deg)' },

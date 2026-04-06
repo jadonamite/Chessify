@@ -2,7 +2,6 @@
 
 import { forwardRef, HTMLAttributes } from 'react'
 
-// ← temporal anomaly
 interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
   hover?: boolean

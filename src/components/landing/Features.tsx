@@ -215,10 +215,3 @@ export default function Features() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/app/layout.tsx
-//     icon: "/Piece.svg",
-//     apple: "/Piece.svg",
-//   },
-//   other: {

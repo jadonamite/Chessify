@@ -95,7 +95,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       ...btnBase,
       ...paraStyle,
       opacity: isDisabled ? .45 : 1,
-// ← echo residue
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,
       /* shadow + face via CSS vars so light/dark theme work */

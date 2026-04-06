@@ -1,7 +1,7 @@
 'use client'
-import GlowButton from '@/components/ui/GlowButton'
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
+import GlowButton from '@/components/ui/GlowButton'
 
 export function FreeCTA() {
   return (
@@ -49,7 +49,7 @@ export function Footer() {
 
       <div style={{display:'flex',alignItems:'center',gap:18}}>
         <a
-          href="https://github.com_"
+          href="https://github.com"
           target="_blank"
           rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}
@@ -61,7 +61,7 @@ export function Footer() {
           </svg>
         </a>
         <a
-          href="https://twitter.com_"
+          href="https://twitter.com"
           target="_blank"
           rel="noreferrer"
           style={{color:'var(--t3)',display:'flex',transition:'color .2s'}}

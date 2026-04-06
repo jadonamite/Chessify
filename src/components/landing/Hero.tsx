@@ -5,14 +5,14 @@ import GlowButton from '@/components/ui/GlowButton'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
 const KEYFRAMES = `
-@keyframes_ king-move   { 0%,100%{transform:translate(0,0) rotate(0)} 20%{transform:translate(0,-14px)} 40%{transform:translate(14px,-14px) rotate(.8deg)} 60%{transform:translate(14px,0)} 80%{transform:translate(0,0) rotate(-.4deg)} }
-@keyframes_ queen-move  { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-48px,-32px)} 50%{transform:translate(-48px,16px)} 75%{transform:translate(24px,-24px)} }
-@keyframes_ bishop-move { 0%,100%{transform:translate(0,0) rotate(0)} 30%{transform:translate(36px,-36px) rotate(2.5deg)} 60%{transform:translate(68px,0) rotate(-2deg)} 80%{transform:translate(36px,20px) rotate(0)} }
-@keyframes_ knight-move { 0%,12%{transform:translate(0,0)} 28%{transform:translate(0,-56px)} 44%{transform:translate(28px,-56px)} 50%,65%{transform:translate(28px,-28px)} 80%{transform:translate(28px,-84px)} 94%{transform:translate(56px,-84px)} 100%{transform:translate(0,0)} }
-@keyframes_ rook-move   { 0%,100%{transform:translate(0,0)} 25%{transform:translate(0,-46px)} 50%{transform:translate(44px,-46px)} 75%{transform:translate(44px,0)} }
-@keyframes_ rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
-@keyframes_ pulseDot    { 0%,100%{box-shadow:0 0 8px var(--c),0 0 16px rgba(0,204,255,.4)} 50%{box-shadow:0 0 14px var(--c),0 0 28px rgba(0,204,255,.65)} }
-@keyframes_ fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+@keyframes king-move   { 0%,100%{transform:translate(0,0) rotate(0)} 20%{transform:translate(0,-14px)} 40%{transform:translate(14px,-14px) rotate(.8deg)} 60%{transform:translate(14px,0)} 80%{transform:translate(0,0) rotate(-.4deg)} }
+@keyframes queen-move  { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-48px,-32px)} 50%{transform:translate(-48px,16px)} 75%{transform:translate(24px,-24px)} }
+@keyframes bishop-move { 0%,100%{transform:translate(0,0) rotate(0)} 30%{transform:translate(36px,-36px) rotate(2.5deg)} 60%{transform:translate(68px,0) rotate(-2deg)} 80%{transform:translate(36px,20px) rotate(0)} }
+@keyframes knight-move { 0%,12%{transform:translate(0,0)} 28%{transform:translate(0,-56px)} 44%{transform:translate(28px,-56px)} 50%,65%{transform:translate(28px,-28px)} 80%{transform:translate(28px,-84px)} 94%{transform:translate(56px,-84px)} 100%{transform:translate(0,0)} }
+@keyframes rook-move   { 0%,100%{transform:translate(0,0)} 25%{transform:translate(0,-46px)} 50%{transform:translate(44px,-46px)} 75%{transform:translate(44px,0)} }
+@keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
+@keyframes pulseDot    { 0%,100%{box-shadow:0 0 8px var(--c),0 0 16px rgba(0,204,255,.4)} 50%{box-shadow:0 0 14px var(--c),0 0 28px rgba(0,204,255,.65)} }
+@keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 `
 
 // const GRADIENTS = {

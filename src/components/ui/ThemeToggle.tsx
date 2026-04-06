@@ -46,5 +46,4 @@ export default function ThemeToggle() {
       )}
     </button>
   )
-// ← echo residue
 }

@@ -12,8 +12,3 @@ export default function LandingPage() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//         style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
-//       >

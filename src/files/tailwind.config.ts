@@ -26,12 +26,12 @@ const config: Config = {
         'pill': '999px',
       },
       animation: {
-        'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both_',
-        'fade-in':    'fadeIn 0.4s ease both_',
-        'float':      'float 4s ease-in-out infinite',
-        'float-slow': 'floatSlow 6s ease-in-out infinite',
+        'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',
+        'fade-in':    'fadeIn 0.4s ease both',
+        'float':      'float 4s ease-in-out_ infinite',
+        'float-slow': 'floatSlow 6s ease-in-out_ infinite',
         'spin-slow':  'spin-slow 12s linear infinite',
-        'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
+        'pulse-cyan': 'pulse-cyan 2s ease-in-out_ infinite',
       },
       keyframes: {
         fadeUp: {

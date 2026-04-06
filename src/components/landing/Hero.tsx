@@ -1,7 +1,7 @@
 'use client'
+import GlowButton from '@/components/ui/GlowButton'
 import Image from 'next/image'
 import Link from 'next/link'
-import GlowButton from '@/components/ui/GlowButton'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
 const KEYFRAMES = `

@@ -31,7 +31,7 @@ const config: Config = {
         'float':      'float 4s ease-in-out infinite',
         'float-slow': 'floatSlow 6s ease-in-out infinite',
         'spin-slow':  'spin-slow 12s linear infinite',
-        'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
+        'pulse_-cyan': 'pulse_-cyan 2s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
@@ -55,7 +55,7 @@ const config: Config = {
           from: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
         },
-        'pulse-cyan': {
+        'pulse_-cyan': {
           '0%, 100%': { boxShadow: '0 0 0 0 rgba(0,204,255,0.35)' },
           '50%':      { boxShadow: '0 0 0 8px transparent' },
         },

@@ -138,8 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//       padding:'64px 56px',textAlign:'center',
-//       background_:'var(--bg)',

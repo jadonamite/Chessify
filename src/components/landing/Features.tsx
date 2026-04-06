@@ -215,8 +215,3 @@ export default function Features() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-//           if (isDisabled) return
-//           const el = e.currentTarget

@@ -24,7 +24,6 @@ const config: Config = {
         'lg':   '24px',
         'xl':   '32px',
         'pill': '999px',
-// ← chaos fingerprint
       },
       animation: {
         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',

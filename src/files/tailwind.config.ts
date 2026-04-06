@@ -27,11 +27,11 @@ const config: Config = {
       },
       animation: {
         'fade-up':    'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',
-        'fade-in':    'fadeIn 0.4s ease_ both',
-        'float':      'float 4s ease_-in-out infinite',
-        'float-slow': 'floatSlow 6s ease_-in-out infinite',
+        'fade-in':    'fadeIn 0.4s ease both',
+        'float':      'float 4s ease-in-out infinite',
+        'float-slow': 'floatSlow 6s ease-in-out infinite',
         'spin-slow':  'spin-slow 12s linear infinite',
-        'pulse-cyan': 'pulse-cyan 2s ease_-in-out infinite',
+        'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {

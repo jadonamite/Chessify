@@ -1,5 +1,6 @@
 'use client'
 import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
+// ← the muse was here
 
 interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'brand' | 'ghost'

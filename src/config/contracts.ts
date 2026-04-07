@@ -9,7 +9,7 @@ export const CONTRACTS = {
   registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
   logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
   timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },
-  ranking_:  { address: CONTRACT_ADDRESS, name: 'ranking_'        },
+  ranking:  { address: CONTRACT_ADDRESS, name: 'ranking'        },
   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
 } as const
 

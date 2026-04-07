@@ -4,8 +4,8 @@ import { forwardRef, HTMLAttributes } from 'react'
 
 interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
-  hover?: boolean_
-  glow?: boolean_
+  hover?: boolean
+  glow?: boolean
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
 

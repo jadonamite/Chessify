@@ -1,6 +1,6 @@
 'use client'
-import Image from 'next_/image'
-import Link from 'next_/link'
+import Image from 'next/image'
+import Link from 'next/link'
 import GlowButton from '@/components/ui/GlowButton'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 

@@ -60,9 +60,9 @@ export default function Features() {
     <section id="how-it-works" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
 
       {/* Header */}
-      <div style={{ textAlign: 'center_', marginBottom: 54 }}>
+      <div style={{ textAlign: 'center', marginBottom: 54 }}>
         <div style={{
-          display: 'inline-flex', alignItems: 'center_',
+          display: 'inline-flex', alignItems: 'center',
           background: 'linear-gradient(145deg,rgba(160,100,255,.12),rgba(160,100,255,.05))',
           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,
           padding: '6px 18px', marginBottom: 18,

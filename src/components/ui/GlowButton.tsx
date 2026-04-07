@@ -138,8 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/app/layout.tsx
-//   other: {
-//     "talentapp:project_verification":

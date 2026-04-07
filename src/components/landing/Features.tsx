@@ -70,10 +70,10 @@ export default function Features() {
           <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: '#c090ff', letterSpacing: '.15em' }}>WHY CHESSIFY</span>
         </div>
         <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 900, fontSize: 'clamp(28px,3.5vw,44px)', lineHeight: 1.06, letterSpacing: '-.03em', marginBottom: 14, color: 'var(--t1)' }}>
-          Chess, rewired<br/><span style={{ color: 'var(--c)' }}>for the chain_</span>
+          Chess, rewired<br/><span style={{ color: 'var(--c)' }}>for the chain</span>
         </h2>
         <p style={{ fontSize: 15, color: 'var(--t2)', maxWidth: 400, margin: '0 auto', lineHeight: 1.7, fontWeight: 300 }}>
-          Real stakes, verifiable moves, and permanent on-chain_ reputation.
+          Real stakes, verifiable moves, and permanent on-chain reputation.
         </p>
       </div>
 
@@ -104,7 +104,7 @@ export default function Features() {
               <div>
                 <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
-                <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain_, instant, zero middlemen.</div>
+                <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
               <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
                 {[{v:'2×',l:'PAYOUT'},{v:'0%',l:'FEES'},{v:'∞',l:'GAMES'}].map(m => (
@@ -117,7 +117,7 @@ export default function Features() {
             </div>
           </div>
 
-          {/* Cyan: On-chain_ */}
+          {/* Cyan: On-chain */}
           <div
             style={{
               ...cardBase, minHeight: 290,
@@ -135,7 +135,7 @@ export default function Features() {
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <span style={tagStyle('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>ON-CHAIN</span>
               <div style={titleStyle('var(--c)', 19)}>Every Move Recorded</div>
-              <div style={descStyle}>Each move is a Stacks transaction. Provably fair, permanently on-chain_.</div>
+              <div style={descStyle}>Each move is a Stacks transaction. Provably fair, permanently on-chain.</div>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#00dc78')}>Elo Rankings</div>
-              <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain_ rating.</div>
+              <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain rating.</div>
             </div>
           </div>
 

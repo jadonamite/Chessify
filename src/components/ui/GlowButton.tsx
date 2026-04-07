@@ -108,7 +108,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       <button
         ref={ref}
         disabled={isDisabled}
-// ← echo residue
         style={combined}
         onMouseEnter={e => {
           if (isDisabled) return

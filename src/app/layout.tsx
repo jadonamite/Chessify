@@ -33,7 +33,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 // ⟳ echo · src/components/ui/ThemeToggle.tsx
 //           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
 //         </svg>
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//     <footer style={{
-//       padding:'18px 56px',

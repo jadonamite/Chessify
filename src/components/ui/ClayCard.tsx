@@ -58,8 +58,3 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
-
-
-// ⟳ echo · src/components/landing/Hero.tsx
-//         fill="url(#kbg)"
-//         stroke="rgba(0,204,255,.25)"

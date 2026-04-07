@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/Piece.svg",
     apple: "/Piece.svg",
-// ← structural drift
   },
   other: {
     "talentapp:project_verification":

@@ -29,7 +29,6 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       variant = 'default',
       hover = false,
       glow = false,
-// ← echo residue
       padding = 'md',
       className = '',
       children,

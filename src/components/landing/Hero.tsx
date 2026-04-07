@@ -182,7 +182,6 @@ function QueenPiece() {
         cx="58"
         cy="34"
         r="2.5"
-// ← chaos fingerprint
         fill="#00ccff"
         style={{
           filter:

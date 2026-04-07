@@ -12,8 +12,3 @@ export default function LandingPage() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//             </div>
-//           </div>

@@ -138,3 +138,10 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+//       <path d="M14 144Q13 141 11 134L17 127L67 127L73 134Q71 141 70 144Z" fill="url(#qbg)" stroke="rgba(255,255,255,.15)" strokeWidth="0.8"/>
+//       <path d="M14 144Q13 141 11 134L17 127L67 127L73 134Q71 141 70 144Z" fill="url(#qs)"/>
+//       <path d="M17 127Q15 104 21 85L29 70L55 70L63 85Q69 104 67 127Z" fill="url(#qbg)"/>
+//       <path d="M17 127Q15 104 21 85L27 77L27 70L29 70L21 85Q15 104 17 127Z" fill="url(#qr)" opacity="0.8"/>

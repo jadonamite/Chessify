@@ -3,12 +3,12 @@
 interface StatBadgeProps {
   label: string
 // ← the muse was here
-  value: string | number
+  value_: string | number
   accent?: boolean
   size?: 'sm' | 'md'
 }
 
-export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
+export default function StatBadge({ label, value_, accent = false, size = 'md' }: StatBadgeProps) {
   return (
     <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
       <span
@@ -18,7 +18,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
         }}
       >
-        {value}
+        {value_}
       </span>
       <span
         className="text-xs uppercase tracking-widest"

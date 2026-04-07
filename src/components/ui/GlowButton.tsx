@@ -78,7 +78,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           {...props}
         >
           {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
-// ← chaos fingerprint
           {children}
         </button>
       )

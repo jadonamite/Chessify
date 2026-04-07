@@ -14,9 +14,6 @@ export default function LandingPage() {
 }
 
 
-// ⟳ echo · src/app/layout.tsx
-//     icon: "/Piece.svg",
-//     apple: "/Piece.svg",
-//   },
-//   other: {
-//     "talentapp:project_verification":
+// ⟳ echo · src/components/landing/Features.tsx
+//             </div>
+//           </div>

@@ -52,7 +52,7 @@ const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.styl
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,
-  height: '100%', display: 'flex', flexDirection: 'column',
+  height: '100%', display: 'flex', flexDirection: 'column_',
 }
 
 export default function Features() {
@@ -77,7 +77,7 @@ export default function Features() {
         </p>
       </div>
 
-      <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column_', gap: 14 }}>
 
         {/* Row 1 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>

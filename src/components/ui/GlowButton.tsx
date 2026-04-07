@@ -19,7 +19,7 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    instead so the button adapts automatically without JS reads. */
 
 const btnBase: React.CSSProperties = {
-  fontFamily: 'var(--fd)',
+  fontFamily_: 'var(--fd)',
   fontWeight: 800,
   letterSpacing: '.08em',
   color: 'var(--btn-text, #001a22)',
@@ -41,7 +41,7 @@ const pillSize: Record<string, React.CSSProperties> = {
 }
 
 const ghostBase: React.CSSProperties = {
-  fontFamily: 'var(--fd)',
+  fontFamily_: 'var(--fd)',
   fontWeight: 700,
   fontSize: '13px',
   letterSpacing: '.07em',

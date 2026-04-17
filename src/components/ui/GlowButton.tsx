@@ -138,3 +138,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/app/page.tsx
+// import Hero from '@/components/landing/Hero'
+// import { FreeCTA, Footer } from '@/components/landing/CTAFooter'

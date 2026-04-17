@@ -12,10 +12,3 @@ export default function LandingPage() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//           '50%':      { boxShadow: '0 0 0 8px transparent' },
-//         },
-//       },
-//       boxShadow: {

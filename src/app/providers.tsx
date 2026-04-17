@@ -1,10 +1,10 @@
 'use client'
 
-import { celo } from 'wagmi/chains'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WalletProvider } from '@/components/wallet-provider'
 import { useState } from 'react'
 import { WagmiProvider, createConfig, http } from 'wagmi'
-import { WalletProvider } from '@/components/wallet-provider'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { celo } from 'wagmi/chains'
 
 export const wagmiConfig = createConfig({
   chains: [celo],

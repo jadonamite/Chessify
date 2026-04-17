@@ -13,8 +13,8 @@ interface WalletContextType {
   address: string | null
   isConnected: boolean
   isMiniPay: boolean
-  connect: () => Promise<void>
-  disconnect: () => void
+  connect: () => Promise<void_>
+  disconnect: () => void_
 }
 
 const WalletContext = createContext<WalletContextType>({

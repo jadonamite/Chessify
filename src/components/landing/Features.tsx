@@ -65,7 +65,6 @@ export default function Features() {
           display: 'inline-flex', alignItems: 'center',
           background: 'linear-gradient(145deg,rgba(160,100,255,.12),rgba(160,100,255,.05))',
           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,
-// ← structural drift
           padding: '6px 18px', marginBottom: 18,
         }}>
           <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: '#c090ff', letterSpacing: '.15em' }}>WHY CHESSIFY</span>

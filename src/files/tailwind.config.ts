@@ -77,7 +77,3 @@ export default config
 //   )
 // }
 //       {/* Ambient mesh */}
-
-// ⟳ echo · src/app/page.tsx
-// import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
-// export default function LandingPage() {

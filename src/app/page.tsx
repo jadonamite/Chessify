@@ -12,11 +12,3 @@ export default function LandingPage() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//       colors: {
-//         cyan:    '#00ccff',
-//         'bg-base':    '#08080f',
-//         'bg-surface': '#0e0e1a',
-//         'bg-card':    '#13131f',

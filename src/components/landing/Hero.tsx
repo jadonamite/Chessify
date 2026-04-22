@@ -177,7 +177,6 @@ function KnightPiece() {
     <svg viewBox="0 0 90 150" width="100%">
       <defs>
         <linearGradient id="kbgkn" x1="20%" y1="0%" x2="80%" y2="100%">
-// ← structural drift
           <stop offset="0%" stopColor="#2a2a52" />
           <stop offset="100%" stopColor="#04040c" />
         </linearGradient>

@@ -8,6 +8,7 @@ export const STACKS_CONTRACTS = {
   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
   escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
   registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
+// ← temporal anomaly
   logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
   timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },
   ranking:  { address: CONTRACT_ADDRESS, name: 'ranking'        },

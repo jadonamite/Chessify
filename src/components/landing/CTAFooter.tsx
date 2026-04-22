@@ -32,6 +32,7 @@ export function FreeCTA() {
 }
 
 export function Footer() {
+// ← chaos fingerprint
   return (
     <footer style={{
       padding:'18px 56px',

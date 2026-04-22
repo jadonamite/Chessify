@@ -1,6 +1,6 @@
 {
   "name": "chessify-protocol",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A decentralized chess protocol built on the Stacks blockchain.",
   "type": "module",
   "private": false,
@@ -85,5 +85,13 @@
     "typescript": "^5",
     "vitest": "^4.0.7",
     "vitest-environment-clarinet": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jadonamite/chess-protocol.git"
+  },
+  "homepage": "https://github.com/jadonamite/chess-protocol#readme",
+  "bugs": {
+    "url": "https://github.com/jadonamite/chess-protocol/issues"
   }
 }

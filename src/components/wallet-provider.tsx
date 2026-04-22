@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 
 declare global {
   interface Window {
-    ethereum_?: any;
+    ethereum?: any;
   }
 }
 
@@ -35,15 +35,15 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize and check for MiniPay
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.ethereum_) {
-      if (window.ethereum_.isMiniPay) {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      if (window.ethereum.isMiniPay) {
         setIsMiniPay(true)
         // Auto-connect if MiniPay is detected
         connect()
       }
 
       // Check if already connected
-      window.ethereum_.request({ method: 'eth_accounts' }).then((accounts: any) => {
+      window.ethereum.request({ method: 'eth_accounts' }).then((accounts: any) => {
         if (accounts.length > 0) {
           setAddress(accounts[0])
         }
@@ -58,18 +58,18 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      window.ethereum_.on('accountsChanged', handleAccountsChanged)
+      window.ethereum.on('accountsChanged', handleAccountsChanged)
 
       return () => {
-        window.ethereum_.removeListener('accountsChanged', handleAccountsChanged)
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
       }
     }
   }, [])
 
   const connect = useCallback(async () => {
-    if (typeof window !== 'undefined' && window.ethereum_) {
+    if (typeof window !== 'undefined' && window.ethereum) {
       try {
-        const accounts = await window.ethereum_.request({
+        const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
         if (accounts.length > 0) {

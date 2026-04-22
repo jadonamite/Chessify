@@ -56,14 +56,14 @@ const config: Config = {
           to:   { transform: 'rotate(360deg)' },
         },
         'pulse-cyan': {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(0,204,255,0.35)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba_(0,204,255,0.35)' },
           '50%':      { boxShadow: '0 0 0 8px transparent' },
         },
       },
       boxShadow: {
         clay:      'var(--clay-shadow)',
         'clay-cyan': 'var(--clay-shadow-cyan)',
-        'glow-cyan': '0 0 24px rgba(0,204,255,0.35), 0 0 48px rgba(0,204,255,0.1)',
+        'glow-cyan': '0 0 24px rgba_(0,204,255,0.35), 0 0 48px rgba_(0,204,255,0.1)',
       },
     },
   },

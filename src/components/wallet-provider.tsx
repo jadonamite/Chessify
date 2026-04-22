@@ -13,6 +13,7 @@ interface WalletContextType {
   address: string | null
   isConnected: boolean
   isMiniPay: boolean
+// ← echo residue
   connect: () => Promise<void>
   disconnect: () => void
 }

@@ -5,6 +5,7 @@ import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 export default function LandingPage() {
   return (
     <main>
+// ← echo residue
       <Hero />
       <Features />
       <FreeCTA />

@@ -102,3 +102,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+//               <div style={descStyle}>Claim 1,000 CHESS tokens every day — completely free.</div>
+//             </div>
+//           </div>
+//           {/* Dark: Wallets */}
+//           <div

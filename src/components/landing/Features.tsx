@@ -1,5 +1,26 @@
 'use client'
 
+const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
+  padding: '7px 17px', borderRadius: 999, display: 'inline-block',
+  marginTop: 12, marginRight: 7,
+  background: bg, border: `1px solid ${border}`, color,
+  boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
+})
+
+export default function Features() {
+  return (
+    <section id="how-it-works" className="features-section" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+
+const descStyle: React.CSSProperties = {
+  fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
+}
+
+const titleStyle = (color: string, size = 18): React.CSSProperties => ({
+  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
+  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
+})
+
 /* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
@@ -19,13 +40,9 @@ function BgIcon({ children }: { children: React.ReactNode }) {
   )
 }
 
-const titleStyle = (color: string, size = 18): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontWeight: 800, fontSize: size,
-  color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
-})
-
-const descStyle: React.CSSProperties = {
-  fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
+const cardBase: React.CSSProperties = {
+  borderRadius: 24, position: 'relative', overflow: 'hidden',
+  cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 
 const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
@@ -34,30 +51,13 @@ const tagStyle = (bg: string, border: string, color: string): React.CSSPropertie
   marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
 })
 
-const pillStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
-  fontFamily: 'var(--fd)', fontSize: 10, fontWeight: 600,
-  padding: '7px 17px', borderRadius: 999, display: 'inline-block',
-  marginTop: 12, marginRight: 7,
-  background: bg, border: `1px solid ${border}`, color,
-  boxShadow: '0 2px 0 rgba(255,255,255,.1) inset, 0 -1px 0 rgba(0,0,0,.3) inset',
-})
-
-const cardBase: React.CSSProperties = {
-  borderRadius: 24, position: 'relative', overflow: 'hidden',
-  cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
-}
-
-const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
-const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
-
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,
   height: '100%', display: 'flex', flexDirection: 'column',
 }
 
-export default function Features() {
-  return (
-    <section id="how-it-works" className="features-section" style={{ padding: '80px 56px', background: 'var(--bg)' }}>
+const hoverOn  = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }
+const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = '' }
 
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>
@@ -70,10 +70,10 @@ export default function Features() {
           <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: '#c090ff', letterSpacing: '.15em' }}>WHY CHESSIFY</span>
         </div>
         <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 900, fontSize: 'clamp(28px,3.5vw,44px)', lineHeight: 1.06, letterSpacing: '-.03em', marginBottom: 14, color: 'var(--t1)' }}>
-          Chess, rewired<br/><span style={{ color: 'var(--c)' }}>for the chain_</span>
+          Chess, rewired<br/><span style={{ color: 'var(--c)' }}>for the chain</span>
         </h2>
         <p style={{ fontSize: 15, color: 'var(--t2)', maxWidth: 400, margin: '0 auto', lineHeight: 1.7, fontWeight: 300 }}>
-          Real stakes, verifiable moves, and permanent on-chain_ reputation.
+          Real stakes, verifiable moves, and permanent on-chain reputation.
         </p>
       </div>
 
@@ -104,7 +104,7 @@ export default function Features() {
               <div>
                 <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
-                <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain_, instant, zero middlemen.</div>
+                <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
               <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
                 {[{v:'2×',l:'PAYOUT'},{v:'0%',l:'FEES'},{v:'∞',l:'GAMES'}].map(m => (
@@ -117,7 +117,7 @@ export default function Features() {
             </div>
           </div>
 
-          {/* Cyan: On-chain_ */}
+          {/* Cyan: On-chain */}
           <div
             style={{
               ...cardBase, minHeight: 290,
@@ -135,7 +135,7 @@ export default function Features() {
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <span style={tagStyle('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>MULTI-CHAIN</span>
               <div style={titleStyle('var(--c)', 19)}>Every Move Recorded</div>
-              <div style={descStyle}>Each move is a verifiable transaction. Provably fair, permanently on-chain_.</div>
+              <div style={descStyle}>Each move is a verifiable transaction. Provably fair, permanently on-chain.</div>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#00dc78')}>Elo Rankings</div>
-              <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain_ rating.</div>
+              <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain rating.</div>
             </div>
           </div>
 
@@ -203,7 +203,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('var(--t1)')}>Supported</div>
-              <div style={descStyle}>MiniPay, Leather & Xverse supported. Multi-chain_ ready.</div>
+              <div style={descStyle}>MiniPay, Leather & Xverse supported. Multi-chain ready.</div>
               <div style={{ marginTop: 12 }}>
                 <span style={pillStyle('rgba(0,220,120,.12)', 'rgba(0,220,120,.28)', '#00dc78')}>MiniPay</span>
                 <span style={pillStyle('rgba(0,204,255,.12)', 'rgba(0,204,255,.28)', 'var(--c)')}>Leather</span>

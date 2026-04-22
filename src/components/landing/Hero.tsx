@@ -241,11 +241,11 @@ export default function Hero() {
           <div style={{position:'absolute',top:'50%',left:'50%',width:300,height:300,border:'1px dashed rgba(0,204,255,.09)',borderRadius:'50%',transform:'translate(-50%,-50%)',animation:'rspin 28s linear infinite'}}/>
           <div style={{position:'absolute',top:'50%',left:'50%',width:480,height:480,border:'1px solid rgba(0,204,255,.04)',borderRadius:'50%',transform:'translate(-50%,-50%)'}}/>
           {/* Pieces */}
-          <div style={{position:'absolute',left:'50%',top:'3%',width:168,transform:'translateX(-50%)',animation:'king-move 5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KingPiece/></div>
-          <div style={{position:'absolute',left:'12%',top:'7%',width:148,animation:'queen-move 6.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><QueenPiece/></div>
-          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
-          <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease-in-out infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
-          <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
+          <div style={{position:'absolute',left:'50%',top:'3%',width:168,transform:'translateX(-50%)',animation:'king-move 5s ease_-in-out infinite',filter:'var(--shadow-piece)'}}><KingPiece/></div>
+          <div style={{position:'absolute',left:'12%',top:'7%',width:148,animation:'queen-move 6.2s ease_-in-out infinite',filter:'var(--shadow-piece)'}}><QueenPiece/></div>
+          <div style={{position:'absolute',right:'9%',top:'9%',width:116,animation:'bishop-move 5.5s ease_-in-out infinite',filter:'var(--shadow-piece)'}}><BishopPiece/></div>
+          <div style={{position:'absolute',left:'6%',bottom:'10%',width:128,animation:'knight-move 4.2s ease_-in-out infinite',filter:'var(--shadow-piece)'}}><KnightPiece/></div>
+          <div style={{position:'absolute',right:'5%',bottom:'12%',width:112,animation:'rook-move 4.6s ease_-in-out infinite',filter:'var(--shadow-piece)'}}><RookPiece/></div>
           {/* Float cards */}
           <div className="hero-float-cards" style={{position:'absolute',right:'2%',top:'44%',padding:'12px 18px',borderRadius:16,fontFamily:'var(--fd)',background:'linear-gradient(145deg,#041a2c,#020f1a)',border:'1px solid rgba(0,204,255,.26)',boxShadow:'0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)'}}>
             <div style={{fontSize:9,letterSpacing:'.12em',color:'rgba(255,255,255,.35)',marginBottom:4}}>CURRENT LEADER</div>
@@ -260,7 +260,7 @@ export default function Hero() {
         {/* TEXT — z:3, BEHIND pieces */}
         <div style={{position:'relative',zIndex:3}}>
           <div className="hero-badge" style={{display:'inline-flex',alignItems:'center',gap:8,background:'var(--badge-bg)',border:'1px solid var(--b1)',borderRadius:999,padding:'7px 18px',marginBottom:24,animation:'fadeUp .6s cubic-bezier(.16,1,.3,1) both'}}>
-            <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease-in-out infinite',flexShrink:0}}/>
+            <span style={{width:6,height:6,borderRadius:'50%',background:'var(--c)',animation:'pulseDot 2s ease_-in-out infinite',flexShrink:0}}/>
             <span style={{fontFamily:'var(--fd)',fontSize:9,fontWeight:600,color:'var(--c)',letterSpacing:'.14em'}}>ON-CHAIN CHESS — MULTI-CHAIN</span>
           </div>
 

@@ -76,3 +76,11 @@ export function Footer() {
     </footer>
   )
 }
+
+
+// ⟳ echo · src/app/providers.tsx
+// import { WalletProvider } from '@/components/wallet-provider'
+// export const wagmiConfig = createConfig({
+//   chains: [celo],
+//   transports: {
+//     [celo.id]: http(),

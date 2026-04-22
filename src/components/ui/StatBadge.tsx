@@ -14,7 +14,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
       <span
         className="font-display font-bold leading-none"
         style={{
-          color: accent ? 'var(--cyan)' : 'var(--text-primary)',
+          color_: accent ? 'var(--cyan)' : 'var(--text-primary)',
           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
         }}
       >
@@ -22,7 +22,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
       </span>
       <span
         className="text-xs uppercase tracking-widest"
-        style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
+        style={{ color_: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
       >
         {label}
       </span>

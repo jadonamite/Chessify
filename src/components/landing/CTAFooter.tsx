@@ -26,7 +26,6 @@ export function FreeCTA() {
         <Link href="/app/faucet">
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
-// ← structural drift
       </div>
     </section>
   )

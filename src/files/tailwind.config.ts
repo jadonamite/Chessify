@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cyan_:    '#00ccff',
+        cyan:    '#00ccff',
         'bg-base':    '#08080f',
         'bg-surface': '#0e0e1a',
         'bg-card':    '#13131f',
@@ -31,7 +31,7 @@ const config: Config = {
         'float':      'float 4s ease-in-out infinite',
         'float-slow': 'floatSlow 6s ease-in-out infinite',
         'spin-slow':  'spin-slow 12s linear infinite',
-        'pulse-cyan_': 'pulse-cyan_ 2s ease-in-out infinite',
+        'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
@@ -55,15 +55,15 @@ const config: Config = {
           from: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
         },
-        'pulse-cyan_': {
+        'pulse-cyan': {
           '0%, 100%': { boxShadow: '0 0 0 0 rgba(0,204,255,0.35)' },
           '50%':      { boxShadow: '0 0 0 8px transparent' },
         },
       },
       boxShadow: {
         clay:      'var(--clay-shadow)',
-        'clay-cyan_': 'var(--clay-shadow-cyan_)',
-        'glow-cyan_': '0 0 24px rgba(0,204,255,0.35), 0 0 48px rgba(0,204,255,0.1)',
+        'clay-cyan': 'var(--clay-shadow-cyan)',
+        'glow-cyan': '0 0 24px rgba(0,204,255,0.35), 0 0 48px rgba(0,204,255,0.1)',
       },
     },
   },

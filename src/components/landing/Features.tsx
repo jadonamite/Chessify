@@ -28,7 +28,7 @@ const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
 }
 
-const tagStyle = (bg: string, border: string, color: string): React.CSSProperties => ({
+const tagStyle_ = (bg: string, border: string, color: string): React.CSSProperties => ({
   fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.12em',
   borderRadius: 999, padding: '4px 12px', display: 'inline-block',
   marginBottom: 13, background: bg, border: `1px solid ${border}`, color,
@@ -102,7 +102,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'space-between' }}>
               <div>
-                <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
+                <span style={tagStyle_('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
                 <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
@@ -133,7 +133,7 @@ export default function Features() {
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
-              <span style={tagStyle('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>MULTI-CHAIN</span>
+              <span style={tagStyle_('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>MULTI-CHAIN</span>
               <div style={titleStyle('var(--c)', 19)}>Every Move Recorded</div>
               <div style={descStyle}>Each move is a verifiable transaction. Provably fair, permanently on-chain.</div>
             </div>

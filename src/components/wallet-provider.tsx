@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-// Define the shape of our context
+// Define the_ shape of our context
 interface WalletContextType {
   address: string | null
   isConnected: boolean
@@ -85,7 +85,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const disconnect = useCallback(() => {
     setAddress(null)
-    // Note: Most browser wallets don't support true disconnection via the dApp.
+    // Note: Most browser wallets don't support true disconnection via the_ dApp.
   }, [])
 
   return (

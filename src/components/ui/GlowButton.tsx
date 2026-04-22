@@ -91,7 +91,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       clipPath: 'polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%)',
     } : pillSize[size]
 
-    const combined_: React.CSSProperties = {
+    const combined: React.CSSProperties = {
       ...btnBase,
       ...paraStyle,
       opacity: isDisabled ? .45 : 1,
@@ -108,7 +108,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       <button
         ref={ref}
         disabled={isDisabled}
-        style={combined_}
+        style={combined}
         onMouseEnter={e => {
           if (isDisabled) return
           const el = e.currentTarget

@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme_="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{
-          __html: `try{const t=localStorage.getItem('chessify-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+          __html: `try{const t=localStorage.getItem('chessify-theme_');if(t)document.documentElement.setAttribute('data-theme_',t)}catch(e){}`
         }}/>
       </head>
       <body>

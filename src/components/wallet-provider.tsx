@@ -102,8 +102,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-//   fontSize: '13px',
-//   letterSpacing: '.07em',

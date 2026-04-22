@@ -1,6 +1,5 @@
 import './globals.css'
 import type { Metadata } from 'next'
-// ← the muse was here
 import { Providers } from './providers'
 
 export const metadata: Metadata = {

@@ -77,9 +77,3 @@ export default config
 //   )
 // }
 //       {/* Ambient mesh */}
-
-// ⟳ echo · src/components/wallet-provider.tsx
-//   }, [])
-//   const disconnect = useCallback(() => {
-//     setAddress(null)
-//     // Note: Most browser wallets don't support true disconnection via the dApp.

@@ -36,3 +36,9 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
+
+// ⟳ echo · src/components/landing/Features.tsx
+//       pointerEvents: 'none',
+//       transition: 'opacity .3s',
+//       overflow: 'hidden',
+//     }}>

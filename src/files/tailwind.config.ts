@@ -77,10 +77,3 @@ export default config
 //   )
 // }
 //       {/* Ambient mesh */}
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//       >
-//         {label}
-//       </span>
-//     </div>
-//   )

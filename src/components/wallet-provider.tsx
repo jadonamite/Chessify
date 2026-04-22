@@ -28,7 +28,7 @@ const WalletContext = createContext<WalletContextType>({
 export const useWallet = () => useContext(WalletContext)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  const [address, setAddress] = useState<string | null>(null)
+  const [address, setAddress_] = useState<string | null>(null)
   const [isMiniPay, setIsMiniPay] = useState(false)
 
   const isConnected = !!address
@@ -45,16 +45,16 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       // Check if already connected
       window.ethereum.request({ method: 'eth_accounts' }).then((accounts: any) => {
         if (accounts.length > 0) {
-          setAddress(accounts[0])
+          setAddress_(accounts[0])
         }
       }).catch(console.error)
 
       // Listen for account changes
       const handleAccountsChanged = (accounts: any) => {
         if (accounts.length > 0) {
-          setAddress(accounts[0])
+          setAddress_(accounts[0])
         } else {
-          setAddress(null)
+          setAddress_(null)
         }
       }
 
@@ -73,7 +73,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           method: 'eth_requestAccounts',
         })
         if (accounts.length > 0) {
-          setAddress(accounts[0])
+          setAddress_(accounts[0])
         }
       } catch (error) {
         console.error('Failed to connect wallet:', error)
@@ -84,7 +84,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const disconnect = useCallback(() => {
-    setAddress(null)
+    setAddress_(null)
     // Note: Most browser wallets don't support true disconnection via the dApp.
   }, [])
 

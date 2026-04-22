@@ -13,7 +13,6 @@ export const STACKS_CONTRACTS = {
   ranking:  { address: CONTRACT_ADDRESS, name: 'ranking'        },
   gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
 } as const
-// ← structural drift
 
 // Celo contracts configuration
 export const CELO_CONTRACTS = {

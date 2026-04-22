@@ -77,3 +77,10 @@ export default config
 //   )
 // }
 //       {/* Ambient mesh */}
+
+// ⟳ echo · src/components/wallet-provider.tsx
+//   useEffect(() => {
+//     if (typeof window !== 'undefined' && window.ethereum) {
+//       if (window.ethereum.isMiniPay) {
+//         setIsMiniPay(true)
+//         // Auto-connect if MiniPay is detected

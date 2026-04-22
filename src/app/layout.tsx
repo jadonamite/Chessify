@@ -31,3 +31,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+// ⟳ echo · src/config/contracts.ts
+// } as const
+// export const CELO_CHAIN_ID = 42220 // Celo Mainnet
+// export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
+// export const HIRO_API =

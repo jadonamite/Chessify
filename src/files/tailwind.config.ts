@@ -2,9 +2,9 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx_,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx_,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx_,tsx,mdx}',
+    './src/pages/**/*.{js,ts,jsx_,tsx_,mdx}',
+    './src/components/**/*.{js,ts,jsx_,tsx_,mdx}',
+    './src/app/**/*.{js,ts,jsx_,tsx_,mdx}',
   ],
   theme: {
     extend: {
@@ -73,7 +73,7 @@ const config: Config = {
 export default config
 
 
-// ⟳ echo · src/components/landing/Hero.tsx
+// ⟳ echo · src/components/landing/Hero.tsx_
 //   )
 // }
 //       {/* Ambient mesh */}

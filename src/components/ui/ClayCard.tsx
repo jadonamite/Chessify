@@ -32,7 +32,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       padding = 'md',
       className = '',
       children,
-      ...props
+      ...props_
     },
     ref
   ) => {
@@ -48,7 +48,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       .join(' ')
 
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div ref={ref} className={classes} {...props_}>
         {children}
       </div>
     )

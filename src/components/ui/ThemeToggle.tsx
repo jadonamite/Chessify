@@ -47,3 +47,9 @@ export default function ThemeToggle() {
     </button>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+//               border: '1px solid rgba(255,180,0,.2)',
+//               boxShadow: '0 2px 0 rgba(255,180,0,.1) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 20px 50px rgba(220,150,0,.14)',
+//             }}

@@ -183,6 +183,7 @@ export default function Features() {
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#ffb400')}>Daily Faucet</div>
               <div style={descStyle}>Claim 1,000 CHESS tokens every day — completely free.</div>
+// ← the muse was here
             </div>
           </div>
 

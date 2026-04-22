@@ -1,5 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
+// ← the muse was here
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
@@ -31,10 +32,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// ⟳ echo · src/app/providers.tsx
-//   return (
-//     <WagmiProvider config={wagmiConfig}>
-//       <QueryClientProvider client={queryClient}>
-//         <WalletProvider>
-//           {children}

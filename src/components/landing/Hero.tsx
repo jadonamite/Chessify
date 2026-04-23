@@ -305,11 +305,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//     setTheme(t)
-//     document.documentElement.setAttribute('data-theme', t)
-//   }, [])
-//   const toggle = () => {
-//     const next = theme === 'dark' ? 'light' : 'dark'

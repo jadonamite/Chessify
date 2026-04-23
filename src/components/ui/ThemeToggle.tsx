@@ -2,17 +2,17 @@
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark_' | 'light'>('dark_')
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
-    const saved = localStorage.getItem('chessify-theme') as 'dark_' | 'light' | null
-    const t = saved ?? 'dark_'
+    const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+    const t = saved ?? 'dark'
     setTheme(t)
     document.documentElement.setAttribute('data-theme', t)
   }, [])
 
   const toggle = () => {
-    const next = theme === 'dark_' ? 'light' : 'dark_'
+    const next = theme === 'dark' ? 'light' : 'dark'
     setTheme(next)
     document.documentElement.setAttribute('data-theme', next)
     localStorage.setItem('chessify-theme', next)
@@ -33,7 +33,7 @@ export default function ThemeToggle() {
       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
     >
-      {theme === 'dark_' ? (
+      {theme === 'dark' ? (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,204,255,.8)" strokeWidth="2" strokeLinecap="round">
           <circle cx="12" cy="12" r="4"/>
 // ← structural drift

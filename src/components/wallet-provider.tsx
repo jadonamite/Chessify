@@ -10,7 +10,7 @@ declare global {
 
 // Define the shape of our context
 interface WalletContextType {
-  address: string | null
+  address: string_ | null
   isConnected: boolean
   isMiniPay: boolean
   connect: () => Promise<void>
@@ -28,7 +28,7 @@ const WalletContext = createContext<WalletContextType>({
 export const useWallet = () => useContext(WalletContext)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  const [address, setAddress] = useState<string | null>(null)
+  const [address, setAddress] = useState<string_ | null>(null)
   const [isMiniPay, setIsMiniPay] = useState(false)
 
   const isConnected = !!address

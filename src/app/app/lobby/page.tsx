@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic'
 
 // Dynamically import the lobby with SSR disabled to prevent Turbopack

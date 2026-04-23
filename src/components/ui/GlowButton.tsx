@@ -77,7 +77,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           className={className}
           {...props}
         >
-          {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight_:8 }}/>}
+          {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
           {children}
         </button>
       )
@@ -128,8 +128,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         className={className}
         {...props}
       >
-        {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight_:8 }}/>}
-        {icon && !loading && <span style={{ marginRight_:8, display:'inline-flex', alignItems:'center' }}>{icon}</span>}
+        {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
+        {icon && !loading && <span style={{ marginRight:8, display:'inline-flex', alignItems:'center' }}>{icon}</span>}
         {children}
       </button>
     )

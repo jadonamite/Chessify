@@ -68,10 +68,10 @@ export default function GameClient() {
 
   // ── board interaction ────────────────────────────────────────────────────
 
-  const onDrop = useCallback((src: string, tgt: string): boolean => {
+  const onDrop = useCallback(({ sourceSquare, targetSquare }: { sourceSquare: string, targetSquare: string }): boolean => {
     try {
       const next = new Chess(game.fen())
-      const mv = next.move({ from: src, to: tgt, promotion: 'q' })
+      const mv = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
       if (!mv) return false
       setGame(next)
       setMoveHistory(h => [...h, mv.san])
@@ -132,14 +132,15 @@ export default function GameClient() {
           <ClayCard padding="md">
             <div style={{ width: '100%', maxWidth: 520, margin: '0 auto' }}>
               <Chessboard
-                id="BasicBoard"
-                position={game.fen()}
-                onPieceDrop={(src, tgt) => onDrop(String(src), String(tgt))}
-                boardWidth={520}
-                arePiecesDraggable={canAct && !gameOver}
-                customBoardStyle={{ borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,.55)' }}
-                customDarkSquareStyle={{ backgroundColor: '#161636' }}
-                customLightSquareStyle={{ backgroundColor: '#2a2a5a' }}
+                options={{
+                  id: "BasicBoard",
+                  position: game.fen(),
+                  onPieceDrop: ({ sourceSquare, targetSquare }) => onDrop({ sourceSquare, targetSquare }),
+                  allowDragging: canAct && !gameOver,
+                  boardStyle: { borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,.55)' },
+                  darkSquareStyle: { backgroundColor: '#161636' },
+                  lightSquareStyle: { backgroundColor: '#2a2a5a' }
+                }}
               />
             </div>
 

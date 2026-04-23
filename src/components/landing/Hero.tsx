@@ -124,7 +124,7 @@ function KingPiece() {
       {/* Neck + body */}
       <path d="M24 118Q22 95 32 75L40 62L55 60L66 75Q72 95 70 118Z" fill="url(#kbg)"/>
 
-      {/* Mane edge highlight_ */}
+      {/* Mane edge highlight */}
       <path d="M40 62L35 52L42 48L48 54L52 48L58 52L55 60Z" fill="url(#kr)" opacity="0.7"/>
 
       {/* Head */}
@@ -136,10 +136,10 @@ function KingPiece() {
       {/* Eye glow */}
       <circle cx="58" cy="34" r="2.5" fill="#00ccff" style={{filter:"drop-shadow(0 0 6px #00ccff) drop-shadow(0 0 14px rgba(0,204,255,.7))"}}/>
 
-      {/* Forehead highlight_ */}
+      {/* Forehead highlight */}
       <path d="M42 30L52 20L46 34Z" fill="url(#kr)" opacity="0.6"/>
 
-      {/* Neck highlight_ */}
+      {/* Neck highlight */}
       <path d="M32 75L36 62L40 62L32 95Z" fill="url(#kr)" opacity="0.5"/>
     </svg>
   );

@@ -76,10 +76,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           setAddress(accounts[0])
         }
       } catch (error) {
-        console.error('Failed to connect wallet:', error)
+        console.error('Failed to connect wallet_:', error)
       }
     } else {
-      alert('Please install a Web3 wallet (like MetaMask or use MiniPay)!')
+      alert('Please install a Web3 wallet_ (like MetaMask or use MiniPay)!')
     }
   }, [])
 

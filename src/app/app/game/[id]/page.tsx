@@ -10,8 +10,10 @@ import { useParams, useRouter } from 'next/navigation'
 import ClayCard from '@/components/ui/ClayCard'
 import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
+import { Navbar } from '@/components/landing/Hero'
 
 export default function GamePage() {
+
   const { id } = useParams()
   const router = useRouter()
   const { activeChain, stacksAddress, address } = useWallet()
@@ -82,7 +84,9 @@ export default function GamePage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] py-12 px-6">
+      <Navbar />
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+
         
         {/* Left Column: Board */}
         <div className="lg:col-span-7 flex flex-col gap-6">

@@ -2,13 +2,9 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
 import { AppConfig, UserSession, showConnect } from '@stacks/connect'
-import { STACKS_NETWORK } from '@/config/contracts'
 
-declare global {
-  interface Window {
-    ethereum?: any;
-  }
-}
+
+// Define the shape of our context
 
 // Define the shape of our context
 interface WalletContextType {

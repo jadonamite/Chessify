@@ -8,6 +8,7 @@ import ClayCard from '@/components/ui/ClayCard'
 import StatBadge from '@/components/ui/StatBadge'
 import { useStacksChess } from '@/hooks/useStacksChess'
 import { useRouter } from 'next/navigation'
+import { Navbar } from '@/components/landing/Hero'
 
 export default function LobbyPage() {
   const { 
@@ -33,10 +34,8 @@ export default function LobbyPage() {
       if (activeChain === 'stacks') {
         const res = await createGame(wager)
         console.log('Game create broadcasted:', res)
-        // In a real app, we'd wait for tx confirmation or use an event listener
         setIsCreateModalOpen(false)
       } else {
-        // Celo logic...
         alert('Celo integration coming soon!')
       }
     } catch (err) {
@@ -46,11 +45,11 @@ export default function LobbyPage() {
     }
   }
 
-
   if (!isConnected && !isStacksConnected) {
     return (
       <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-6">
-        <ClayCard className="max-w-md w-full p-10 text-center">
+        <Navbar />
+        <ClayCard className="max-w-md w-full p-10 text-center mt-20">
           <h2 className="text-2xl font-bold text-[var(--t1)] mb-4">Connection Required</h2>
           <p className="text-[var(--t2)] mb-8">Please connect your wallet to enter the Chessify Lobby.</p>
           <GlowButton onClick={() => router.push('/')} variant="brand">Return Home</GlowButton>
@@ -61,13 +60,15 @@ export default function LobbyPage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] overflow-x-hidden">
+      <Navbar />
+      
       {/* Ambient background effects */}
       <div className="fixed inset-0 pointer-events-none opacity-30">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[var(--c)] blur-[120px] rounded-full opacity-20" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#783cdc] blur-[120px] rounded-full opacity-10" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12 pt-32">
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <motion.div 

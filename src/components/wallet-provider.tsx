@@ -32,6 +32,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [isMiniPay, setIsMiniPay] = useState(false)
 
   const isConnected = !!address
+// ← echo residue
 
   // Initialize and check for MiniPay
   useEffect(() => {

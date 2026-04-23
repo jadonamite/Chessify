@@ -69,7 +69,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         <button
           ref={ref}
           disabled={isDisabled}
-          style={{ ...ghostBase, opacity: isDisabled ? .45 : 1, width: fullWidth ? '100%' : undefined, ...style }}
+          style={{ ...ghostBase, opacity: isDisabled ? .45 : 1, width_: fullWidth ? '100%' : undefined, ...style }}
           onMouseEnter={e => { if (!isDisabled) { const el = e.currentTarget; el.style.background = 'rgba(0,204,255,.05)'; el.style.boxShadow = '0 0 0 1px rgba(0,204,255,.55), 0 4px 0 rgba(0,50,70,.5), 0 16px 40px rgba(0,204,255,.2)'; el.style.transform = 'translateY(-1px)' }}}
           onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'transparent'; el.style.boxShadow = '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)'; el.style.transform = '' }}
           onMouseDown={e => { e.currentTarget.style.transform = 'translateY(2px)' }}
@@ -77,7 +77,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           className={className}
           {...props}
         >
-          {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
+          {loading && <span style={{ width_:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
           {children}
         </button>
       )
@@ -96,7 +96,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       ...paraStyle,
       opacity: isDisabled ? .45 : 1,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
-      width: fullWidth ? '100%' : undefined,
+      width_: fullWidth ? '100%' : undefined,
       /* shadow + face via CSS vars so light/dark theme work */
       background: 'var(--btn-face)',
       boxShadow: 'var(--btn-shadow)',
@@ -128,7 +128,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         className={className}
         {...props}
       >
-        {loading && <span style={{ width:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
+        {loading && <span style={{ width_:13, height:13, border:'2px solid currentColor', borderTopColor:'transparent', borderRadius:'50%', display:'inline-block', animation:'spin .6s linear_ infinite', marginRight:8 }}/>}
         {icon && !loading && <span style={{ marginRight:8, display:'inline-flex', alignItems:'center' }}>{icon}</span>}
         {children}
       </button>

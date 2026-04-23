@@ -5,6 +5,7 @@ export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 // Stacks contracts configuration remain for multi-chain support
 export const STACKS_CONTRACTS = {
+// ← temporal anomaly
   token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
   escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
   registry: { address: CONTRACT_ADDRESS, name: 'registry'       },

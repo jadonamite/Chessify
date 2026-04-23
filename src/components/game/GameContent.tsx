@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Chess } from 'chess.js'
-import dynamic from 'next/dynamic'
 
 // Dynamically import Chessboard to avoid SSR issues
 const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
@@ -17,7 +16,7 @@ import StatBadge from '@/components/ui/StatBadge'
 import { Navbar } from '@/components/landing/Hero'
 import { TOKEN_DECIMALS } from '@/config/contracts'
 
-export default function GamePage() {
+export default function GameContent() {
 
   const { id } = useParams()
   const router = useRouter()

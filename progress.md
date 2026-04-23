@@ -446,10 +446,12 @@ These scripts run automated game lifecycles on mainnet to generate on-chain acti
 ## 🚀 Roadmap to 1.0 (Ordered by Priority)
 
 ### P0 — Stacks Frontend Integration (Blocking)
-- [ ] **Stacks Wallet Provider**: Integrate `@stacks/connect` to handle Stacks authentication alongside the existing Celo provider
-- [ ] **Dual-Chain Connection**: Build a network switcher component in the lobby allowing users to select Stacks (STX/CHESS) or Celo (CELO/CHESS)
-- [ ] **Stacks Contract Hooks**: Create `useStacksChess` hook (or similar) that mirrors the EVM contract interaction pattern — wrapping `openContractCall` from `@stacks/connect`
-- [ ] **Update `contracts.ts`**: Replace legacy `STACKS_CONTRACTS` references with `chess-token-v3` and `chess-game`
+- [x] **Stacks Wallet Provider**: Integrated `@stacks/connect` into `WalletProvider` to handle Stacks authentication alongside EVM.
+- [/] **Dual-Chain Connection**: Implemented network switching logic in `WalletProvider` and integrated into the `Navbar` component.
+- [x] **Stacks Contract Hooks**: Created `useStacksChess` hook in `src/hooks/useStacksChess.ts` wrapping `openContractCall` for the full game lifecycle.
+
+- [x] **Update `contracts.ts`**: Replaced legacy `STACKS_CONTRACTS` references with `chess-token-v3` and `chess-game`.
+
 
 ### P1 — Gameplay & Board Integration
 - [ ] **React Chessboard**: Integrate `react-chessboard` + `chess.js` into a game page — validate moves client-side, then call `submitMove()` on the respective chain

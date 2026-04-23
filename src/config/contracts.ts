@@ -4,15 +4,12 @@
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 // Stacks contracts configuration remain for multi-chain support
+// Stacks contracts configuration for consolidated system
 export const STACKS_CONTRACTS = {
-  token:    { address: CONTRACT_ADDRESS, name: 'chess-token_v2' },
-  escrow:   { address: CONTRACT_ADDRESS, name: 'chess-escrow'   },
-  registry: { address: CONTRACT_ADDRESS, name: 'registry'       },
-  logic:    { address: CONTRACT_ADDRESS, name: 'logic'          },
-  timer:    { address: CONTRACT_ADDRESS, name: 'timer'          },
-  ranking:  { address: CONTRACT_ADDRESS, name: 'ranking'        },
-  gateway:  { address: CONTRACT_ADDRESS, name: 'gateway_v2'     },
+  token: { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-token-v3' },
+  game:  { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-game'     },
 } as const
+
 
 // Celo contracts configuration
 export const CELO_CONTRACTS = {

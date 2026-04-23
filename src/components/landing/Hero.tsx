@@ -17,7 +17,12 @@ const KEYFRAMES = `
 `
 
 export function Navbar() {
-  const { isConnected, address, isMiniPay, connect, disconnect } = useWallet()
+  const { 
+    isConnected, address, 
+    isStacksConnected, stacksAddress,
+    isMiniPay, connect, connectStacks, 
+    disconnect, activeChain, setActiveChain 
+  } = useWallet()
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
@@ -44,18 +49,57 @@ export function Navbar() {
       <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
         <ThemeToggle />
         
-        {isConnected && address ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ fontFamily: "var(--fb)", fontSize: "12px", color: "var(--t1)", background: "var(--b1)", padding: "8px 12px", borderRadius: 999 }}>
-              {isMiniPay && <span style={{ marginRight: 6, color: "var(--c)" }}>MiniPay</span>}
-              {formatAddress(address)}
+        {/* Stacks Connection */}
+        {isStacksConnected && stacksAddress ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span 
+              onClick={() => setActiveChain('stacks')}
+              style={{ 
+                fontFamily: "var(--fb)", fontSize: "11px", color: activeChain === 'stacks' ? "var(--c)" : "var(--t1)", 
+                background: "var(--b1)", padding: "6px 12px", borderRadius: 999, cursor: 'pointer',
+                border: activeChain === 'stacks' ? '1px solid var(--c)' : '1px solid transparent'
+              }}
+            >
+              STX: {formatAddress(stacksAddress)}
             </span>
-            <button onClick={disconnect} style={{ background: "transparent", border: "1px solid var(--b2)", color: "var(--t2)", padding: "8px 16px", borderRadius: 999, cursor: "pointer", fontSize: 12 }}>
-              Disconnect
+          </div>
+        ) : (
+          <button
+            onClick={connectStacks}
+            style={{
+              background: "transparent",
+              color: "var(--t1)",
+              border: "1px solid var(--b2)",
+              padding: "8px 14px",
+              borderRadius: 999,
+              cursor: "pointer",
+              fontSize: 11,
+              fontFamily: 'var(--fd)'
+            }}
+          >
+            Connect Stacks
+          </button>
+        )}
+
+        {/* Celo/EVM Connection */}
+        {isConnected && address ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span 
+              onClick={() => setActiveChain('celo')}
+              style={{ 
+                fontFamily: "var(--fb)", fontSize: "11px", color: activeChain === 'celo' ? "var(--c)" : "var(--t1)", 
+                background: "var(--b1)", padding: "6px 12px", borderRadius: 999, cursor: 'pointer',
+                border: activeChain === 'celo' ? '1px solid var(--c)' : '1px solid transparent'
+              }}
+            >
+              CELO: {formatAddress(address)}
+            </span>
+            <button onClick={disconnect} style={{ background: "transparent", border: "none", color: "var(--t3)", cursor: "pointer", fontSize: 18, padding: '0 4px' }} title="Disconnect Active Wallet">
+              ×
             </button>
           </div>
         ) : (
-          !isMiniPay ? (
+          !isMiniPay && (
             <button
               onClick={connect}
               style={{
@@ -63,15 +107,16 @@ export function Navbar() {
                 color: "#000",
                 border: "none",
                 fontWeight: "bold",
-                padding: "10px 20px",
+                padding: "8px 16px",
                 borderRadius: 999,
                 cursor: "pointer",
-                fontSize: 14,
+                fontSize: 11,
+                fontFamily: 'var(--fd)'
               }}
             >
-              Connect Wallet
+              Connect Celo
             </button>
-          ) : null
+          )
         )}
       </div>
     </nav>

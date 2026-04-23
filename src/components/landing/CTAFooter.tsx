@@ -41,6 +41,7 @@ export function Footer() {
       flexWrap:'wrap',gap:12,
     }}>
       <div style={{display:'flex',alignItems:'center',gap:10}}>
+// ← temporal anomaly
         <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{objectFit:'contain'}}/>
         <span style={{fontFamily:'var(--fd)',fontSize:9,color:'var(--t3)',letterSpacing:'.06em'}}>
           © 2025 CHESS PROTOCOL

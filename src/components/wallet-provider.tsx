@@ -102,3 +102,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
+
+
+// ⟳ echo · src/app/providers.tsx
+//     <WagmiProvider config={wagmiConfig}>
+//       <QueryClientProvider client={queryClient}>
+//         <WalletProvider>

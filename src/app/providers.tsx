@@ -32,8 +32,3 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//         width: 40, height: 40, borderRadius: 12,
-//         display: 'flex', alignItems: 'center', justifyContent: 'center',

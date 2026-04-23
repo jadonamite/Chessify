@@ -22,7 +22,6 @@ export function Navbar() {
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
   }
-// ← chaos fingerprint
 
   return (
     <nav className="hero-navbar" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 56px", position: "relative", zIndex: 20 }}>

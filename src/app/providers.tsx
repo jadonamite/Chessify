@@ -1,10 +1,10 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WagmiProvider } from 'wagmi'
 import dynamic from 'next/dynamic'
-import { wagmiAdapter } from '@/config/reown'
+import { wagmiAdapter, initAppKit } from '@/config/reown'
 
 const WalletProvider = dynamic(
   () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
@@ -20,12 +20,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
     },
   }))
 
+  // Initialize AppKit lazily on mount — after React hydration is complete.
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    initAppKit().then(() => setReady(true))
+  }, [])
+
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <WalletProvider>
-          {children}
-        </WalletProvider>
+        {ready ? (
+          <WalletProvider>
+            {children}
+          </WalletProvider>
+        ) : (
+          // Render children without wallet context during initialization
+          // This prevents a flash of nothing while AppKit loads
+          <>{children}</>
+        )}
       </QueryClientProvider>
     </WagmiProvider>
   )

@@ -18,7 +18,8 @@ export default function GamePage() {
 
   const { id } = useParams()
   const router = useRouter()
-  const { activeChain, stacksAddress, address } = useWallet()
+  const { activeChain, stacksAddress } = useWallet()
+
   const { submitMove, resign } = useStacksChess()
   const { getGame } = useStacksRead()
   

@@ -18,7 +18,7 @@ export default function LobbyPage() {
     isConnected, isStacksConnected, activeChain, stacksAddress
   } = useWallet()
   
-  const { createGame } = useStacksChess()
+  const { createGame, joinGame } = useStacksChess()
   const { getTokenBalance, getPlayerStats } = useStacksRead()
   const router = useRouter()
   
@@ -53,8 +53,9 @@ export default function LobbyPage() {
     setIsPending(true)
     try {
       if (activeChain === 'stacks') {
-        const res = await createGame(wager)
+        const res: any = await createGame(wager)
         console.log('Game create broadcasted:', res)
+        // In a real app we'd wait for tx or redirect to a wait page
         setIsCreateModalOpen(false)
       } else {
         alert('Celo integration coming soon!')
@@ -65,6 +66,24 @@ export default function LobbyPage() {
       setIsPending(false)
     }
   }
+
+  const handleJoinGame = async (gameId: number, matchWager: number) => {
+    setIsPending(true)
+    try {
+      if (activeChain === 'stacks') {
+        const res: any = await joinGame(gameId, matchWager)
+        console.log('Game join broadcasted:', res)
+        router.push(`/app/game/${gameId}`)
+      } else {
+        alert('Celo integration coming soon!')
+      }
+    } catch (err) {
+      console.error('Join game failed:', err)
+    } finally {
+      setIsPending(false)
+    }
+  }
+
 
   if (!isConnected && !isStacksConnected) {
     return (
@@ -147,7 +166,15 @@ export default function LobbyPage() {
                         <div className="text-xs text-[var(--t3)] mb-1">WAGER</div>
                         <div className="font-black text-[var(--c)]">{game.wager} CHESS</div>
                       </div>
-                      <GlowButton size="sm" variant="ghost">JOIN</GlowButton>
+                      <GlowButton 
+                        size="sm" 
+                        variant="ghost" 
+                        onClick={() => handleJoinGame(game.id, game.wager)}
+                        disabled={isPending}
+                      >
+                        {isPending ? '...' : 'JOIN'}
+                      </GlowButton>
+
                     </div>
                   </ClayCard>
                 </motion.div>

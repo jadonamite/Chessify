@@ -138,8 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/components/wallet-provider.tsx
-//       alert('Please install a Web3 wallet (like MetaMask or use MiniPay)!')
-//     }

@@ -31,10 +31,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// ⟳ echo · src/components/landing/Features.tsx
-//             }}
-//             onMouseEnter={hoverOn} onMouseLeave={hoverOff}
-//           >
-//             <BgIcon>
-//               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">

@@ -66,24 +66,25 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize EVM / MiniPay
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.ethereum) {
-      if (window.ethereum.isMiniPay) {
+    if (typeof window !== 'undefined' && (window as any).ethereum) {
+      if ((window as any).ethereum.isMiniPay) {
         setIsMiniPay(true)
-        window.ethereum.request({ method: 'eth_requestAccounts' })
+        (window as any).ethereum.request({ method: 'eth_requestAccounts' })
           .then((accounts: any) => accounts[0] && setAddress(accounts[0]))
       }
 
-      window.ethereum.request({ method: 'eth_accounts' }).then((accounts: any) => {
+      (window as any).ethereum.request({ method: 'eth_accounts' }).then((accounts: any) => {
         if (accounts.length > 0) setAddress(accounts[0])
       })
 
       const handleAccountsChanged = (accounts: any) => {
         setAddress(accounts.length > 0 ? accounts[0] : null)
       }
-      window.ethereum.on('accountsChanged', handleAccountsChanged)
-      return () => window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
+      (window as any).ethereum.on('accountsChanged', handleAccountsChanged)
+      return () => (window as any).ethereum.removeListener('accountsChanged', handleAccountsChanged)
     }
   }, [])
+
 
   // Initialize Stacks session
   useEffect(() => {
@@ -95,9 +96,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, [userSession, setActiveChain])
 
   const connect = useCallback(async () => {
-    if (typeof window !== 'undefined' && window.ethereum) {
+    if (typeof window !== 'undefined' && (window as any).ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+        const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' })
         if (accounts.length > 0) {
           setAddress(accounts[0])
           setActiveChain('celo')
@@ -107,6 +108,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       }
     }
   }, [setActiveChain])
+
 
   const connectStacks = useCallback(async () => {
     showConnect({

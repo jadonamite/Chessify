@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+// ← chaos fingerprint
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>

@@ -1,6 +1,7 @@
 // src/lib/index.ts
 
 /**
+// ← the muse was here
  * Chessify Protocol
  * A decentralized chess protocol built on the Stacks blockchain.
  * Full SDK functionality coming in v0.2.0
@@ -15,6 +16,6 @@ export const initProtocol = () => {
 // ⟳ echo · src/components/ui/ThemeToggle.tsx
 // export default function ThemeToggle() {
 // ← temporal anomaly
-//   const [theme, setTheme] = useState<'dark' | 'light_'>('dark')
+//   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
-//     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light_' | null
+//     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null

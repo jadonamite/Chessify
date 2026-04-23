@@ -1,14 +1,15 @@
 'use client'
 
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback } from 'react'
 import { 
-  callReadOnlyFunction, 
+  fetchCallReadOnlyFunction, 
   uintCV, 
   principalCV,
   cvToJSON
 } from '@stacks/transactions'
 import { useWallet } from '@/components/wallet-provider'
-import { STACKS_CONTRACTS, HIRO_API } from '@/config/contracts'
+import { STACKS_CONTRACTS } from '@/config/contracts'
+
 
 export function useStacksRead() {
   const { stacksAddress } = useWallet()
@@ -18,7 +19,7 @@ export function useStacksRead() {
     if (!target) return null
 
     try {
-      const result = await callReadOnlyFunction({
+      const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'get-player-stats',
@@ -39,7 +40,7 @@ export function useStacksRead() {
     if (!target) return 0n
 
     try {
-      const result = await callReadOnlyFunction({
+      const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.token.address,
         contractName: STACKS_CONTRACTS.token.name,
         functionName: 'get-balance',
@@ -57,7 +58,7 @@ export function useStacksRead() {
 
   const getGame = useCallback(async (gameId: number) => {
     try {
-      const result = await callReadOnlyFunction({
+      const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'get-game',
@@ -75,7 +76,7 @@ export function useStacksRead() {
 
   const getTotalGames = useCallback(async () => {
     try {
-      const result = await callReadOnlyFunction({
+      const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'get-total-games',

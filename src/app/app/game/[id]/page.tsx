@@ -6,11 +6,13 @@ import { Chessboard } from 'react-chessboard'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import { useStacksChess } from '@/hooks/useStacksChess'
+import { useStacksRead } from '@/hooks/useStacksRead'
 import { useParams, useRouter } from 'next/navigation'
 import ClayCard from '@/components/ui/ClayCard'
 import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
 import { Navbar } from '@/components/landing/Hero'
+import { TOKEN_DECIMALS } from '@/config/contracts'
 
 export default function GamePage() {
 
@@ -18,15 +20,31 @@ export default function GamePage() {
   const router = useRouter()
   const { activeChain, stacksAddress, address } = useWallet()
   const { submitMove, resign } = useStacksChess()
+  const { getGame } = useStacksRead()
   
   const [game, setGame] = useState(new Chess())
   const [isPending, setIsPending] = useState(false)
+  const [wager, setWager] = useState("0")
+  const [whitePlayer, setWhitePlayer] = useState("...")
+  const [blackPlayer, setBlackPlayer] = useState("...")
 
-  // Sync board with contract state (Mocked for now)
+  // Sync board with contract state
   useEffect(() => {
-    // In a real app, we'd poll the contract or use a WebSocket
-    console.log(`Loading game ${id} on ${activeChain}`)
-  }, [id, activeChain])
+    if (activeChain === 'stacks' && id) {
+      getGame(Number(id)).then(data => {
+        if (data) {
+          // data is the Clarity response for 'games' map
+          setWager((Number(data.wager.value) / Math.pow(10, TOKEN_DECIMALS)).toString())
+          setWhitePlayer(data.white.value)
+          setBlackPlayer(data.black.value?.value || "Waiting...")
+          
+          // In a real version, the contract would store the FEN. 
+          // For now we rely on the local board and submit moves.
+        }
+      })
+    }
+  }, [id, activeChain, getGame])
+
 
   function onDrop({ sourceSquare, targetSquare }: any) {
     if (!targetSquare) return false

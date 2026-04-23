@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import GlowButton from '@/components/ui/GlowButton'
 import ClayCard from '@/components/ui/ClayCard'
 import StatBadge from '@/components/ui/StatBadge'
 import { useStacksRead } from '@/hooks/useStacksRead'
+import { useStacksChess } from '@/hooks/useStacksChess'
 import { useRouter } from 'next/navigation'
 import { Navbar } from '@/components/landing/Hero'
 import { TOKEN_DECIMALS } from '@/config/contracts'
+
 
 export default function LobbyPage() {
   const { 
@@ -99,8 +101,9 @@ export default function LobbyPage() {
             </h1>
             <div className="flex gap-4">
               <StatBadge label="ACTIVE NETWORK" value={activeChain?.toUpperCase() || 'NONE'} accent={true} />
-              <StatBadge label="RATING" value="1,420 ELO" />
+              <StatBadge label="RATING" value={`${rating} ELO`} />
             </div>
+
           </motion.div>
 
           <motion.div 
@@ -166,9 +169,10 @@ export default function LobbyPage() {
               <div>
                 <div className="text-xs text-[var(--t3)] mb-2 uppercase tracking-wider">CHESS Balance</div>
                 <div className="text-4xl font-black text-[var(--t1)]">
-                  1,250.00 <span className="text-[var(--c)] text-sm">CHESS</span>
+                  {balance} <span className="text-[var(--c)] text-sm">CHESS</span>
                 </div>
               </div>
+
               
               <div className="pt-6 border-t border-[var(--b1)] grid grid-cols-2 gap-4">
                 <div>

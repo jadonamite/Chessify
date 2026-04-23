@@ -47,11 +47,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/app/page.tsx
-//     <main>
-//       <Hero />
-//       <Features />
-//       <FreeCTA />
-//       <Footer />

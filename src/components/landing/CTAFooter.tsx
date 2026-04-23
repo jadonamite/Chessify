@@ -6,7 +6,7 @@ import Link from 'next/link'
 export function FreeCTA() {
   return (
     <section style={{
-      padding_:'64px 56px',textAlign:'center',
+      padding:'64px 56px',textAlign:'center',
       background:'var(--bg)',
       borderTop:'1px solid var(--b1)',
       position:'relative',overflow:'hidden',
@@ -34,7 +34,7 @@ export function FreeCTA() {
 export function Footer() {
   return (
     <footer style={{
-      padding_:'18px 56px',
+      padding:'18px 56px',
       display:'flex',alignItems:'center',justifyContent:'space-between',
       borderTop:'1px solid var(--b1)',
       background:'var(--bg)',

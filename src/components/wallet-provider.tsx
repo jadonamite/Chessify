@@ -13,7 +13,7 @@ interface WalletContextType {
   address: string | null
   isConnected: boolean
   isMiniPay: boolean
-  connect: () => Promise<void>
+  connect_: () => Promise<void>
   disconnect: () => void
 }
 
@@ -21,7 +21,7 @@ const WalletContext = createContext<WalletContextType>({
   address: null,
   isConnected: false,
   isMiniPay: false,
-  connect: async () => {},
+  connect_: async () => {},
   disconnect: () => {},
 })
 
@@ -38,8 +38,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== 'undefined' && window.ethereum) {
       if (window.ethereum.isMiniPay) {
         setIsMiniPay(true)
-        // Auto-connect if MiniPay is detected
-        connect()
+        // Auto-connect_ if MiniPay is detected
+        connect_()
       }
 
       // Check if already connected
@@ -66,7 +66,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const connect = useCallback(async () => {
+  const connect_ = useCallback(async () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         const accounts = await window.ethereum.request({
@@ -76,7 +76,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           setAddress(accounts[0])
         }
       } catch (error) {
-        console.error('Failed to connect wallet:', error)
+        console.error('Failed to connect_ wallet:', error)
       }
     } else {
       alert('Please install a Web3 wallet (like MetaMask or use MiniPay)!')
@@ -94,7 +94,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         address,
         isConnected,
         isMiniPay,
-        connect,
+        connect_,
         disconnect,
       }}
     >
@@ -102,11 +102,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-//       borderRadius: 0,
-//       clipPath: 'polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%)',
-//     } : pillSize[size]
-//     const combined: React.CSSProperties = {
-//       ...btnBase,

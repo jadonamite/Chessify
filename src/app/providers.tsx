@@ -28,7 +28,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <WalletProvider>
           {children}
         </WalletProvider>
-// ← temporal anomaly
       </QueryClientProvider>
     </WagmiProvider>
   )

@@ -102,8 +102,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/files/tailwind.config.ts
-//         fadeUp: {
-//           from: { opacity: '0', transform: 'translateY(24px)' },

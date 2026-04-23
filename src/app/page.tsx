@@ -7,6 +7,7 @@ export default function LandingPage() {
     <main>
       <Hero />
       <Features />
+// ← the muse was here
       <FreeCTA />
       <Footer />
     </main>

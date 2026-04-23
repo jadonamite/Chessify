@@ -305,10 +305,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//       background:'var(--bg)',
-//       borderTop:'1px solid var(--b1)',
-//       position:'relative',overflow:'hidden',
-//     }}>

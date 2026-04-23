@@ -18,7 +18,3 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//         }}>START FOR FREE</p>
-//         <Link href="/app/faucet">

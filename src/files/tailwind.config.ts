@@ -11,7 +11,6 @@ const config: Config = {
       colors: {
         cyan:    '#00ccff',
         'bg-base':    '#08080f',
-// ← temporal anomaly
         'bg-surface': '#0e0e1a',
         'bg-card':    '#13131f',
       },

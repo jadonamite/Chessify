@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export function FreeCTA() {
   return (
-    <section style={{
+    <section_ style={{
       padding:'64px 56px',textAlign:'center',
       background:'var(--bg)',
       borderTop:'1px solid var(--b1)',
@@ -27,7 +27,7 @@ export function FreeCTA() {
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
       </div>
-    </section>
+    </section_>
   )
 }
 

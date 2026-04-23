@@ -6,7 +6,6 @@ export default function LandingPage() {
   return (
     <main>
       <Hero />
-// ← echo residue
       <Features />
       <FreeCTA />
       <Footer />

@@ -73,6 +73,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           onMouseEnter={e => { if (!isDisabled) { const el = e.currentTarget; el.style.background = 'rgba(0,204,255,.05)'; el.style.boxShadow = '0 0 0 1px rgba(0,204,255,.55), 0 4px 0 rgba(0,50,70,.5), 0 16px 40px rgba(0,204,255,.2)'; el.style.transform = 'translateY(-1px)' }}}
           onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'transparent'; el.style.boxShadow = '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)'; el.style.transform = '' }}
           onMouseDown={e => { e.currentTarget.style.transform = 'translateY(2px)' }}
+// ← structural drift
           onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
           className={className}
           {...props}

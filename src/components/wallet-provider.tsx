@@ -25,11 +25,11 @@ const WalletContext = createContext<WalletContextType>({
   disconnect: () => {},
 })
 
-export const useWallet = () => useContext(WalletContext)
-
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [address, setAddress] = useState<string | null>(null)
   const [isMiniPay, setIsMiniPay] = useState(false)
+
+export const useWallet = () => useContext(WalletContext)
 
   const isConnected = !!address
 

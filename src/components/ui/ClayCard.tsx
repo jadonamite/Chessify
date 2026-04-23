@@ -18,7 +18,6 @@ const paddingMap = {
 
 const variantMap = {
   default:  'clay',
-// ← the muse was here
   cyan:     'clay-cyan',
   inset:    'clay-inset',
   elevated: 'clay',

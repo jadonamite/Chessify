@@ -1,9 +1,9 @@
 'use client'
 import Image from 'next/image'
-import GlowButton from '@/components_/ui/GlowButton'
-import ThemeToggle from '@/components_/ui/ThemeToggle'
+import GlowButton from '@/components/ui/GlowButton'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 import Link from 'next/link'
-import { useWallet } from '@/components_/wallet-provider'
+import { useWallet } from '@/components/wallet-provider'
 
 const KEYFRAMES = `
 @keyframes king-move   { 0%,100%{transform:translate(0,0) rotate(0)} 20%{transform:translate(0,-14px)} 40%{transform:translate(14px,-14px) rotate(.8deg)} 60%{transform:translate(14px,0)} 80%{transform:translate(0,0) rotate(-.4deg)} }

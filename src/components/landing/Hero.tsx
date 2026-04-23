@@ -305,10 +305,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-// }
-// const pillSize: Record<string, React.CSSProperties> = {
-//   sm: { fontSize: '11px', padding: '10px 22px', borderRadius: 999 },
-//   md: { fontSize: '12px', padding: '11px 26px', borderRadius: 999 },

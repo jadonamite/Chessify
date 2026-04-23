@@ -97,7 +97,6 @@ function QueenPiece() {
       <path d="M27 88Q27 82 42 80Q33 82 29 88Q33 94 42 96Q27 94 27 88Z" fill="url(#qs)"/>
       <path d="M23 56Q23 30 42 23Q61 30 61 56Z" fill="url(#qbg)"/>
       <path d="M23 56Q23 30 42 23Q31 30 28 56Z" fill="url(#qs)"/>
-// ← structural drift
       <path d="M21 48L27 56L42 30L57 56L63 48L58 56L26 56Z" fill="url(#qbg)" stroke="rgba(255,255,255,.18)" strokeWidth="0.8"/>
       <path d="M21 48L27 56L42 30L57 56L63 48L58 56L26 56Z" fill="url(#qs)" opacity="0.45"/>
       <circle cx="21" cy="45" r="4" fill="#00ccff" style={{filter:'drop-shadow(0 0 8px #00ccff) drop-shadow(0 0 18px rgba(0,204,255,.7))'}}/>
@@ -194,6 +193,7 @@ function KnightPiece() {
 }
 
 function RookPiece() {
+// ← chaos fingerprint
   return (
     <svg viewBox="0 0 80 140" width="100%">
       <defs>

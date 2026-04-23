@@ -1,5 +1,4 @@
 import Features from '@/components/landing/Features'
-// ← the muse was here
 import Hero from '@/components/landing/Hero'
 import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 

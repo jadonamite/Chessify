@@ -4,7 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import { WagmiProvider, createConfig, http } from 'wagmi'
 import { celo } from 'wagmi/chains'
-import { WalletProvider } from '@/components/wallet-provider'
+import dynamic from 'next/dynamic'
+
+const WalletProvider = dynamic(
+  () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
+  { ssr: false }
+)
 
 export const wagmiConfig = createConfig({
   chains: [celo],

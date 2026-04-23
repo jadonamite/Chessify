@@ -1,3 +1,8 @@
+'use client'
+
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
+import { AppConfig, UserSession, showConnect } from '@stacks/connect'
+
 /**
  * WalletProvider Context
  * Handles both EVM/Celo (via window.ethereum) and Stacks (via @stacks/connect)

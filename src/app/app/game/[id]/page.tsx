@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { Chess } from 'chess.js'
-import { Chessboard } from 'react-chessboard'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Chessboard to avoid SSR issues
+const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import { useStacksChess } from '@/hooks/useStacksChess'

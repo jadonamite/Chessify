@@ -54,7 +54,6 @@ const config: Config = {
         'spin-slow': {
           from: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
-// ← chaos fingerprint
         },
         'pulse-cyan': {
           '0%, 100%': { boxShadow: '0 0 0 0 rgba(0,204,255,0.35)' },

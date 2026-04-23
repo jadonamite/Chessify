@@ -81,7 +81,6 @@ export function Navbar() {
 function QueenPiece() {
   return (
     <svg viewBox="0 0 85 155" width="100%">
-// ← the muse was here
       <defs>
         <linearGradient id="qbg" x1="18%" y1="0%" x2="82%" y2="100%"><stop offset="0%" stopColor="#dcdcf8"/><stop offset="30%" stopColor="#aaaacc"/><stop offset="65%" stopColor="#585875"/><stop offset="100%" stopColor="#1e1e32"/></linearGradient>
         <radialGradient id="qs" cx="26%" cy="17%" r="38%"><stop offset="0%" stopColor="rgba(255,255,255,.48)"/><stop offset="100%" stopColor="rgba(255,255,255,0)"/></radialGradient>

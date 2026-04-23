@@ -76,9 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//     const t = saved ?? 'dark'
-//     setTheme(t)
-//     document.documentElement.setAttribute('data-theme', t)

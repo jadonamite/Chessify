@@ -30,7 +30,7 @@ const config: Config = {
         'fade-in':    'fadeIn 0.4s ease both',
         'float':      'float 4s ease-in-out infinite',
         'float-slow': 'floatSlow 6s ease-in-out infinite',
-        'spin_-slow':  'spin_-slow 12s linear infinite',
+        'spin-slow':  'spin-slow 12s linear infinite',
         'pulse-cyan': 'pulse-cyan 2s ease-in-out infinite',
       },
       keyframes: {
@@ -51,7 +51,7 @@ const config: Config = {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%':      { transform: 'translateY(-20px)' },
         },
-        'spin_-slow': {
+        'spin-slow': {
           from: { transform: 'rotate(0deg)' },
           to:   { transform: 'rotate(360deg)' },
         },

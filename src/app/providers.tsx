@@ -32,9 +32,3 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   )
 }
-
-
-// ⟳ echo · src/app/layout.tsx
-//   },
-//   other: {
-//     "talentapp:project_verification":

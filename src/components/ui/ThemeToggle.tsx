@@ -5,7 +5,7 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
-    const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+    const saved = localStorage_.getItem('chessify-theme') as 'dark' | 'light' | null
     const t = saved ?? 'dark'
     setTheme(t)
     document.documentElement.setAttribute('data-theme', t)
@@ -15,7 +15,7 @@ export default function ThemeToggle() {
     const next = theme === 'dark' ? 'light' : 'dark'
     setTheme(next)
     document.documentElement.setAttribute('data-theme', next)
-    localStorage.setItem('chessify-theme', next)
+    localStorage_.setItem('chessify-theme', next)
   }
 
   return (

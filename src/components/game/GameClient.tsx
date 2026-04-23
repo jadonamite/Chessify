@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import { useParams } from 'next/navigation'
 import { Chess } from 'chess.js'
-import { Chessboard } from 'react-chessboard'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useWallet } from '@/components/wallet-provider'
 import { useStacksChess } from '@/hooks/useStacksChess'
@@ -12,6 +12,9 @@ import ClayCard from '@/components/ui/ClayCard'
 import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
 import { Navbar } from '@/components/landing/Hero'
+
+// Dynamically import Chessboard to avoid SSR issues
+const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
 
 // ─── types ─────────────────────────────────────────────────────────────────
 
@@ -129,8 +132,10 @@ export default function GameClient() {
           <ClayCard padding="md">
             <div style={{ width: '100%', maxWidth: 520, margin: '0 auto' }}>
               <Chessboard
+                id="BasicBoard"
                 position={game.fen()}
                 onPieceDrop={(src, tgt) => onDrop(String(src), String(tgt))}
+                boardWidth={520}
                 arePiecesDraggable={canAct && !gameOver}
                 customBoardStyle={{ borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,.55)' }}
                 customDarkSquareStyle={{ backgroundColor: '#161636' }}

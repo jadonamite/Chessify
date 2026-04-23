@@ -102,3 +102,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
+
+
+// ⟳ echo · src/components/ui/GlowButton.tsx
+//       borderRadius: 0,
+//       clipPath: 'polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%)',
+//     } : pillSize[size]
+//     const combined: React.CSSProperties = {
+//       ...btnBase,

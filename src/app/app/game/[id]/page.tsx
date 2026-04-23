@@ -114,20 +114,23 @@ export default function GamePage() {
                 options={{
                   position: game.fen(), 
                   onPieceDrop: onDrop,
-                  boardOrientation: "white",
+                  boardOrientation: stacksAddress === blackPlayer ? "black" : "white",
                   darkSquareStyle: { backgroundColor: '#1a1a2e' },
                   lightSquareStyle: { backgroundColor: '#2a2a4e' }
                 }}
               />
+
+
 
             </div>
           </ClayCard>
 
           <div className="flex justify-between items-center bg-[var(--b1)] p-4 rounded-2xl border border-[var(--b2)]">
             <div className="flex gap-4">
-              <StatBadge size="sm" label="WAGER" value="100 CHESS" accent />
+              <StatBadge size="sm" label="WAGER" value={`${wager} CHESS`} accent />
               <StatBadge size="sm" label="TURN" value={game.turn() === 'w' ? 'WHITE' : 'BLACK'} />
             </div>
+
             <div className="flex gap-2">
               <GlowButton variant="ghost" size="sm" onClick={() => setGame(new Chess())}>RESET LOCAL</GlowButton>
               <GlowButton variant="brand" size="sm" onClick={handleResign} disabled={isPending}>RESIGN</GlowButton>
@@ -148,7 +151,7 @@ export default function GamePage() {
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-white to-gray-400" />
                 <div>
                   <div className="text-[10px] text-[var(--t3)] uppercase font-bold">White</div>
-                  <div className="text-sm font-bold truncate max-w-[120px]">{stacksAddress || address || 'You'}</div>
+                  <div className="text-sm font-bold truncate max-w-[120px]">{whitePlayer}</div>
                 </div>
               </div>
               <div className="text-xl font-mono font-black italic">14:52</div>
@@ -158,13 +161,14 @@ export default function GamePage() {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#121212] to-[#2a2a2a] border border-white/10" />
                 <div>
-                  <div className="text-[10px] text-[var(--t3)] uppercase font-bold text-[var(--c)]">Black (Opponent)</div>
-                  <div className="text-sm font-bold truncate max-w-[120px]">SP3...X99</div>
+                  <div className="text-[10px] text-[var(--t3)] uppercase font-bold text-[var(--c)]">Black</div>
+                  <div className="text-sm font-bold truncate max-w-[120px]">{blackPlayer}</div>
                 </div>
               </div>
               <div className="text-xl font-mono font-black italic text-[var(--c)]">15:00</div>
             </div>
           </ClayCard>
+
 
           <ClayCard className="p-6">
             <h4 className="text-xs font-bold text-[var(--t3)] uppercase tracking-widest mb-4">Move History</h4>

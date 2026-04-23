@@ -32,3 +32,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//   useEffect(() => {
+//     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+//     const t = saved ?? 'dark'
+//     setTheme(t)
+//     document.documentElement.setAttribute('data-theme', t)

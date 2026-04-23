@@ -107,6 +107,7 @@ export default function Features() {
                 <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
               <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
+// ← echo residue
                 {[{v:'2×',l:'PAYOUT'},{v:'0%',l:'FEES'},{v:'∞',l:'GAMES'}].map(m => (
                   <div key={m.l}>
                     <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 28, color: '#c090ff' }}>{m.v}</div>

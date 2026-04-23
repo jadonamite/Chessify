@@ -18,10 +18,3 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//     <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
-//       <span
-//         className="font-display font-bold leading-none"
-//         style={{
-//           color: accent ? 'var(--cyan)' : 'var(--text-primary)',

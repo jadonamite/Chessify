@@ -132,17 +132,20 @@ export default function LobbyContent() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] overflow-x-hidden relative flex flex-col">
       <Navbar />
 
-      {/* Ambient background effects */}
+      {/* Ambient background effects & Grid from Hero */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)' }} />
 
-      {/* MACRO-LAYOUT: Centered wrapper pulling the grid into the middle of the screen */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 md:px-8 py-12 md:py-20">
+      {/* MACRO-LAYOUT FIX: 
+        flex-1 ensures this container takes up remaining screen height.
+        flex flex-col justify-center items-center pushes the inner grid to the dead center of the screen.
+      */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 md:px-8 py-12">
 
-        {/* THE BENTO GRID: items-start forces columns to align their top edges perfectly */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full max-w-7xl">
+        {/* The Grid itself, constrained by max-width */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full max-w-7xl">
 
-          {/* LEFT COLUMN: Challenges */}
+          {/* Left Column: Challenges (Uniform 40px padding for breathing room) */}
           <div className="lg:col-span-8 flex flex-col gap-10 rounded-[32px] border border-white/10 bg-slate-900/50 backdrop-blur-xl p-8 md:p-10 shadow-2xl">
 
             <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-8">
@@ -175,7 +178,7 @@ export default function LobbyContent() {
               </motion.div>
             </header>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase mb-2" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
 
               {openGames.filter(g => g.chain === activeChain).map((game, idx) => (
@@ -185,6 +188,7 @@ export default function LobbyContent() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                 >
+                  {/* Padding increased to p-5 md:p-6 for internal breathing room */}
                   <div className="rounded-2xl border border-white/5 bg-black/20 hover:bg-black/40 hover:border-white/10 transition-colors p-5 md:p-6 group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6">
 
                     <div className="w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
@@ -223,20 +227,18 @@ export default function LobbyContent() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Profile & Faucet. 
-              Crucial fix here: using flex-col gap-8 to space the cards, and removing ANY explicit height properties.
-              Padding is set heavily inside the cards so text never bleeds over the border. */}
+          {/* Right Column: Profile & Faucet (Uniform 32px padding, no fixed heights to prevent Faucet overlap) */}
           <div className="lg:col-span-4 flex flex-col gap-8">
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/50 backdrop-blur-md p-8 md:p-10 flex flex-col gap-8 shadow-2xl relative">
-              <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/50 backdrop-blur-md p-8 md:p-10 flex flex-col shadow-2xl">
+              <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
 
-              <div className="flex items-baseline gap-3">
+              <div className="flex items-baseline gap-3 mb-10">
                 <span className="text-5xl font-black text-white leading-none" style={{ fontFamily: 'var(--fd)' }}>{balance}</span>
                 <span className="text-sm text-cyan-500 font-bold tracking-widest translate-y-[-4px]">CHESS</span>
               </div>
 
-              <div className="flex justify-between items-center bg-black/30 p-5 rounded-2xl border border-white/5">
+              <div className="flex justify-between items-center bg-black/30 p-5 rounded-2xl border border-white/5 mb-8">
                 <div className="flex flex-col flex-1">
                   <span className="text-[11px] text-gray-500 font-bold tracking-widest uppercase mb-2">Wins</span>
                   <span className="text-2xl font-bold text-white leading-none">14</span>
@@ -248,7 +250,7 @@ export default function LobbyContent() {
                 </div>
               </div>
 
-              <button className="w-full py-4 rounded-2xl border border-white/10 hover:bg-white/5 transition-colors text-xs font-bold tracking-widest text-gray-300 uppercase">
+              <button className="w-full py-4 rounded-2xl border border-white/10 hover:bg-white/5 transition-colors text-xs font-bold tracking-widest text-gray-300 uppercase mt-auto">
                 VIEW HISTORY
               </button>
             </div>
@@ -265,7 +267,6 @@ export default function LobbyContent() {
                 VISIT FAUCET
               </button>
             </div>
-
           </div>
         </div>
       </div>

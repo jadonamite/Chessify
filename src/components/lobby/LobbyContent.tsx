@@ -133,37 +133,37 @@ export default function LobbyContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] overflow-x-hidden relative">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] overflow-x-hidden relative flex flex-col">
       <Navbar />
 
       {/* Ambient background effects & Grid from Hero */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)' }} />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12 pt-32">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 py-12 pt-32 flex-1 flex flex-col">
         {/* Unified Dashboard Header */}
-        <header className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-14 border-b border-[var(--b1)] pb-8 border-opacity-30">
+        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12 pb-6 border-b border-[var(--b1)] border-opacity-40">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-4"
           >
-            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow, 0 4px 40px rgba(0,0,0,.7))' }}>
-              Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow, 0 0 80px rgba(0,204,255,.45))' }}>Lobby</span>
+            <h1 className="text-4xl md:text-[56px] font-black uppercase tracking-tighter leading-none" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
+              Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>Lobby</span>
             </h1>
-            <div className="flex flex-wrap items-center gap-6 mt-2">
-              <div className="flex items-center gap-2 bg-[var(--b1)] py-1.5 px-3 rounded-full border border-[var(--b2)]">
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-2 bg-[var(--b1)] py-1.5 px-3 rounded-full border border-[var(--b2)] shadow-[0_0_12px_rgba(0,204,255,0.15)]">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)]" style={{ animation: 'pulseDot 2s ease-in-out infinite' }} />
-                <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
+                <span className="text-[11px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
                   {activeChain?.toUpperCase() || 'NONE'}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] tracking-[0.2em] uppercase font-bold text-[var(--t2)]" style={{ fontFamily: 'var(--fd)' }}>
+              <div className="flex items-center gap-2.5 px-3 py-1.5 bg-black/20 rounded-full border border-white/5">
+                <span className="text-[10px] tracking-[0.15em] uppercase font-bold text-[var(--t2)]" style={{ fontFamily: 'var(--fd)' }}>
                   RATING
                 </span>
                 <span className="text-sm tracking-widest font-black text-[var(--t1)]">
-                  {rating} <span className="text-[10px] text-[var(--c)]">ELO</span>
+                  {rating} <span className="text-[10px] text-[var(--c)] opacity-80">ELO</span>
                 </span>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function LobbyContent() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center"
+            className="flex items-center mt-4 md:mt-0"
           >
             <GlowButton parallelogram variant="brand" size="lg" onClick={() => setIsCreateModalOpen(true)}>
               CREATE NEW MATCH
@@ -181,12 +181,12 @@ export default function LobbyContent() {
         </header>
 
         {/* Main Grid System */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 flex-1 content-start">
           {/* Open Matches List */}
-          <div className="lg:col-span-8 space-y-6">
-            <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase mb-6" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
+          <div className="lg:col-span-8 flex flex-col gap-5">
+            <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--c)] opacity-80 uppercase pl-1" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
 
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               {openGames.filter(g => g.chain === activeChain).map((game, idx) => (
                 <motion.div
                   key={game.id}
@@ -194,34 +194,40 @@ export default function LobbyContent() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                 >
-                  <ClayCard className="clay-dark-card flex items-center justify-between p-6 transition-all duration-300 hover:border-[var(--c)] hover:shadow-[0_4px_30px_rgba(0,204,255,0.15)] group" padding="none">
-                    <div className="flex items-center gap-6">
-                      <div className="w-12 h-12 rounded-xl flex flex-col items-center justify-center font-bold text-[var(--c)] bg-[var(--bg)] border border-[var(--b1)] shadow-inner">
-                        <span className="text-[10px] uppercase tracking-widest opacity-60">ELO</span>
-                        <span className="text-sm leading-tight leading-none">{game.elo}</span>
+                  <ClayCard className="clay-dark-card transition-all duration-300 hover:border-[var(--c)] hover:shadow-[0_4px_30px_rgba(0,204,255,0.15)] group" padding="md">
+                    <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-6">
+                      
+                      {/* ELO Block */}
+                      <div className="w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold text-[var(--c)] bg-black/40 border border-[var(--c)] border-opacity-20 shadow-inner">
+                        <span className="text-[9px] uppercase tracking-widest opacity-60">ELO</span>
+                        <span className="text-sm leading-none mt-0.5">{game.elo}</span>
                       </div>
-                      <div>
-                        <div className="text-[10px] tracking-[0.2em] text-[var(--t3)] mb-1 uppercase font-bold" style={{ fontFamily: 'var(--fd)' }}>CHALLENGER</div>
-                        <div className="font-bold tracking-wide">{game.creator}</div>
+                      
+                      {/* Player Info */}
+                      <div className="flex flex-col justify-center">
+                        <span className="text-[10px] tracking-[0.2em] text-[var(--t3)] uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>CHALLENGER</span>
+                        <span className="font-bold tracking-wide text-base text-white">{game.creator}</span>
                       </div>
-                    </div>
 
-                    <div className="flex items-center gap-8">
-                      <div className="text-right">
-                        <div className="text-[10px] tracking-[0.2em] text-[var(--t3)] mb-1 uppercase font-bold" style={{ fontFamily: 'var(--fd)' }}>WAGER</div>
-                        <div className="font-black text-[var(--c)]">{game.wager} <span className="text-[9px] opacity-70">CHESS</span></div>
+                      {/* Wager amount */}
+                      <div className="flex flex-col justify-center text-right pr-4 border-r border-white/10">
+                        <span className="text-[10px] tracking-[0.2em] text-[var(--t3)] uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>WAGER</span>
+                        <div className="font-black text-[var(--c)] text-lg leading-none">{game.wager} <span className="text-[10px] opacity-70">CHESS</span></div>
                       </div>
-                      <GlowButton
-                        parallelogram
-                        size="md"
-                        variant="brand"
-                        onClick={() => handleJoinGame(game.id, game.wager)}
-                        disabled={isPending}
-                        className="opacity-90 group-hover:opacity-100"
-                        style={{ padding: '12px 36px' }}
-                      >
-                        {isPending ? '...' : 'JOIN'}
-                      </GlowButton>
+
+                      {/* Action */}
+                      <div className="pl-2">
+                        <GlowButton
+                          size="md"
+                          variant="brand"
+                          onClick={() => handleJoinGame(game.id, game.wager)}
+                          disabled={isPending}
+                          className="opacity-90 group-hover:opacity-100 min-w-[120px]"
+                        >
+                          {isPending ? 'JOINING...' : 'JOIN MATCH'}
+                        </GlowButton>
+                      </div>
+
                     </div>
                   </ClayCard>
                 </motion.div>
@@ -236,40 +242,42 @@ export default function LobbyContent() {
           </div>
 
           {/* Sidebar / Profile Stats */}
-          <div className="lg:col-span-4 space-y-6">
-            <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase mb-6" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--c)] opacity-80 uppercase pl-1" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
 
-            <ClayCard className="clay-cyan-card p-8 flex flex-col gap-8 relative" padding="none">
+            <ClayCard className="clay-cyan-card flex flex-col relative" padding="lg">
               {/* Top Accent Line */}
               <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--c)] to-transparent opacity-80" />
               
-              <div>
-                <div className="text-[10px] text-[var(--t2)] mb-3 uppercase tracking-[0.25em] font-bold" style={{ fontFamily: 'var(--fd)' }}>CHESS Balance</div>
-                <div className="text-4xl font-black text-[var(--t1)] flex items-baseline gap-2" style={{ fontFamily: 'var(--fd)' }}>
+              <div className="flex flex-col gap-2 mb-8">
+                <span className="text-[10px] text-[var(--t2)] uppercase tracking-[0.25em] font-bold" style={{ fontFamily: 'var(--fd)' }}>CHESS Balance</span>
+                <div className="text-4xl font-black text-white flex items-baseline gap-2 leading-none" style={{ fontFamily: 'var(--fd)' }}>
                   {balance} <span className="text-[var(--c)] text-sm tracking-widest font-bold">CHESS</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 pt-6 border-t border-[var(--nav-border)]">
-                <div className="flex flex-col gap-2">
-                  <div className="text-[10px] text-[var(--t2)] uppercase tracking-[0.2em] font-bold" style={{ fontFamily: 'var(--fd)' }}>Wins</div>
-                  <div className="text-2xl font-black text-[var(--t1)] drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]">14</div>
+              <div className="grid grid-cols-2 gap-6 pt-6 pb-8 border-t border-[var(--nav-border)]">
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] text-[var(--t2)] uppercase tracking-[0.2em] font-bold" style={{ fontFamily: 'var(--fd)' }}>Wins</span>
+                  <span className="text-2xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.2)] leading-none">14</span>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <div className="text-[10px] text-[var(--t2)] uppercase tracking-[0.2em] font-bold" style={{ fontFamily: 'var(--fd)' }}>Losses</div>
-                  <div className="text-2xl font-bold text-[var(--t2)]">8</div>
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] text-[var(--t2)] uppercase tracking-[0.2em] font-bold" style={{ fontFamily: 'var(--fd)' }}>Losses</span>
+                  <span className="text-2xl font-bold text-[var(--t2)] leading-none">8</span>
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="mt-auto">
                 <GlowButton fullWidth variant="ghost" size="sm">VIEW HISTORY</GlowButton>
               </div>
             </ClayCard>
 
-            <ClayCard className="clay-dark-card p-6 border-[rgba(0,204,255,0.1)]" padding="none">
-              <h4 className="font-bold text-sm tracking-wide mb-2 text-[var(--t1)]" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
-              <p className="text-xs text-[var(--t2)] mb-5 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>
-              <GlowButton parallelogram fullWidth variant="brand" size="sm" onClick={() => router.push('#faucet')} style={{ padding: '12px 24px' }}>
+            <ClayCard className="clay-dark-card border-[rgba(0,204,255,0.1)] flex flex-col gap-4" padding="md">
+              <div className="flex flex-col gap-1">
+                <h4 className="font-bold text-sm tracking-wide text-white" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
+                <p className="text-xs text-[var(--t2)] leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>
+              </div>
+              <GlowButton fullWidth variant="brand" size="md" onClick={() => router.push('#faucet')}>
                 VISIT FAUCET
               </GlowButton>
             </ClayCard>

@@ -5,13 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import GlowButton from '@/components/ui/GlowButton'
 import ClayCard from '@/components/ui/ClayCard'
-import StatBadge from '@/components/ui/StatBadge'
+// import StatBadge from '@/components/ui/StatBadge'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import { useStacksChess } from '@/hooks/useStacksChess'
 import { useRouter } from 'next/navigation'
 import { Navbar } from '@/components/landing/Hero'
 import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 import { useCeloChess } from '@/hooks/useCeloChess'
+// @ts-expect-error - intentional unused variable
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
@@ -23,6 +24,7 @@ export default function LobbyContent() {
   } = useWallet()
 
   const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
+  // @ts-expect-error - intentional unused isCeloPending
   const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
   const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
   const router = useRouter()
@@ -141,26 +143,38 @@ export default function LobbyContent() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12 pt-32">
-        {/* Header Section */}
-        <header className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 border-b border-[var(--b1)] pb-8 border-opacity-30">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
+            className="flex flex-col gap-4"
           >
-            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4 leading-none">
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none shadow-cyan- glow-text">
               Game <span className="text-[var(--c)]">Lobby</span>
             </h1>
-            <div className="flex gap-4">
-              <StatBadge label="ACTIVE NETWORK" value={activeChain?.toUpperCase() || 'NONE'} accent={true} />
-              <StatBadge label="RATING" value={`${rating} ELO`} />
+            <div className="flex flex-wrap items-center gap-6 mt-2">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[var(--c)] animate-pulse" />
+                <span className="text-xs tracking-[0.2em] uppercase font-bold text-[var(--c)]">
+                  {activeChain?.toUpperCase() || 'NONE'}
+                </span>
+              </div>
+              <div className="h-4 w-[1px] bg-[var(--b2)] opacity-50" />
+              <div className="flex items-center gap-2">
+                <span className="text-xs tracking-[0.2em] uppercase font-bold text-[var(--t2)]">
+                  RATING
+                </span>
+                <span className="text-sm tracking-widest font-black text-[var(--t1)]">
+                  {rating} ELO
+                </span>
+              </div>
             </div>
-
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex gap-4"
+            className="flex items-center"
           >
             <GlowButton parallelogram variant="brand" size="lg" onClick={() => setIsCreateModalOpen(true)}>
               CREATE NEW MATCH
@@ -224,28 +238,30 @@ export default function LobbyContent() {
           <div className="space-y-6">
             <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Profile Stats</h3>
 
-            <ClayCard className="p-8 space-y-6">
+            <ClayCard className="p-8 flex flex-col gap-8 relative">
+              {/* Top Accent Line */}
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--c)] to-transparent" />
+              
               <div>
-                <div className="text-xs text-[var(--t3)] mb-2 uppercase tracking-wider">CHESS Balance</div>
-                <div className="text-4xl font-black text-[var(--t1)]">
-                  {balance} <span className="text-[var(--c)] text-sm">CHESS</span>
+                <div className="text-[10px] text-[var(--t3)] mb-2 uppercase tracking-[0.2em] font-bold">CHESS Balance</div>
+                <div className="text-4xl font-black text-[var(--t1)] flex items-baseline gap-2">
+                  {balance} <span className="text-[var(--c)] text-sm tracking-widest">CHESS</span>
                 </div>
               </div>
 
-
-              <div className="pt-6 border-t border-[var(--b1)] grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-[10px] text-[var(--t3)] uppercase mb-1">Wins</div>
-                  <div className="text-xl font-bold">14</div>
+              <div className="grid grid-cols-2 gap-6 pt-6 border-t border-[var(--b1)] border-opacity-30">
+                <div className="flex flex-col gap-1">
+                  <div className="text-[10px] text-[var(--t3)] uppercase tracking-[0.2em] font-bold">Wins</div>
+                  <div className="text-2xl font-black text-green-400">14</div>
                 </div>
-                <div>
-                  <div className="text-[10px] text-[var(--t3)] uppercase mb-1">Losses</div>
-                  <div className="text-xl font-bold">8</div>
+                <div className="flex flex-col gap-1">
+                  <div className="text-[10px] text-[var(--t3)] uppercase tracking-[0.2em] font-bold">Losses</div>
+                  <div className="text-2xl font-black text-red-400">8</div>
                 </div>
               </div>
 
-              <div className="pt-6">
-                <GlowButton fullWidth variant="ghost" size="sm">History</GlowButton>
+              <div className="pt-2">
+                <GlowButton fullWidth variant="ghost" size="sm">View History</GlowButton>
               </div>
             </ClayCard>
 

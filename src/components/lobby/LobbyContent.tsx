@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import GlowButton from '@/components/ui/GlowButton'
 import ClayCard from '@/components/ui/ClayCard'
-// import StatBadge from '@/components/ui/StatBadge'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import { useStacksChess } from '@/hooks/useStacksChess'
 import { useRouter } from 'next/navigation'
@@ -16,7 +15,6 @@ import { useCeloChess } from '@/hooks/useCeloChess'
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
-
 
 export default function LobbyContent() {
   const {
@@ -63,15 +61,14 @@ export default function LobbyContent() {
         if (s) setRating(Number(s.rating.value))
       })
     } else if (activeChain === 'celo' && celoAddress) {
-       if (celoBalance !== undefined) {
-         setBalance(formatUnits(celoBalance as bigint, TOKEN_DECIMALS))
-       }
-       if (celoStats) {
-         setRating(Number((celoStats as any)[3])) // rating is 4th field
-       }
+      if (celoBalance !== undefined) {
+        setBalance(formatUnits(celoBalance as bigint, TOKEN_DECIMALS))
+      }
+      if (celoStats) {
+        setRating(Number((celoStats as any)[3])) // rating is 4th field
+      }
     }
   }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats])
-
 
   // Mock data for lobby
   const openGames = [
@@ -118,7 +115,6 @@ export default function LobbyContent() {
     }
   }
 
-
   if (!isConnected && !isStacksConnected) {
     return (
       <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-6">
@@ -140,12 +136,12 @@ export default function LobbyContent() {
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)' }} />
 
-      {/* Bento Grid Architecture */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 max-w-7xl mx-auto w-full pt-16 flex-1 items-start">
-        
-        {/* Left Column (Span 8): Massive Bento Card containing Header + Open Challenges */}
-        <div className="lg:col-span-8 flex flex-col gap-8 rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-xl p-8 xl:p-10 shadow-2xl">
-          
+      {/* Strict Bento Grid Architecture */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 max-w-7xl mx-auto w-full pt-24 flex-1 items-start">
+
+        {/* Left Column: Challenges */}
+        <div className="lg:col-span-8 flex flex-col gap-8 rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-xl p-8 shadow-2xl">
+
           <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-8">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-3">
               <h1 className="text-4xl md:text-[52px] font-black uppercase tracking-tighter leading-none" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
@@ -170,7 +166,6 @@ export default function LobbyContent() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-              {/* Keep parallelogram for the primary visual CTA only */}
               <GlowButton parallelogram variant="brand" size="lg" onClick={() => setIsCreateModalOpen(true)}>
                 CREATE NEW MATCH
               </GlowButton>
@@ -187,21 +182,20 @@ export default function LobbyContent() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
               >
-                <div className="rounded-xl border border-white/5 bg-black/20 hover:bg-black/40 hover:border-white/10 transition-colors p-4 group flex items-center justify-between gap-6">
-                  
-                  <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 rounded-lg flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
-                      <span className="text-[8px] uppercase tracking-widest opacity-60">ELO</span>
-                      <span className="text-sm leading-none mt-0.5">{game.elo}</span>
-                    </div>
-                    
-                    <div className="flex flex-col justify-center">
-                      <span className="text-[9px] tracking-[0.2em] text-gray-500 uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>CHALLENGER</span>
-                      <span className="font-bold tracking-wide text-sm text-gray-200">{game.creator}</span>
-                    </div>
+                {/* Changed to strict CSS Grid for perfect column alignment */}
+                <div className="rounded-xl border border-white/5 bg-black/20 hover:bg-black/40 hover:border-white/10 transition-colors p-4 group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6">
+
+                  <div className="w-12 h-12 rounded-lg flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
+                    <span className="text-[8px] uppercase tracking-widest opacity-60">ELO</span>
+                    <span className="text-sm leading-none mt-0.5">{game.elo}</span>
                   </div>
 
-                  <div className="flex flex-col justify-center text-right pr-2">
+                  <div className="flex flex-col justify-center">
+                    <span className="text-[9px] tracking-[0.2em] text-gray-500 uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>CHALLENGER</span>
+                    <span className="font-bold tracking-wide text-sm text-gray-200">{game.creator}</span>
+                  </div>
+
+                  <div className="flex flex-col justify-center text-right pr-4">
                     <span className="text-[9px] tracking-[0.2em] text-gray-500 uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>WAGER</span>
                     <div className="font-black text-cyan-400 text-base leading-none">{game.wager} <span className="text-[9px] text-cyan-700">CHESS</span></div>
                   </div>
@@ -210,7 +204,7 @@ export default function LobbyContent() {
                     size="md"
                     onClick={() => handleJoinGame(game.id, game.wager)}
                     disabled={isPending}
-                    className="min-w-[110px]"
+                    className="min-w-[120px]"
                   >
                     {isPending ? '...' : 'JOIN MATCH'}
                   </GlowButton>
@@ -227,42 +221,42 @@ export default function LobbyContent() {
           </div>
         </div>
 
-        {/* Right Column (Span 4): Stacked Profile & Faucet Bento Cards */}
+        {/* Right Column: Profile & Faucet (Unified padding and border radii) */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          
-          <div className="rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-md p-6 flex flex-col">
+
+          <div className="rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-md p-8 flex flex-col shadow-2xl">
             <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-6" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
-            
-            <div className="flex items-baseline gap-2 mb-6">
+
+            <div className="flex items-baseline gap-2 mb-8">
               <span className="text-[44px] font-black text-white leading-none" style={{ fontFamily: 'var(--fd)' }}>{balance}</span>
-              <span className="text-sm text-cyan-500 font-bold tracking-widest">CHESS</span>
+              <span className="text-sm text-cyan-500 font-bold tracking-widest translate-y-[-4px]">CHESS</span>
             </div>
 
             <div className="flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5 mb-8">
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-1">
                 <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-1">Wins</span>
                 <span className="text-xl font-bold text-white leading-none">14</span>
               </div>
-              <div className="w-[1px] h-8 bg-white/10" />
-              <div className="flex flex-col text-right">
+              <div className="w-[1px] h-8 bg-white/10 mx-4" />
+              <div className="flex flex-col flex-1 text-right">
                 <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-1">Losses</span>
                 <span className="text-xl font-bold text-gray-300 leading-none">8</span>
               </div>
             </div>
 
-            <button className="w-full py-3.5 rounded-full border border-white/10 hover:bg-white/5 transition-colors text-xs font-bold tracking-widest text-gray-300 uppercase mt-auto">
+            <button className="w-full py-3.5 rounded-xl border border-white/10 hover:bg-white/5 transition-colors text-xs font-bold tracking-widest text-gray-300 uppercase mt-auto">
               VIEW HISTORY
             </button>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-md p-6 flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
+          <div className="rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-md p-8 flex flex-col gap-4 shadow-2xl">
+            <div className="flex flex-col gap-2">
               <h4 className="font-bold text-sm tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
               <p className="text-xs text-gray-400 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>
             </div>
-            <button 
+            <button
               onClick={() => router.push('#faucet')}
-              className="w-full py-3.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 hover:bg-cyan-900/60 transition-colors text-xs font-bold tracking-widest text-cyan-400 uppercase mt-2"
+              className="w-full py-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 hover:bg-cyan-900/60 transition-colors text-xs font-bold tracking-widest text-cyan-400 uppercase mt-4"
             >
               VISIT FAUCET
             </button>
@@ -270,7 +264,7 @@ export default function LobbyContent() {
         </div>
       </div>
 
-      {/* Create Match Modal */}
+      {/* Create Match Modal remains unchanged */}
       <AnimatePresence>
         {isCreateModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
@@ -299,8 +293,8 @@ export default function LobbyContent() {
                           key={amt}
                           onClick={() => setWager(amt)}
                           className={`py-3 rounded-xl border font-bold transition-all ${wager === amt
-                              ? 'bg-[var(--c)] text-black border-[var(--c)] shadow-[0_0_20px_rgba(0,204,255,0.3)]'
-                              : 'bg-[var(--b1)] text-[var(--t2)] border-[var(--b2)] hover:border-[var(--t3)]'
+                            ? 'bg-[var(--c)] text-black border-[var(--c)] shadow-[0_0_20px_rgba(0,204,255,0.3)]'
+                            : 'bg-[var(--b1)] text-[var(--t2)] border-[var(--b2)] hover:border-[var(--t3)]'
                             }`}
                         >
                           {amt}

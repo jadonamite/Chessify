@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import GlowButton from '@/components/ui/GlowButton'
@@ -16,6 +16,52 @@ import { useCeloChess } from '@/hooks/useCeloChess'
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
+import { Canvas } from '@react-three/fiber'
+import { useGLTF, Float, Environment } from '@react-three/drei'
+
+// STRICT RULE: Preload all 3D assets outside the component tree
+useGLTF.preload('/models/King.glb')
+useGLTF.preload('/models/QueenChess.glb')
+useGLTF.preload('/models/Rook.glb')
+useGLTF.preload('/models/pawn.glb')
+
+// 3D Background Component Setup
+function LiveBackgroundPieces() {
+  const king = useGLTF('/models/King.glb')
+  const queen = useGLTF('/models/QueenChess.glb')
+  const rook = useGLTF('/models/Rook.glb')
+  const pawn = useGLTF('/models/pawn.glb')
+
+  return (
+    <>
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
+      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
+      <Environment preset="city" />
+
+      {/* 2x2 Grid placement with strictly elegant settings */}
+      {/* Top-Left: Queen */}
+      <Float speed={0.8} rotationIntensity={0.2} floatIntensity={0.4} position={[-4, 2.5, -3]}>
+        <primitive object={queen.scene.clone()} scale={1.3} rotation={[0.1, 0.4, 0.1]} />
+      </Float>
+
+      {/* Top-Right: King */}
+      <Float speed={1.0} rotationIntensity={0.3} floatIntensity={0.5} position={[4, 3, -4]}>
+        <primitive object={king.scene.clone()} scale={1.5} rotation={[-0.1, -0.2, 0.2]} />
+      </Float>
+
+      {/* Bottom-Left: Rook */}
+      <Float speed={0.9} rotationIntensity={0.15} floatIntensity={0.3} position={[-3.5, -2.5, -2]}>
+        <primitive object={rook.scene.clone()} scale={1.1} rotation={[0.1, 0.2, -0.1]} />
+      </Float>
+
+      {/* Bottom-Right: Pawn */}
+      <Float speed={0.7} rotationIntensity={0.25} floatIntensity={0.4} position={[3.5, -3, -1]}>
+        <primitive object={pawn.scene.clone()} scale={1.0} rotation={[-0.2, -0.1, 0.3]} />
+      </Float>
+    </>
+  )
+}
 
 export default function LobbyContent() {
   const {
@@ -142,7 +188,16 @@ export default function LobbyContent() {
     return (
       <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-6">
         <Navbar />
-        <ClayCard className="max-w-md w-full p-10 text-center mt-20">
+        <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
+          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+            <Suspense fallback={null}>
+              <LiveBackgroundPieces />
+            </Suspense>
+          </Canvas>
+        </div>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)' }} />
+        
+        <ClayCard className="max-w-md w-full p-10 text-center mt-20 relative z-10">
           <h2 className="text-2xl font-bold text-[var(--t1)] mb-4">Connection Required</h2>
           <p className="text-[var(--t2)] mb-8">Please connect your wallet to enter the Chessify Lobby.</p>
           <GlowButton onClick={() => router.push('/')} variant="brand">Return Home</GlowButton>
@@ -155,21 +210,26 @@ export default function LobbyContent() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] overflow-x-hidden relative flex flex-col">
       <Navbar />
 
-      {/* Ambient background effects & Grid from Hero */}
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
+      {/* STRICT RULE 3: Live 3D Background at z-0 with Canvas Suspense */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
+        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+          <Suspense fallback={null}>
+            <LiveBackgroundPieces />
+          </Suspense>
+        </Canvas>
+      </div>
+
+      {/* Grid Overlay at z-0 */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)' }} />
 
-      {/* MACRO-LAYOUT FIX: 
-        flex-1 ensures this container takes up remaining screen height.
-        flex flex-col justify-center items-center pushes the inner grid to the dead center of the screen.
-      */}
+      {/* foreground UI at z-10 */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 md:px-8 py-12">
 
-        {/* The Grid itself, constrained by max-width */}
+        {/* The Grid itself */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full max-w-7xl">
 
-          {/* Left Column: Challenges (Uniform 40px padding for breathing room) */}
-          <div className="lg:col-span-8 flex flex-col gap-10 rounded-[32px] border border-white/10 bg-slate-900/50 backdrop-blur-xl p-8 md:p-10 shadow-2xl">
+          {/* Left Column: Challenges (p-8 md:p-10 applied properly) */}
+          <div className="lg:col-span-8 flex flex-col gap-10 rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-8 md:p-10 shadow-2xl">
 
             <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-8">
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4">
@@ -211,8 +271,7 @@ export default function LobbyContent() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                 >
-                  {/* Padding increased to p-5 md:p-6 for internal breathing room */}
-                  <div className="rounded-2xl border border-white/5 bg-black/20 hover:bg-black/40 hover:border-white/10 transition-colors p-5 md:p-6 group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6">
+                  <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors p-6 group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6">
 
                     <div className="w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
                       <span className="text-[9px] uppercase tracking-widest opacity-60">ELO</span>
@@ -243,17 +302,17 @@ export default function LobbyContent() {
               ))}
 
               {openGames.filter(g => g.chain === activeChain).length === 0 && (
-                <div className="py-24 text-center border border-dashed border-white/10 rounded-[24px] bg-black/20">
+                <div className="py-24 text-center border border-dashed border-white/10 rounded-[24px] bg-black/40">
                   <p className="text-sm font-medium text-gray-500 tracking-wider">NO OPEN MATCHES ON {activeChain?.toUpperCase()}</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Right Column: Profile & Faucet (Uniform 32px padding, no fixed heights to prevent Faucet overlap) */}
-          <div className="lg:col-span-4 flex flex-col gap-8">
+          {/* Right Column: Profile & Faucet (p-8 md:p-10 applied properly, no fixed heights) */}
+          <div className="lg:col-span-4 flex flex-col gap-8 h-auto">
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/50 backdrop-blur-md p-8 md:p-10 flex flex-col shadow-2xl">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-8 md:p-10 flex flex-col shadow-2xl">
               <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
 
               <div className="flex items-baseline gap-3 mb-10">
@@ -261,7 +320,7 @@ export default function LobbyContent() {
                 <span className="text-sm text-cyan-500 font-bold tracking-widest translate-y-[-4px]">CHESS</span>
               </div>
 
-              <div className="flex justify-between items-center bg-black/30 p-5 rounded-2xl border border-white/5 mb-8">
+              <div className="flex justify-between items-center bg-black/40 p-5 rounded-2xl border border-white/5 mb-8">
                 <div className="flex flex-col flex-1">
                   <span className="text-[11px] text-gray-500 font-bold tracking-widest uppercase mb-2">Wins</span>
                   <span className="text-2xl font-bold text-white leading-none">14</span>
@@ -278,7 +337,7 @@ export default function LobbyContent() {
               </GlowButton>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/50 backdrop-blur-md p-8 md:p-10 flex flex-col gap-6 shadow-2xl">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-8 md:p-10 flex flex-col gap-6 shadow-2xl">
               <div className="flex flex-col gap-3">
                 <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
                 <p className="text-[13px] text-gray-400 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>

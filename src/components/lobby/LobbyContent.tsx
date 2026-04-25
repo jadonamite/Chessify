@@ -234,7 +234,7 @@ export default function LobbyContent() {
               </motion.div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col gap-6 box-border overflow-hidden">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col gap-6 box-border">
               <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
 
               <div className="flex flex-col gap-4">
@@ -280,7 +280,7 @@ export default function LobbyContent() {
           {/* RIGHT COLUMN */}
           <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8 h-auto w-full min-w-0 box-border">
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative box-border overflow-hidden">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative box-border">
               <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
 
               <div className="flex items-baseline gap-2 mb-10">
@@ -307,7 +307,7 @@ export default function LobbyContent() {
               </div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative box-border overflow-hidden">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative box-border">
               <div className="flex flex-col gap-3 mb-6">
                 <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
                 <p className="text-[13px] text-gray-400 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>

@@ -99,7 +99,7 @@ export default function LobbyContent() {
 
   // Fetch Celo Stats via Wagmi
   const { data: celoBalance } = useReadContract({
-    address: CEL_CONTRACTS.token as `0x${string}`,
+    address: CELO_CONTRACTS.token as `0x${string}`,
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [celoAddress as `0x${string}`],
@@ -107,7 +107,7 @@ export default function LobbyContent() {
   })
 
   const { data: celoStats } = useReadContract({
-    address: CEL_CONTRACTS.game as `0x${string}`,
+    address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'playerStats',
     args: [celoAddress as `0x${string}`],

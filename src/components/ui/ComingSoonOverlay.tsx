@@ -42,16 +42,17 @@ function FloatingPieces() {
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment preset="city" />
 
-      <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position={[-2, 0, -2]}>
-        <primitive object={coloredQueen} scale={1.2} rotation={[0.4, 0.2, 0.1]} />
+      {/* CALIBRATED 3D Pieces: Larger scale and centered framing */}
+      <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position={[-2.0, 1.0, -1.0]}>
+        <primitive object={coloredQueen} scale={2.8} rotation={[0.4, 0.2, 0.1]} />
       </Float>
 
-      <Float speed={1.5} rotationIntensity={2} floatIntensity={3} position={[0, -1, 0]}>
-        <primitive object={coloredKing} scale={1.5} rotation={[-0.1, 0.5, 0.2]} />
+      <Float speed={1.5} rotationIntensity={2} floatIntensity={3} position={[0.0, -1.0, 0.0]}>
+        <primitive object={coloredKing} scale={3.0} rotation={[-0.1, 0.5, 0.2]} />
       </Float>
 
-      <Float speed={2.5} rotationIntensity={1} floatIntensity={1.5} position={[2.5, 0.5, -1]}>
-        <primitive object={coloredRook} scale={1.1} rotation={[0.2, -0.4, -0.1]} />
+      <Float speed={2.5} rotationIntensity={1} floatIntensity={1.5} position={[2.0, 1.2, -0.5]}>
+        <primitive object={coloredRook} scale={2.6} rotation={[0.2, -0.4, -0.1]} />
       </Float>
     </>
   )
@@ -86,7 +87,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
 
           {/* 3D Canvas Background */}
           <div className="absolute inset-0 pointer-events-none opacity-60">
-            <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+            <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
               <Suspense fallback={null}>
                 <FloatingPieces />
               </Suspense>

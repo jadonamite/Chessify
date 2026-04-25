@@ -60,21 +60,21 @@ function LiveBackgroundPieces() {
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment preset="city" />
 
-      {/* Structured LIVE 2x2 layout, strictly framed in the background */}
-      <Float speed={0.8} rotationIntensity={0.2} floatIntensity={0.4} position={[-5, 3, -3]}>
-        <primitive object={coloredQueen} scale={1.3} rotation={[0.1, 0.4, 0.1]} />
+      {/* CALIBRATED 3D Pieces: Closer to center, larger scale */}
+      <Float speed={0.8} rotationIntensity={0.2} floatIntensity={0.4} position={[-2.5, 1.5, -1]}>
+        <primitive object={coloredQueen} scale={2.8} rotation={[0.1, 0.4, 0.1]} />
       </Float>
 
-      <Float speed={1.0} rotationIntensity={0.3} floatIntensity={0.5} position={[5, 4, -5]}>
-        <primitive object={coloredKing} scale={1.5} rotation={[-0.1, -0.2, 0.2]} />
+      <Float speed={1.0} rotationIntensity={0.3} floatIntensity={0.5} position={[2.5, 1.2, -1.5]}>
+        <primitive object={coloredKing} scale={3.0} rotation={[-0.1, -0.2, 0.2]} />
       </Float>
 
-      <Float speed={0.9} rotationIntensity={0.15} floatIntensity={0.3} position={[-4.5, -3, -2]}>
-        <primitive object={coloredRook} scale={1.1} rotation={[0.1, 0.2, -0.1]} />
+      <Float speed={0.9} rotationIntensity={0.15} floatIntensity={0.3} position={[-2.2, -1.2, -0.5]}>
+        <primitive object={coloredRook} scale={2.5} rotation={[0.1, 0.2, -0.1]} />
       </Float>
 
-      <Float speed={0.7} rotationIntensity={0.25} floatIntensity={0.4} position={[4.5, -4, -1]}>
-        <primitive object={coloredPawn} scale={1.0} rotation={[-0.2, -0.1, 0.3]} />
+      <Float speed={0.7} rotationIntensity={0.25} floatIntensity={0.4} position={[2.2, -1.5, -0.2]}>
+        <primitive object={coloredPawn} scale={2.4} rotation={[-0.2, -0.1, 0.3]} />
       </Float>
     </>
   )
@@ -99,7 +99,7 @@ export default function LobbyContent() {
 
   // Fetch Celo Stats via Wagmi
   const { data: celoBalance } = useReadContract({
-    address: CELO_CONTRACTS.token as `0x${string}`,
+    address: CEL_CONTRACTS.token as `0x${string}`,
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [celoAddress as `0x${string}`],
@@ -107,7 +107,7 @@ export default function LobbyContent() {
   })
 
   const { data: celoStats } = useReadContract({
-    address: CELO_CONTRACTS.game as `0x${string}`,
+    address: CEL_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'playerStats',
     args: [celoAddress as `0x${string}`],
@@ -174,7 +174,7 @@ export default function LobbyContent() {
       <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-6 relative overflow-hidden">
         <Navbar />
         <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
-          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
             <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
           </Canvas>
         </div>
@@ -195,7 +195,7 @@ export default function LobbyContent() {
 
       {/* 3D Background */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-50">
-        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+        <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
         </Canvas>
       </div>
@@ -204,14 +204,14 @@ export default function LobbyContent() {
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 md:px-8 py-12 md:py-24">
 
-        {/* SENIOR FIX: items-start locks the top horizontal line perfectly */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start w-full max-w-7xl">
+        {/* SENIOR FIX: items-start locks the top horizontal line perfectly, gap-8 ensures natural spacing */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full max-w-7xl">
 
           {/* LEFT COLUMN: Split into Modular Bento Cards */}
-          <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8 w-full">
+          <div className="lg:col-span-8 flex flex-col gap-8 w-full">
 
             {/* Bento Card 1: Lobby Header */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-8 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-8">
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4">
                 <h1 className="text-4xl md:text-[52px] font-black uppercase tracking-tighter leading-none" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
                   Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>Lobby</span>
@@ -238,13 +238,13 @@ export default function LobbyContent() {
             </div>
 
             {/* Bento Card 2: Open Challenges */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col gap-6">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-8 shadow-2xl flex flex-col gap-6">
               <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
 
               <div className="flex flex-col gap-4">
                 {openGames.filter(g => g.chain === activeChain).map((game, idx) => (
                   <motion.div key={game.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-                    <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors p-5 md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
+                    <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
 
                       <div className="flex items-center gap-5 w-full sm:w-auto">
                         <div className="w-14 h-14 shrink-0 rounded-xl flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
@@ -280,13 +280,13 @@ export default function LobbyContent() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Profile & Faucet (h-auto and p-8 md:p-10 fixes border bleed) */}
-          <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8 h-auto w-full">
+          {/* RIGHT COLUMN: Profile & Faucet (Unbroken p-8 padding, NO negative margins) */}
+          <div className="lg:col-span-4 flex flex-col gap-8 h-auto w-full">
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative overflow-hidden">
-              <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-8 flex flex-col shadow-2xl relative">
+              <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>PROFILE STATS</h3>
 
-              {/* SENIOR FIX: Removed hacky translate-y, using strict items-baseline */}
+              {/* SENIOR FIX: Strict items-baseline, no negative transforms */}
               <div className="flex items-baseline gap-2 mb-10">
                 <span className="text-5xl font-black text-white leading-none" style={{ fontFamily: 'var(--fd)' }}>{balance}</span>
                 <span className="text-sm text-cyan-500 font-bold tracking-widest">CHESS</span>
@@ -311,9 +311,9 @@ export default function LobbyContent() {
               </div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative overflow-hidden">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-8 flex flex-col shadow-2xl relative">
               <div className="flex flex-col gap-3 mb-6">
-                <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
+                <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>NEED CHESS?</h4>
                 <p className="text-[13px] text-gray-400 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>
               </div>
               <div className="mt-auto">

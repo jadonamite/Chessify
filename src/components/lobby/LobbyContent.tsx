@@ -20,20 +20,18 @@ import { Canvas } from '@react-three/fiber'
 import { useGLTF, Float, Environment } from '@react-three/drei'
 import * as THREE from 'three'
 
-// STRICT RULE: Preload all 3D assets outside the component tree
+// STRICT RULE: Preload all 3D assets
 useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 useGLTF.preload('/models/pawn.glb')
 
-// 3D Background Component Setup with Custom Materials
 function LiveBackgroundPieces() {
   const king = useGLTF('/models/King.glb')
   const queen = useGLTF('/models/QueenChess.glb')
   const rook = useGLTF('/models/Rook.glb')
   const pawn = useGLTF('/models/pawn.glb')
 
-  // SENIOR FIX: Mutate materials so they match the app's cyberpunk aesthetic
   const cyanMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#00ccff', emissive: '#00ccff', emissiveIntensity: 0.4, roughness: 0.2, metalness: 0.8
   }), [])
@@ -44,7 +42,9 @@ function LiveBackgroundPieces() {
 
   const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
     const clone = scene.clone()
-    clone.traverse((child: any) => { if (child.isMesh) child.material = material })
+    clone.traverse((child: any) => {
+      if (child.isMesh) child.material = material
+    })
     return clone
   }
 
@@ -60,21 +60,21 @@ function LiveBackgroundPieces() {
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment preset="city" />
 
-      {/* CALIBRATED 3D Pieces: Closer to center, larger scale */}
-      <Float speed={0.8} rotationIntensity={0.2} floatIntensity={0.4} position={[-2.5, 1.5, -1]}>
-        <primitive object={coloredQueen} scale={2.8} rotation={[0.1, 0.4, 0.1]} />
+      {/* 1.25x Scale & Brought closer to center */}
+      <Float speed={0.8} rotationIntensity={0.2} floatIntensity={0.4} position={[-3.5, 2.5, -2]}>
+        <primitive object={coloredQueen} scale={1.62} rotation={[0.1, 0.4, 0.1]} />
       </Float>
 
-      <Float speed={1.0} rotationIntensity={0.3} floatIntensity={0.5} position={[2.5, 1.2, -1.5]}>
-        <primitive object={coloredKing} scale={3.0} rotation={[-0.1, -0.2, 0.2]} />
+      <Float speed={1.0} rotationIntensity={0.3} floatIntensity={0.5} position={[3.5, 3, -3]}>
+        <primitive object={coloredKing} scale={1.87} rotation={[-0.1, -0.2, 0.2]} />
       </Float>
 
-      <Float speed={0.9} rotationIntensity={0.15} floatIntensity={0.3} position={[-2.2, -1.2, -0.5]}>
-        <primitive object={coloredRook} scale={2.5} rotation={[0.1, 0.2, -0.1]} />
+      <Float speed={0.9} rotationIntensity={0.15} floatIntensity={0.3} position={[-3.5, -2, -1.5]}>
+        <primitive object={coloredRook} scale={1.37} rotation={[0.1, 0.2, -0.1]} />
       </Float>
 
-      <Float speed={0.7} rotationIntensity={0.25} floatIntensity={0.4} position={[2.2, -1.5, -0.2]}>
-        <primitive object={coloredPawn} scale={2.4} rotation={[-0.2, -0.1, 0.3]} />
+      <Float speed={0.7} rotationIntensity={0.25} floatIntensity={0.4} position={[3.5, -2.5, -1]}>
+        <primitive object={coloredPawn} scale={1.25} rotation={[-0.2, -0.1, 0.3]} />
       </Float>
     </>
   )
@@ -97,7 +97,6 @@ export default function LobbyContent() {
   const [balance, setBalance] = useState<string>('0.00')
   const [rating, setRating] = useState<number>(1200)
 
-  // Fetch Celo Stats via Wagmi
   const { data: celoBalance } = useReadContract({
     address: CELO_CONTRACTS.token as `0x${string}`,
     abi: CHESS_TOKEN_ABI,
@@ -130,7 +129,6 @@ export default function LobbyContent() {
     { id: 105, creator: 'SP3...A99', wager: 100, chain: 'stacks', elo: 1420 },
   ]
 
-  // Intercept handlers cleanly
   const handleCreateGame = async () => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
     setIsPending(true)
@@ -171,10 +169,10 @@ export default function LobbyContent() {
 
   if (!isConnected && !isStacksConnected) {
     return (
-      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-6 relative overflow-hidden">
+      <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] flex items-center justify-center p-6 relative overflow-hidden box-border">
         <Navbar />
         <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
-          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
             <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
           </Canvas>
         </div>
@@ -190,28 +188,27 @@ export default function LobbyContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--t1)] overflow-x-hidden relative flex flex-col">
+    <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] text-[var(--t1)] relative flex flex-col box-border overflow-x-hidden">
       <Navbar />
 
       {/* 3D Background */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-50">
-        <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
           <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
         </Canvas>
       </div>
 
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.4 }} />
 
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 md:px-8 py-12 md:py-24">
+      {/* LAYOUT CIRCUIT BREAKER: box-border and max-w-full prevent grid blowouts */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-full box-border px-4 md:px-8 py-12 md:py-24">
 
-        {/* SENIOR FIX: items-start locks the top horizontal line perfectly, gap-8 ensures natural spacing */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start w-full max-w-7xl mx-auto box-border">
 
-          {/* LEFT COLUMN: Split into Modular Bento Cards */}
-          <div className="lg:col-span-8 flex flex-col gap-8 w-full">
+          {/* LEFT COLUMN */}
+          <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8 w-full min-w-0 box-border">
 
-            {/* Bento Card 1: Lobby Header */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-8 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-8 box-border">
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4">
                 <h1 className="text-4xl md:text-[52px] font-black uppercase tracking-tighter leading-none" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
                   Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>Lobby</span>
@@ -230,39 +227,39 @@ export default function LobbyContent() {
                 </div>
               </motion.div>
 
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="shrink-0">
                 <GlowButton parallelogram variant="brand" size="lg" onClick={() => handleAction(() => setIsCreateModalOpen(true))} className="w-full md:w-auto">
                   CREATE NEW MATCH
                 </GlowButton>
               </motion.div>
             </div>
 
-            {/* Bento Card 2: Open Challenges */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-8 shadow-2xl flex flex-col gap-6">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col gap-6 box-border overflow-hidden">
               <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
 
               <div className="flex flex-col gap-4">
                 {openGames.filter(g => g.chain === activeChain).map((game, idx) => (
                   <motion.div key={game.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-                    <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
+                    <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors p-5 md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group box-border">
 
-                      <div className="flex items-center gap-5 w-full sm:w-auto">
+                      <div className="flex items-center gap-5 w-full sm:w-auto min-w-0">
                         <div className="w-14 h-14 shrink-0 rounded-xl flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
                           <span className="text-[9px] uppercase tracking-widest opacity-60">ELO</span>
                           <span className="text-base leading-none mt-1">{game.elo}</span>
                         </div>
-                        <div className="flex flex-col justify-center">
+                        <div className="flex flex-col justify-center min-w-0">
                           <span className="text-[10px] tracking-[0.2em] text-gray-500 uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>CHALLENGER</span>
-                          <span className="font-bold tracking-wide text-base text-gray-200 truncate max-w-[150px] sm:max-w-none">{game.creator}</span>
+                          {/* Added truncate to prevent super long addresses breaking flex rows */}
+                          <span className="font-bold tracking-wide text-base text-gray-200 truncate max-w-full">{game.creator}</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between w-full sm:w-auto sm:gap-8 border-t sm:border-t-0 border-white/5 pt-4 sm:pt-0">
+                      <div className="flex items-center justify-between w-full sm:w-auto sm:gap-8 border-t sm:border-t-0 border-white/5 pt-4 sm:pt-0 shrink-0">
                         <div className="flex flex-col justify-center sm:text-right">
                           <span className="text-[10px] tracking-[0.2em] text-gray-500 uppercase font-bold mb-1" style={{ fontFamily: 'var(--fd)' }}>WAGER</span>
                           <div className="font-black text-cyan-400 text-lg leading-none">{game.wager} <span className="text-[10px] text-cyan-700">CHESS</span></div>
                         </div>
-                        <GlowButton size="md" onClick={() => handleJoinGame(game.id, game.wager)} disabled={isPending} className="min-w-[120px]">
+                        <GlowButton size="md" onClick={() => handleJoinGame(game.id, game.wager)} disabled={isPending} className="min-w-[120px] shrink-0">
                           {isPending ? '...' : 'JOIN MATCH'}
                         </GlowButton>
                       </div>
@@ -280,13 +277,12 @@ export default function LobbyContent() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Profile & Faucet (Unbroken p-8 padding, NO negative margins) */}
-          <div className="lg:col-span-4 flex flex-col gap-8 h-auto w-full">
+          {/* RIGHT COLUMN */}
+          <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8 h-auto w-full min-w-0 box-border">
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-8 flex flex-col shadow-2xl relative">
-              <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>PROFILE STATS</h3>
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative box-border overflow-hidden">
+              <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
 
-              {/* SENIOR FIX: Strict items-baseline, no negative transforms */}
               <div className="flex items-baseline gap-2 mb-10">
                 <span className="text-5xl font-black text-white leading-none" style={{ fontFamily: 'var(--fd)' }}>{balance}</span>
                 <span className="text-sm text-cyan-500 font-bold tracking-widest">CHESS</span>
@@ -304,19 +300,19 @@ export default function LobbyContent() {
                 </div>
               </div>
 
-              <div className="mt-auto pt-2">
+              <div className="mt-auto pt-2 w-full">
                 <GlowButton variant="ghost" fullWidth onClick={() => handleAction(() => console.log("History"))}>
                   VIEW HISTORY
                 </GlowButton>
               </div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-8 flex flex-col shadow-2xl relative">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 md:p-10 flex flex-col shadow-2xl relative box-border overflow-hidden">
               <div className="flex flex-col gap-3 mb-6">
-                <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>NEED CHESS?</h4>
+                <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
                 <p className="text-[13px] text-gray-400 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>
               </div>
-              <div className="mt-auto">
+              <div className="mt-auto w-full">
                 <GlowButton variant="brand" fullWidth onClick={() => handleAction(() => router.push('#faucet'))}>
                   VISIT FAUCET
                 </GlowButton>
@@ -328,11 +324,10 @@ export default function LobbyContent() {
 
       <AnimatePresence>
         {isCreateModalOpen && (
-          // Modal code remains safe and clean
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 box-border">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsCreateModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="relative w-full max-w-md">
-              <ClayCard className="p-8 md:p-10">
+            <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="relative w-full max-w-md box-border">
+              <ClayCard className="p-8 md:p-10 box-border overflow-hidden">
                 <h3 className="text-2xl font-black mb-6 uppercase italic">Create Match</h3>
                 <div className="space-y-6 mb-10">
                   <div>

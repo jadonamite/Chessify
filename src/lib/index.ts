@@ -18,3 +18,8 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/hooks/useCeloChess.ts
+//       args: [BigInt(gameId)],
+//     })
+//   }, [writeContractAsync])

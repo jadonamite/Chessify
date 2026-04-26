@@ -397,7 +397,7 @@ export default function LobbyContent() {
                   <GlowButton
                     variant="ghost"
                     fullWidth
-                    onClick={() => handleAction(() => router.push('/app/history'))}
+                    onClick={() => router.push('/app/history')}
                   >
                     VIEW HISTORY
                   </GlowButton>
@@ -467,11 +467,10 @@ export default function LobbyContent() {
                           <button
                             key={amt}
                             onClick={() => setWager(amt)}
-                            className={`py-3 rounded-xl border font-bold transition-all ${
-                              wager === amt
+                            className={`py-3 rounded-xl border font-bold transition-all ${wager === amt
                                 ? 'bg-[var(--c)] text-black border-[var(--c)] shadow-[0_0_20px_rgba(0,204,255,0.3)]'
                                 : 'bg-[var(--b1)] text-[var(--t2)] border-[var(--b2)] hover:border-[var(--t3)]'
-                            }`}
+                              }`}
                           >
                             {amt}
                           </button>

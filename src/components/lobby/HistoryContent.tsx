@@ -1,12 +1,12 @@
 'use client'
 
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Float, Environment, Text, MeshDistortMaterial } from '@react-three/drei'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Float, Environment, MeshDistortMaterial } from '@react-three/drei'
+import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import GlowButton from '@/components/ui/GlowButton'
-import { useHistory, HistoryItem } from '@/hooks/useHistory'
+import { useHistory } from '@/hooks/useHistory'
 import { useWallet } from '@/components/wallet-provider'
 
 function KingPiece() {

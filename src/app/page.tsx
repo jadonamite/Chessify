@@ -1,6 +1,5 @@
 import Features from '@/components/landing/Features'
 import Hero from '@/components/landing/Hero'
-// ← echo residue
 import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 
 export default function LandingPage() {

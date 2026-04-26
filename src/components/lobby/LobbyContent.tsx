@@ -378,7 +378,7 @@ export default function LobbyContent() {
                   <GlowButton
                     variant="brand"
                     fullWidth
-                    onClick={() => handleAction(() => router.push('#faucet'))}
+                    onClick={() => handleAction(() => router.push('/app/faucet'))}
                   >
                     VISIT FAUCET
                   </GlowButton>

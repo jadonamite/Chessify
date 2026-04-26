@@ -31,3 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+// ⟳ echo · src/app/page.tsx
+// import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
+// export default function LandingPage() {
+//   return (
+//     <main>
+//       <Hero />

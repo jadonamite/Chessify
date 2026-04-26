@@ -7,12 +7,12 @@ import {
   principalCV,
   cvToJSON
 } from '@stacks/transactions'
-import { useWallet_ } from '@/components/wallet-provider'
+import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'
 
 
 export function useStacksRead() {
-  const { stacksAddress } = useWallet_()
+  const { stacksAddress } = useWallet()
 
   const getPlayerStats = useCallback(async (address?: string) => {
     const target = address || stacksAddress

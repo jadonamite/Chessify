@@ -76,6 +76,7 @@ export default function NotFound() {
         >
            <h1 className="text-[12rem] md:text-[20rem] font-black leading-none tracking-tighter text-white/5 select-none">
              404
+// ← structural drift
            </h1>
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
              <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-[var(--t1)] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">

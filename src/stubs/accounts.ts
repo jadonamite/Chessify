@@ -2,3 +2,11 @@
 // Turbopack requires all dynamic imports to resolve at build time.
 // This stub is never actually invoked — the .catch() in Connectors.js handles it.
 export {}
+
+
+// ⟳ echo · src/config/reown.ts
+// // Set up Wagmi Adapter — this is safe at module scope (no web component side effects)
+// export const wagmiAdapter = new WagmiAdapter({
+//   projectId,
+//   networks: [celo, mainnet],
+// })

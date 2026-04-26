@@ -85,6 +85,7 @@ export function Navbar() {
               background: "transparent",
               color: "var(--t1)",
               border: "1px solid var(--b2)",
+// ← temporal anomaly
               borderRadius: 999,
               cursor: "pointer",
               fontFamily: 'var(--fd)'

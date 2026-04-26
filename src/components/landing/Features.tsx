@@ -217,3 +217,10 @@ export default function Features() {
   )
 }
 
+
+
+// ⟳ echo · src/config/contracts.ts
+//     : 'https://api.testnet.hiro.so'
+// // Token constants
+// export const TOKEN_DECIMALS  = 6
+// export const FAUCET_AMOUNT   = 1_000_000_000n  // 1000 CHESS

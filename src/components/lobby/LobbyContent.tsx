@@ -42,8 +42,8 @@ function LiveBackgroundPieces() {
 
   const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
     const clone = scene.clone()
-    clone.traverse((child: any) => { 
-      if (child.isMesh) child.material = material 
+    clone.traverse((child: any) => {
+      if (child.isMesh) child.material = material
     })
     return clone
   }
@@ -60,6 +60,7 @@ function LiveBackgroundPieces() {
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment preset="city" />
 
+      {/* 3D Models kept at the requested 1.25x scale increase */}
       <Float speed={0.8} rotationIntensity={0.2} floatIntensity={0.4} position={[-3.5, 2.5, -2]}>
         <primitive object={coloredQueen} scale={1.62} rotation={[0.1, 0.4, 0.1]} />
       </Float>
@@ -168,7 +169,7 @@ export default function LobbyContent() {
 
   if (!isConnected && !isStacksConnected) {
     return (
-      <main className="min-h-screen w-full bg-[var(--bg)] flex items-center justify-center p-6 relative overflow-hidden box-border">
+      <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] flex items-center justify-center p-[24px] relative overflow-hidden box-border">
         <Navbar />
         <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
           <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
@@ -177,7 +178,7 @@ export default function LobbyContent() {
         </div>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.5 }} />
 
-        <ClayCard className="max-w-md w-full p-10 text-center mt-20 relative z-10 shadow-2xl">
+        <ClayCard className="max-w-md w-full p-[32px] md:p-[40px] text-center mt-20 relative z-10 shadow-2xl">
           <h2 className="text-2xl font-bold text-[var(--t1)] mb-4">Connection Required</h2>
           <p className="text-[var(--t2)] mb-8">Please connect your wallet to enter the Chessify Lobby.</p>
           <GlowButton onClick={() => router.push('/')} variant="brand">Return Home</GlowButton>
@@ -187,10 +188,10 @@ export default function LobbyContent() {
   }
 
   return (
-    // FIX 1: Removed max-w-[100vw]. Let w-full naturally fill the parent container without bleeding into the sidebar.
-    <main className="min-h-screen w-full bg-[var(--bg)] text-[var(--t1)] relative flex flex-col box-border overflow-hidden">
+    <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] text-[var(--t1)] relative flex flex-col box-border overflow-x-hidden">
       <Navbar />
 
+      {/* 3D Background */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-50">
         <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
           <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
@@ -199,14 +200,16 @@ export default function LobbyContent() {
 
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.4 }} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto box-border px-4 md:px-8 py-12 md:py-24 mt-16 md:mt-0">
+      {/* FIX: Removed flex-col and items-center to stop viewport blowout. Replaced with standard block mx-auto layout */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto box-border px-[16px] md:px-[32px] py-[48px] md:py-[96px] mt-16 md:mt-0">
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full box-border">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[24px] md:gap-[32px] items-start w-full box-border">
 
-          <div className="lg:col-span-8 flex flex-col gap-8 w-full min-w-0 box-border">
+          {/* LEFT COLUMN */}
+          <div className="lg:col-span-8 flex flex-col gap-[24px] md:gap-[32px] w-full min-w-0 box-border">
 
-            {/* FIX 2: Inline style padding guarantees the browser applies it regardless of Tailwind caching issues */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-8 box-border" style={{ padding: '40px' }}>
+            {/* FIX: p-[24px] md:p-[40px] bypasses Tailwind v4 spacing variable bugs */}
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-[24px] md:p-[40px] shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-[32px] box-border">
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4 min-w-0">
                 <h1 className="text-4xl md:text-[52px] font-black uppercase tracking-tighter leading-none truncate" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
                   Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>Lobby</span>
@@ -232,13 +235,13 @@ export default function LobbyContent() {
               </motion.div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl flex flex-col gap-6 box-border" style={{ padding: '40px' }}>
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl p-[24px] md:p-[40px] shadow-2xl flex flex-col gap-6 box-border">
               <h3 className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase" style={{ fontFamily: 'var(--fd)' }}>Open Challenges</h3>
 
               <div className="flex flex-col gap-4">
                 {openGames.filter(g => g.chain === activeChain).map((game, idx) => (
                   <motion.div key={game.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-                    <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group box-border" style={{ padding: '24px' }}>
+                    <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors p-[20px] md:p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group box-border">
 
                       <div className="flex items-center gap-5 w-full sm:w-auto min-w-0">
                         <div className="w-14 h-14 shrink-0 rounded-xl flex flex-col items-center justify-center font-bold text-cyan-400 bg-cyan-950/30 border border-cyan-500/20">
@@ -274,9 +277,10 @@ export default function LobbyContent() {
             </div>
           </div>
 
-          <div className="lg:col-span-4 flex flex-col gap-8 h-auto w-full min-w-0 box-border">
+          {/* RIGHT COLUMN */}
+          <div className="lg:col-span-4 flex flex-col gap-[24px] md:gap-[32px] h-auto w-full min-w-0 box-border">
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md flex flex-col shadow-2xl relative box-border" style={{ padding: '40px' }}>
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-[24px] md:p-[40px] flex flex-col shadow-2xl relative box-border">
               <h3 className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8" style={{ fontFamily: 'var(--fd)' }}>Profile Stats</h3>
 
               <div className="flex items-baseline gap-2 mb-10">
@@ -284,7 +288,7 @@ export default function LobbyContent() {
                 <span className="text-sm text-cyan-500 font-bold tracking-widest">CHESS</span>
               </div>
 
-              <div className="flex justify-between items-center bg-black/40 rounded-2xl border border-white/5 mb-8" style={{ padding: '20px' }}>
+              <div className="flex justify-between items-center bg-black/40 p-[20px] rounded-2xl border border-white/5 mb-8">
                 <div className="flex flex-col flex-1">
                   <span className="text-[11px] text-gray-500 font-bold tracking-widest uppercase mb-2">Wins</span>
                   <span className="text-2xl font-bold text-white leading-none">14</span>
@@ -303,7 +307,7 @@ export default function LobbyContent() {
               </div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md flex flex-col shadow-2xl relative box-border" style={{ padding: '40px' }}>
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md p-[24px] md:p-[40px] flex flex-col shadow-2xl relative box-border">
               <div className="flex flex-col gap-3 mb-6">
                 <h4 className="font-bold text-[15px] tracking-widest text-white uppercase" style={{ fontFamily: 'var(--fd)' }}>Need CHESS?</h4>
                 <p className="text-[13px] text-gray-400 leading-relaxed">Top up your wallet with testnet tokens to start playing on {activeChain}.</p>
@@ -320,10 +324,10 @@ export default function LobbyContent() {
 
       <AnimatePresence>
         {isCreateModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center box-border" style={{ padding: '24px' }}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-[24px] box-border">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsCreateModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
             <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="relative w-full max-w-md box-border">
-              <ClayCard className="box-border" style={{ padding: '40px' }}>
+              <ClayCard className="p-[32px] md:p-[40px] box-border">
                 <h3 className="text-2xl font-black mb-6 uppercase italic">Create Match</h3>
                 <div className="space-y-6 mb-10">
                   <div>

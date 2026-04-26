@@ -454,8 +454,8 @@ These scripts run automated game lifecycles on mainnet to generate on-chain acti
 
 ### P1 — Gameplay & Board Integration
 - [x] **React Chessboard**: Integrated `react-chessboard` + `chess.js` into a dedicated game page at `src/app/app/game/[id]`.
-- [ ] **Dual-Chain Move Logic**: Implement `useCeloChess` and unify dispatch logic so the same board works for both chains.
-- [ ] **Game Hub/Dashboard**: "My Games" page to track active matches, claim timeouts, view past games.
+- [x] **Dual-Chain Move Logic**: Implement `useCeloChess` and unify dispatch logic so the same board works for both chains.
+- [x] **Game Hub/Dashboard**: "My Games" page to track active matches, claim timeouts, view past games (History Page).
 - [x] **Game Lobby**: Built a dedicated `Lobby` page in `src/app/app/lobby` with challenge creation and network-aware filtering.
 
 - [ ] **On-Chain Move Verification**: Implement lightweight hash-based verification or PGN anchoring to prevent client-side "fake wins".

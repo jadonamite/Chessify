@@ -397,7 +397,7 @@ export default function LobbyContent() {
                   <GlowButton
                     variant="ghost"
                     fullWidth
-                    onClick={() => handleAction(() => console.log('History'))}
+                    onClick={() => handleAction(() => router.push('/app/history'))}
                   >
                     VIEW HISTORY
                   </GlowButton>

@@ -1,7 +1,6 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { celo, mainnet } from '@reown/appkit/networks'
 
-// ← temporal anomaly
 // Get projectId from environment variables
 export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
 

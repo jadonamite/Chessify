@@ -1,7 +1,7 @@
 'use client'
 
-import { useAccount } from 'wagmi'
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { useAccount } from 'wagmi'
 
 interface WalletContextType {
   address: string | null

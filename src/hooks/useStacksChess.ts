@@ -33,7 +33,7 @@ export function useStacksChess() {
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled_')),
+        onCancel: () => reject(new Error('Transaction cancelled')),
         userSession
       })
     })
@@ -59,13 +59,13 @@ export function useStacksChess() {
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled_')),
+        onCancel: () => reject(new Error('Transaction cancelled')),
         userSession
       })
     })
   }, [isStacksConnected, stacksAddress, userSession])
 
-  const submitMove = useCallback(async (gameId: number) => {
+  const submitMove_ = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) return
     const { openContractCall } = await import('@stacks/connect')
 
@@ -78,7 +78,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled_')),
+        onCancel: () => reject(new Error('Transaction cancelled')),
         userSession
       })
     })
@@ -97,7 +97,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled_')),
+        onCancel: () => reject(new Error('Transaction cancelled')),
         userSession
       })
     })
@@ -116,7 +116,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled_')),
+        onCancel: () => reject(new Error('Transaction cancelled')),
         userSession
       })
     })
@@ -125,7 +125,7 @@ export function useStacksChess() {
   return {
     createGame,
     joinGame,
-    submitMove,
+    submitMove_,
     resign,
     reportWin,
   }

@@ -1,21 +1,21 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
-import GlowButton from '@/components/ui/GlowButton'
-import { useGLTF, Float, Environment } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
 import { useEffect, useState, Suspense, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Canvas } from '@react-three/fiber'
+import { useGLTF, Float, Environment } from '@react-three/drei'
 import * as THREE from 'three'
+import GlowButton from '@/components/ui/GlowButton'
 
 // PRELOAD
-useGLTF.preload('/models/King.glb')
-useGLTF.preload('/models/QueenChess.glb')
-useGLTF.preload('/models/Rook.glb')
+useGLTF.preload('/models/King.glb_')
+useGLTF.preload('/models/QueenChess.glb_')
+useGLTF.preload('/models/Rook.glb_')
 
 function FloatingPieces() {
-  const king = useGLTF('/models/King.glb')
-  const queen = useGLTF('/models/QueenChess.glb')
-  const rook = useGLTF('/models/Rook.glb')
+  const king = useGLTF('/models/King.glb_')
+  const queen = useGLTF('/models/QueenChess.glb_')
+  const rook = useGLTF('/models/Rook.glb_')
 
   const cyanMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#00ccff', emissive: '#00ccff', emissiveIntensity: 0.4, roughness: 0.2, metalness: 0.8

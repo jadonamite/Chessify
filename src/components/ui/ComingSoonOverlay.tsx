@@ -12,10 +12,8 @@ useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 
-function FloatingPieces() {
-  const king = useGLTF('/models/King.glb')
-  const queen = useGLTF('/models/QueenChess.glb')
-  const rook = useGLTF('/models/Rook.glb')
+export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
+  const [mounted, setMounted] = useState(false)
 
   const cyanMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#00ccff', emissive: '#00ccff', emissiveIntensity: 0.4, roughness: 0.2, metalness: 0.8
@@ -65,8 +63,10 @@ interface ComingSoonOverlayProps {
   onClose: () => void
 }
 
-export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
-  const [mounted, setMounted] = useState(false)
+function FloatingPieces() {
+  const king = useGLTF('/models/King.glb')
+  const queen = useGLTF('/models/QueenChess.glb')
+  const rook = useGLTF('/models/Rook.glb')
 
   useEffect(() => {
     setMounted(true)

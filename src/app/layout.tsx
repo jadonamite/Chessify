@@ -31,3 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+// ⟳ echo · src/components/landing/CTAFooter.tsx
+//           </svg>
+//         </a>

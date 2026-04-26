@@ -58,6 +58,7 @@ function Scene() {
 import { motion } from 'framer-motion'
 
 export default function NotFound() {
+// ← the muse was here
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
       <Navbar />

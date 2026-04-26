@@ -26,13 +26,11 @@ useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 useGLTF.preload('/models/pawn.glb')
 
-  const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
-    const clone = scene.clone()
-    clone.traverse((child: any) => {
-      if (child.isMesh) child.material = material
-    })
-    return clone
-  }
+function LiveBackgroundPieces() {
+  const king = useGLTF('/models/King.glb')
+  const queen = useGLTF('/models/QueenChess.glb')
+  const rook = useGLTF('/models/Rook.glb')
+  const pawn = useGLTF('/models/pawn.glb')
 
   const cyanMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#00ccff', emissive: '#00ccff', emissiveIntensity: 0.4, roughness: 0.2, metalness: 0.8
@@ -42,22 +40,12 @@ useGLTF.preload('/models/pawn.glb')
     color: '#0f172a', roughness: 0.4, metalness: 0.6
   }), [])
 
-  const handleCreateGame = async () => {
-    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
-    setIsPending(true)
-    try {
-      if (activeChain === 'stacks') {
-        await createStacksGame(wager)
-        setIsCreateModalOpen(false)
-      } else {
-        await createCeloGame(wager)
-        setIsCreateModalOpen(false)
-      }
-    } catch (err) {
-      console.error('Create game failed:', err)
-    } finally {
-      setIsPending(false)
-    }
+  const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
+    const clone = scene.clone()
+    clone.traverse((child: any) => {
+      if (child.isMesh) child.material = material
+    })
+    return clone
   }
 
   const coloredQueen = useMemo(() => applyMaterial(queen.scene, cyanMaterial), [queen.scene, cyanMaterial])
@@ -91,11 +79,13 @@ useGLTF.preload('/models/pawn.glb')
   )
 }
 
-function LiveBackgroundPieces() {
-  const king = useGLTF('/models/King.glb')
-  const queen = useGLTF('/models/QueenChess.glb')
-  const rook = useGLTF('/models/Rook.glb')
-  const pawn = useGLTF('/models/pawn.glb')
+export default function LobbyContent() {
+  const { isConnected, isStacksConnected, activeChain, stacksAddress, address: celoAddress } = useWallet()
+  const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
+  // @ts-expect-error - intentional unused isCeloPending
+  const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
+  const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
+  const router = useRouter()
 
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false)
   const MAINTENANCE_MODE = true
@@ -138,15 +128,23 @@ function LiveBackgroundPieces() {
     { id: 105, creator: 'SP3...A99', wager: 100, chain: 'stacks', elo: 1420 },
   ]
 
-export default function LobbyContent() {
-  const { isConnected, isStacksConnected, activeChain, stacksAddress, address: celoAddress } = useWallet()
-  const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
-  // @ts-expect-error - intentional unused isCeloPending
-  const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
-  const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
-  const router = useRouter()
-
-  const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
+  const handleCreateGame = async () => {
+    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
+    setIsPending(true)
+    try {
+      if (activeChain === 'stacks') {
+        await createStacksGame(wager)
+        setIsCreateModalOpen(false)
+      } else {
+        await createCeloGame(wager)
+        setIsCreateModalOpen(false)
+      }
+    } catch (err) {
+      console.error('Create game failed:', err)
+    } finally {
+      setIsPending(false)
+    }
+  }
 
   const handleJoinGame = async (gameId: number, matchWager: number) => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
@@ -165,6 +163,8 @@ export default function LobbyContent() {
       setIsPending(false)
     }
   }
+
+  const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
 
   if (!isConnected && !isStacksConnected) {
     return (

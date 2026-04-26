@@ -368,10 +368,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/wallet-provider.tsx
-//         connect,
-//         disconnect,
-//         connectStacks,
-//         disconnectStacks,

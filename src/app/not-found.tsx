@@ -28,16 +28,16 @@ function KnightModel() {
   )
 }
 
-function Scene() {
+export default function NotFound() {
   return (
-    <>
-      <ambientLight intensity={0.5} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#00ccff" />
-      <pointLight position={[-10, -10, -10]} intensity={1} color="#783cdc" />
+    <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
+      <Navbar />
       
-      <Suspense fallback={null}>
-        <PresentationControls
-          global
+      <div className="absolute inset-0 z-0">
+        <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
+          <Scene />
+        </Canvas>
+      </div>
 
           snap
           rotation={[0, 0.3, 0]}
@@ -57,16 +57,16 @@ function Scene() {
 
 import { motion } from 'framer-motion'
 
-export default function NotFound() {
+function Scene() {
   return (
-    <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
-      <Navbar />
+    <>
+      <ambientLight intensity={0.5} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#00ccff" />
+      <pointLight position={[-10, -10, -10]} intensity={1} color="#783cdc" />
       
-      <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
-          <Scene />
-        </Canvas>
-      </div>
+      <Suspense fallback={null}>
+        <PresentationControls
+          global
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-6">
         <motion.div 
@@ -80,7 +80,6 @@ export default function NotFound() {
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
              <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-[var(--t1)] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                Checkmated by <span className="text-[var(--c)]">the Void</span>
-// ← echo residue
              </h2>
              <p className="text-[var(--t2)] mt-6 max-w-md mx-auto text-lg font-medium">
                The move you're looking for doesn't exist in our protocol. Retrace your steps back to the lobby.

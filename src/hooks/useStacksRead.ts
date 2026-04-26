@@ -7,8 +7,8 @@ import {
   principalCV,
   cvToJSON
 } from '@stacks/transactions'
-import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'
+import { useWallet } from '@/components/wallet-provider'
 
 
 export function useStacksRead() {

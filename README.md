@@ -1,453 +1,76 @@
+# ♟️ Chessify Protocol
 
-A **live, mainnet, zero-risk, free-to-play, multi-contract chess protocol** running on Stacks where:
+A **live, mainnet, free-to-play, multi-chain chess protocol** deployed on **Stacks (Bitcoin L2)** and **Celo (EVM)**. 
 
-• STX = gas only
-• CHESS token = game economy
-• Funds are isolated
-• Logic is modular
-• Everything is extensible
-
-This is your **FULL MASTER SMART CONTRACT ARCHITECTURE (Mainnet + Free Economy Model)** ♟️
+Chessify allows players to wager free-to-mint CHESS tokens on fully on-chain chess matches, utilizing a premium "Cyber-Industrial" design system.
 
 ---
 
-# 🧠 SYSTEM OVERVIEW
+## 📐 Architecture Overview
 
-```
-                          ┌────────────────────┐
-                          │   router.clar      │
-                          │   (entry point)    │
-                          └─────────┬──────────┘
-                                    │
-        ┌───────────────────────────┼────────────────────────────┐
-        ▼                           ▼                            ▼
- ┌───────────────┐           ┌───────────────┐            ┌───────────────┐
- │ registry.clar │           │ escrow.clar   │            │ logic.clar    │
- │ game storage  │           │ token vault   │            │ move engine   │
- └──────┬────────┘           └──────┬────────┘            └──────┬────────┘
-        │                            │                           │
-        ▼                            ▼                           ▼
- ┌───────────────┐           ┌───────────────┐            ┌───────────────┐
- │ timer.clar    │           │ chess-token   │            │ ranking.clar  │
- │ timeout sys   │           │ SIP-010 FT    │            │ elo stats     │
- └───────────────┘           └───────────────┘            └───────────────┘
-```
+The protocol has been consolidated from a legacy modular system into a streamlined **2-contract architecture** per chain, ensuring lower gas costs and faster execution.
+
+### Stacks (Clarity)
+- **`chess-token-v3.clar`**: SIP-010 token + Escrow Vault.
+- **`chess-game.clar`**: Game engine, Elo rating system, and Timeout management.
+- **`automata-agent.clar`**: On-chain attestation for AI agent actions.
+
+### Celo (Solidity)
+- **`ChessToken.sol`**: ERC-20 token with faucet and batch-minting.
+- **`ChessGame.sol`**: Game engine mirroring the Stacks logic (Elo, lifecycle, escrow).
 
 ---
 
-# 🔥 ECONOMIC MODEL
+## 🚀 Protocol Status
 
-## Layer 1 — STX
-
-Used only for:
-• Gas fees
-• Deployment
-
-Never used for wagers.
-
----
-
-## Layer 2 — CHESS Token (SIP-010)
-
-Free in-game currency.
-
-Used for:
-• Wagers
-• Rewards
-• Tournament pools
-• Ranking incentives
-
-Minted freely during testing.
-
-Zero financial risk.
+| Layer | Component | Status |
+| :--- | :--- | :--- |
+| **Blockchain** | Smart Contracts (Stacks & Celo) | ✅ **DONE** |
+| **Network** | Mainnet Deployment (Stacks & Celo) | ✅ **DONE** |
+| **Frontend** | UI/UX & Landing Pages | 🏗️ **IN PROGRESS** |
+| **Integration** | Wallet Handlers & Chain Hooks | 🏗️ **IN PROGRESS** |
 
 ---
 
-# 📦 CONTRACT BREAKDOWN
+## 🔥 Economic Model
+
+### Layer 1 Gas (STX / CELO)
+Used strictly for transaction fees. The protocol is designed to be "zero-risk" by isolating game wagers from the native gas tokens.
+
+### Layer 2 Economy (CHESS Token)
+A free-to-access in-game currency used for wagers, rewards, and ranking.
+- **Faucet**: 1,000 CHESS per day per wallet.
+- **Wagers**: Players agree on CHESS amounts (e.g., 100 CHESS) before starting.
+- **Security**: Wagers are locked in the contract-owned vault (escrow) and released only upon game resolution.
 
 ---
 
-# 1️⃣ chess-token.clar (SIP-010 Fungible Token)
+## 🎮 Lifecycle Flow
 
-This is the economic fuel.
-
-### Responsibilities
-
-• Mint tokens
-• Transfer tokens
-• Faucet function (optional)
-• Supply control
-
-### Storage
-
-```
-total-supply
-owner
-mint-enabled
-```
-
-### Token Properties
-
-```
-Name: Chess Token
-Symbol: CHESS
-Decimals: 6
-```
-
-### Security Model
-
-During dev:
-
-```
-mint-enabled = true
-```
-
-Production:
-
-```
-mint-enabled = false
-```
+1. **Initialization**: Player A creates a match with a CHESS wager. Tokens are locked in the contract vault.
+2. **Matching**: Player B joins the match, locking an equal CHESS amount.
+3. **Gameplay**: Players alternate moves. Turn order and timeouts are enforced on-chain.
+4. **Resolution**: Match ends via Checkmate (`report-win`), Resignation, Draw, or Timeout. 
+5. **Payout**: The contract automatically releases the total pot to the winner (or refunds on draw) and updates Elo ratings.
 
 ---
 
-# 2️⃣ escrow.clar (Token Vault)
+## 🛠️ Tech Stack
 
-This is the treasury chamber.
-
-⚠️ It NEVER holds STX.
-
-Only CHESS tokens.
-
----
-
-### Responsibilities
-
-• Lock wager tokens
-• Release tokens to winner
-• Refund tokens
-• Prevent double withdrawal
+- **Contracts**: Clarity (Stacks), Solidity (Celo)
+- **Frontend**: Next.js 16, TypeScript, Tailwind CSS 4.x
+- **Animation**: Framer Motion, Three.js (R3F)
+- **Providers**: Wagmi, Viem (EVM), Stacks Connect
+- **Validation**: Chess.js, React-Chessboard
 
 ---
 
-### Storage
+## 📖 Deployed Details
 
-```
-game-id → {
-   white-amount: uint
-   black-amount: uint
-   total: uint
-   claimed: bool
-}
-```
+**Stacks Deployer**: `SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39`  
+**Celo Token**: `0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197`  
+**Celo Game**: `0xf85f00D39A84b5180390548Ea9f76B0458607E78`
 
 ---
 
-### Interaction
-
-Uses:
-
-```
-ft-transfer?
-```
-
-Not:
-
-```
-stx-transfer?
-```
-
-This isolates real value risk.
-
----
-
-# 3️⃣ registry.clar (Game State Authority)
-
-This is the canonical source of truth.
-
----
-
-### Responsibilities
-
-• Create game
-• Assign players
-• Track status
-• Track whose turn
-• Track move count
-• Mark finished
-
----
-
-### Storage Model
-
-```
-game-id → {
-   white: principal
-   black: optional principal
-   wager: uint
-   status: uint
-   turn: principal
-   move-count: uint
-   created-at: uint
-   last-move-at: uint
-}
-```
-
----
-
-### Status Enum
-
-```
-0 = waiting
-1 = active
-2 = finished
-3 = cancelled
-```
-
----
-
-# 4️⃣ logic.clar (Move Engine)
-
-The referee.
-
-It does NOT validate chess rules.
-
-Frontend validates legality.
-
-On-chain logic enforces:
-
-• Turn order
-• Move recording
-• Move counter
-• Resignation
-
----
-
-### Storage
-
-```
-(game-id, move-number) → {
-   player: principal
-   move: string-ascii
-   timestamp: uint
-}
-```
-
----
-
-# 5️⃣ timer.clar (Timeout Authority)
-
-Prevents griefing.
-
----
-
-### Responsibilities
-
-• Validate inactivity
-• Allow timeout claim
-• Reset move timer
-
----
-
-### Storage
-
-```
-game-id → {
-   timeout-duration: uint
-}
-```
-
-Timeout logic uses:
-
-```
-block-height
-```
-
-for deterministic timing.
-
----
-
-# 6️⃣ ranking.clar (Reputation Layer)
-
-Optional but powerful.
-
-Tracks:
-
-• Wins
-• Losses
-• Draws
-• Elo score
-
----
-
-### Storage
-
-```
-player → {
-   wins: uint
-   losses: uint
-   rating: uint
-}
-```
-
----
-
-# 7️⃣ router.clar (Master Orchestrator)
-
-The only contract the frontend calls.
-
-It coordinates everything.
-
-It does NOT store state.
-
----
-
-# 🧭 FULL GAME LIFECYCLE FLOW
-
----
-
-## 🎮 CREATE GAME
-
-```
-User → router.create-game
-        → escrow.lock-tokens
-        → registry.create-game
-        → timer.initialize
-```
-
----
-
-## ♟️ JOIN GAME
-
-```
-User → router.join-game
-        → escrow.lock-tokens
-        → registry.assign-black
-        → registry.activate
-```
-
----
-
-## 🔁 SUBMIT MOVE
-
-```
-User → router.submit-move
-        → logic.record-move
-        → registry.update-turn
-        → timer.reset
-```
-
----
-
-## 🏳 RESIGN
-
-```
-User → router.resign
-        → logic.record-resignation
-        → escrow.release
-        → registry.finish
-        → ranking.update
-```
-
----
-
-## ⏳ TIMEOUT WIN
-
-```
-User → router.claim-timeout
-        → timer.validate
-        → escrow.release
-        → registry.finish
-        → ranking.update
-```
-
----
-
-# 🔐 SECURITY BOUNDARIES
-
-escrow:
-• Cannot change game state
-
-Registry:
-• Cannot release funds
-
-Logic:
-• Cannot access funds
-
-Router:
-• Cannot bypass validation
-
-Token:
-• Cannot interfere with game logic
-
-Each contract has single responsibility.
-
-This prevents catastrophic exploits.
-
----
-
-# 🧱 DEPLOYMENT ORDER
-
-Deploy in this order:
-
-```
-1 chess-token.clar
-2 escrow.clar
-3 registry.clar
-4 logic.clar
-5 timer.clar
-6 ranking.clar
-7 router.clar
-```
-
-Router last because it references others.
-
----
-
-# 🧪 MAINNET TESTING MODEL
-
-Because token is free:
-
-• Mint unlimited CHESS
-• Wager fake tokens
-• Only pay STX gas
-• Real blockchain execution
-• Real contract addresses
-• Real indexing
-
-Financial risk = zero.
-
----
-
-# 🚀 FUTURE EXTENSIONS
-
-This architecture supports:
-
-• Tournament contract
-• DAO governance
-• Betting pools
-• Spectator rewards
-• NFT match certificates
-• ChessFi staking
-• Leaderboard mining rewards
-
-All without touching escrow core.
-
----
-
-# 🏗 SYSTEM CHARACTERISTICS
-
-Your protocol becomes:
-
-• Live mainnet
-• Free-to-play
-• Fully on-chain
-• Modular
-• Upgradeable via new versions
-• Economically isolated
-• Production scalable
-
-This is not a demo.
-
-This is infrastructure.
-
----
+*“Play for the pride of the chain, stay for the thrill of the move.”*

@@ -21,9 +21,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }))
 
   // Initialize AppKit lazily on mount — after React hydration is complete.
-  const [ready, setReady] = useState(false)
+  const [ready, setReady_] = useState(false)
   useEffect(() => {
-    initAppKit().then(() => setReady(true))
+    initAppKit().then(() => setReady_(true))
   }, [])
 
   return (

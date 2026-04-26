@@ -325,3 +325,10 @@ export default function GameClient() {
     </div>
   )
 }
+
+
+// ⟳ echo · src/config/abis.ts
+//     { "name": "white", "type": "address" },
+//     { "name": "black", "type": "address" },
+//     { "name": "wager", "type": "uint256" },
+//     { "name": "status", "type": "uint8" },

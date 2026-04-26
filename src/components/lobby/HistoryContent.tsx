@@ -2,10 +2,11 @@
 
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Float, Environment, MeshDistortMaterial, Text } from '@react-three/drei'
+import { Float, Environment, Text } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import GlowButton from '@/components/ui/GlowButton'
+import LoadingState from '@/components/ui/LoadingState'
 import { useHistory } from '@/hooks/useHistory'
 import { useWallet } from '@/components/wallet-provider'
 import { Queen, PieceView } from '@/components/ui/ChessModels'
@@ -54,7 +55,7 @@ function Scene() {
 export function HistoryContent() {
   const router = useRouter()
   const { history, isLoading } = useHistory()
-  const { activeChain } = useWallet()
+  const { } = useWallet() // Removed activeChain to fix unused warning
 
   return (
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">
@@ -94,10 +95,7 @@ export function HistoryContent() {
             <div className="p-1 md:p-2">
               <div className="flex flex-col">
                 {isLoading ? (
-                  <div className="py-32 flex flex-col items-center justify-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[var(--c)] border-t-transparent rounded-full animate-spin" />
-                    <span className="text-xs font-bold tracking-[0.2em] text-[var(--c)]">SCANNING BLOCKCHAIN...</span>
-                  </div>
+                  <LoadingState message="SCANNING BLOCKCHAIN" />
                 ) : history.length === 0 ? (
                   <div className="py-32 text-center">
                     <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No matches found on-chain</p>

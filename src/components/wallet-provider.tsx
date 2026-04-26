@@ -124,6 +124,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setActiveChain('stacks')
   }, [setActiveChain])
 
+// ← echo residue
   const disconnectStacks = useCallback(() => {
     if (userSession) {
       userSession.signUserOut()

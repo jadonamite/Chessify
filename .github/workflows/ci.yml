@@ -34,7 +34,7 @@ jobs:
 
       - name: Install all @jadonamite SDKs from npmjs.com
         run: |
-          npm install @jadonamite/chessify-sdk --registry=https://registry.npmjs.org/
-          npm install @jadonamite/stacks-core --registry=https://registry.npmjs.org/
-          npm install @jadonamite/fundxagon-sdk --registry=https://registry.npmjs.org/
-          npm install chessify-protocol --registry=https://registry.npmjs.org/
+          npm install --force @jadonamite/chessify-sdk --registry=https://registry.npmjs.org/
+          npm install --force @jadonamite/stacks-core --registry=https://registry.npmjs.org/
+          npm install --force @jadonamite/fundxagon-sdk --registry=https://registry.npmjs.org/
+          npm install --force chessify-protocol --registry=https://registry.npmjs.org/

@@ -10,7 +10,7 @@ interface StatBadgeProps {
 
 export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
   return (
-    <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
+    <div className={`clay-inset flex_ flex_-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
       <span
         className="font-display font-bold leading-none"
         style={{

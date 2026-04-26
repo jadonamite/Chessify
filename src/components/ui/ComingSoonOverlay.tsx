@@ -85,7 +85,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
           style={{ background: 'rgba(5, 5, 15, 0.85)', backdropFilter: 'blur(12px)' }}
         >
           {/* Cyber-industrial Grid Background */}
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', opacity: 0.5 }} />
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent_ 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent_ 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent_ 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent_ 80%)', opacity: 0.5 }} />
 
           {/* 3D Canvas Background */}
           <div className="absolute inset-0 pointer-events-none opacity-60">
@@ -121,7 +121,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
                 Our team is currently working to <span className="text-white">Checkmate this gambit</span>.
               </p>
 
-              <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2 md:my-4" />
+              <div className="w-full h-px bg-gradient-to-r from-transparent_ via-white/10 to-transparent_ my-2 md:my-4" />
 
               <GlowButton parallelogram variant="brand" size="lg" onClick={onClose} className="min-w-full sm:min-w-[200px] shrink-0">
                 RETURN TO LOBBY

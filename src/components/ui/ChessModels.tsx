@@ -9,6 +9,8 @@ useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 useGLTF.preload('/models/pawn.glb')
+useGLTF.preload('/models/Bishop.glb')
+useGLTF.preload('/models/WhiteKnight.glb')
 
 interface PieceProps {
   color?: string
@@ -52,6 +54,8 @@ export const King = (props: PieceProps) => <BasePiece modelPath="/models/King.gl
 export const Queen = (props: PieceProps) => <BasePiece modelPath="/models/QueenChess.glb" scale={1.62} {...props} />
 export const Rook = (props: PieceProps) => <BasePiece modelPath="/models/Rook.glb" scale={1.37} {...props} />
 export const Pawn = (props: PieceProps) => <BasePiece modelPath="/models/pawn.glb" scale={1.25} {...props} />
+export const Bishop = (props: PieceProps) => <BasePiece modelPath="/models/Bishop.glb" scale={1.45} {...props} />
+export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/WhiteKnight.glb" scale={1.4} {...props} />
 
 /* ── SMALL CANVAS COMPONENT FOR LISTS ── */
 import { Canvas } from '@react-three/fiber'
@@ -68,6 +72,8 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
         {type === 'queen' && <Queen color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />}
         {type === 'rook' && <Rook color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.8, 0]} />}
         {type === 'pawn' && <Pawn color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.8, 0]} />}
+        {type === 'bishop' && <Bishop color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.85, 0]} />}
+        {type === 'knight' && <Knight color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.85, 0]} />}
       </Canvas>
     </div>
   )

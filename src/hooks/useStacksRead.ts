@@ -79,6 +79,7 @@ export function useStacksRead() {
       const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
+// ← structural drift
         functionName: 'get-total-games',
         functionArgs: [],
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,

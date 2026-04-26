@@ -368,8 +368,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/app/not-found.tsx
-//         <ContactShadows position={[0, -2.5, 0]} opacity={0.4} scale={20} blur={2} far={4.5} />
-//         <Environment preset="city" />

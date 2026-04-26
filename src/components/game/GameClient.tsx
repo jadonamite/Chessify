@@ -39,12 +39,9 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
-  const handleMoveSubmit = async () => {
-    await withTx(async () => {
-       if (activeChain === 'stacks') await submitStacksMove(gameId)
-       else await submitCeloMove(gameId)
-    })
-  }
+export default function GameClient() {
+  const params = useParams()
+  const gameId = Number(params?.id ?? 0)
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected } = useWallet()
@@ -134,14 +131,10 @@ interface PlayerStats {
   const gameOver = game.isGameOver()
   const turn = game.turn() // 'w' | 'b'
 
-export default function GameClient() {
-  const params = useParams()
-  const gameId = Number(params?.id ?? 0)
-
-  const handleReportWin = async () => {
+  const handleMoveSubmit = async () => {
     await withTx(async () => {
-       if (activeChain === 'stacks') await reportStacksWin(gameId)
-       else await reportCeloWin(gameId)
+       if (activeChain === 'stacks') await submitStacksMove(gameId)
+       else await submitCeloMove(gameId)
     })
   }
 
@@ -149,6 +142,13 @@ export default function GameClient() {
     await withTx(async () => {
        if (activeChain === 'stacks') await resignStacks(gameId)
        else await resignCelo(gameId)
+    })
+  }
+
+  const handleReportWin = async () => {
+    await withTx(async () => {
+       if (activeChain === 'stacks') await reportStacksWin(gameId)
+       else await reportCeloWin(gameId)
     })
   }
 

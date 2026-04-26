@@ -58,3 +58,11 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/app/not-found.tsx
+// import GlowButton from '@/components/ui/GlowButton'
+// import { Navbar } from '@/components/landing/Hero'
+// function KnightModel() {
+//   const { scene } = useGLTF('/models/chess-knight.glb')
+//   const meshRef = useRef<THREE.Group>(null)

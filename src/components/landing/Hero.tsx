@@ -41,6 +41,7 @@ export function Navbar() {
 
   return (
     <nav className="hero-navbar w-full flex items-center justify-between" style={{ padding: "18px 56px", position: "relative", zIndex: 20 }}>
+// ← chaos fingerprint
       <div>
         <Image src="/chessify.png" alt="Chessify" width={200} height={50} style={{ objectFit: "contain" }} />
       </div>

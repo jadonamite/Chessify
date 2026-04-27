@@ -13,6 +13,7 @@ import { Navbar } from '@/components/landing/Hero'
 import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 import { useCeloChess } from '@/hooks/useCeloChess'
 import { useLobby } from '@/hooks/useLobby'
+import LoadingState from '@/components/ui/LoadingState'
 // @ts-expect-error - intentional unused variable
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
@@ -255,13 +256,23 @@ export default function LobbyContent() {
                   >
                     Open Challenges
                   </h3>
-                  {isLobbyLoading && (
-                    <div className="w-3 h-3 border-2 border-[var(--c)] border-t-transparent rounded-full animate-spin opacity-60" />
-                  )}
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  {openGames.filter(g => g.chain === activeChain).map((game, idx) => (
+                  {isLobbyLoading && openGames.length === 0 ? (
+                    <LoadingState message="SCANNING LOBBY" />
+                  ) : openGames.length === 0 ? (
+                    <div className="py-20 text-center flex flex-col items-center gap-4 border border-white/5 bg-white/[0.02] rounded-3xl">
+                      <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center opacity-40">
+                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                           <path d="M12 8V12L15 15" />
+                           <circle cx="12" cy="12" r="9" />
+                         </svg>
+                      </div>
+                      <p className="text-sm font-bold tracking-widest text-[var(--t3)]">NO CHALLENGES FOUND</p>
+                      <GlowButton variant="ghost" size="sm" onClick={() => setIsCreateModalOpen(true)}>BE THE FIRST</GlowButton>
+                    </div>
+                  ) : openGames.map((game, idx) => (
                     <motion.div
                       key={game.id}
                       initial={{ opacity: 0, y: 15 }}

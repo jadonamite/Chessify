@@ -17,7 +17,9 @@ import { CELO_CONTRACTS } from '@/config/contracts'
 import ClayCard from '@/components/ui/ClayCard'
 import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
+import LoadingState from '@/components/ui/LoadingState'
 import { Navbar } from '@/components/landing/Hero'
+import { getBestMove } from '@/lib/chess-engine'
 
 // Dynamically import Chessboard to avoid SSR issues
 const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
@@ -116,14 +118,13 @@ export default function GameClient() {
       // If bot game, trigger bot move after a short delay
       if (isBotGame && !next.isGameOver()) {
         setTimeout(() => {
-          const possibleMoves = next.moves()
-          if (possibleMoves.length > 0) {
-            const botMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)]
-            next.move(botMove)
+          const move = getBestMove(new Chess(next.fen()), 3)
+          if (move) {
+            next.move(move)
             setGame(new Chess(next.fen()))
-            setMoveHistory(h => [...h, botMove])
+            setMoveHistory(h => [...h, move.san])
           }
-        }, 500)
+        }, 1200) // Increased delay to simulate 'scanning'
       }
       
       return true
@@ -179,7 +180,12 @@ export default function GameClient() {
         <div className="absolute bottom-[10%] left-[10%] w-[30%] h-[30%] bg-[#783cdc] blur-[120px] rounded-full opacity-10" />
       </div>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 py-12 pt-32">
+      {!isBotGame && !gameData ? (
+        <div className="min-h-screen flex items-center justify-center">
+          <LoadingState message={`RETRIEVING MATCH DATA #${gameId}`} />
+        </div>
+      ) : (
+        <main className="relative z-10 max-w-7xl mx-auto px-6 py-12 pt-32">
         {/* ── header ── */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
@@ -351,6 +357,7 @@ export default function GameClient() {
 
         </div>
       </main>
+      )}
     </div>
   )
 }

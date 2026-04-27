@@ -51,6 +51,9 @@ export default function LobbyContent() {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchId, setSearchId] = useState('')
+  const ITEMS_PER_PAGE = 5
   const [wager, setWager] = useState(100)
   const [balance, setBalance] = useState<string>('0.00')
   const [rating, setRating] = useState<number>(1200)
@@ -222,14 +225,14 @@ export default function LobbyContent() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="shrink-0 flex flex-wrap gap-4"
+                  className="shrink-0 flex flex-col gap-3 w-full md:w-auto"
                 >
                   <GlowButton
                     parallelogram
                     variant="brand"
                     size="lg"
                     onClick={() => handleAction(() => setIsCreateModalOpen(true))}
-                    className="w-full md:w-auto"
+                    className="w-full"
                   >
                     CREATE NEW MATCH
                   </GlowButton>
@@ -238,7 +241,7 @@ export default function LobbyContent() {
                     variant="ghost"
                     size="lg"
                     onClick={() => router.push('/app/game/bot')}
-                    className="w-full md:w-auto"
+                    className="w-full"
                   >
                     QUICK PLAY (VS AI)
                   </GlowButton>
@@ -249,13 +252,37 @@ export default function LobbyContent() {
             {/* ── CARD 2: Open Challenges ── */}
             <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl">
               <div className="p-6 md:p-10 flex flex-col gap-6">
-                <div className="flex items-center justify-between">
-                  <h3
-                    className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase"
-                    style={{ fontFamily: 'var(--fd)' }}
-                  >
-                    Open Challenges
-                  </h3>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-2">
+                  <div className="flex items-center gap-3">
+                    <h3
+                      className="text-xs font-bold tracking-[0.25em] text-[var(--t3)] uppercase"
+                      style={{ fontFamily: 'var(--fd)' }}
+                    >
+                      Open Challenges
+                    </h3>
+                    {isLobbyLoading && (
+                      <div className="w-3 h-3 border-2 border-[var(--c)] border-t-transparent rounded-full animate-spin opacity-60" />
+                    )}
+                  </div>
+                  
+                  {/* Search / Join by ID */}
+                  <div className="flex items-center gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="ENTER MATCH ID..."
+                      value={searchId}
+                      onChange={(e) => setSearchId(e.target.value)}
+                      className="bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] tracking-widest uppercase font-bold text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--c)]/50 transition-colors w-40"
+                    />
+                    <GlowButton 
+                      variant="brand" 
+                      size="sm" 
+                      onClick={() => searchId && router.push(`/app/game/${searchId}`)}
+                      disabled={!searchId}
+                    >
+                      JOIN
+                    </GlowButton>
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-4">
@@ -272,7 +299,9 @@ export default function LobbyContent() {
                       <p className="text-sm font-bold tracking-widest text-[var(--t3)]">NO CHALLENGES FOUND</p>
                       <GlowButton variant="ghost" size="sm" onClick={() => setIsCreateModalOpen(true)}>BE THE FIRST</GlowButton>
                     </div>
-                  ) : openGames.map((game, idx) => (
+                  ) : (
+                    <>
+                      {openGames.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE).map((game, idx) => (
                     <motion.div
                       key={game.id}
                       initial={{ opacity: 0, y: 15 }}
@@ -330,14 +359,39 @@ export default function LobbyContent() {
                         </div>
                       </div>
                     </motion.div>
-                  ))}
+                      ))}
 
-                  {openGames.filter(g => g.chain === activeChain).length === 0 && (
-                    <div className="py-20 text-center border border-dashed border-white/10 rounded-2xl bg-black/40">
-                      <p className="text-sm font-medium text-gray-500 tracking-wider">
-                        NO OPEN MATCHES ON {activeChain?.toUpperCase()}
-                      </p>
-                    </div>
+                      {/* Pagination UI */}
+                      {openGames.length > ITEMS_PER_PAGE && (
+                        <div className="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-white/5">
+                          <button 
+                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                            disabled={currentPage === 1}
+                            className="bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-[10px] tracking-widest uppercase font-black text-white hover:bg-black/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                          >
+                            PREV
+                          </button>
+                          <span className="text-[10px] font-black text-[var(--c)] tracking-widest uppercase">
+                            PAGE {currentPage} / {Math.ceil(openGames.length / ITEMS_PER_PAGE)}
+                          </span>
+                          <button 
+                            onClick={() => setCurrentPage(p => Math.min(Math.ceil(openGames.length / ITEMS_PER_PAGE), p + 1))}
+                            disabled={currentPage === Math.ceil(openGames.length / ITEMS_PER_PAGE)}
+                            className="bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-[10px] tracking-widest uppercase font-black text-white hover:bg-black/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                          >
+                            NEXT
+                          </button>
+                        </div>
+                      )}
+
+                      {openGames.length === 0 && (
+                        <div className="py-20 text-center border border-dashed border-white/10 rounded-2xl bg-black/40">
+                          <p className="text-sm font-medium text-gray-500 tracking-wider">
+                            NO OPEN MATCHES ON {activeChain?.toUpperCase()}
+                          </p>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

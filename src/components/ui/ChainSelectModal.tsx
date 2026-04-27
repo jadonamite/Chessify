@@ -46,7 +46,7 @@ function ChainCard({
   description,
   accentColor,
   accentGlow,
-  icon,
+  iconUrl,
   onClick,
   delay = 0,
   children,

@@ -110,25 +110,30 @@ export default function GameClient() {
   const onDrop = useCallback(({ sourceSquare, targetSquare }: { sourceSquare: string, targetSquare: string }): boolean => {
     try {
       const next = new Chess(game.fen())
-      const mv = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
-      if (!mv) return false
+      const move = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
+      
+      if (!move) return false
+
+      // Update state
       setGame(next)
-      setMoveHistory(h => [...h, mv.san])
+      setMoveHistory(h => [...h, move.san])
       
       // If bot game, trigger bot move after a short delay
       if (isBotGame && !next.isGameOver()) {
         setTimeout(() => {
-          const move = getBestMove(new Chess(next.fen()), 3)
-          if (move) {
-            next.move(move)
+          const gameCopy = new Chess(next.fen())
+          const botMove = getBestMove(gameCopy, 3)
+          if (botMove) {
+            next.move(botMove)
             setGame(new Chess(next.fen()))
-            setMoveHistory(h => [...h, move.san])
+            setMoveHistory(h => [...h, botMove.san])
           }
-        }, 1200) // Increased delay to simulate 'scanning'
+        }, 1200)
       }
       
       return true
-    } catch {
+    } catch (e) {
+      console.error('Move failed:', e)
       return false
     }
   }, [game, isBotGame])
@@ -143,7 +148,7 @@ export default function GameClient() {
 
   // ── derived ──────────────────────────────────────────────────────────────
 
-  const canAct = (isStacksConnected || isConnected) && !txPending
+  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
   const gameOver = game.isGameOver()
   const turn = game.turn() // 'w' | 'b'
 

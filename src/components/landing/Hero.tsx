@@ -48,7 +48,7 @@ export function Navbar() {
     <>
       <nav className="hero-navbar w-full flex items-center justify-between" style={{ padding: "18px 56px", position: "relative", zIndex: 20 }}>
         <div>
-          <Image src="/chessify.png" alt="Chessify" width={200} height={50} style={{ objectFit: "contain" }} className="hero-logo-img" />
+          <Image src="/chessify.png" alt="Chessify" width={200} height={50} className="w-[140px] md:w-[200px] h-auto object-contain" />
         </div>
         <div className="nav-surface hero-nav-links" style={{ display: "flex", gap: 28, borderRadius: 999, padding: "10px 28px" }}>
           {["How it works", "History", "Faucet"].map((l) => {

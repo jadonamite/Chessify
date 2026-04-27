@@ -18,23 +18,22 @@ import LoadingState from '@/components/ui/LoadingState'
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
-import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
-import { King, Queen, Rook, Pawn } from '@/components/ui/ChessModels'
-
-function LiveBackgroundPieces() {
+function BgIcon({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <ambientLight intensity={1.5} />
-      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
-      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
-      <Environment files="/textures/environment/city.hdr" />
-
-      <Queen position={[-3.5, 2.5, -2]} />
-      <King position={[3.5, 3, -3]} />
-      <Rook position={[-3.5, -2, -1.5]} color="#1e293b" emissive="#000" />
-      <Pawn position={[3.5, -2.5, -1]} color="#1e293b" emissive="#000" />
-    </>
+    <div style={{
+      position: 'absolute',
+      bottom: '-8%',
+      right: '-4%',
+      height: '80%',
+      aspectRatio: '1',
+      opacity: 0.04,
+      pointerEvents: 'none',
+      transition: 'opacity .3s',
+      overflow: 'hidden',
+      zIndex: 0,
+    }}>
+      {children}
+    </div>
   )
 }
 
@@ -139,11 +138,7 @@ export default function LobbyContent() {
     return (
       <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] flex items-center justify-center p-6 relative overflow-hidden box-border">
         <Navbar />
-        <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
-          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-            <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
-          </Canvas>
-        </div>
+        <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[var(--bg)]" />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.5 }} />
 
         <ClayCard className="max-w-md w-full p-8 md:p-10 text-center mt-20 relative z-10 shadow-2xl">
@@ -160,12 +155,8 @@ export default function LobbyContent() {
     <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] text-[var(--t1)] relative flex flex-col box-border overflow-x-hidden">
       <Navbar />
 
-      {/* 3D Background */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-50">
-        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-          <Suspense fallback={null}><LiveBackgroundPieces /></Suspense>
-        </Canvas>
-      </div>
+      {/* Static Background */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-50 bg-[var(--bg)]" />
 
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.4 }} />
 
@@ -185,8 +176,13 @@ export default function LobbyContent() {
             */}
 
             {/* ── CARD 1: Game Lobby Header ── */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl">
-              <div className="p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+              <BgIcon>
+                <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+                  <path d="M12 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </BgIcon>
+              <div className="p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4">
                   <h1
                     className="text-4xl md:text-[52px] font-black uppercase tracking-tighter leading-none"
@@ -250,8 +246,16 @@ export default function LobbyContent() {
             </div>
 
             {/* ── CARD 2: Open Challenges ── */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl">
-              <div className="p-6 md:p-10 flex flex-col gap-6">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+              <BgIcon>
+                <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+                  <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.2" />
+                  <line x1="12" y1="12" x2="17.5" y2="8.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </BgIcon>
+              <div className="p-6 md:p-10 flex flex-col gap-6 relative z-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-2">
                   <div className="flex items-center gap-3">
                     <h3
@@ -403,8 +407,14 @@ export default function LobbyContent() {
           <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8 h-auto w-full min-w-0 box-border">
 
             {/* ── CARD 3: Profile Stats ── */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md shadow-2xl">
-              <div className="p-6 md:p-10 flex flex-col">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md shadow-2xl relative overflow-hidden">
+              <BgIcon>
+                <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+                  <polyline points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  <polyline points="16 7 22 7 22 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </BgIcon>
+              <div className="p-6 md:p-10 flex flex-col relative z-10">
                 <h3
                   className="text-sm font-bold tracking-wider text-cyan-400 uppercase mb-8"
                   style={{ fontFamily: 'var(--fd)' }}
@@ -451,8 +461,13 @@ export default function LobbyContent() {
             </div>
 
             {/* ── CARD 4: Need CHESS? ── */}
-            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md shadow-2xl">
-              <div className="p-6 md:p-10 flex flex-col gap-3">
+            <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-md shadow-2xl relative overflow-hidden">
+              <BgIcon>
+                <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                </svg>
+              </BgIcon>
+              <div className="p-6 md:p-10 flex flex-col gap-3 relative z-10">
                 <h4
                   className="font-bold text-[15px] tracking-widest text-white uppercase"
                   style={{ fontFamily: 'var(--fd)' }}

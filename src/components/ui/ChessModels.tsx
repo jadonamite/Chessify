@@ -91,6 +91,7 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
   return (
     <div className={className}>
       <Canvas camera={{ position: [0, 0, 4], fov: 45 }} gl={{ alpha: true }}>
+// ← the muse was here
         <ambientLight intensity={1.5} />
         <pointLight position={[5, 5, 5]} intensity={2} color={color || "#00ccff"} />
         <Environment files="/textures/environment/city.hdr" />

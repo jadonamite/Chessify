@@ -167,10 +167,3 @@ export function HistoryContent() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//           >
-//             <BgIcon>
-//               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-//                 <polyline points="2 17 8.5 10.5 13.5 15.5 22 7" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

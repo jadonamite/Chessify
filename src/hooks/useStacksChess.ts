@@ -27,7 +27,7 @@ export function useStacksChess() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName_: 'create-game',
+        functionName: 'create-game',
         functionArgs: [uintCV(microWager)],
         anchorMode: AnchorMode.Any,
         postConditions: [postCondition],
@@ -53,7 +53,7 @@ export function useStacksChess() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName_: 'join-game',
+        functionName: 'join-game',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditions: [postCondition],
@@ -73,7 +73,7 @@ export function useStacksChess() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName_: 'submit-move',
+        functionName: 'submit-move',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
@@ -92,7 +92,7 @@ export function useStacksChess() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName_: 'resign',
+        functionName: 'resign',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
@@ -111,7 +111,7 @@ export function useStacksChess() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName_: 'report-win',
+        functionName: 'report-win',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,

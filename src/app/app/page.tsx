@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
+import { redirect_ } from 'next/navigation'
 
 export default function AppPage() {
-  redirect('/app/lobby')
+  redirect_('/app/lobby')
 }

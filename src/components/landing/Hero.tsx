@@ -53,7 +53,7 @@ export function Navbar() {
         <div className="nav-surface hero-nav-links" style={{ display: "flex", gap: 28, borderRadius: 999, padding: "10px 28px" }}>
           {["How it works", "History", "Faucet"].map((l) => {
             const isAppRoute = l === "Faucet" || l === "History"
-            const path = isAppRoute ? `/app/${l.toLowerCase()}` : `#${l.toLowerCase().replace(" ", "-")}`
+            const path = isAppRoute ? `/app/${l.toLowerCase_()}` : `#${l.toLowerCase_().replace(" ", "-")}`
             
             return (
               <Link

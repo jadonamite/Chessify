@@ -17,6 +17,7 @@ function Scene() {
       <ambientLight intensity={1} />
       <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
       <pointLight position={[-10, 5, -10]} intensity={1.5} color="#6a0dad" />
+// ← echo residue
       <Environment files="/textures/environment/city.hdr" />
 
       {/* Background Hero Piece */}

@@ -18,6 +18,7 @@ import ClayCard from '@/components/ui/ClayCard'
 import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
 import LoadingState from '@/components/ui/LoadingState'
+import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
 import { Navbar } from '@/components/landing/Hero'
 import { getBestMove } from '@/lib/chess-engine'
 
@@ -66,6 +67,8 @@ export default function GameClient() {
   const [loadError, setLoadError] = useState(false)
   const [moveFrom, setMoveFrom] = useState<string>('')
   const [stacksDataLoaded, setStacksDataLoaded] = useState(false)
+  const [statusModalType, setStatusModalType] = useState<GameStatusType>(null)
+  const [statusModalMessage, setStatusModalMessage] = useState<string>('')
 
   // Fetch Celo Game Data
   const { data: celoGameData } = useReadContract({
@@ -119,10 +122,25 @@ export default function GameClient() {
     try {
       const next = new Chess(game.fen())
       const move = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
-      if (!move) return false
+      if (!move) {
+        setStatusModalType('invalid_move')
+        setStatusModalMessage('That maneuver violates protocol directives. Try a different tactical approach.')
+        return false
+      }
 
       setGame(next)
       setMoveHistory(h => [...h, move.san])
+
+      if (next.isCheckmate()) {
+        setStatusModalType('checkmate')
+        setStatusModalMessage('The King has fallen. End of line.')
+      } else if (next.inCheck()) {
+        setStatusModalType('check')
+        setStatusModalMessage('Your King is under direct assault. You must parry or evade!')
+      } else if (next.isDraw() || next.isStalemate()) {
+        setStatusModalType('draw')
+        setStatusModalMessage('Tactical deadlock achieved. Neither commander can proceed.')
+      }
 
       if (isBotGame && !next.isGameOver()) {
         setTimeout(() => {
@@ -138,6 +156,8 @@ export default function GameClient() {
       return true
     } catch (e) {
       console.error('Move failed:', e)
+      setStatusModalType('invalid_move')
+      setStatusModalMessage('That maneuver violates protocol directives. Try a different tactical approach.')
       return false
     }
   }, [game, isBotGame])
@@ -433,6 +453,12 @@ export default function GameClient() {
           </div>
         </main>
       )}
+
+      <GameStatusModal 
+        type={statusModalType} 
+        message={statusModalMessage} 
+        onClose={() => setStatusModalType(null)} 
+      />
     </div>
   )
 }

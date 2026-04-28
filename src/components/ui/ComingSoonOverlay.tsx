@@ -25,13 +25,8 @@ function FloatingPieces() {
     color: '#0f172a', roughness: 0.4, metalness: 0.6
   }), [])
 
-  const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
-    const clone = scene.clone()
-    clone.traverse((child: any) => {
-      if (child.isMesh) child.material = material
-    })
-    return clone
-  }
+export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
+  const [mounted, setMounted] = useState(false)
 
   const coloredQueen = useMemo(() => applyMaterial(queen.scene, cyanMaterial), [queen.scene, cyanMaterial])
   const coloredKing = useMemo(() => applyMaterial(king.scene, cyanMaterial), [king.scene, cyanMaterial])
@@ -65,8 +60,13 @@ interface ComingSoonOverlayProps {
   onClose: () => void
 }
 
-export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
-  const [mounted, setMounted] = useState(false)
+  const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
+    const clone = scene.clone()
+    clone.traverse((child: any) => {
+      if (child.isMesh) child.material = material
+    })
+    return clone
+  }
 
   useEffect(() => {
     setMounted(true)

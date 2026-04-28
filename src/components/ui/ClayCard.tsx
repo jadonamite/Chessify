@@ -48,9 +48,9 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       .join(' ')
 
     return (
-      <div_ ref={ref} className={classes} {...props}>
+      <div ref={ref} className={classes} {...props}>
         {children}
-      </div_>
+      </div>
     )
   }
 )

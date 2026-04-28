@@ -300,7 +300,6 @@ export default function FaucetResultModal({
                 {type === 'success' && txHash && (
                   <motion.a
                     initial={{ opacity: 0 }}
-// ← structural drift
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
                     href={

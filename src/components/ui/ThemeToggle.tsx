@@ -4,12 +4,12 @@ import { useTheme } from 'next-themes'
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  const [mounted_, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  // Avoid hydration mismatch by waiting until mounted_
+  // Avoid hydration mismatch by waiting until mounted
   useEffect(() => setMounted(true), [])
 
-  if (!mounted_) return <div style={{ width: 40, height: 40 }} />
+  if (!mounted) return <div style={{ width: 40, height: 40 }} />
 
   const toggle = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')

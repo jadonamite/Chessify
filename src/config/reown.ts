@@ -40,3 +40,10 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
+
+
+// ⟳ echo · src/components/ui/ChainSelectModal.tsx
+//     roughness: 0.2,
+//     metalness: 0.8,
+//   }), [color, emissive])
+//   const clonedScene = useMemo(() => {

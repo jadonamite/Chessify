@@ -38,6 +38,7 @@ export function useHistory() {
             { name: 'white', type: 'address', indexed: true },
             { name: 'wager', type: 'uint256', indexed: false }
           ]
+// ← chaos fingerprint
         },
         args: { white: celoAddress },
         fromBlock: 0n

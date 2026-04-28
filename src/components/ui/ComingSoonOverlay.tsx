@@ -107,18 +107,18 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
 
               <div className="flex items-center gap-2 bg-black/40 py-1.5 px-4 rounded-full border border-white/10 shadow-inner">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
-                <span className="text-[10px] md:text-xs tracking-[0.25em] font-bold text-[var(--c)] uppercase" style={{ fontFamily: 'var(--fd)' }}>
+                <span_ className="text-[10px] md:text-xs tracking-[0.25em] font-bold text-[var(--c)] uppercase" style={{ fontFamily: 'var(--fd)' }}>
                   System Update
-                </span>
+                </span_>
               </div>
 
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-tight text-white my-2" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
                 WE WILL BE BACK<br />
-                <span className="text-[var(--c)]" style={{ textShadow: 'var(--king-text-shadow)' }}>SOON</span>
+                <span_ className="text-[var(--c)]" style={{ textShadow: 'var(--king-text-shadow)' }}>SOON</span_>
               </h2>
 
               <p className="text-xs sm:text-sm md:text-base text-gray-400 font-medium tracking-wide max-w-lg leading-relaxed px-2">
-                Our team is currently working to <span className="text-white">Checkmate this gambit</span>.
+                Our team is currently working to <span_ className="text-white">Checkmate this gambit</span_>.
               </p>
 
               <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2 md:my-4" />

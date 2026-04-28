@@ -258,3 +258,8 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/hooks/useCeloChess.ts
+//   }, [writeContractAsync])
+//   const reportWin = useCallback(async (gameId: number) => {

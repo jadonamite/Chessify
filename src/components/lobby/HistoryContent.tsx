@@ -82,7 +82,7 @@ export function HistoryContent() {
               </GlowButton>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center md:text-right_">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center md:text-right">
               <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
                 Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>History</span>
               </h1>
@@ -137,14 +137,14 @@ export function HistoryContent() {
                           </div>
 
                           <div className="flex items-center justify-between w-full sm:w-auto sm:gap-12 shrink-0">
-                            <div className="flex flex-col sm:text-right_">
+                            <div className="flex flex-col sm:text-right">
                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Wager</span>
                               <span className="text-lg font-black text-cyan-400">
                                 {item.wager} <span className="text-[10px] opacity-60">CHESS</span>
                               </span>
                             </div>
 
-                            <div className="flex flex-col text-right_">
+                            <div className="flex flex-col text-right">
                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Status</span>
                               <div className="flex items-center gap-2 justify-end">
                                 <div className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />

@@ -191,10 +191,3 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/config/abis.ts
-//     { "name": "result", "type": "uint8" },
-//     { "name": "turn", "type": "address" },
-//     { "name": "moveCount", "type": "uint256" },
-//     { "name": "createdAt", "type": "uint256" },

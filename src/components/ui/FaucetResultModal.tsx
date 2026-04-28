@@ -36,7 +36,6 @@ function Confetti() {
         <div
           key={p.id}
           style={{
-// ← structural drift
             position: 'absolute',
             left: p.left,
             top: -10,

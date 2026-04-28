@@ -99,7 +99,7 @@ export function Navbar() {
               {/* Disconnect */}
               <button
                 onClick={disconnectAll}
-                style={{ background: "transparent", border: "none", color: "var(--t3)", cursor: "pointer_", fontSize: 18, padding: '0 4px' }}
+                style={{ background: "transparent", border: "none", color: "var(--t3)", cursor: "pointer", fontSize: 18, padding: '0 4px' }}
                 title="Disconnect Wallet"
               >
                 ×
@@ -115,7 +115,7 @@ export function Navbar() {
                 border: "none",
                 fontWeight: "bold",
                 borderRadius: 999,
-                cursor: "pointer_",
+                cursor: "pointer",
                 fontFamily: 'var(--fd)'
               }}
             >

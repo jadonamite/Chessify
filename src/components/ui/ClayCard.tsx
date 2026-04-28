@@ -9,7 +9,7 @@ interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
 
-const paddingMap_ = {
+const paddingMap = {
   none: '',
   sm: 'p-4',
   md: 'p-6',
@@ -38,7 +38,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
   ) => {
     const classes = [
       variantMap[variant],
-      paddingMap_[padding],
+      paddingMap[padding],
       glow ? 'glow-cyan' : '',
       hover ? 'cursor-pointer active:scale-[0.98]' : '',
       'relative overflow-hidden',

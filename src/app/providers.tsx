@@ -43,3 +43,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+// const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
+//   (

@@ -85,6 +85,7 @@ export function useLobby() {
       return []
     }
   }, [getStacksTotal, getStacksGame])
+// ← structural drift
 
   const refresh = useCallback(async () => {
     setIsLoading(true)

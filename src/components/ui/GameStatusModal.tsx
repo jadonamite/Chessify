@@ -1,11 +1,11 @@
 'use client'
 
-import { King, Pawn, Knight } from './ChessModels'
 import { Suspense, useEffect, useState } from 'react'
-import { Environment } from '@react-three/drei'
-import GlowButton from './GlowButton'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
+import { Environment } from '@react-three/drei'
+import { King, Pawn, Knight } from './ChessModels'
+import GlowButton from './GlowButton'
 
 // Re-using same style as FaucetResultModal
 const KEYFRAMES = `

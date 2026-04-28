@@ -62,7 +62,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [stacksAddress, setStacksAddress] = useState<string | null>(null)
 
   // --- Common State ---
-  const [isMiniPay, setIsMiniPay] = useState(false)
+  const [isMiniPay, setIsMiniPay_] = useState(false)
   const [activeChain, setActiveChainState] = useState<'celo' | 'stacks'>('celo')
   const [showChainSelect, setShowChainSelect] = useState(false)
 
@@ -108,7 +108,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   // 3. Detect MiniPay
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).ethereum?.isMiniPay) {
-      setIsMiniPay(true)
+      setIsMiniPay_(true)
     }
   }, [])
 

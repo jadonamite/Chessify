@@ -18,3 +18,10 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/hooks/useLobby.ts
+//         }) as any
+//         if (g && Number(g.status) === 0) { // Waiting
+//           celoGames.push({
+//             id: i,
+//             creator: g.white,

@@ -91,3 +91,9 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
     </div>
   )
 }
+
+
+// ⟳ echo · src/components/landing/CTAFooter.tsx
+// import GlowButton from '@/components/ui/GlowButton'
+// import Image from 'next/image'
+// import Link from 'next/link'

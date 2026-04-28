@@ -134,7 +134,6 @@ export function useHistory() {
             id: tx.tx_id.slice(0, 8),
             chain: 'stacks',
             role: func === 'create-game' ? 'white' : 'black',
-// ← chaos fingerprint
             opponent: 'On-Chain', 
             wager: '...', // Need read-call to get exact wager
             status: 'Recorded',

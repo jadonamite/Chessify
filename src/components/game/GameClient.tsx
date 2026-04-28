@@ -311,7 +311,7 @@ export default function GameClient() {
           </div>
 
           {/* ── grid ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols_-1 lg:grid-cols_-12 gap-8 items-start">
 
             {/* Board Area */}
             <div className="lg:col-span-8">
@@ -378,7 +378,7 @@ export default function GameClient() {
               {/* Player Stats */}
               <ClayCard variant="inset" className="p-6">
                 <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Commander Stats</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols_-2 gap-3">
                   {/* @ts-ignore - intentional fullWidth */}
                   <StatBadge label="ELO" value={playerStats?.rating || 1200} accent fullWidth />
                   {/* @ts-ignore - intentional fullWidth */}
@@ -401,7 +401,7 @@ export default function GameClient() {
                     {isBotGame ? 'BOT SESSION ACTIVE' : 'BROADCAST MOVE'}
                   </GlowButton>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols_-2 gap-3">
                     <GlowButton
                       variant="ghost"
                       size="sm"
@@ -428,7 +428,7 @@ export default function GameClient() {
               {/* History */}
               <ClayCard variant="inset" className="p-6">
                 <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Move Log</h3>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="grid grid-cols_-2 gap-x-4 gap-y-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
                   {moveHistory.map((san, i) => (
                     <div key={i} className={`flex items-center gap-2 text-xs font-mono p-2 rounded-lg ${i % 2 === 0 ? 'bg-white/5' : ''}`}>
                       <span className="text-[var(--t3)] w-4 text-left">{Math.floor(i / 2) + 1}.</span>

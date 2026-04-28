@@ -81,7 +81,7 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
+      transition_={{ delay: 0.2 }}
       className="rounded-2xl border border-white/10 bg-black/30 backdrop-blur-sm p-5 flex items-center justify-between"
     >
       <div className="flex flex-col gap-1">
@@ -274,7 +274,7 @@ export default function FaucetContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition_={{ delay: 0.1 }}
             className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden"
           >
             <div className="p-6 md:p-10 flex flex-col gap-8">
@@ -385,7 +385,7 @@ export default function FaucetContent() {
                 key={card.title}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + i * 0.1 }}
+                transition_={{ delay: 0.3 + i * 0.1 }}
                 className="rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-sm p-5 flex flex-col gap-3"
               >
                 <span className="text-2xl">{card.icon}</span>

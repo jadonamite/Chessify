@@ -119,6 +119,16 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
   const [mounted, setMounted] = useState(false)
   
   useEffect(() => { setMounted(true) }, [])
+
+  useEffect(() => {
+    if (type === 'invalid_move' || type === 'check') {
+      const timer = setTimeout(() => {
+        onClose()
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [type, onClose])
+
   if (!mounted) return null
 
   const config = type ? STATUS_CONFIG[type] : null
@@ -126,77 +136,57 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
   return (
     <AnimatePresence>
       {type && config && (
-        <motion.div
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           exit={{ opacity: 0 }}
-           className="fixed inset-0 z-50 flex items-center justify-center p-4 box-border"
-           style={{ background: 'rgba(5, 5, 15, 0.9)', backdropFilter: 'blur(16px)' }}
-        >
-          <style>{KEYFRAMES}</style>
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)',
-            backgroundSize: '52px 52px', pointerEvents: 'none',
-            WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
-            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
-            opacity: 0.3,
-          }} />
-
+        <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
           <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="relative z-10 w-full max-w-sm md:max-w-md"
+            className="w-full max-w-md pointer-events-auto"
           >
-             <div className="rounded-[32px] border border-white/10 bg-slate-950/70 shadow-[0_0_80px_rgba(255,68,102,0.15)] backdrop-blur-2xl overflow-hidden flex flex-col">
-                <div className="w-full h-40 relative flex-shrink-0">
-                  <Canvas camera={{ position: [0, 0, 5], fov: 40 }} gl={{ alpha: true }}>
+             <div className="rounded-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden flex flex-row items-center p-3 gap-4">
+                
+                {/* 3D Icon Area */}
+                <div className="w-14 h-14 relative flex-shrink-0 rounded-xl overflow-hidden bg-white/5 border border-white/5">
+                  <Canvas camera={{ position: [0, 0, 7], fov: 35 }} gl={{ alpha: true }}>
                     <Suspense fallback={null}>
                       <config.Scene />
                     </Suspense>
                   </Canvas>
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-950/70 to-transparent" />
                   <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
-                      background: \`radial-gradient(circle at 50% 60%, \${config.accentColor}15, transparent 60%)\`,
-                      animation: 'pulse-glow 3s ease-in-out infinite',
+                      background: `radial-gradient(circle at 50% 50%, ${config.accentColor}15, transparent 70%)`
                     }}
                   />
                 </div>
 
-                <div className="px-8 pb-10 flex flex-col items-center text-center gap-4 relative z-10">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="flex items-center gap-2 py-1.5 px-4 rounded-full border shadow-inner"
-                    style={{ borderColor: \`\${config.badgeColor}40\`, background: \`\${config.badgeColor}10\` }}
-                  >
+                {/* Text Content */}
+                <div className="flex flex-col flex-grow text-left">
+                  <div className="flex items-center gap-2 mb-0.5">
                     <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: config.badgeColor }} />
-                    <span className="text-[10px] tracking-[0.25em] font-bold uppercase" style={{ fontFamily: 'var(--fd)', color: config.badgeColor }}>
+                    <span className="text-[10px] tracking-wider font-bold uppercase" style={{ color: config.badgeColor }}>
                       {config.badge}
                     </span>
-                  </motion.div>
-
-                  <h2 className="text-3xl font-black uppercase tracking-tighter text-white" style={{ fontFamily: 'var(--fd)' }}>
-                    {config.title}<br/>
-                    <span style={{ color: config.accentColor }}>{config.titleAccent}</span>
-                  </h2>
-
-                  <p className="text-xs text-gray-400 font-medium tracking-wide">
+                  </div>
+                  <h3 className="text-[13px] font-black uppercase tracking-tight text-white leading-none mb-1">
+                    {config.title} <span style={{ color: config.accentColor }}>{config.titleAccent}</span>
+                  </h3>
+                  <p className="text-[11px] text-gray-400 font-medium leading-tight">
                     {message || config.description}
                   </p>
-
-                  <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2" />
-
-                  <GlowButton variant={config.buttonVariant} size="md" onClick={onClose} fullWidth parallelogram>
-                    {config.buttonText}
-                  </GlowButton>
                 </div>
+
+                {/* Close Button */}
+                <button 
+                  onClick={onClose} 
+                  className="p-3 text-gray-500 hover:text-white transition-colors"
+                  aria-label="Dismiss"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
              </div>
           </motion.div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   )

@@ -124,7 +124,11 @@ export default function GameClient() {
       const move = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
       if (!move) {
         setStatusModalType('invalid_move')
-        setStatusModalMessage('That maneuver violates protocol directives. Try a different tactical approach.')
+        if (game.inCheck()) {
+          setStatusModalMessage('Invalid move: Your King is in check!')
+        } else {
+          setStatusModalMessage('Invalid move: You cannot move there.')
+        }
         return false
       }
 
@@ -157,7 +161,11 @@ export default function GameClient() {
     } catch (e) {
       console.error('Move failed:', e)
       setStatusModalType('invalid_move')
-      setStatusModalMessage('That maneuver violates protocol directives. Try a different tactical approach.')
+      if (game.inCheck()) {
+        setStatusModalMessage('Invalid move: Your King is in check!')
+      } else {
+        setStatusModalMessage('Invalid move: You cannot move there.')
+      }
       return false
     }
   }, [game, isBotGame])
@@ -329,8 +337,8 @@ export default function GameClient() {
                       // Click-to-move
                       onSquareClick: handleSquareClick,
                       // Styles
-                      darkSquareStyle: { backgroundColor: '#161636' },
-                      lightSquareStyle: { backgroundColor: '#2a2a5a' },
+                      darkSquareStyle: { backgroundColor: '#0f172a' },
+                      lightSquareStyle: { backgroundColor: '#1e293b' },
                       squareStyles: moveFrom
                         ? { [moveFrom]: { backgroundColor: 'rgba(0, 204, 255, 0.4)' } }
                         : {},

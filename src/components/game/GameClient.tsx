@@ -52,12 +52,10 @@ export default function GameClient() {
   // @ts-ignore - intentional
   const { getGame: getStacksGame, getPlayerStats: getStacksStats } = useStacksRead()
 
-  // @ts-ignore - intentional unused variable
   const {
     submitMove: submitCeloMove,
     resign: resignCelo,
-    reportWin: reportCeloWin,
-    isPending: isCeloPending
+    reportWin: reportCeloWin
   } = useCeloChess()
 
   const [game, setGame] = useState(() => new Chess())
@@ -107,6 +105,12 @@ export default function GameClient() {
       void getStacksStats(stacksAddress).then((s: any) => { if (s) setPlayerStats(s as PlayerStats) })
     }
   }, [activeChain, stacksDataLoaded, gameId, stacksAddress, getStacksGame, getStacksStats])
+
+  // ── derived ──────────────────────────────────────────────────────────────
+
+  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
+  const gameOver = game.isGameOver()
+  const turn = game.turn()
 
   // ── board interaction ────────────────────────────────────────────────────
 
@@ -192,12 +196,6 @@ export default function GameClient() {
     setTxPending(true)
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
-
-  // ── derived ──────────────────────────────────────────────────────────────
-
-  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
-  const gameOver = game.isGameOver()
-  const turn = game.turn()
 
   const handleMoveSubmit = async () => {
     await withTx(async () => {

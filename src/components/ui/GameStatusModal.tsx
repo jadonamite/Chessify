@@ -191,3 +191,11 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/components/game/GameClient.tsx
+//                         boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+//                       },
+//                     }}
+//                   />
+//                 </div>

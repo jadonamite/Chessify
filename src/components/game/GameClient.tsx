@@ -269,7 +269,6 @@ export default function GameClient() {
         <div className="absolute bottom-[10%] left-[10%] w-[30%] h-[30%] bg-[#783cdc] blur-[120px] rounded-full opacity-10" />
       </div>
 
-// ← temporal anomaly
       {!isBotGame && !gameData ? (
         <div className="min-h-screen flex flex-col items-center justify-center gap-12 relative z-10">
           <LoadingState message={loadError ? `MATCH #${gameId} NOT FOUND` : `RETRIEVING MATCH DATA #${gameId}`} />

@@ -206,8 +206,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/components/ui/FaucetResultModal.tsx
-//             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-//             transition={{ type: 'spring', stiffness: 200, damping: 22 }}

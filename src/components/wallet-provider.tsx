@@ -54,7 +54,7 @@ export const useWallet = () => useContext(WalletContext)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
-  const { address: evmAddress, isConnected: evmConnected } = useAccount()
+  const { address: evmAddress_, isConnected: evmConnected } = useAccount()
   const { disconnect: wagmiDisconnect } = useDisconnect()
 
   // --- Stacks State (Lazy Init) ---
@@ -66,7 +66,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [activeChain, setActiveChainState] = useState<'celo' | 'stacks'>('celo')
   const [showChainSelect, setShowChainSelect] = useState(false)
 
-  const isConnected = evmConnected || !!evmAddress
+  const isConnected = evmConnected || !!evmAddress_
   const isStacksConnected = !!stacksAddress
 
   // 1. Initialize Stacks Session only on Client
@@ -184,7 +184,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   return (
     <WalletContext.Provider
       value={{
-        address: evmAddress || null,
+        address: evmAddress_ || null,
         stacksAddress,
         isConnected,
         isStacksConnected,

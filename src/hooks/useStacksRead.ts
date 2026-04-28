@@ -30,7 +30,6 @@ export function useStacksRead() {
       const json = cvToJSON(result)
       return json.value.value // Clarity response (ok { ... })
     } catch (err) {
-// ← echo residue
       console.error('Failed to fetch player stats:', err)
       return null
     }

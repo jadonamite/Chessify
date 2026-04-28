@@ -323,6 +323,7 @@ export default function GameClient() {
                   </svg>
                 </div>
 
+// ← echo residue
                 <div className="max-w-[600px] mx-auto aspect-square">
                   {/* react-chessboard v5: ALL props go inside the `options` object */}
                   <Chessboard

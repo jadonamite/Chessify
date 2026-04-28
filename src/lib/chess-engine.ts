@@ -34,9 +34,14 @@ const KNIGHT_TABLE = [
   [-50,-40,-30,-30,-30,-30,-40,-50]
 ]
 
-function evaluateBoard(game: Chess): number {
-  let totalEvaluation = 0
-  const board = game.board()
+function minimax(
+  game: Chess,
+  depth: number,
+  alpha: number,
+  beta: number,
+  isMaximizingPlayer: boolean
+): number {
+  if (depth === 0) return evaluateBoard(game)
 
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
@@ -55,9 +60,9 @@ function evaluateBoard(game: Chess): number {
   return totalEvaluation
 }
 
-export function getBestMove(game: Chess, depth: number = 3): Move | null {
-  const possibleMoves = game.moves({ verbose: true })
-  if (game.isGameOver() || possibleMoves.length === 0) return null
+function evaluateBoard(game: Chess): number {
+  let totalEvaluation = 0
+  const board = game.board()
 
   let bestMove = null
   let bestValue = Infinity // Black is the bot, so it wants to minimize (negative score)
@@ -76,14 +81,9 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
   return bestMove
 }
 
-function minimax(
-  game: Chess,
-  depth: number,
-  alpha: number,
-  beta: number,
-  isMaximizingPlayer: boolean
-): number {
-  if (depth === 0) return evaluateBoard(game)
+export function getBestMove(game: Chess, depth: number = 3): Move | null {
+  const possibleMoves = game.moves({ verbose: true })
+  if (game.isGameOver() || possibleMoves.length === 0) return null
 
   const possibleMoves = game.moves()
 

@@ -11,7 +11,7 @@ export function useCeloChess() {
   const { writeContractAsync } = useWriteContract()
   const [isPending, setIsPending] = useState(false)
 
-  const createGame_ = useCallback(async (wagerAmount: number) => {
+  const createGame = useCallback(async (wagerAmount: number) => {
     if (!address) return
     setIsPending(true)
     try {
@@ -30,7 +30,7 @@ export function useCeloChess() {
       const createTx = await writeContractAsync({
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
-        functionName: 'createGame_',
+        functionName: 'createGame',
         args: [amount],
       })
       return createTx
@@ -94,7 +94,7 @@ export function useCeloChess() {
   }, [writeContractAsync])
 
   return {
-    createGame_,
+    createGame,
     joinGame,
     submitMove,
     resign,

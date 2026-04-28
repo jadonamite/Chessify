@@ -11,7 +11,7 @@ function BgIcon({ children }: { children: React.ReactNode }) {
       aspectRatio: '1',
       opacity: 0.07,
       pointerEvents: 'none',
-      transition_: 'opacity .3s',
+      transition: 'opacity .3s',
       overflow: 'hidden',
     }}>
       {children}
@@ -44,7 +44,7 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
 
 const cardBase: React.CSSProperties = {
   borderRadius: 24, position: 'relative', overflow: 'hidden',
-  cursor: 'default', transition_: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
+  cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 
 const hoverOn = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.transform = 'translateY(-5px) scale(1.006)' }

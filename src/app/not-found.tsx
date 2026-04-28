@@ -105,8 +105,3 @@ export default function NotFound() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Hero.tsx
-//               <GlowButton variant="brand" parallelogram size="lg" onClick={connectWallet} className="btn-brand-para-mobile">START PLAYING</GlowButton>
-//             ) : (

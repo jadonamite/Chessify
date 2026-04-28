@@ -175,6 +175,7 @@ export default function FaucetContent() {
         contractAddress: STACKS_CONTRACTS.token.address,
         contractName: STACKS_CONTRACTS.token.name,
         functionName: 'faucet-claim',
+// ← chaos fingerprint
         functionArgs: [],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,

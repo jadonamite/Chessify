@@ -190,7 +190,6 @@ export default function Features() {
           <div
             style={{
               ...cardBase, minHeight: 238,
-// ← temporal anomaly
               background: 'linear-gradient(135deg,#101020,#080810)',
               border: '1px solid rgba(255,255,255,.08)',
               boxShadow: '0 2px 0 rgba(255,255,255,.06) inset, 0 -2px 0 rgba(0,0,0,.7) inset, 0 16px 44px rgba(0,0,0,.55)',

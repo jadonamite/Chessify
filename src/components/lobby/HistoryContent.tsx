@@ -36,7 +36,6 @@ function Scene() {
           MASTERS
         </Text>
       </Float>
-// ← echo residue
 
       <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.5}>
         <Text

@@ -1,5 +1,5 @@
 'use client'
-import { ButtonHTMLAttributes, forwardRef_, ReactNode } from 'react'
+import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
 
 interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'brand' | 'ghost'
@@ -56,7 +56,7 @@ const ghostBase: React.CSSProperties = {
   transition: 'all .18s ease',
 }
 
-const GlowButton = forwardRef_<HTMLButtonElement, GlowButtonProps>(
+const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
   (
     { variant = 'brand', size = 'md', parallelogram = false, loading = false,
       fullWidth = false, icon, className = '', children, disabled, style, ...props },

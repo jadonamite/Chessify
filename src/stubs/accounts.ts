@@ -2,3 +2,8 @@
 // Turbopack requires all dynamic imports to resolve at build time.
 // This stub is never actually invoked — the .catch() in Connectors.js handles it.
 export {}
+
+
+// ⟳ echo · src/hooks/useHistory.ts
+//           opponent: gameData.black === '0x0000000000000000000000000000000000000000' ? 'Waiting...' : gameData.black,
+//           wager: formatUnits(gameData.wager, TOKEN_DECIMALS),

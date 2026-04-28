@@ -1,5 +1,23 @@
 'use client'
 
+  const handleJoinGame = async (gameId: number, matchWager: number) => {
+    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
+    setIsPending(true)
+    try {
+      if (activeChain === 'stacks') {
+        await joinStacksGame(gameId, matchWager)
+        router.push(`/app/game/${gameId}`)
+      } else {
+        await joinCeloGame(gameId, matchWager)
+        router.push(`/app/game/${gameId}`)
+      }
+    } catch (err) {
+      console.error('Join game failed:', err)
+    } finally {
+      setIsPending(false)
+    }
+  }
+
 import { useState, useEffect, Suspense, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
@@ -36,14 +54,6 @@ function BgIcon({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
-
-export default function LobbyContent() {
-  const { isConnected, isStacksConnected, activeChain, stacksAddress, address: celoAddress, connectWallet } = useWallet()
-  const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
-  // @ts-expect-error - intentional unused isCeloPending
-  const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
-  const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
-  const router = useRouter()
 
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false)
   const MAINTENANCE_MODE = false
@@ -104,25 +114,15 @@ export default function LobbyContent() {
     }
   }
 
-  const handleJoinGame = async (gameId: number, matchWager: number) => {
-    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
-    setIsPending(true)
-    try {
-      if (activeChain === 'stacks') {
-        await joinStacksGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
-      } else {
-        await joinCeloGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
-      }
-    } catch (err) {
-      console.error('Join game failed:', err)
-    } finally {
-      setIsPending(false)
-    }
-  }
-
   const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
+
+export default function LobbyContent() {
+  const { isConnected, isStacksConnected, activeChain, stacksAddress, address: celoAddress, connectWallet } = useWallet()
+  const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
+  // @ts-expect-error - intentional unused isCeloPending
+  const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
+  const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
+  const router = useRouter()
 
   useEffect(() => {
     // Redirect if not connected and not in a loading state

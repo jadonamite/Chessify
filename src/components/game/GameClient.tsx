@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { Chess } from 'chess.js'
 import dynamic from 'next/dynamic'
@@ -65,9 +65,9 @@ export default function GameClient() {
   const [playerStats, setPlayerStats] = useState<PlayerStats | null>(null)
   const [moveHistory, setMoveHistory] = useState<string[]>([])
   const [txPending, setTxPending] = useState(false)
-  const [dataLoaded, setDataLoaded] = useState(false)
   const [loadError, setLoadError] = useState(false)
   const [moveFrom, setMoveFrom] = useState<string>('')
+  const [stacksDataLoaded, setStacksDataLoaded] = useState(false)
 
   // Fetch Celo Game Data
   const { data: celoGameData } = useReadContract({
@@ -78,19 +78,11 @@ export default function GameClient() {
     query: { enabled: activeChain === 'celo' && !!gameId }
   })
 
-  // Lazy-load game + player data once on mount
-  const loadData = useCallback(() => {
-    if (dataLoaded) return
-    setDataLoaded(true)
-
-    if (activeChain === 'stacks') {
-      if (gameId) {
-        void getStacksGame(gameId).then(d => { if (d) setGameData(d as GameData) })
-      }
-      if (stacksAddress) {
-        void getStacksStats(stacksAddress).then(s => { if (s) setPlayerStats(s as PlayerStats) })
-      }
-    } else if (activeChain === 'celo' && celoGameData) {
+  // ── FIX 1: Celo game data — use a dedicated effect so it re-runs
+  // when celoGameData arrives asynchronously (instead of being blocked
+  // by the old dataLoaded guard).
+  useEffect(() => {
+    if (activeChain === 'celo' && celoGameData) {
       const gd = celoGameData as any
       setGameData({
         player1: gd.white,
@@ -99,35 +91,49 @@ export default function GameClient() {
         status: gd.status.toString()
       })
     }
-  }, [dataLoaded, gameId, stacksAddress, activeChain, getStacksGame, getStacksStats, celoGameData])
+  }, [celoGameData, activeChain])
 
-  // Trigger on first render (no useEffect needed — called from onLoad ref below)
-  // We use a ref callback on the wrapper div to fire once after mount.
-  const onMountRef = useCallback((el: HTMLDivElement | null) => {
-    if (el) loadData()
-  }, [loadData])
+  // ── FIX 2: Stacks data — separate effect with its own loaded guard
+  // so it doesn't interfere with the Celo flow above.
+  useEffect(() => {
+    if (activeChain !== 'stacks') return
+    if (stacksDataLoaded) return
+    setStacksDataLoaded(true)
+
+    if (gameId) {
+      void getStacksGame(gameId).then((d: any) => { if (d) setGameData(d as GameData) })
+    }
+    if (stacksAddress) {
+      void getStacksStats(stacksAddress).then((s: any) => { if (s) setPlayerStats(s as PlayerStats) })
+    }
+  }, [activeChain, stacksDataLoaded, gameId, stacksAddress, getStacksGame, getStacksStats])
 
   // ── board interaction ────────────────────────────────────────────────────
 
-  const onDrop = useCallback(({ sourceSquare, targetSquare }: { sourceSquare: string, targetSquare: string }): boolean => {
+  // ── FIX 3: Bot move — use a fresh Chess copy for the bot so we never
+  // mutate the object already committed to state, preventing corruption
+  // on re-renders.
+  const onDrop = useCallback((
+    sourceSquare: string,
+    targetSquare: string
+  ): boolean => {
     try {
       const next = new Chess(game.fen())
       const move = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
 
       if (!move) return false
 
-      // Update state
       setGame(next)
       setMoveHistory(h => [...h, move.san])
 
-      // If bot game, trigger bot move after a short delay
       if (isBotGame && !next.isGameOver()) {
         setTimeout(() => {
-          const gameCopy = new Chess(next.fen())
-          const botMove = getBestMove(gameCopy, 3)
+          // Create a brand-new copy from next's FEN — never reuse next
+          const afterPlayer = new Chess(next.fen())
+          const botMove = getBestMove(afterPlayer, 3)
           if (botMove) {
-            next.move(botMove)
-            setGame(new Chess(next.fen()))
+            afterPlayer.move(botMove)
+            setGame(new Chess(afterPlayer.fen()))
             setMoveHistory(h => [...h, botMove.san])
           }
         }, 1200)
@@ -140,48 +146,32 @@ export default function GameClient() {
     }
   }, [game, isBotGame])
 
+  // ── FIX 4: onSquareClick — wire to the corrected onDrop signature
+  // (plain strings instead of an object).
   const onSquareClick = useCallback((square: string) => {
-    console.log('[onSquareClick] Square tapped:', square)
     const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
-    if (!canAct) {
-      console.log('[onSquareClick] Blocked: canAct is false', { isBotGame, isStacksConnected, isConnected, txPending })
-      return
-    }
-    if (game.isGameOver()) {
-      console.log('[onSquareClick] Blocked: Game is over')
-      return
-    }
-    if (isBotGame && game.turn() === 'b') {
-      console.log('[onSquareClick] Blocked: Bot is thinking')
-      return
-    }
+    if (!canAct || game.isGameOver()) return
+    if (isBotGame && game.turn() === 'b') return
 
-    // Clicked source square
     if (!moveFrom) {
       const piece = game.get(square as any)
-      console.log('[onSquareClick] Selecting piece:', piece)
       if (piece && piece.color === game.turn()) {
         setMoveFrom(square)
       }
       return
     }
 
-    // Clicked target square
+    // If clicking own piece again, re-select
     const piece = game.get(square as any)
     if (piece && piece.color === game.turn()) {
       setMoveFrom(square)
       return
     }
 
-    const moveInfo = { sourceSquare: moveFrom, targetSquare: square }
-    const success = onDrop(moveInfo)
-    if (success) {
-      setMoveFrom('')
-    } else {
-      setMoveFrom('') // Reset if invalid
-    }
+    // Attempt move
+    const success = onDrop(moveFrom, square)
+    setMoveFrom('')  // always clear, even on failure
   }, [game, moveFrom, onDrop, isBotGame, isStacksConnected, isConnected, txPending])
-
 
   // ── tx helpers ───────────────────────────────────────────────────────────
 
@@ -195,7 +185,7 @@ export default function GameClient() {
 
   const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
   const gameOver = game.isGameOver()
-  const turn = game.turn() // 'w' | 'b'
+  const turn = game.turn()
 
   const handleMoveSubmit = async () => {
     await withTx(async () => {
@@ -218,7 +208,7 @@ export default function GameClient() {
     })
   }
 
-  // ── game loading timeout ───────────────────────────────────────────────────
+  // ── game loading timeout ─────────────────────────────────────────────────
 
   useEffect(() => {
     if (isBotGame) return
@@ -232,7 +222,7 @@ export default function GameClient() {
   // ── render ───────────────────────────────────────────────────────────────
 
   return (
-    <div ref={onMountRef} className="min-h-screen bg-[var(--bg)] text-[var(--t1)]">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--t1)]">
       <Navbar />
 
       {/* Ambient background effects */}
@@ -245,9 +235,9 @@ export default function GameClient() {
         <div className="min-h-screen flex flex-col items-center justify-center gap-12 relative z-10">
           <LoadingState message={loadError ? `MATCH #${gameId} NOT FOUND` : `RETRIEVING MATCH DATA #${gameId}`} />
           {loadError && (
-             <p className="text-[var(--t3)] text-xs font-bold tracking-widest text-center max-w-xs -mt-6">
-                The requested match ID could not be found on the active network.
-             </p>
+            <p className="text-[var(--t3)] text-xs font-bold tracking-widest text-center max-w-xs -mt-6">
+              The requested match ID could not be found on the active network.
+            </p>
           )}
           <Link href="/app/lobby">
             <GlowButton variant="ghost" size="sm" parallelogram>← CANCEL</GlowButton>
@@ -300,12 +290,12 @@ export default function GameClient() {
                     // @ts-ignore
                     id="BasicBoard"
                     position={game.fen()}
-                    // @ts-ignore
-                    onPieceDrop={(sourceSquare, targetSquare) => {
-                      if (!targetSquare) return false;
-                      return onDrop({ sourceSquare, targetSquare });
+                    // ── FIX 5: onPieceDrop now uses the corrected signature —
+                    // pass strings directly instead of wrapping in an object.
+                    onPieceDrop={(sourceSquare: string, targetSquare: string) => {
+                      return onDrop(sourceSquare, targetSquare)
                     }}
-                    boardOrientation={activeChain === 'stacks' ? 'white' : 'white'}
+                    boardOrientation="white"
                     arePiecesDraggable={canAct && !gameOver && (!isBotGame || turn === 'w')}
                     onSquareClick={onSquareClick}
                     customDarkSquareStyle={{ backgroundColor: '#161636' }}

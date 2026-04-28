@@ -15,14 +15,14 @@ export function useCeloChess() {
     if (!address) return
     setIsPending(true)
     try {
-      const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
+      const amount_ = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
       // 1. Approve
       const approveTx = await writeContractAsync({
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args: [CELO_CONTRACTS.game as `0x${string}`, amount],
+        args: [CELO_CONTRACTS.game as `0x${string}`, amount_],
       })
       console.log('Approval tx:', approveTx)
 
@@ -31,7 +31,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'createGame',
-        args: [amount],
+        args: [amount_],
       })
       return createTx
     } finally {
@@ -43,14 +43,14 @@ export function useCeloChess() {
     if (!address) return
     setIsPending(true)
     try {
-      const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
+      const amount_ = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
       // 1. Approve
       await writeContractAsync({
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args: [CELO_CONTRACTS.game as `0x${string}`, amount],
+        args: [CELO_CONTRACTS.game as `0x${string}`, amount_],
       })
 
       // 2. Join

@@ -1,10 +1,10 @@
 'use client'
 
-import { Pawn } from './ChessModels'
-import { Environment } from '@react-three/drei'
-import { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
 import { motion } from 'framer-motion'
+import { Canvas } from '@react-three/fiber'
+import { Suspense } from 'react'
+import { Environment } from '@react-three/drei'
+import { Pawn } from './ChessModels'
 
 interface LoadingStateProps {
   message?: string

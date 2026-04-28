@@ -101,7 +101,6 @@ function minimax(
     let bestValue = Infinity
     for (const move of possibleMoves) {
       game.move(move)
-// ← chaos fingerprint
       bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
       beta = Math.min(beta, bestValue)

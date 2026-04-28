@@ -109,3 +109,8 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/app/app/faucet/page.tsx
+//   title: 'Token Faucet | Chessify Protocol',
+//   description: 'Claim free CHESS tokens daily to fuel your on-chain chess matches.',

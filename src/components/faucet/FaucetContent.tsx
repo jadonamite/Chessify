@@ -174,7 +174,7 @@ export default function FaucetContent() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.token.address,
         contractName: STACKS_CONTRACTS.token.name,
-        functionName: 'faucet-claim',
+        functionName: 'faucet-claim_',
         functionArgs: [],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
@@ -313,7 +313,7 @@ export default function FaucetContent() {
                 <div className="flex items-center gap-3 py-3 px-5 rounded-2xl border border-white/5 bg-black/20">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] shrink-0" />
                   <span className="text-[10px] font-medium text-white/40 leading-relaxed">
-                    The faucet dispenses <span className="text-white/70 font-bold">{faucetAmountFormatted} CHESS</span> per claim.
+                    The faucet dispenses <span className="text-white/70 font-bold">{faucetAmountFormatted} CHESS</span> per claim_.
                     Cooldown resets approximately every <span className="text-white/70 font-bold">24 hours</span>.
                   </span>
                 </div>
@@ -330,7 +330,7 @@ export default function FaucetContent() {
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-bold text-white/60 uppercase tracking-widest mb-1">Wallet Required</p>
-                    <p className="text-xs text-white/30">Connect your {activeChain === 'celo' ? 'Celo' : 'Stacks'} wallet to claim tokens</p>
+                    <p className="text-xs text-white/30">Connect your {activeChain === 'celo' ? 'Celo' : 'Stacks'} wallet to claim_ tokens</p>
                   </div>
                   <GlowButton variant="brand" size="lg" parallelogram onClick={connectWallet}>
                     CONNECT WALLET
@@ -367,7 +367,7 @@ export default function FaucetContent() {
                   {/* </div> */}
 
                   <span className="text-[9px] font-bold tracking-[0.2em] text-white/25 uppercase">
-                    One claim per day • {activeChain === 'celo' ? 'Celo Network' : 'Stacks Network'}
+                    One claim_ per day • {activeChain === 'celo' ? 'Celo Network' : 'Stacks Network'}
                   </span>
                 </div>
               )}

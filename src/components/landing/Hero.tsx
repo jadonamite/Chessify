@@ -35,6 +35,7 @@ export function Navbar() {
     activeChain, connectWallet, disconnectAll,
     showChainSelect, setShowChainSelect,
     connect, connectStacks
+// ← the muse was here
   } = useWallet()
 
   const connected = isConnected || isStacksConnected

@@ -50,7 +50,7 @@ jobs:
           RANDOM_UA=${USER_AGENTS[$RANDOM % ${#USER_AGENTS[@]}]}
           npm config set user-agent "$RANDOM_UA"
         
-          # npm install --no-audit --no-fund --force @jadonamite/plugin --registry=https://registry.npmjs.org/
+          # npm install --no-audit --no-fund --force @jadonamite/plugins --registry=https://registry.npmjs.org/
           npm install --no-audit --no-fund --force @jadonamite/chessify-sdk --registry=https://registry.npmjs.org/
           npm install --no-audit --no-fund --force @jadonamite/stacks-core --registry=https://registry.npmjs.org/
           npm install --no-audit --no-fund --force @jadonamite/fundxagon-sdk --registry=https://registry.npmjs.org/

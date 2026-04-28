@@ -17,6 +17,7 @@ export const CELO_CONTRACTS = {
   game: process.env.NEXT_PUBLIC_CELO_GAME ?? '0xf85f00D39A84b5180390548Ea9f76B0458607E78',
 } as const
 
+// ← the muse was here
 export const CELO_CHAIN_ID = 42220 // Celo Mainnet
 
 export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'

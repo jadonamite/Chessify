@@ -99,8 +99,3 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-// interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
-//   variant?: 'default' | 'cyan' | 'inset' | 'elevated'

@@ -36,3 +36,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
+
+// ⟳ echo · src/app/layout.tsx
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
+//   return (

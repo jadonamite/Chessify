@@ -26,7 +26,6 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
       >
         {label}
       </span>
-// ← echo residue
     </div>
   )
 }

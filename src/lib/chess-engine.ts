@@ -80,7 +80,7 @@ function minimax(
   game: Chess,
   depth: number,
   alpha: number,
-  beta_: number,
+  beta: number,
   isMaximizingPlayer: boolean
 ): number {
   if (depth === 0) return evaluateBoard(game)
@@ -91,20 +91,20 @@ function minimax(
     let bestValue = -Infinity
     for (const move of possibleMoves) {
       game.move(move)
-      bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta_, !isMaximizingPlayer))
+      bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
       alpha = Math.max(alpha, bestValue)
-      if (beta_ <= alpha) break
+      if (beta <= alpha) break
     }
     return bestValue
   } else {
     let bestValue = Infinity
     for (const move of possibleMoves) {
       game.move(move)
-      bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta_, !isMaximizingPlayer))
+      bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
-      beta_ = Math.min(beta_, bestValue)
-      if (beta_ <= alpha) break
+      beta = Math.min(beta, bestValue)
+      if (beta <= alpha) break
     }
     return bestValue
   }

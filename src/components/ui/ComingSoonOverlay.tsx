@@ -40,20 +40,20 @@ function FloatingPieces() {
   return (
     <>
       <ambientLight intensity={1.5} />
-      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
-      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
+      <directionalLight position_={[10, 10, 5]} intensity={2} color="#00ccff" />
+      <directionalLight position_={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment files="/textures/environment/city.hdr" />
 
       {/* 1.25x Scale & Brought closer to center */}
-      <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position={[-1.5, 0, -1]}>
+      <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position_={[-1.5, 0, -1]}>
         <primitive object={coloredQueen} scale={1.5} rotation={[0.4, 0.2, 0.1]} />
       </Float>
 
-      <Float speed={1.5} rotationIntensity={2} floatIntensity={3} position={[0, -0.5, 0]}>
+      <Float speed={1.5} rotationIntensity={2} floatIntensity={3} position_={[0, -0.5, 0]}>
         <primitive object={coloredKing} scale={1.87} rotation={[-0.1, 0.5, 0.2]} />
       </Float>
 
-      <Float speed={2.5} rotationIntensity={1} floatIntensity={1.5} position={[1.8, 0.2, -0.5]}>
+      <Float speed={2.5} rotationIntensity={1} floatIntensity={1.5} position_={[1.8, 0.2, -0.5]}>
         <primitive object={coloredRook} scale={1.37} rotation={[0.2, -0.4, -0.1]} />
       </Float>
     </>
@@ -85,11 +85,11 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
           style={{ background: 'rgba(5, 5, 15, 0.85)', backdropFilter: 'blur(12px)' }}
         >
           {/* Cyber-industrial Grid Background */}
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', opacity: 0.5 }} />
+          <div style={{ position_: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', opacity: 0.5 }} />
 
           {/* 3D Canvas Background */}
           <div className="absolute inset-0 pointer-events-none opacity-60">
-            <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+            <Canvas camera={{ position_: [0, 0, 8], fov: 45 }}>
               <Suspense fallback={null}>
                 <FloatingPieces />
               </Suspense>

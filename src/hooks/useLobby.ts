@@ -109,10 +109,3 @@ export function useLobby() {
     refresh
   }
 }
-
-
-// ⟳ echo · src/components/ui/LoadingState.tsx
-//               left: ['-20%', '120%'],
-//               width: ['20%', '40%', '20%']
-//             } : {
-//               width: `${progress}%`

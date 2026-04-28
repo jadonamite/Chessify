@@ -15,28 +15,6 @@ const KEYFRAMES = `
 }
 `
 
-function WarningScene() {
-  return (
-    <>
-      <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
-      <Environment preset="sunset" />
-      <Pawn color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
-    </>
-  )
-}
-
-function CheckScene() {
-  return (
-    <>
-      <ambientLight intensity={1.5} />
-      <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />
-      <Environment preset="night" />
-      <Knight color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
-    </>
-  )
-}
-
 function CheckmateScene() {
   return (
     <>
@@ -59,6 +37,22 @@ function StalemateScene() {
     </>
   )
 }
+
+function WarningScene() {
+  return (
+    <>
+      <ambientLight intensity={1} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
+      <Environment preset="sunset" />
+      <Pawn color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
+    </>
+  )
+}
+
+export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => { setMounted(true) }, [])
 
 export type GameStatusType = 'invalid_move' | 'check' | 'checkmate' | 'draw' | null
 
@@ -115,10 +109,16 @@ const STATUS_CONFIG = {
   }
 }
 
-export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
-  const [mounted, setMounted] = useState(false)
-  
-  useEffect(() => { setMounted(true) }, [])
+function CheckScene() {
+  return (
+    <>
+      <ambientLight intensity={1.5} />
+      <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />
+      <Environment preset="night" />
+      <Knight color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
+    </>
+  )
+}
 
   useEffect(() => {
     if (type === 'invalid_move' || type === 'check') {

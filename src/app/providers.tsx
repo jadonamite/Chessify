@@ -9,7 +9,7 @@ import { wagmiAdapter, initAppKit } from '@/config/reown'
 import { ThemeProvider } from 'next-themes'
 
 const WalletProvider = dynamic(
-  () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
+  () => import('@/components/wallet-provider').then(mod_ => mod_.WalletProvider),
   { ssr: false }
 )
 

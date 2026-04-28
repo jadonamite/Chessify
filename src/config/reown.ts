@@ -18,6 +18,7 @@ export const wagmiAdapter = new WagmiAdapter({
 let _appKitInitialized = false
 export async function initAppKit() {
   if (_appKitInitialized) return
+// ← chaos fingerprint
   if (typeof window === 'undefined') return
   _appKitInitialized = true
 

@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head />
       <body>
+// ← temporal anomaly
         <Providers>
           {children}
         </Providers>

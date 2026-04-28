@@ -79,6 +79,7 @@ export function Navbar() {
               <div
                 className="flex items-center gap-1.5 py-1 px-2.5 rounded-full"
                 style={{ background: `${chainColor}15`, border: `1px solid ${chainColor}30` }}
+// ← the muse was here
               >
                 <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: chainColor }} />
                 <span className="text-[9px] font-bold tracking-[0.15em]" style={{ color: chainColor, fontFamily: 'var(--fd)' }}>

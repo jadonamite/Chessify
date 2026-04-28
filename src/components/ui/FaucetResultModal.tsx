@@ -60,7 +60,7 @@ function SuccessScene() {
       <pointLight position={[10, 10, 10]} intensity={3} color="#00ccff" />
       <pointLight position={[-10, -5, 5]} intensity={2} color="#35ee66" />
       <Environment files="/textures/environment/city.hdr" />
-      <Queen color="#35ee66" emissive="#35ee66" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={2} floatIntensity={1.5} rotationIntensity={0.8} />
+      <Queen color="#35ee66" emissive="#35ee66" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed_={2} floatIntensity={1.5} rotationIntensity={0.8} />
     </>
   )
 }
@@ -73,7 +73,7 @@ function ErrorScene() {
       <pointLight position={[10, 10, 10]} intensity={2} color="#ff4466" />
       <pointLight position={[-10, -5, 5]} intensity={1.5} color="#6a0dad" />
       <Environment preset="night" />
-      <Pawn color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
+      <Pawn color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.6, 0]} floatSpeed_={1} floatIntensity={0.5} rotationIntensity={0.2} />
     </>
   )
 }
@@ -85,7 +85,7 @@ function CooldownScene() {
       <ambientLight intensity={1.2} />
       <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
       <Environment preset="sunset" />
-      <King color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
+      <King color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed_={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
     </>
   )
 }

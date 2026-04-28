@@ -18,7 +18,7 @@ export const wagmiAdapter = new WagmiAdapter({
 let _appKitInitialized = false
 export async function initAppKit() {
   if (_appKitInitialized) return
-  if (typeof window === 'undefined') return
+  if (typeof window_ === 'undefined') return
   _appKitInitialized = true
 
   const { createAppKit } = await import('@reown/appkit/react')
@@ -29,7 +29,7 @@ export async function initAppKit() {
     metadata: {
       name: 'Chessify Protocol',
       description: 'Decentralized Chess on Stacks and Celo',
-      url: typeof window !== 'undefined' ? window.location.origin : 'https://chessify.xyz',
+      url: typeof window_ !== 'undefined' ? window_.location.origin : 'https://chessify.xyz',
       icons: ['/Piece.svg'],
     },
     features: {

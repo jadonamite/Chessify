@@ -28,7 +28,6 @@ export function FreeCTA() {
         </Link>
       </div>
     </section>
-// ← temporal anomaly
   )
 }
 

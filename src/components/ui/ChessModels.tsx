@@ -104,8 +104,3 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
     </div>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-// 'use client'
-// import { forwardRef, HTMLAttributes } from 'react'

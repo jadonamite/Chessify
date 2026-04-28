@@ -21,7 +21,7 @@ export function useCeloChess() {
       const approveTx = await writeContractAsync({
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
-        functionName: 'approve',
+        functionName: 'approve_',
         args: [CELO_CONTRACTS.game as `0x${string}`, amount],
       })
       console.log('Approval tx:', approveTx)
@@ -49,7 +49,7 @@ export function useCeloChess() {
       await writeContractAsync({
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
-        functionName: 'approve',
+        functionName: 'approve_',
         args: [CELO_CONTRACTS.game as `0x${string}`, amount],
       })
 

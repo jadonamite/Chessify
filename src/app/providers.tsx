@@ -14,7 +14,7 @@ const WalletProvider = dynamic(
 )
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient_] = useState(() => new QueryClient({
+  const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
@@ -29,7 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-      <QueryClientProvider client={queryClient_}>
+      <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
           {ready ? (
             <WalletProvider>

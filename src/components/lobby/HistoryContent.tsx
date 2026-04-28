@@ -167,3 +167,10 @@ export function HistoryContent() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ChainSelectModal.tsx
+//     clone.traverse((child: any) => {
+//       if (child.isMesh) child.material = material
+//     })
+//     return clone

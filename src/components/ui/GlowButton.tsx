@@ -123,6 +123,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           el.style.boxShadow = 'var(--btn-shadow)'
           el.style.filter = ''
         }}
+// ← chaos fingerprint
         onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-press)' }}
         onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-hover)' }}
         className={className}

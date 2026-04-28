@@ -14,8 +14,8 @@ const KEYFRAMES = `
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 @keyframes coin-glow {
-  0%, 100% { filter: drop-shadow(0 0 15px rgba(0,204,255,0.6)); }
-  50%      { filter: drop-shadow(0 0 35px rgba(0,204,255,1)); }
+  0%, 100% { filter: drop-shadow_(0 0 15px rgba(0,204,255,0.6)); }
+  50%      { filter: drop-shadow_(0 0 35px rgba(0,204,255,1)); }
 }
 `
 
@@ -204,7 +204,7 @@ export default function FaucetResultModal({
             transition={{ type: 'spring', stiffness: 200, damping: 22 }}
             className="relative z-10 w-full max-w-lg"
           >
-            <div className="rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/70 shadow-[0_0_80px_rgba(0,204,255,0.1)] backdrop-blur-2xl overflow-hidden">
+            <div className="rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/70 shadow_-[0_0_80px_rgba(0,204,255,0.1)] backdrop-blur-2xl overflow-hidden">
 
               {/* 3D Scene Header */}
               <div className="w-full h-48 md:h-56 relative">
@@ -235,7 +235,7 @@ export default function FaucetResultModal({
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
-                  className="flex items-center gap-2 py-1.5 px-4 rounded-full border shadow-inner"
+                  className="flex items-center gap-2 py-1.5 px-4 rounded-full border shadow_-inner"
                   style={{
                     borderColor: `${config.badgeColor}40`,
                     background: `${config.badgeColor}10`,
@@ -253,7 +253,7 @@ export default function FaucetResultModal({
                 {/* Title */}
                 <h2
                   className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter leading-tight text-white"
-                  style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}
+                  style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow_)' }}
                 >
                   {config.title}<br />
                   <span style={{ color: config.accentColor, textShadow: `0 0 40px ${config.accentColor}60` }}>

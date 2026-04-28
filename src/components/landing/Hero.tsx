@@ -1,14 +1,14 @@
 'use client'
-import Image from 'next/image'
-import GlowButton from '@/components/ui/GlowButton'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import Link from 'next/link'
-import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
+import GlowButton from '@/components/ui/GlowButton'
 import { useWallet } from '@/components/wallet-provider'
-import ChainSelectModal from '@/components/ui/ChainSelectModal'
+import { Environment } from '@react-three/drei'
+import { Suspense } from 'react'
 import { King, Queen, Bishop, Knight, Pawn } from '@/components/ui/ChessModels'
+import ChainSelectModal from '@/components/ui/ChainSelectModal'
+import Image from 'next/image'
 
 const KEYFRAMES = `
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }

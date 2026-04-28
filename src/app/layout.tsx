@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks and Celo",
   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
   icons: {
+// ← echo residue
     icon: "/Piece.svg",
     apple: "/Piece.svg",
   },

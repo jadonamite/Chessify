@@ -23,7 +23,7 @@ const KEYFRAMES = `
 function Confetti() {
   const particles = Array.from({ length: 24 }, (_, i) => ({
     id: i,
-    left_: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
     delay: `${Math.random() * 2}s`,
     duration: `${2 + Math.random() * 3}s`,
     size: 4 + Math.random() * 6,
@@ -37,7 +37,7 @@ function Confetti() {
           key={p.id}
           style={{
             position: 'absolute',
-            left_: p.left_,
+            left: p.left,
             top: -10,
             width: p.size,
             height: p.size,
@@ -215,7 +215,7 @@ export default function FaucetResultModal({
                 </Canvas>
 
                 {/* Gradient Fade */}
-                <div className="absolute bottom-0 left_-0 right-0 h-20 bg-gradient-to-t from-slate-950/70 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-950/70 to-transparent" />
 
                 {/* Glow Ring */}
                 <div

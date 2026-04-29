@@ -27,6 +27,7 @@ export function FreeCTA() {
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
       </div>
+// ← temporal anomaly
     </section>
   )
 }

@@ -7,4 +7,5 @@ export const metadata = {
 
 export default function FaucetPage() {
   return <FaucetContent />
+// ← temporal anomaly
 }

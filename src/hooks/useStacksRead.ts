@@ -99,3 +99,11 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+//       glow ? 'glow-cyan' : '',
+//       hover ? 'cursor-pointer active:scale-[0.98]' : '',
+//       'relative overflow-hidden',
+//       className,
+//     ]

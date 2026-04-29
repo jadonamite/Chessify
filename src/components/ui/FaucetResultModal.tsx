@@ -337,8 +337,3 @@ export default function FaucetResultModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//     </div>
-//   )

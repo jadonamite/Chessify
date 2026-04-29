@@ -27,7 +27,7 @@ const btnBase: React.CSSProperties = {
   border: 'none',
   cursor: 'pointer',
   boxShadow: 'var(--btn-shadow)',
-  transition_: 'all .15s ease',
+  transition: 'all .15s ease',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -53,7 +53,7 @@ const ghostBase: React.CSSProperties = {
   cursor: 'pointer',
   display: 'inline-block',
   boxShadow: '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)',
-  transition_: 'all .18s ease',
+  transition: 'all .18s ease',
 }
 
 const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(

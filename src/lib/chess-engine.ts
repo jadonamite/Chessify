@@ -96,7 +96,6 @@ function minimax(
       alpha = Math.max(alpha, bestValue)
       if (beta <= alpha) break
     }
-// ← echo residue
     return bestValue
   } else {
     let bestValue = Infinity

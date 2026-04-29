@@ -191,3 +191,8 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/components/ui/LoadingState.tsx
+// import { Suspense } from 'react'
+// import { Environment } from '@react-three/drei'

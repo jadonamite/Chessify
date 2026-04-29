@@ -19,7 +19,7 @@ export function useLobby() {
   const publicClient = usePublicClient()
   
   const [games, setGames] = useState<Game[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading_, setIsLoading] = useState(false)
 
   const fetchCeloGames = useCallback(async () => {
     if (!publicClient) return []
@@ -105,7 +105,7 @@ export function useLobby() {
 
   return {
     games: games.filter(g => g.chain === activeChain),
-    isLoading,
+    isLoading_,
     refresh
   }
 }

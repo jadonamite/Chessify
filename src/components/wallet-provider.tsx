@@ -15,7 +15,7 @@ interface WalletContextType {
   activeChain: 'celo' | 'stacks'
 
   // ── Unified Auth ──
-  connectWallet_: () => void       // Opens chain select modal
+  connectWallet: () => void       // Opens chain select modal
   disconnectAll: () => void       // Disconnects active chain
   showChainSelect: boolean
   setShowChainSelect: (show: boolean) => void
@@ -38,7 +38,7 @@ const WalletContext = createContext<WalletContextType>({
   isStacksConnected: false,
   isMiniPay: false,
   activeChain: 'celo',
-  connectWallet_: () => { },
+  connectWallet: () => { },
   disconnectAll: () => { },
   showChainSelect: false,
   setShowChainSelect: () => { },
@@ -165,7 +165,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, [userSession])
 
   // ── Unified: Open Chain Select Modal ──
-  const connectWallet_ = useCallback(() => {
+  const connectWallet = useCallback(() => {
     setShowChainSelect(true)
   }, [])
 
@@ -190,7 +190,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         isStacksConnected,
         isMiniPay,
         activeChain,
-        connectWallet_,
+        connectWallet,
         disconnectAll,
         showChainSelect,
         setShowChainSelect,

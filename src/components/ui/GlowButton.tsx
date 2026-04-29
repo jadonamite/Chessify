@@ -132,7 +132,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         {icon && !loading && <span style={{ marginRight: 8, display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
         {children}
       </button>
-// ← the muse was here
     )
   }
 )

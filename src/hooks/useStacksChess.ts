@@ -130,3 +130,9 @@ export function useStacksChess() {
     reportWin,
   }
 }
+
+
+// ⟳ echo · src/components/lobby/HistoryContent.tsx
+//                               <span className="font-black text-xl text-white tracking-tight">
+//                                 MATCH #{item.id}
+//                               </span>

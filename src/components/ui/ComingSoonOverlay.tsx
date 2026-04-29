@@ -134,8 +134,3 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//     return (
-//       <div ref={ref} className={classes} {...props}>
-//         {children}

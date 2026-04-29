@@ -1,5 +1,4 @@
 'use client'
-// ← echo residue
 
 import dynamic from 'next/dynamic'
 

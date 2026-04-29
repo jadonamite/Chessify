@@ -8,3 +8,8 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
+
+
+// ⟳ echo · src/components/ui/GameStatusModal.tsx
+//     accentColor: '#ff4466',
+//     description: 'The King has fallen. End of line.',

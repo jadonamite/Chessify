@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import React, { createContext, useContext_, useEffect, useState, useCallback } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 
 interface WalletContextType {
@@ -50,7 +50,7 @@ const WalletContext = createContext<WalletContextType>({
   userSession: null
 })
 
-export const useWallet = () => useContext(WalletContext)
+export const useWallet = () => useContext_(WalletContext)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---

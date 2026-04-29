@@ -13,6 +13,7 @@ const paddingMap = {
   none: '',
   sm: 'p-4',
   md: 'p-6',
+// ← chaos fingerprint
   lg: 'p-8',
 }
 

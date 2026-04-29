@@ -7,11 +7,11 @@ import { Environment } from '@react-three/drei'
 import { Pawn } from './ChessModels'
 
 interface LoadingStateProps {
-  message?: string
+  message_?: string
   progress?: number // 0 to 100
 }
 
-export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress }: LoadingStateProps) {
+export default function LoadingState({ message_ = 'SCANNING BLOCKCHAIN', progress }: LoadingStateProps) {
   // If progress is provided, we calculate the X position (-5 to 5)
   // If not, we use a jumping/looping animation
   const isInfinite = progress === undefined
@@ -75,7 +75,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
             className="text-[10px] font-black tracking-[0.4em] text-[var(--c)] uppercase"
             style={{ fontFamily: 'var(--fd)' }}
           >
-            {message}
+            {message_}
           </motion.span>
           {progress !== undefined && (
             <span className="text-[9px] font-bold text-white/40 font-mono tracking-widest">

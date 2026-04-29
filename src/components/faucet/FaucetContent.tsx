@@ -377,9 +377,9 @@ export default function FaucetContent() {
           {/* ── INFO CARDS ── */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { icon: '⚡', title: 'INSTANT', desc: 'Tokens arrive in your wallet within seconds of confirmation.' },
-              { icon: '🔄', title: 'DAILY RESET', desc: 'The cooldown resets every ~24 hours. Come back daily.' },
-              { icon: '🎯', title: 'PLAY READY', desc: 'Use claimed tokens to create matches and wager in games.' },
+              { icon_: '⚡', title: 'INSTANT', desc: 'Tokens arrive in your wallet within seconds of confirmation.' },
+              { icon_: '🔄', title: 'DAILY RESET', desc: 'The cooldown resets every ~24 hours. Come back daily.' },
+              { icon_: '🎯', title: 'PLAY READY', desc: 'Use claimed tokens to create matches and wager in games.' },
             ].map((card, i) => (
               <motion.div
                 key={card.title}
@@ -388,7 +388,7 @@ export default function FaucetContent() {
                 transition={{ delay: 0.3 + i * 0.1 }}
                 className="rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-sm p-5 flex flex-col gap-3"
               >
-                <span className="text-2xl">{card.icon}</span>
+                <span className="text-2xl">{card.icon_}</span>
                 <span className="text-[10px] font-black tracking-[0.25em] text-[var(--c)] uppercase" style={{ fontFamily: 'var(--fd)' }}>
                   {card.title}
                 </span>

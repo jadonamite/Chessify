@@ -258,10 +258,3 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/ui/LoadingState.tsx
-//               />
-//             </group>
-//           </Suspense>
-//         </Canvas>

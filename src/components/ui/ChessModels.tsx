@@ -104,9 +104,3 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
     </div>
   )
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//   label: string
-//   // ← the muse was here
-//   value: string | number

@@ -14,7 +14,7 @@ function KnightModel() {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation_.y = state.clock.getElapsedTime() * 0.5
+      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5
     }
   })
 
@@ -40,7 +40,7 @@ function Scene() {
           global
 
           snap
-          rotation_={[0, 0.3, 0]}
+          rotation={[0, 0.3, 0]}
           polar={[-Math.PI / 3, Math.PI / 3]}
           azimuth={[-Math.PI / 1.4, Math.PI / 1.4]}
         >

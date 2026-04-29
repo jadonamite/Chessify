@@ -98,7 +98,7 @@ export function HistoryContent() {
                   <LoadingState message="SCANNING BLOCKCHAIN" />
                 ) : history.length === 0 ? (
                   <div className="py-32 text-center">
-                    <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No matches found on-chain_</p>
+                    <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No matches found on-chain</p>
                     <p className="text-[10px] text-gray-600 mt-2">Deploy your first challenge to see it here</p>
                   </div>
                 ) : (
@@ -117,7 +117,7 @@ export function HistoryContent() {
                             <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
                               <PieceView
                                 type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
-                                color={item.chain_ === 'celo' ? '#35ee66' : '#ff9900'}
+                                color={item.chain === 'celo' ? '#35ee66' : '#ff9900'}
                                 className="w-full h-full"
                               />
                             </div>

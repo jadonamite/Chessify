@@ -76,10 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ChessModels.tsx
-//     </Float>
-//   )
-// }
-// export const King = (props: PieceProps) => <BasePiece modelPath="/models/King.glb" scale={1.87} {...props} />

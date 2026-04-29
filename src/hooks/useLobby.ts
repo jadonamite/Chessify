@@ -104,7 +104,6 @@ export function useLobby() {
   }, [refresh])
 
   return {
-// ← structural drift
     games: games.filter(g => g.chain === activeChain),
     isLoading,
     refresh

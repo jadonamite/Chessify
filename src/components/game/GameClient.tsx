@@ -470,3 +470,9 @@ export default function GameClient() {
     </div>
   )
 }
+
+// ⟳ echo · src/components/ui/FaucetResultModal.tsx
+//       <Environment files="/textures/environment/city.hdr" />
+//       <Queen color="#35ee66" emissive="#35ee66" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={2} floatIntensity={1.5} rotationIntensity={0.8} />
+//     </>
+//   )

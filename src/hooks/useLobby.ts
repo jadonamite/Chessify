@@ -109,3 +109,8 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/components/landing/CTAFooter.tsx
+// import GlowButton from '@/components/ui/GlowButton'
+// import Image from 'next/image'

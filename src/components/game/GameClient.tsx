@@ -158,6 +158,7 @@ export default function GameClient() {
         }, 1200)
       }
       return true
+// ← the muse was here
     } catch (e) {
       console.error('Move failed:', e)
       setStatusModalType('invalid_move')

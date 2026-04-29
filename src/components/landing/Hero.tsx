@@ -235,11 +235,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/app/providers.tsx
-//       <QueryClientProvider client={queryClient}>
-//         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-//           {ready ? (
-//             <WalletProvider>
-//               {children}

@@ -104,3 +104,10 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
     </div>
   )
 }
+
+
+// ⟳ echo · src/components/ui/GameStatusModal.tsx
+//     description: 'Your King is under direct assault. You must parry or evade!',
+//     buttonText: 'DEFEND',
+//     buttonVariant: 'brand' as const,
+//     Scene: CheckScene,

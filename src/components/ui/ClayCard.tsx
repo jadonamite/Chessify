@@ -58,3 +58,8 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/components/ui/LoadingState.tsx
+//         {/* Ambient Glow behind the piece */}
+//         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,204,255,0.15),transparent_70%)] blur-2xl pointer-events-none" />

@@ -99,9 +99,3 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
-
-
-// ⟳ echo · src/app/providers.tsx
-//   const [queryClient] = useState(() => new QueryClient({
-//     defaultOptions: {
-//       queries: {

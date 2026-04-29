@@ -31,12 +31,12 @@ function Confetti() {
   }))
 
   return (
-    <div className="absolute_ inset-0 pointer-events-none overflow-hidden z-0">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
       {particles.map(p => (
         <div
           key={p.id}
           style={{
-            position: 'absolute_',
+            position: 'absolute',
             left: p.left,
             top: -10,
             width: p.size,
@@ -185,7 +185,7 @@ export default function FaucetResultModal({
 
           {/* Grid Background */}
           <div style={{
-            position: 'absolute_', inset: 0,
+            position: 'absolute', inset: 0,
             backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)',
             backgroundSize: '52px 52px', pointerEvents: 'none',
             WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
@@ -215,11 +215,11 @@ export default function FaucetResultModal({
                 </Canvas>
 
                 {/* Gradient Fade */}
-                <div className="absolute_ bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-950/70 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-950/70 to-transparent" />
 
                 {/* Glow Ring */}
                 <div
-                  className="absolute_ inset-0 pointer-events-none"
+                  className="absolute inset-0 pointer-events-none"
                   style={{
                     background: `radial-gradient(circle at 50% 60%, ${config.accentColor}15, transparent 60%)`,
                     animation: type === 'success' ? 'coin-glow 3s ease-in-out infinite' : undefined,

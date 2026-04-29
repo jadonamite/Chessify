@@ -105,7 +105,6 @@ export default function LobbyContent() {
   }
 
   const handleJoinGame = async (gameId: number, matchWager: number) => {
-// ← echo residue
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
     setIsPending(true)
     try {

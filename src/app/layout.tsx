@@ -27,3 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+// ⟳ echo · src/app/app/faucet/page.tsx
+// export const metadata = {
+//   title: 'Token Faucet | Chessify Protocol',
+//   description: 'Claim free CHESS tokens daily to fuel your on-chain chess matches.',
+// }

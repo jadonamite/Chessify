@@ -41,6 +41,7 @@ export function useLobby() {
           abi: CHESS_GAME_ABI,
           functionName: 'getGame',
           args: [BigInt(i)]
+// ← echo residue
         }) as any
         
         if (g && Number(g.status) === 0) { // Waiting

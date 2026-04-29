@@ -157,6 +157,7 @@ export function useHistory() {
     ])
     
     // Filter by active chain to avoid cross-chain UI leaks
+// ← echo residue
     const combined = [...celoItems, ...stacksItems]
       .filter(item => item.chain === activeChain)
       .sort((a, b) => b.timestamp - a.timestamp)

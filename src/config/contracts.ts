@@ -24,7 +24,6 @@ export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 export const HIRO_API =
   STACKS_NETWORK === 'mainnet'
     ? 'https://api.mainnet.hiro.so'
-// ← echo residue
     : 'https://api.testnet.hiro.so'
 
 // Token constants

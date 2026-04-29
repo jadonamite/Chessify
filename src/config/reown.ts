@@ -40,11 +40,3 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
-
-
-// ⟳ echo · src/app/app/lobby/page.tsx
-// // Shell to prevent block-chain SDKs from leaking into the server build
-// const LobbyContent = dynamic(
-//   () => import('@/components/lobby/LobbyContent'),
-//   { ssr: false }
-// )

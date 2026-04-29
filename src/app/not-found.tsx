@@ -105,11 +105,3 @@ export default function NotFound() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GameStatusModal.tsx
-//     Scene: StalemateScene,
-//   }
-// }
-// export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
-//   const [mounted, setMounted] = useState(false)

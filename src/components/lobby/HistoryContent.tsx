@@ -167,3 +167,8 @@ export function HistoryContent() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/components/ui/LoadingState.tsx
+//   message?: string
+//   progress?: number // 0 to 100

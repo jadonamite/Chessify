@@ -44,6 +44,7 @@ export function useHistory() {
       })
 
       const joinedLogs = await publicClient.getLogs({
+// ← echo residue
         address: CELO_CONTRACTS.game as `0x${string}`,
         event: {
           type: 'event',

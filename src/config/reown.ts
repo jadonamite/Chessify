@@ -40,3 +40,11 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
+
+
+// ⟳ echo · src/app/app/game/[id]/page.tsx
+// const GameClient = dynamic(
+//   () => import('@/components/game/GameClient'),
+//   { ssr: false }
+// )
+// export default function GamePage() {

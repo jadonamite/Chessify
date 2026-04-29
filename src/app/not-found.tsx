@@ -77,7 +77,7 @@ export default function NotFound() {
            <h1 className="text-[12rem] md:text-[20rem] font-black leading-none tracking-tighter text-white/5 select-none">
              404
            </h1>
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full_">
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
              <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-[var(--t1)] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                Checkmated by <span className="text-[var(--c)]">the Void</span>
              </h2>
@@ -100,8 +100,8 @@ export default function NotFound() {
       </div>
 
       {/* Decorative lines */}
-      <div className="absolute bottom-0 left-0 w-full_ h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-30" />
-      <div className="absolute top-0 left-0 w-full_ h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-10" />
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-30" />
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-10" />
     </main>
   )
 }

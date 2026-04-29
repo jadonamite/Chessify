@@ -31,3 +31,10 @@ export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000n  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks
 export const BLOCK_TIME_SECS = 600             // ~10 min per block
+
+
+// ⟳ echo · src/hooks/useHistory.ts
+//           opponent: gameData.black === '0x0000000000000000000000000000000000000000' ? 'Waiting...' : gameData.black,
+//           wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
+//           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
+//           timestamp: Number(gameData.createdAt) // Using block number as proxy for now

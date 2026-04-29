@@ -1,8 +1,8 @@
-import { useWallet } from '@/components/wallet-provider'
-import { CHESS_GAME_ABI } from '@/config/abis'
 import { useState, useEffect, useCallback } from 'react'
-import { useStacksRead } from '@/hooks/useStacksRead'
 import { usePublicClient } from 'wagmi'
+import { useWallet } from '@/components/wallet-provider'
+import { useStacksRead } from '@/hooks/useStacksRead'
+import { CHESS_GAME_ABI } from '@/config/abis'
 import { CELO_CONTRACTS } from '@/config/contracts'
 
 export interface Game {

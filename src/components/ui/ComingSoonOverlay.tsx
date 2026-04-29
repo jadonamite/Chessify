@@ -134,3 +134,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
+
+// ⟳ echo · src/app/app/faucet/page.tsx
+// import FaucetContent from '@/components/faucet/FaucetContent'
+// export const metadata = {

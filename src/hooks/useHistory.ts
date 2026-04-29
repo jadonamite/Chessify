@@ -175,8 +175,3 @@ export function useHistory() {
     refreshHistory
   }
 }
-
-
-// ⟳ echo · src/components/ui/FaucetResultModal.tsx
-//                       +{amount}
-//                     </span>

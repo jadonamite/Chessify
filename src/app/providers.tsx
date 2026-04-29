@@ -34,7 +34,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {ready ? (
             <WalletProvider>
               {children}
-// ← temporal anomaly
             </WalletProvider>
           ) : (
             <>{children}</>

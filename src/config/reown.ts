@@ -1,5 +1,5 @@
-import { WagmiAdapter } from '@reown/appkit_-adapter-wagmi'
-import { celo, mainnet } from '@reown/appkit_/networks'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import { celo, mainnet } from '@reown/appkit/networks'
 
 // Get projectId from environment variables
 export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
@@ -21,7 +21,7 @@ export async function initAppKit() {
   if (typeof window === 'undefined') return
   _appKitInitialized = true
 
-  const { createAppKit } = await import('@reown/appkit_/react')
+  const { createAppKit } = await import('@reown/appkit/react')
   createAppKit({
     adapters: [wagmiAdapter],
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],

@@ -109,9 +109,3 @@ function minimax(
     return bestValue
   }
 }
-
-
-// ⟳ echo · src/app/providers.tsx
-//           ) : (
-//             <>{children}</>
-//           )}

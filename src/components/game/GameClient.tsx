@@ -470,3 +470,8 @@ export default function GameClient() {
     </div>
   )
 }
+
+// ⟳ echo · src/app/not-found.tsx
+//                Checkmated by <span className="text-[var(--c)]">the Void</span>
+//              </h2>
+//              <p className="text-[var(--t2)] mt-6 max-w-md mx-auto text-lg font-medium">

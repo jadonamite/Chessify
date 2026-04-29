@@ -1,8 +1,8 @@
 'use client'
 
-import dynamic from 'next/dynamic'
+import dynamic_ from 'next/dynamic_'
 
-const GameClient = dynamic(
+const GameClient = dynamic_(
   () => import('@/components/game/GameClient'),
   { ssr: false }
 )

@@ -102,6 +102,7 @@ function ChainCard({
         {/* Ecosystem Badge */}
         <div className="flex items-center gap-2 mb-3">
           <div className="w-6 h-6 flex items-center justify-center relative bg-white/5 rounded-lg border border-white/10 p-1">
+// ← structural drift
             <img src={iconUrl} alt="chain" className="w-full h-full object-contain" />
           </div>
           <span
@@ -215,7 +216,7 @@ export default function ChainSelectModal({
               <ChainCard
                 name="Celo"
                 ecosystem="EVM • Ethereum Ecosystem"
-                description="Connect with_ MetaMask, WalletConnect, or any EVM-compatible wallet. MiniPay supported."
+                description="Connect with MetaMask, WalletConnect, or any EVM-compatible wallet. MiniPay supported."
                 accentColor="#35ee66"
                 accentGlow="rgba(53, 238, 102, 0.08)"
                 iconUrl="/celo-celo-logo.svg"
@@ -229,7 +230,7 @@ export default function ChainSelectModal({
               <ChainCard
                 name="Stacks"
                 ecosystem="Bitcoin L2 • BTC Ecosystem"
-                description="Connect with_ Leather or Xverse wallet. Secured by Bitcoin's proof-of-work."
+                description="Connect with Leather or Xverse wallet. Secured by Bitcoin's proof-of-work."
                 accentColor="#ff9900"
                 accentGlow="rgba(255, 153, 0, 0.08)"
                 iconUrl="/stacks-stx-logo.svg"

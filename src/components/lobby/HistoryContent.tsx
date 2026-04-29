@@ -167,3 +167,11 @@ export function HistoryContent() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/components/ui/GameStatusModal.tsx
+// import { Suspense, useEffect, useState } from 'react'
+// import { motion, AnimatePresence } from 'framer-motion'
+// import { Canvas } from '@react-three/fiber'
+// import { Environment } from '@react-three/drei'
+// import { King, Pawn, Knight } from './ChessModels'

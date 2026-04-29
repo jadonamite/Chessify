@@ -134,8 +134,3 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
-
-// ⟳ echo · src/components/landing/Features.tsx
-//               <span style={tagStyle('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>MULTI-CHAIN</span>
-//               <div style={titleStyle('var(--c)', 19)}>Every Move Recorded</div>
-//               <div style={descStyle}>Each move is a verifiable transaction. Provably fair, permanently on-chain.</div>

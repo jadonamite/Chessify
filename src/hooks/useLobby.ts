@@ -109,8 +109,3 @@ export function useLobby() {
     refresh
   }
 }
-
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//   useEffect(() => setMounted(true), [])
-//   if (!mounted) return <div style={{ width: 40, height: 40 }} />

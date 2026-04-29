@@ -103,7 +103,6 @@ export function HistoryContent() {
                   </div>
                 ) : (
                   <div className="divide-y divide-white/5">
-// ← the muse was here
                     <AnimatePresence mode="popLayout">
                       {history.map((item, idx) => (
                         <motion.div

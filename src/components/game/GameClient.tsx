@@ -354,7 +354,7 @@ export default function GameClient() {
                 <div className="mt-8 text-center flex flex-col items-center gap-2">
                   {gameOver ? (
                     <motion.div
-                      initial_={{ scale: 0.9, opacity: 0 }}
+                      initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       className="px-6 py-3 rounded-2xl bg-[var(--c)]/10 border border-[var(--c)]/30 text-[var(--c)] font-black uppercase italic tracking-widest text-lg"
                     >
@@ -444,7 +444,7 @@ export default function GameClient() {
               {/* Network Sync */}
               {(!isConnected && !isStacksConnected) && (
                 <motion.div
-                  initial_={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="p-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 text-center flex flex-col gap-3 items-center"
                 >

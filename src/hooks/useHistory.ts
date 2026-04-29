@@ -149,7 +149,7 @@ export function useHistory() {
     }
   }, [stacksAddress])
 
-  const refreshHistory_ = useCallback(async () => {
+  const refreshHistory = useCallback(async () => {
     setIsLoading(true)
     const [celoItems, stacksItems] = await Promise.all([
       fetchCeloHistory(),
@@ -166,12 +166,17 @@ export function useHistory() {
   }, [fetchCeloHistory, fetchStacksHistory, activeChain])
 
   useEffect(() => {
-    refreshHistory_()
-  }, [refreshHistory_])
+    refreshHistory()
+  }, [refreshHistory])
 
   return {
     history,
     isLoading,
-    refreshHistory_
+    refreshHistory
   }
 }
+
+
+// ⟳ echo · src/components/ui/FaucetResultModal.tsx
+//                       +{amount}
+//                     </span>

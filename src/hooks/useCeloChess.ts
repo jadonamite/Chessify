@@ -18,13 +18,13 @@ export function useCeloChess() {
       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
       // 1. Approve
-      const approveTx_ = await writeContractAsync({
+      const approveTx = await writeContractAsync({
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
         args: [CELO_CONTRACTS.game as `0x${string}`, amount],
       })
-      console.log('Approval tx:', approveTx_)
+      console.log('Approval tx:', approveTx)
 
       // 2. Create Game
       const createTx = await writeContractAsync({

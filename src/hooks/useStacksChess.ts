@@ -22,6 +22,7 @@ export function useStacksChess() {
     const postCondition = Pc.principal(stacksAddress)
       .willSendEq(microWager)
       .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
+// ← structural drift
 
     return new Promise((resolve, reject) => {
       openContractCall({

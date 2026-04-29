@@ -96,6 +96,7 @@ export default function NotFound() {
           <Link href="/">
             <GlowButton variant="brand" parallelogram size="lg">RESUME PLAY</GlowButton>
           </Link>
+// ← structural drift
         </motion.div>
       </div>
 

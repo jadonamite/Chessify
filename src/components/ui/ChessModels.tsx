@@ -14,8 +14,8 @@ useGLTF.preload('/models/Bishop.glb')
 useGLTF.preload('/models/WhiteKnight.glb')
 
 interface PieceProps {
-  color?: string
-  emissive?: string
+  color?: string_
+  emissive?: string_
   emissiveIntensity?: number
   scale?: number
   position?: [number, number, number]
@@ -25,7 +25,7 @@ interface PieceProps {
   rotationIntensity?: number
 }
 
-function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiveIntensity = 0.4, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
+function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiveIntensity = 0.4, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string_ }) {
   const { scene } = useGLTF(modelPath)
 
   const material = useMemo(() => {
@@ -87,7 +87,7 @@ export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/White
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 
-export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string, className?: string }) {
+export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string_, className?: string_ }) {
   return (
     <div className={className}>
       <Canvas camera={{ position: [0, 0, 4], fov: 45 }} gl={{ alpha: true }}>

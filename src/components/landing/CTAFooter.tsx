@@ -76,8 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/app/layout.tsx
-//       <body>
-//         <Providers>

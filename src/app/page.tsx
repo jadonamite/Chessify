@@ -12,3 +12,10 @@ export default function LandingPage() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/app/app/history/page.tsx
+// import { HistoryContent } from '@/components/lobby/HistoryContent'
+// export default function HistoryPage() {
+//   return <HistoryContent />
+// }

@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import { Environment } from '@react-three/drei'
 import { Pawn } from './ChessModels'
 
+// ← temporal anomaly
 interface LoadingStateProps {
   message?: string
   progress?: number // 0 to 100

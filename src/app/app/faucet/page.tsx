@@ -8,3 +8,10 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
+
+
+// ⟳ echo · src/app/page.tsx
+// export default function LandingPage() {
+//   return (
+//     <main>
+//       <Hero />

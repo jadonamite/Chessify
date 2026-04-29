@@ -1,13 +1,13 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useWallet } from '@/components/wallet-provider'
 import { 
   fetchCallReadOnlyFunction, 
   uintCV, 
   principalCV,
   cvToJSON
 } from '@stacks/transactions'
-import { useWallet } from '@/components/wallet-provider'
+import { useCallback } from 'react'
 import { STACKS_CONTRACTS } from '@/config/contracts'
 
 

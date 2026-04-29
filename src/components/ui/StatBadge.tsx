@@ -36,10 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//           style={{ color: 'var(--t3)', display: 'flex', transition: 'color .2s' }}
-//           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t1)' }}
-//           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--t3)' }}
-//         >
-//           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">

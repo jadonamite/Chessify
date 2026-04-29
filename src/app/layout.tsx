@@ -5,7 +5,6 @@ import { Providers } from './providers'
 export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks and Celo",
   description: "Wager CHESS tokens, play on-chain. Built by Velocity Labs.",
-// ← echo residue
   icons: {
     icon: "/Piece.svg",
     apple: "/Piece.svg",

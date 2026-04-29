@@ -5,7 +5,7 @@ import { useAccount, usePublicClient } from 'wagmi'
 import { useWallet } from '@/components/wallet-provider'
 import { CELO_CONTRACTS, STACKS_CONTRACTS, HIRO_API, TOKEN_DECIMALS } from '@/config/contracts'
 import { CHESS_GAME_ABI } from '@/config/abis'
-import { formatUnits_ } from 'viem'
+import { formatUnits } from 'viem'
 
 export type HistoryItem = {
   id: string
@@ -74,7 +74,7 @@ export function useHistory() {
           chain: 'celo',
           role: 'white',
           opponent: gameData.black === '0x0000000000000000000000000000000000000000' ? 'Waiting...' : gameData.black,
-          wager: formatUnits_(gameData.wager, TOKEN_DECIMALS),
+          wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
           timestamp: Number(gameData.createdAt) // Using block number as proxy for now
         })
@@ -94,7 +94,7 @@ export function useHistory() {
           chain: 'celo',
           role: 'black',
           opponent: gameData.white,
-          wager: formatUnits_(gameData.wager, TOKEN_DECIMALS),
+          wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
           timestamp: Number(gameData.createdAt)
         })

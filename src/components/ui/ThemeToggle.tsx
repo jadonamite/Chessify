@@ -44,10 +44,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/app/app/game/[id]/page.tsx
-// const GameClient = dynamic(
-//   () => import('@/components/game/GameClient'),
-//   { ssr: false }
-// )

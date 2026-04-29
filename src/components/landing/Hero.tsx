@@ -235,11 +235,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/lobby/LobbyContent.tsx
-// import { useState, useEffect, Suspense, useMemo } from 'react'
-// import { motion, AnimatePresence } from 'framer-motion'
-// import { useWallet } from '@/components/wallet-provider'
-// import GlowButton from '@/components/ui/GlowButton'
-// import ClayCard from '@/components/ui/ClayCard'

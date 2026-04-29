@@ -76,3 +76,8 @@ export function Footer() {
     </footer>
   )
 }
+
+
+// ⟳ echo · src/hooks/useStacksChess.ts
+//   const { stacksAddress, isStacksConnected, userSession } = useWallet()
+//   const createGame = useCallback(async (wagerAmount: number) => {

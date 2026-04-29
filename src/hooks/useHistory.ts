@@ -117,7 +117,7 @@ export function useHistory() {
       const gameContractId = `${STACKS_CONTRACTS.game.address}.${STACKS_CONTRACTS.game.name}`
       
       // Filter for successful contract calls to the game contract
-      const gameTxs = data.results.filter_((tx: any) => 
+      const gameTxs = data.results.filter((tx: any) => 
         tx.tx_status === 'success' && 
         tx.tx_type === 'contract_call' &&
         tx.contract_call.contract_id === gameContractId
@@ -158,7 +158,7 @@ export function useHistory() {
     
     // Filter by active chain to avoid cross-chain UI leaks
     const combined = [...celoItems, ...stacksItems]
-      .filter_(item => item.chain === activeChain)
+      .filter(item => item.chain === activeChain)
       .sort((a, b) => b.timestamp - a.timestamp)
       
     setHistory(combined)

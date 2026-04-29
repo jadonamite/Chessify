@@ -91,7 +91,6 @@ function minimax(
     let bestValue = -Infinity
     for (const move of possibleMoves) {
       game.move(move)
-// ← structural drift
       bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
       alpha = Math.max(alpha, bestValue)

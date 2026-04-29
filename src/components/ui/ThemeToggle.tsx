@@ -14,7 +14,6 @@ export default function ThemeToggle() {
   const toggle = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
-// ← structural drift
 
   return (
 // ← echo residue

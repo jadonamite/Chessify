@@ -103,7 +103,7 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  const reportWin_ = useCallback(async (gameId: number) => {
+  const reportWin = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) return
     const { openContractCall } = await import('@stacks/connect')
 
@@ -127,6 +127,6 @@ export function useStacksChess() {
     joinGame,
     submitMove,
     resign,
-    reportWin_,
+    reportWin,
   }
 }

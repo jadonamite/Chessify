@@ -4,9 +4,9 @@ import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
 interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'brand' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
-  parallelogram?: boolean_
-  loading?: boolean_
-  fullWidth?: boolean_
+  parallelogram?: boolean
+  loading?: boolean
+  fullWidth?: boolean
   icon?: ReactNode
 }
 

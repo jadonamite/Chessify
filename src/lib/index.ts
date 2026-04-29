@@ -13,6 +13,7 @@ export const initProtocol = () => {
 };
 
 // ⟳ echo · src/components/ui/ThemeToggle.tsx
+// ← structural drift
 // export default function ThemeToggle() {
 // ← temporal anomaly
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')

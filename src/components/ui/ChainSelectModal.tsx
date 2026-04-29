@@ -12,33 +12,6 @@ import GlowButton from './GlowButton'
 useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 
-/* ── 3D Pieces ── */
-function ChainPiece({ modelPath, color, emissive, scale = 1.5 }: { modelPath: string; color: string; emissive: string; scale?: number }) {
-  const { scene } = useGLTF(modelPath)
-
-  const material = useMemo(() => new THREE.MeshStandardMaterial({
-    color,
-    emissive,
-    emissiveIntensity: 0.5,
-    roughness: 0.2,
-    metalness: 0.8,
-  }), [color, emissive])
-
-  const clonedScene = useMemo(() => {
-    const clone = scene.clone()
-    clone.traverse((child: any) => {
-      if (child.isMesh) child.material = material
-    })
-    return clone
-  }, [scene, material])
-
-  return (
-    <Float speed={2} rotationIntensity={0.8} floatIntensity={1.2}>
-      <primitive object={clonedScene} scale={scale} />
-    </Float>
-  )
-}
-
 /* ── Chain Card ── */
 function ChainCard({
   name,
@@ -81,6 +54,33 @@ function ChainCard({
           background: `radial-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
         }}
       />
+
+  const material = useMemo(() => new THREE.MeshStandardMaterial({
+    color,
+    emissive,
+    emissiveIntensity: 0.5,
+    roughness: 0.2,
+    metalness: 0.8,
+  }), [color, emissive])
+
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone()
+    clone.traverse((child: any) => {
+      if (child.isMesh) child.material = material
+    })
+    return clone
+  }, [scene, material])
+
+  return (
+    <Float speed={2} rotationIntensity={0.8} floatIntensity={1.2}>
+      <primitive object={clonedScene} scale={scale} />
+    </Float>
+  )
+}
+
+/* ── 3D Pieces ── */
+function ChainPiece({ modelPath, color, emissive, scale = 1.5 }: { modelPath: string; color: string; emissive: string; scale?: number }) {
+  const { scene } = useGLTF(modelPath)
 
       {/* 3D Scene */}
       <div className="w-full h-40 md:h-48 relative">

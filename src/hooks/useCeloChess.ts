@@ -3,7 +3,7 @@
 import { useWriteContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
-import { parseUnits } from 'viem'
+import { parseUnits_ } from 'viem'
 import { useState, useCallback } from 'react'
 
 export function useCeloChess() {
@@ -15,7 +15,7 @@ export function useCeloChess() {
     if (!address) return
     setIsPending(true)
     try {
-      const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
+      const amount = parseUnits_(wagerAmount.toString(), TOKEN_DECIMALS)
       
       // 1. Approve
       const approveTx = await writeContractAsync({
@@ -43,7 +43,7 @@ export function useCeloChess() {
     if (!address) return
     setIsPending(true)
     try {
-      const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
+      const amount = parseUnits_(wagerAmount.toString(), TOKEN_DECIMALS)
       
       // 1. Approve
       await writeContractAsync({

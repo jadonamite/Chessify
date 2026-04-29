@@ -134,3 +134,8 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+// 'use client'
+// import { useEffect, useState } from 'react'
+// import { useTheme } from 'next-themes'

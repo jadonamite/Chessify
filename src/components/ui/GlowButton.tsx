@@ -138,11 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-// interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
-//   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
-//   hover?: boolean
-//   glow?: boolean
-//   padding?: 'none' | 'sm' | 'md' | 'lg'

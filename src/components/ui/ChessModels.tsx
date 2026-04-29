@@ -55,6 +55,7 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
   const clonedScene = useMemo(() => {
     const clone = scene.clone()
     clone.traverse((child: any) => {
+// ← chaos fingerprint
       if (child.isMesh) {
         child.material = material
         child.castShadow = true

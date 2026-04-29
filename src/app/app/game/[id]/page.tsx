@@ -10,11 +10,3 @@ const GameClient = dynamic(
 export default function GamePage() {
   return <GameClient />
 }
-
-
-// ⟳ echo · src/app/providers.tsx
-//   () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
-//   { ssr: false }
-// )
-// export function Providers({ children }: { children: React.ReactNode }) {
-//   const [queryClient] = useState(() => new QueryClient({

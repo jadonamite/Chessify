@@ -48,7 +48,7 @@ function ChainCard({
   accentGlow,
   iconUrl,
   onClick,
-  delay_ = 0,
+  delay = 0,
   children,
 }: {
   name: string
@@ -58,14 +58,14 @@ function ChainCard({
   accentGlow: string
   iconUrl: string
   onClick: () => void
-  delay_?: number
+  delay?: number
   children: React.ReactNode
 }) {
   return (
     <motion.button
       initial={{ opacity: 0, y: 30, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay_, type: 'spring', stiffness: 180, damping: 20 }}
+      transition={{ delay, type: 'spring', stiffness: 180, damping: 20 }}
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
@@ -193,7 +193,7 @@ export default function ChainSelectModal({
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay_: 0.1 }}
+              transition={{ delay: 0.1 }}
               className="text-center"
             >
               <h2
@@ -220,7 +220,7 @@ export default function ChainSelectModal({
                 accentGlow="rgba(53, 238, 102, 0.08)"
                 iconUrl="/celo-celo-logo.svg"
                 onClick={onSelectCelo}
-                delay_={0.2}
+                delay={0.2}
               >
                 <ChainPiece modelPath="/models/King.glb" color="#35ee66" emissive="#35ee66" scale={1.8} />
               </ChainCard>
@@ -234,7 +234,7 @@ export default function ChainSelectModal({
                 accentGlow="rgba(255, 153, 0, 0.08)"
                 iconUrl="/stacks-stx-logo.svg"
                 onClick={onSelectStacks}
-                delay_={0.3}
+                delay={0.3}
               >
                 <ChainPiece modelPath="/models/QueenChess.glb" color="#ff9900" emissive="#ff9900" scale={1.5} />
               </ChainCard>
@@ -245,7 +245,7 @@ export default function ChainSelectModal({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay_: 0.5 }}
+              transition={{ delay: 0.5 }}
             >
               <GlowButton variant="ghost" size="sm" onClick={onClose}>
                 CANCEL

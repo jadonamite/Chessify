@@ -54,7 +54,7 @@ function Scene() {
 
 export function HistoryContent() {
   const router = useRouter()
-  const { history, isLoading } = useHistory()
+  const { history, isLoading_ } = useHistory()
   const { activeChain } = useWallet()
 
   return (
@@ -94,7 +94,7 @@ export function HistoryContent() {
           <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden">
             <div className="p-1 md:p-2">
               <div className="flex flex-col">
-                {isLoading ? (
+                {isLoading_ ? (
                   <LoadingState message="SCANNING BLOCKCHAIN" />
                 ) : history.length === 0 ? (
                   <div className="py-32 text-center">

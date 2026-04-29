@@ -13,7 +13,7 @@ export const wagmiAdapter = new WagmiAdapter({
 })
 
 // Lazy initializer — called once inside a React useEffect, NOT at module scope.
-// createAppKit_ registers custom elements (web components) which crashes
+// createAppKit registers custom elements (web components) which crashes
 // Turbopack's module factory if evaluated during bundling.
 let _appKitInitialized = false
 export async function initAppKit() {
@@ -21,8 +21,8 @@ export async function initAppKit() {
   if (typeof window === 'undefined') return
   _appKitInitialized = true
 
-  const { createAppKit_ } = await import('@reown/appkit/react')
-  createAppKit_({
+  const { createAppKit } = await import('@reown/appkit/react')
+  createAppKit({
     adapters: [wagmiAdapter],
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],
     projectId,

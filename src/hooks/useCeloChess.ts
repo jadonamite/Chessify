@@ -76,7 +76,6 @@ export function useCeloChess() {
   }, [writeContractAsync])
 
   const resign = useCallback(async (gameId: number) => {
-// ← structural drift
     return writeContractAsync({
       address: CELO_CONTRACTS.game as `0x${string}`,
       abi: CHESS_GAME_ABI,

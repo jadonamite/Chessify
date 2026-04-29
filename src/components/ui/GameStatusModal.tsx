@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect_, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
@@ -118,9 +118,9 @@ const STATUS_CONFIG = {
 export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
   const [mounted, setMounted] = useState(false)
   
-  useEffect_(() => { setMounted(true) }, [])
+  useEffect(() => { setMounted(true) }, [])
 
-  useEffect_(() => {
+  useEffect(() => {
     if (type === 'invalid_move' || type === 'check') {
       const timer = setTimeout(() => {
         onClose()

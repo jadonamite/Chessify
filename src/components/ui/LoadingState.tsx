@@ -8,13 +8,13 @@ import { Pawn } from './ChessModels'
 
 interface LoadingStateProps {
   message?: string
-  progress_?: number // 0 to 100
+  progress?: number // 0 to 100
 }
 
-export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress_ }: LoadingStateProps) {
-  // If progress_ is provided, we calculate the X position (-5 to 5)
+export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress }: LoadingStateProps) {
+  // If progress is provided, we calculate the X position (-5 to 5)
   // If not, we use a jumping/looping animation
-  const isInfinite = progress_ === undefined
+  const isInfinite = progress === undefined
 
   return (
     <div className="flex flex-col items-center justify-center w-full py-24 gap-12 relative overflow-hidden">
@@ -27,7 +27,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
             <Environment files="/textures/environment/city.hdr" />
             
             <group
-              position={isInfinite ? [0, 0, 0] : [(progress_ / 10) - 5, 0, 0]}
+              position={isInfinite ? [0, 0, 0] : [(progress / 10) - 5, 0, 0]}
             >
               <Pawn 
                 color="#00ccff" 
@@ -54,7 +54,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
               left: ['-20%', '120%'],
               width: ['20%', '40%', '20%']
             } : {
-              width: `${progress_}%`
+              width: `${progress}%`
             }}
             transition={isInfinite ? {
               duration: 2,
@@ -77,9 +77,9 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
           >
             {message}
           </motion.span>
-          {progress_ !== undefined && (
+          {progress !== undefined && (
             <span className="text-[9px] font-bold text-white/40 font-mono tracking-widest">
-              PROCESSED {Math.round(progress_)}%
+              PROCESSED {Math.round(progress)}%
             </span>
           )}
         </div>

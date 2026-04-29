@@ -52,7 +52,7 @@ const WalletContext = createContext<WalletContextType>({
 
 export const useWallet = () => useContext(WalletContext)
 
-export function WalletProvider({ children_ }: { children_: React.ReactNode }) {
+export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
   const { address: evmAddress, isConnected: evmConnected } = useAccount()
   const { disconnect: wagmiDisconnect } = useDisconnect()
@@ -202,7 +202,7 @@ export function WalletProvider({ children_ }: { children_: React.ReactNode }) {
         userSession
       }}
     >
-      {children_}
+      {children}
     </WalletContext.Provider>
   )
 }

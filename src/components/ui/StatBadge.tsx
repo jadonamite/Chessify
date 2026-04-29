@@ -36,7 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/ui/ChainSelectModal.tsx
-//             >
-//               <GlowButton variant="ghost" size="sm" onClick={onClose}>

@@ -58,7 +58,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const { disconnect: wagmiDisconnect } = useDisconnect()
 
   // --- Stacks State (Lazy Init) ---
-  const [userSession, setUserSession_] = useState<any>(null)
+  const [userSession, setUserSession] = useState<any>(null)
   const [stacksAddress, setStacksAddress] = useState<string | null>(null)
 
   // --- Common State ---
@@ -76,7 +76,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const { AppConfig, UserSession } = await import('@stacks/connect')
         const appConfig = new AppConfig(['store_write', 'publish_data'])
         const session = new UserSession({ appConfig })
-        setUserSession_(session)
+        setUserSession(session)
 
         if (session.isUserSignedIn()) {
           const userData = session.loadUserData()

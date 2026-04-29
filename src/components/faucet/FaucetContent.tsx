@@ -100,7 +100,6 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
           <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
           <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
             {chain.toUpperCase()}
-// ← echo residue
           </span>
         </div>
       </div>

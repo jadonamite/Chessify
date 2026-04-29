@@ -8,9 +8,3 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
-
-
-// ⟳ echo · src/config/contracts.ts
-//     ? 'https://api.mainnet.hiro.so'
-//     : 'https://api.testnet.hiro.so'
-// // Token constants

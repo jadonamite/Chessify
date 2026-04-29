@@ -151,13 +151,13 @@ export function useHistory() {
 
   const refreshHistory = useCallback(async () => {
     setIsLoading(true)
-    const [celoItems_, stacksItems] = await Promise.all([
+    const [celoItems, stacksItems] = await Promise.all([
       fetchCeloHistory(),
       fetchStacksHistory()
     ])
     
     // Filter by active chain to avoid cross-chain UI leaks
-    const combined = [...celoItems_, ...stacksItems]
+    const combined = [...celoItems, ...stacksItems]
       .filter(item => item.chain === activeChain)
       .sort((a, b) => b.timestamp - a.timestamp)
       

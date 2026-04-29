@@ -35,9 +35,9 @@ const KEYFRAMES = `
 function FaucetScene() {
   return (
     <>
-      <ambientLight intensity_={1.5} />
-      <directionalLight position={[10, 10, 5]} intensity_={2} color="#00ccff" />
-      <directionalLight position={[-10, -10, -5]} intensity_={1} color="#6a0dad" />
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
+      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment files="/textures/environment/city.hdr" />
 
       {/* Large background king */}

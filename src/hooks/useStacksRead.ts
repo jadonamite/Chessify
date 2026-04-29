@@ -5,7 +5,7 @@ import {
   fetchCallReadOnlyFunction, 
   uintCV, 
   principalCV,
-  cvToJSON_
+  cvToJSON
 } from '@stacks/transactions'
 import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'
@@ -27,7 +27,7 @@ export function useStacksRead() {
         senderAddress: target,
       })
       
-      const json = cvToJSON_(result)
+      const json = cvToJSON(result)
       return json.value.value // Clarity response (ok { ... })
     } catch (err) {
       console.error('Failed to fetch player stats:', err)
@@ -48,7 +48,7 @@ export function useStacksRead() {
         senderAddress: target,
       })
       
-      const json = cvToJSON_(result)
+      const json = cvToJSON(result)
       return BigInt(json.value.value) // Clarity response (ok uint)
     } catch (err) {
       console.error('Failed to fetch token balance:', err)
@@ -66,7 +66,7 @@ export function useStacksRead() {
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
       
-      const json = cvToJSON_(result)
+      const json = cvToJSON(result)
       return json.value.value?.value || null // (ok (some { ... }))
     } catch (err) {
       console.error('Failed to fetch game data:', err)
@@ -84,7 +84,7 @@ export function useStacksRead() {
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
       
-      const json = cvToJSON_(result)
+      const json = cvToJSON(result)
       return Number(json.value.value) // (ok uint)
     } catch (err) {
       console.error('Failed to fetch total games:', err)

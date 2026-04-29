@@ -15,7 +15,6 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
         className="font-display font-bold leading-none"
         style={{
           color: accent ? 'var(--cyan)' : 'var(--text-primary)',
-// ← structural drift
           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
         }}
       >

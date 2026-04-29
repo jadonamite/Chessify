@@ -29,9 +29,9 @@ function Scene() {
           fontSize={0.8}
           color="#00ccff"
           font="/fonts/font_discovery.woff" // Assuming a custom font exists or using default
-          material_-toneMapped={false}
-          material_-transparent={true}
-          material_-opacity={0.15}
+          material-toneMapped={false}
+          material-transparent={true}
+          material-opacity={0.15}
         >
           MASTERS
         </Text>
@@ -42,8 +42,8 @@ function Scene() {
           position={[4, -2, -1]}
           fontSize={0.6}
           color="#6a0dad"
-          material_-transparent={true}
-          material_-opacity={0.1}
+          material-transparent={true}
+          material-opacity={0.1}
         >
           HISTORY
         </Text>

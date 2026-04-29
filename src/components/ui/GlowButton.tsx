@@ -104,7 +104,6 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       ...style,
     }
 
-// ← echo residue
     return (
       <button
         ref={ref}

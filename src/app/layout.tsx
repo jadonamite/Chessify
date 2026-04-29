@@ -27,7 +27,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// ⟳ echo · src/components/ui/ChainSelectModal.tsx
-//               className="text-center"
-//             >

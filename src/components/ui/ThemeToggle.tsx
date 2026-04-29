@@ -44,8 +44,3 @@ export default function ThemeToggle() {
     </button>
   )
 }
-
-
-// ⟳ echo · src/hooks/useHistory.ts
-//             { name: 'white', type: 'address', indexed: true },
-//             { name: 'wager', type: 'uint256', indexed: false }

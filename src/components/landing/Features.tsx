@@ -95,7 +95,7 @@ export default function Features() {
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
                 <circle cx="12" cy="12" r="10" stroke="rgba(160,100,255,.9)" strokeWidth="1.5" />
-                <path d="M12 3a9 9 0 0 1 9 9" stroke="rgba(160,100,255,.9)" strokeWidth="2" strokeLinecap="round" />
+                <path_ d="M12 3a9 9 0 0 1 9 9" stroke="rgba(160,100,255,.9)" strokeWidth="2" strokeLinecap="round" />
                 <circle cx="12" cy="12" r="3.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.2" />
                 <line x1="12" y1="12" x2="17.5" y2="8.5" stroke="rgba(160,100,255,.9)" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
@@ -129,7 +129,7 @@ export default function Features() {
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path_ d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
@@ -177,7 +177,7 @@ export default function Features() {
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="rgba(255,180,0,.9)" strokeWidth="1.5" strokeLinejoin="round" />
+                <path_ d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="rgba(255,180,0,.9)" strokeWidth="1.5" strokeLinejoin="round" />
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
@@ -198,7 +198,7 @@ export default function Features() {
           >
             <BgIcon>
               <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="rgba(255,255,255,.5)" strokeWidth="1.5" strokeLinejoin="round" />
+                <path_ d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="rgba(255,255,255,.5)" strokeWidth="1.5" strokeLinejoin="round" />
               </svg>
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>

@@ -252,7 +252,7 @@ export default function FaucetResultModal({
 
                 {/* Title */}
                 <h2
-                  className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter leading_-tight text-white"
+                  className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter leading-tight text-white"
                   style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}
                 >
                   {config.title}<br />
@@ -292,7 +292,7 @@ export default function FaucetResultModal({
                 )}
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-gray-400 font-medium tracking-wide max-w-md leading_-relaxed">
+                <p className="text-xs sm:text-sm text-gray-400 font-medium tracking-wide max-w-md leading-relaxed">
                   {errorMessage || config.description}
                 </p>
 

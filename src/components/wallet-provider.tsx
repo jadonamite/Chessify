@@ -206,11 +206,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/hooks/useStacksChess.ts
-//     createGame,
-//     joinGame,
-//     submitMove,
-//     resign,
-//     reportWin,

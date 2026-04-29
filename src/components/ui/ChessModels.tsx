@@ -104,3 +104,10 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
     </div>
   )
 }
+
+
+// ⟳ echo · src/lib/chess-engine.ts
+//   [-40,-20,  0,  0,  0,  0,-20,-40],
+//   [-30,  0, 10, 15, 15, 10,  0,-30],
+//   [-30,  5, 15, 20, 20, 15,  5,-30],
+//   [-30,  0, 15, 20, 20, 15,  0,-30],

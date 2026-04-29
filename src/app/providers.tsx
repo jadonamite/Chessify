@@ -22,9 +22,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     },
   }))
 
-  const [ready, setReady_] = useState(false)
+  const [ready, setReady] = useState(false)
   useEffect(() => {
-    initAppKit().then(() => setReady_(true))
+    initAppKit().then(() => setReady(true))
   }, [])
 
   return (

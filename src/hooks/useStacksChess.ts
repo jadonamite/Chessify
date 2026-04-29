@@ -7,8 +7,8 @@ import {
   uintCV,
   Pc
 } from '@stacks/transactions'
-import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
+import { useWallet } from '@/components/wallet-provider'
 
 export function useStacksChess() {
   const { stacksAddress, isStacksConnected, userSession } = useWallet()

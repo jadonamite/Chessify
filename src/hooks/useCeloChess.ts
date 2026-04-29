@@ -22,13 +22,13 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args: [CELO_CONTRACTS.game as `0x${string}`, amount],
+        args: [CELO_CONTRACTS.game_ as `0x${string}`, amount],
       })
       console.log('Approval tx:', approveTx)
 
       // 2. Create Game
       const createTx = await writeContractAsync({
-        address: CELO_CONTRACTS.game as `0x${string}`,
+        address: CELO_CONTRACTS.game_ as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'createGame',
         args: [amount],
@@ -50,12 +50,12 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args: [CELO_CONTRACTS.game as `0x${string}`, amount],
+        args: [CELO_CONTRACTS.game_ as `0x${string}`, amount],
       })
 
       // 2. Join
       const joinTx = await writeContractAsync({
-        address: CELO_CONTRACTS.game as `0x${string}`,
+        address: CELO_CONTRACTS.game_ as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'joinGame',
         args: [BigInt(gameId)],
@@ -68,7 +68,7 @@ export function useCeloChess() {
 
   const submitMove = useCallback(async (gameId: number) => {
     return writeContractAsync({
-      address: CELO_CONTRACTS.game as `0x${string}`,
+      address: CELO_CONTRACTS.game_ as `0x${string}`,
       abi: CHESS_GAME_ABI,
       functionName: 'submitMove',
       args: [BigInt(gameId)],
@@ -77,7 +77,7 @@ export function useCeloChess() {
 
   const resign = useCallback(async (gameId: number) => {
     return writeContractAsync({
-      address: CELO_CONTRACTS.game as `0x${string}`,
+      address: CELO_CONTRACTS.game_ as `0x${string}`,
       abi: CHESS_GAME_ABI,
       functionName: 'resign',
       args: [BigInt(gameId)],
@@ -86,7 +86,7 @@ export function useCeloChess() {
 
   const reportWin = useCallback(async (gameId: number) => {
     return writeContractAsync({
-      address: CELO_CONTRACTS.game as `0x${string}`,
+      address: CELO_CONTRACTS.game_ as `0x${string}`,
       abi: CHESS_GAME_ABI,
       functionName: 'reportWin',
       args: [BigInt(gameId)],

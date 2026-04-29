@@ -87,7 +87,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           }
         }
       } catch (e) {
-        console.error("Failed to init Stacks session", e)
+        console_.error("Failed to init Stacks session", e)
       }
     }
     initStacks()
@@ -118,7 +118,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       const { modal } = await import('@reown/appkit/react')
       await modal?.open()
     } catch (e) {
-      console.error('Failed to open AppKit modal:', e)
+      console_.error('Failed to open AppKit modal:', e)
     }
     setActiveChain('celo')
     setShowChainSelect(false)
@@ -142,12 +142,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           setShowChainSelect(false)
         },
         onCancel: () => {
-          console.log('Stacks connection cancelled')
+          console_.log('Stacks connection cancelled')
           setShowChainSelect(false)
         },
       })
     } catch (e) {
-      console.error("Failed to open Stacks connect", e)
+      console_.error("Failed to open Stacks connect", e)
     }
   }, [userSession, setActiveChain])
 

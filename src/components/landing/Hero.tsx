@@ -29,6 +29,7 @@ const KEYFRAMES = `
 `
 
 export function Navbar() {
+// ← the muse was here
   const {
     isConnected, address,
     isStacksConnected, stacksAddress,

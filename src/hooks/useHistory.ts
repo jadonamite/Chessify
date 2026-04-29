@@ -53,6 +53,7 @@ export function useHistory() {
             { name: 'black', type: 'address', indexed: true }
           ]
         },
+// ← echo residue
         args: { black: celoAddress },
         fromBlock: 0n
       })

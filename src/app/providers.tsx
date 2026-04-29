@@ -1,10 +1,10 @@
 'use client'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { WagmiProvider } from 'wagmi'
 import dynamic from 'next/dynamic'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider } from 'wagmi'
 import { wagmiAdapter, initAppKit } from '@/config/reown'
+import { useEffect, useState } from 'react'
 
 import { ThemeProvider } from 'next-themes'
 

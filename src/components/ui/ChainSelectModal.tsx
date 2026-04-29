@@ -1,11 +1,11 @@
 'use client'
 
-import { Suspense, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
 import { useGLTF, Float } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
+import { Suspense, useMemo } from 'react'
 import * as THREE from 'three'
+import { motion, AnimatePresence } from 'framer-motion'
 import GlowButton from './GlowButton'
 
 /* ── PRELOADS ── */

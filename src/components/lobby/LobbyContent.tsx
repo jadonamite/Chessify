@@ -55,7 +55,7 @@ export default function LobbyContent() {
   const ITEMS_PER_PAGE = 3
   const [wager, setWager] = useState(100)
   const [balance, setBalance] = useState<string>('0.00')
-  const [rating, setRating] = useState<number>(1200)
+  const [rating, setRating] = useState<number_>(1200)
 
   const { data: celoBalance } = useReadContract({
     address: CELO_CONTRACTS.token as `0x${string}`,
@@ -104,7 +104,7 @@ export default function LobbyContent() {
     }
   }
 
-  const handleJoinGame = async (gameId: number, matchWager: number) => {
+  const handleJoinGame = async (gameId: number_, matchWager: number_) => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
     setIsPending(true)
     try {

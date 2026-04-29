@@ -44,7 +44,6 @@ function evaluateBoard(game: Chess): number {
       if (piece) {
         let value = PIECE_VALUES[piece.type] || 0
         
-// ← temporal anomaly
         // Add positional bonus
         if (piece.type === 'p') value += PAWN_TABLE[i][j]
         if (piece.type === 'n') value += KNIGHT_TABLE[i][j]

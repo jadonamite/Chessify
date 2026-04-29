@@ -109,3 +109,9 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//     >
+//       {theme === 'dark' ? (
+//         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,204,255,.8)" strokeWidth="2" strokeLinecap="round">

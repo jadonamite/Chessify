@@ -16,12 +16,12 @@ const KEYFRAMES = `
 @keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 
 @media (max-width: 1024px) {
-  .hero-pieces { opacity: 0.15; transform: scale(0.85); }
+  .hero-pieces_ { opacity: 0.15; transform: scale(0.85); }
   .hero-float-cards { display: none; }
 }
 
 @media (max-width: 768px) {
-  .hero-pieces { opacity: 0.08; transform: scale(0.6) translateY(20%); }
+  .hero-pieces_ { opacity: 0.08; transform: scale(0.6) translateY(20%); }
   .hero-navbar { padding: 18px 24px !important; }
   .hero-nav-links { display: none !important; }
   .hero-logo-img { width: 140px !important; height: auto !important; }
@@ -154,7 +154,7 @@ export default function Hero() {
       <div className="hero-content" style={{ position: 'relative', minHeight: 'calc(100vh - 76px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '60px 48px 80px' }}>
 
         {/* PIECES — z:2, BEHIND text */}
-        <div className="hero-pieces" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 2 }}>
+        <div className="hero-pieces_" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 2 }}>
           <Canvas camera={{ position: [0, 0, 15], fov: 45 }} gl={{ alpha: true }}>
             <Suspense fallback={null}>
               <ambientLight intensity={1.5} />
@@ -183,7 +183,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* TEXT — z:10, IN FRONT of pieces */}
+        {/* TEXT — z:10, IN FRONT of pieces_ */}
         <div style={{ position: 'relative', zIndex: 10 }}>
           <div className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--badge-bg)', border: '1px solid var(--b1)', borderRadius: 999, padding: '7px 18px', marginBottom: 24, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) both' }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c)', animation: 'pulseDot 2s ease-in-out infinite', flexShrink: 0 }} />

@@ -149,7 +149,7 @@ export function useHistory() {
     }
   }, [stacksAddress])
 
-  const refreshHistory = useCallback(async () => {
+  const refreshHistory_ = useCallback(async () => {
     setIsLoading(true)
     const [celoItems, stacksItems] = await Promise.all([
       fetchCeloHistory(),
@@ -166,12 +166,12 @@ export function useHistory() {
   }, [fetchCeloHistory, fetchStacksHistory, activeChain])
 
   useEffect(() => {
-    refreshHistory()
-  }, [refreshHistory])
+    refreshHistory_()
+  }, [refreshHistory_])
 
   return {
     history,
     isLoading,
-    refreshHistory
+    refreshHistory_
   }
 }

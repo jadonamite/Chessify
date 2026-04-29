@@ -7,11 +7,11 @@ import {
   uintCV,
   Pc
 } from '@stacks/transactions'
-import { useWallet } from '@/components/wallet-provider'
+import { useWallet_ } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 
 export function useStacksChess() {
-  const { stacksAddress, isStacksConnected, userSession } = useWallet()
+  const { stacksAddress, isStacksConnected, userSession } = useWallet_()
 
   const createGame = useCallback(async (wagerAmount: number) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return

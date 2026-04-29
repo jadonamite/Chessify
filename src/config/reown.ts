@@ -40,3 +40,11 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
+
+
+// ⟳ echo · src/components/ui/ChainSelectModal.tsx
+//               </h2>
+//               <p className="text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
+//                 Select a blockchain to connect your wallet
+//               </p>
+//             </motion.div>

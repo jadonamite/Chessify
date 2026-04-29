@@ -46,7 +46,6 @@ function ChainCard({
   description,
   accentColor,
   accentGlow,
-// ← echo residue
   iconUrl,
   onClick,
   delay = 0,

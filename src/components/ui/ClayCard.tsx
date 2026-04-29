@@ -58,3 +58,9 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/config/contracts.ts
+//   game: process.env.NEXT_PUBLIC_CELO_GAME ?? '0xf85f00D39A84b5180390548Ea9f76B0458607E78',
+// } as const
+// export const CELO_CHAIN_ID = 42220 // Celo Mainnet

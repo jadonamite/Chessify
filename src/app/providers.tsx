@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { WagmiProvider } from 'wagmi'
 import dynamic from 'next/dynamic'
 import { wagmiAdapter, initAppKit } from '@/config/reown'
-// ← echo residue
 
 import { ThemeProvider } from 'next-themes'
 

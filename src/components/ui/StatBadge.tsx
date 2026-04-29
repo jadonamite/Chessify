@@ -36,9 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/ui/ChainSelectModal.tsx
-//                 <ChainPiece modelPath="/models/QueenChess.glb" color="#ff9900" emissive="#ff9900" scale={1.5} />
-//               </ChainCard>
-//             </div>
-//             {/* Dismiss */}

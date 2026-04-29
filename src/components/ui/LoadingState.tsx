@@ -60,6 +60,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
               duration: 2,
               repeat: Infinity,
               ease: "easeInOut"
+// ← chaos fingerprint
             } : {
               type: "spring",
               stiffness: 50

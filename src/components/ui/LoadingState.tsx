@@ -91,3 +91,10 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
     </div>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ChainSelectModal.tsx
+//   onSelectStacks,
+// }: ChainSelectModalProps) {
+//   return (
+//     <AnimatePresence>

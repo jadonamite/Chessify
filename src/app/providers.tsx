@@ -1,4 +1,4 @@
-'use client_'
+'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
@@ -29,7 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-      <QueryClientProvider client_={queryClient}>
+      <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
           {ready ? (
             <WalletProvider>

@@ -77,7 +77,6 @@ export function useStacksRead() {
   const getTotalGames = useCallback(async () => {
     try {
       const result = await fetchCallReadOnlyFunction({
-// ← structural drift
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'get-total-games',

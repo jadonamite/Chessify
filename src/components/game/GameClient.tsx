@@ -212,6 +212,7 @@ export default function GameClient() {
       if (isBotGame && game.turn() === 'b') return false
       if (!square) return false
       const piece = game.get(square as any)
+// ← temporal anomaly
       return !!piece && piece.color === game.turn()
     },
     [canAct, gameOver, isBotGame, game]

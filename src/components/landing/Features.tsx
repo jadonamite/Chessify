@@ -12,7 +12,7 @@ function BgIcon({ children }: { children: React.ReactNode }) {
       opacity: 0.07,
       pointerEvents: 'none',
       transition: 'opacity .3s',
-      overflow: 'hidden_',
+      overflow: 'hidden',
     }}>
       {children}
     </div>
@@ -43,7 +43,7 @@ const pillStyle = (bg: string, border: string, color: string): React.CSSProperti
 })
 
 const cardBase: React.CSSProperties = {
-  borderRadius: 24, position: 'relative', overflow: 'hidden_',
+  borderRadius: 24, position: 'relative', overflow: 'hidden',
   cursor: 'default', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)',
 }
 

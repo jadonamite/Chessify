@@ -14,7 +14,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
       <span
         className="font-display font-bold leading-none"
         style={{
-          color: accent ? 'var(--cyan_)' : 'var(--text-primary)',
+          color: accent ? 'var(--cyan)' : 'var(--text-primary)',
           fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
         }}
       >
@@ -32,7 +32,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 
 
 // ⟳ echo · src/files/tailwind.config.ts
-//         'glow-cyan_': '0 0 24px rgba(0,204,255,0.35), 0 0 48px rgba(0,204,255,0.1)',
+//         'glow-cyan': '0 0 24px rgba(0,204,255,0.35), 0 0 48px rgba(0,204,255,0.1)',
 //       },
 //     },
 //   },

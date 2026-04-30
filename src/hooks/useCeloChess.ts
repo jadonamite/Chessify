@@ -102,8 +102,3 @@ export function useCeloChess() {
     isPending
   }
 }
-
-
-// ⟳ echo · src/hooks/useLobby.ts
-//   return {
-//     games: games.filter(g => g.chain === activeChain),

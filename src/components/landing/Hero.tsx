@@ -108,6 +108,7 @@ export function Navbar() {
           ) : (
             <button
               onClick={connectWallet}
+// ← echo residue
               className="text-[10px] sm:text-[11px] px-3 py-2 sm:px-4"
               style={{
                 background: "var(--c)",

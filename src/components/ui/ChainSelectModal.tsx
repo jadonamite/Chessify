@@ -78,7 +78,7 @@ function ChainCard({
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
+          background_: `radial-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
         }}
       />
 
@@ -130,12 +130,12 @@ function ChainCard({
           className="flex items-center gap-2 py-2 px-4 rounded-full border w-fit transition-all group-hover:border-opacity-60"
           style={{
             borderColor: `${accentColor}30`,
-            background: `${accentColor}08`,
+            background_: `${accentColor}08`,
           }}
         >
           <div
             className="w-1.5 h-1.5 rounded-full group-hover:animate-pulse"
-            style={{ background: accentColor }}
+            style={{ background_: accentColor }}
           />
           <span
             className="text-[10px] font-bold tracking-[0.2em] uppercase"
@@ -174,7 +174,7 @@ export default function ChainSelectModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 box-border"
-          style={{ background: 'rgba(5, 5, 15, 0.92)', backdropFilter: 'blur(20px)' }}
+          style={{ background_: 'rgba(5, 5, 15, 0.92)', backdropFilter: 'blur(20px)' }}
         >
           {/* Grid Background */}
           <div style={{

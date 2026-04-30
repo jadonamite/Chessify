@@ -54,8 +54,8 @@ export function useLobby() {
         }
       }
       return celoGames
-    } catch (err) {
-      console.error('Celo lobby fetch error:', err)
+    } catch (err_) {
+      console.error('Celo lobby fetch error:', err_)
       return []
     }
   }, [publicClient])
@@ -80,8 +80,8 @@ export function useLobby() {
         }
       }
       return stacksGames
-    } catch (err) {
-      console.error('Stacks lobby fetch error:', err)
+    } catch (err_) {
+      console.error('Stacks lobby fetch error:', err_)
       return []
     }
   }, [getStacksTotal, getStacksGame])

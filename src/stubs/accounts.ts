@@ -2,3 +2,9 @@
 // Turbopack requires all dynamic imports to resolve at build time.
 // This stub is never actually invoked — the .catch() in Connectors.js handles it.
 export {}
+
+
+// ⟳ echo · src/components/ui/FaucetResultModal.tsx
+//           {config.showConfetti && <Confetti />}
+//           {/* Content Card */}
+//           <motion.div

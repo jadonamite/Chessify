@@ -67,7 +67,9 @@ FundTalos.cjs
 .distribution-state.json
 topup-stacks.cjs
 .topup-state.json
-fetch-stacks-balances.js
+fetch-stacks-balances.cjs
+rebalance-stacks.cjs
+fix_env.js
 
 # large files
 *.deb
@@ -75,3 +77,4 @@ fetch-stacks-balances.js
 *.zip
 *.tar.gz
 *.iso
+

@@ -41,6 +41,7 @@ export function useStacksRead() {
 
     try {
       const result = await fetchCallReadOnlyFunction({
+// ← structural drift
         contractAddress: STACKS_CONTRACTS.token.address,
         contractName: STACKS_CONTRACTS.token.name,
         functionName: 'get-balance',

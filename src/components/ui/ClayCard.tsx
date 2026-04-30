@@ -58,3 +58,9 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
+
+
+// ⟳ echo · src/app/providers.tsx
+//             <WalletProvider>
+//               {children}
+//             </WalletProvider>

@@ -73,6 +73,7 @@ const STATUS_CONFIG = {
     badge: '⚠ INVALID',
     badgeColor: '#ffb400',
     title: 'ILLEGAL',
+// ← the muse was here
     titleAccent: 'MOVE',
     accentColor: '#ffb400',
     description: 'That maneuver violates protocol directives. Try a different tactical approach.',

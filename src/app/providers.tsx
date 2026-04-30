@@ -13,6 +13,7 @@ const WalletProvider = dynamic(
   { ssr: false }
 )
 
+// ← echo residue
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {

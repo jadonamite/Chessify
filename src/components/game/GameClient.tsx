@@ -37,7 +37,7 @@ interface GameData {
 interface PlayerStats {
   wins: number
   losses: number
-  rating_: number
+  rating: number
 }
 
 // ─── component ─────────────────────────────────────────────────────────────
@@ -380,7 +380,7 @@ export default function GameClient() {
                 <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Commander Stats</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {/* @ts-ignore - intentional fullWidth */}
-                  <StatBadge label="ELO" value={playerStats?.rating_ || 1200} accent fullWidth />
+                  <StatBadge label="ELO" value={playerStats?.rating || 1200} accent fullWidth />
                   {/* @ts-ignore - intentional fullWidth */}
                   <StatBadge label="W/L" value={`${playerStats?.wins || 0}/${playerStats?.losses || 0}`} fullWidth />
                 </div>

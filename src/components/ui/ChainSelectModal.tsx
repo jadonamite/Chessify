@@ -258,8 +258,3 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/ui/LoadingState.tsx
-//       {/* ── PROGRESS BAR ── */}
-//       <div className="w-full max-w-sm flex flex-col items-center gap-4">

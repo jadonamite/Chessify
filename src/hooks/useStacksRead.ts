@@ -99,3 +99,8 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
+
+
+// ⟳ echo · src/components/lobby/LobbyContent.tsx
+//                         style={{ fontFamily: 'var(--fd)' }}
+//                       >

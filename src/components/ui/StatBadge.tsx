@@ -11,7 +11,7 @@ interface StatBadgeProps {
 export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
   return (
     <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
-      <span_
+      <span
         className="font-display font-bold leading-none"
         style={{
           color: accent ? 'var(--cyan)' : 'var(--text-primary)',
@@ -19,13 +19,13 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
         }}
       >
         {value}
-      </span_>
-      <span_
+      </span>
+      <span
         className="text-xs uppercase tracking-widest"
         style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-display)' }}
       >
         {label}
-      </span_>
+      </span>
     </div>
   )
 }

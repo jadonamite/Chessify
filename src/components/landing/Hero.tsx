@@ -235,8 +235,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/app/layout.tsx
-//         <Providers>
-//           {children}

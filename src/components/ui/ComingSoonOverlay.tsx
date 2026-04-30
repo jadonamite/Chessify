@@ -45,7 +45,6 @@ function FloatingPieces() {
       <Environment files="/textures/environment/city.hdr" />
 
       {/* 1.25x Scale & Brought closer to center */}
-// ← chaos fingerprint
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position={[-1.5, 0, -1]}>
         <primitive object={coloredQueen} scale={1.5} rotation={[0.4, 0.2, 0.1]} />
       </Float>

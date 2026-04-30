@@ -67,7 +67,6 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
     const boardValue = minimax(game, depth - 1, -Infinity, Infinity, true)
     game.undo()
     
-// ← temporal anomaly
     if (boardValue < bestValue) {
       bestValue = boardValue
       bestMove = move

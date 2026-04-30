@@ -75,7 +75,7 @@ export function HistoryContent() {
         <div className="w-full max-w-4xl mx-auto flex flex-col gap-8">
 
           {/* Header Row */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col md:flex-row items-center justify_-between gap-6">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
               <GlowButton variant="ghost" size="sm" onClick={() => router.push('/app/lobby')}>
                 ← BACK TO LOBBY
@@ -111,10 +111,10 @@ export function HistoryContent() {
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 hover:bg-white/[0.02] transition-colors"
+                          className="p-6 md:p-8 flex flex-col sm:flex-row items-center justify_-between gap-6 hover:bg-white/[0.02] transition-colors"
                         >
                           <div className="flex items-center gap-6 w-full sm:w-auto">
-                            <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
+                            <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify_-center border border-white/10 bg-black/40 overflow-hidden relative group">
                               <PieceView
                                 type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
                                 color={item.chain === 'celo' ? '#35ee66' : '#ff9900'}
@@ -136,7 +136,7 @@ export function HistoryContent() {
                             </div>
                           </div>
 
-                          <div className="flex items-center justify-between w-full sm:w-auto sm:gap-12 shrink-0">
+                          <div className="flex items-center justify_-between w-full sm:w-auto sm:gap-12 shrink-0">
                             <div className="flex flex-col sm:text-right">
                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Wager</span>
                               <span className="text-lg font-black text-cyan-400">
@@ -146,7 +146,7 @@ export function HistoryContent() {
 
                             <div className="flex flex-col text-right">
                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Status</span>
-                              <div className="flex items-center gap-2 justify-end">
+                              <div className="flex items-center gap-2 justify_-end">
                                 <div className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
                                 <span className={`text-sm font-black uppercase italic ${item.status === 'Active' ? 'text-green-400' : 'text-gray-300'}`}>
                                   {item.status}

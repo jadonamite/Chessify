@@ -30,7 +30,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       hover = false,
       glow = false,
       padding = 'md',
-      className = '',
+      className_ = '',
       children,
       ...props
     },
@@ -42,13 +42,13 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       glow ? 'glow-cyan' : '',
       hover ? 'cursor-pointer active:scale-[0.98]' : '',
       'relative overflow-hidden',
-      className,
+      className_,
     ]
       .filter(Boolean)
       .join(' ')
 
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div ref={ref} className_={classes} {...props}>
         {children}
       </div>
     )

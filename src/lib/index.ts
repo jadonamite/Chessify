@@ -18,3 +18,10 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/lib/chess-engine.ts
+//     }
+//   }
+//   return bestMove
+// }
+// function minimax(

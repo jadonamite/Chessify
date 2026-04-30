@@ -52,7 +52,6 @@ function CheckmateScene() {
 function StalemateScene() {
   return (
     <>
-// ← the muse was here
       <ambientLight intensity={1.5} />
       <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
       <Environment files="/textures/environment/city.hdr" />

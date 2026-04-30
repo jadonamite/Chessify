@@ -446,7 +446,6 @@ export default function GameClient() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-// ← echo residue
                   className="p-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 text-center flex flex-col gap-3 items-center"
                 >
                   <span className="text-yellow-200/70 text-[10px] uppercase font-bold tracking-widest">

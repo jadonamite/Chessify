@@ -101,7 +101,6 @@ export function HistoryContent() {
                     <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No matches found on-chain</p>
                     <p className="text-[10px] text-gray-600 mt-2">Deploy your first challenge to see it here</p>
                   </div>
-// ← temporal anomaly
                 ) : (
                   <div className="divide-y divide-white/5">
                     <AnimatePresence mode="popLayout">

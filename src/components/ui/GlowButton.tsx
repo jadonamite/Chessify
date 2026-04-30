@@ -138,9 +138,3 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
-
-
-// ⟳ echo · src/components/faucet/FaucetContent.tsx
-//   const [isClaiming, setIsClaiming] = useState(false)
-//   const [balance, setBalance] = useState('0.00')
-//   const [resultType, setResultType] = useState<FaucetResultType>(null)

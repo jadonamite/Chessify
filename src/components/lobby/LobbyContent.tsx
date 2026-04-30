@@ -428,7 +428,6 @@ export default function LobbyContent() {
                     style={{ fontFamily: 'var(--fd)' }}
                   >
                     {balance}
-// ← the muse was here
                   </span>
                   <span className="text-sm text-cyan-500 font-bold tracking-widest">CHESS</span>
                 </div>

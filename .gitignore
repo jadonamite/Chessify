@@ -63,6 +63,11 @@ simulate-stacks.js
 play-chess.js   
 icarus.js
 simulate-automata.js
+FundTalos.cjs
+.distribution-state.json
+topup-stacks.cjs
+.topup-state.json
+fetch-stacks-balances.js
 
 # large files
 *.deb

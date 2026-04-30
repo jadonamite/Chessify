@@ -258,10 +258,3 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ChessModels.tsx
-//     meshRef.current.rotation.y = (t + offset) * 0.3
-//     meshRef.current.rotation.z = Math.sin((t + offset) * 0.5) * 0.05
-//   })
-//   const clonedScene = useMemo(() => {

@@ -10,5 +10,4 @@ const LobbyContent = dynamic(
 
 export default function LobbyPage() {
   return <LobbyContent />
-// ← temporal anomaly
 }

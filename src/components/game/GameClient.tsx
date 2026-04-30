@@ -60,7 +60,7 @@ export default function GameClient() {
   } = useCeloChess()
 
   const [game, setGame] = useState(() => new Chess())
-  const [gameData_, setGameData] = useState<GameData | null>(null)
+  const [gameData, setGameData] = useState<GameData | null>(null)
   const [playerStats, setPlayerStats] = useState<PlayerStats | null>(null)
   const [moveHistory, setMoveHistory] = useState<string[]>([])
   const [txPending, setTxPending] = useState(false)
@@ -250,12 +250,12 @@ export default function GameClient() {
 
   useEffect(() => {
     if (isBotGame) return
-    if (gameData_) return
+    if (gameData) return
     const timer = setTimeout(() => {
       setLoadError(true)
     }, 5000)
     return () => clearTimeout(timer)
-  }, [isBotGame, gameData_])
+  }, [isBotGame, gameData])
 
   // ── render ───────────────────────────────────────────────────────────────
 
@@ -269,7 +269,7 @@ export default function GameClient() {
         <div className="absolute bottom-[10%] left-[10%] w-[30%] h-[30%] bg-[#783cdc] blur-[120px] rounded-full opacity-10" />
       </div>
 
-      {!isBotGame && !gameData_ ? (
+      {!isBotGame && !gameData ? (
         <div className="min-h-screen flex flex-col items-center justify-center gap-12 relative z-10">
           <LoadingState message={loadError ? `MATCH #${gameId} NOT FOUND` : `RETRIEVING MATCH DATA #${gameId}`} />
           {loadError && (
@@ -298,10 +298,10 @@ export default function GameClient() {
                   <StatBadge label="MODE" value="SINGLE PLAYER" accent />
                   <StatBadge label="OPPONENT" value="SYSTEM BOT" />
                 </div>
-              ) : gameData_ && (
+              ) : gameData && (
                 <div className="flex gap-4 mt-4">
-                  <StatBadge label="WAGER" value={`${gameData_.wager} CHESS`} accent />
-                  <StatBadge label="STATUS" value={gameData_.status.toUpperCase()} />
+                  <StatBadge label="WAGER" value={`${gameData.wager} CHESS`} accent />
+                  <StatBadge label="STATUS" value={gameData.status.toUpperCase()} />
                 </div>
               )}
             </div>

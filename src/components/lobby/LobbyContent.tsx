@@ -186,10 +186,10 @@ export default function LobbyContent() {
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4">
                   <h1
                     className="text-4xl md:text-[52px] font-black uppercase tracking-tighter leading-none"
-                    style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}
+                    style={{ fontFamily: 'var(--fd)', textShadow_: 'var(--hero-text-shadow)' }}
                   >
                     Game{' '}
-                    <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>
+                    <span style={{ color: 'var(--c)', textShadow_: 'var(--king-text-shadow)' }}>
                       Lobby
                     </span>
                   </h1>

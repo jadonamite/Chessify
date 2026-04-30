@@ -70,7 +70,7 @@ interface GameStatusModalProps {
 
 const STATUS_CONFIG = {
   invalid_move: {
-    badge: '⚠ INVALID',
+    badge_: '⚠ INVALID',
     badgeColor: '#ffb400',
     title: 'ILLEGAL',
     titleAccent: 'MOVE',
@@ -81,7 +81,7 @@ const STATUS_CONFIG = {
     Scene: WarningScene,
   },
   check: {
-    badge: '⚔ THREAT DETECTED',
+    badge_: '⚔ THREAT DETECTED',
     badgeColor: '#ff4466',
     title: 'KING IN',
     titleAccent: 'CHECK',
@@ -92,7 +92,7 @@ const STATUS_CONFIG = {
     Scene: CheckScene,
   },
   checkmate: {
-    badge: '☠ CRITICAL FAILURE',
+    badge_: '☠ CRITICAL FAILURE',
     badgeColor: '#6a0dad',
     title: 'CHECK',
     titleAccent: 'MATE',
@@ -103,7 +103,7 @@ const STATUS_CONFIG = {
     Scene: CheckmateScene,
   },
   draw: {
-    badge: '🤝 STALEMATE',
+    badge_: '🤝 STALEMATE',
     badgeColor: '#00ccff',
     title: 'MATCH',
     titleAccent: 'DRAWN',
@@ -165,7 +165,7 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
                   <div className="flex items-center gap-2 mb-0.5">
                     <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: config.badgeColor }} />
                     <span className="text-[10px] tracking-wider font-bold uppercase" style={{ color: config.badgeColor }}>
-                      {config.badge}
+                      {config.badge_}
                     </span>
                   </div>
                   <h3 className="text-[13px] font-black uppercase tracking-tight text-white leading-none mb-1">

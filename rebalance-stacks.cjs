@@ -80,6 +80,11 @@ async function mapConcurrent(items, limit, fn) {
   return results;
 }
 
+async function fetchNonce(address) {
+  const data = await apiFetch(`/extended/v1/address/${address}/nonces`);
+  return data.possible_next_nonce;
+}
+
 async function main() {
   console.log(`\n════════════════════════════════════════════════════════════`);
   console.log(`  STX Peer-to-Peer Rebalancing Script`);
@@ -137,7 +142,10 @@ async function main() {
     if (recipients.length === 0) break;
 
     let surplus = donor.balance - DONOR_RESERVE;
+    let currentNonce = await fetchNonce(donor.address);
+
     console.log(`💎 Donor ${donor.id} (${fmt(donor.balance)} STX)`);
+    console.log(`   └─ Starting Nonce: ${currentNonce}`);
     console.log(`   └─ Surplus available: ${fmt(surplus)} STX`);
 
     while (surplus >= (DRIP_AMOUNT + TX_FEE) && recipients.length > 0) {
@@ -151,6 +159,7 @@ async function main() {
           senderKey: donor.key,
           network,
           fee: TX_FEE,
+          nonce: currentNonce,
           anchorMode: AnchorMode.Any,
         });
 
@@ -158,6 +167,15 @@ async function main() {
 
         if (result.error) {
           console.log(`   └─ ❌ Failed: ${result.error} ${result.reason || ''}`);
+          
+          if (result.reason === 'ConflictingNonceInMempool') {
+             console.log(`   └─ 🔄 Nonce conflict. Syncing and retrying...`);
+             currentNonce = await fetchNonce(donor.address);
+             recipients.unshift(recipient);
+             await delay(2000);
+             continue;
+          }
+
           // Put recipient back at the start of the list to try again with another donor
           recipients.unshift(recipient);
           
@@ -166,10 +184,11 @@ async function main() {
             break; 
           }
         } else {
-          console.log(`   └─ ✅ Broadcasted: ${result.txid}`);
+          console.log(`   └─ ✅ Broadcasted (Nonce ${currentNonce}): ${result.txid}`);
           surplus -= (DRIP_AMOUNT + TX_FEE);
-          // Wait a bit between broadcasts from the same donor
-          await delay(5000);
+          currentNonce++;
+          // Small pause to let API catch up
+          await delay(2000);
         }
       } catch (err) {
         console.log(`   └─ ❌ Error: ${err.message}`);

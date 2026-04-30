@@ -1,5 +1,42 @@
 'use client'
 
+import { useStacksRead } from '@/hooks/useStacksRead'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useStacksChess } from '@/hooks/useStacksChess'
+import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { useCeloChess } from '@/hooks/useCeloChess'
+import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
+import { useState, useEffect, Suspense, useMemo } from 'react'
+import { formatUnits } from 'viem'
+import GlowButton from '@/components/ui/GlowButton'
+import { useReadContract, useAccount } from 'wagmi'
+import { useWallet } from '@/components/wallet-provider'
+import { useRouter } from 'next/navigation'
+import ClayCard from '@/components/ui/ClayCard'
+import LoadingState from '@/components/ui/LoadingState'
+// @ts-expect-error - intentional unused variable
+import { useLobby } from '@/hooks/useLobby'
+import ComingSoonOverlay from '@/components/ui/ComingSoonOverlay'
+import { Navbar } from '@/components/landing/Hero'
+function BgIcon({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      position: 'absolute',
+      bottom: '-8%',
+      right: '-4%',
+      height: '80%',
+      aspectRatio: '1',
+      opacity: 0.04,
+      pointerEvents: 'none',
+      transition: 'opacity .3s',
+      overflow: 'hidden',
+      zIndex: 0,
+    }}>
+      {children}
+    </div>
+  )
+}
+
 export default function LobbyContent() {
   const { isConnected, isStacksConnected, activeChain, stacksAddress, address: celoAddress, connectWallet } = useWallet()
   const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
@@ -7,25 +44,6 @@ export default function LobbyContent() {
   const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
   const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
   const router = useRouter()
-
-  const handleCreateGame = async () => {
-    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
-    setIsPending(true)
-    try {
-      if (activeChain === 'stacks') {
-        await createStacksGame(wager)
-        setIsCreateModalOpen(false)
-      } else {
-        await createCeloGame(wager)
-        setIsCreateModalOpen(false)
-      }
-      refreshLobby()
-    } catch (err) {
-      console.error('Create game failed:', err)
-    } finally {
-      setIsPending(false)
-    }
-  }
 
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false)
   const MAINTENANCE_MODE = false
@@ -67,6 +85,25 @@ export default function LobbyContent() {
 
   const { games: openGames, isLoading: isLobbyLoading, refresh: refreshLobby } = useLobby()
 
+  const handleCreateGame = async () => {
+    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
+    setIsPending(true)
+    try {
+      if (activeChain === 'stacks') {
+        await createStacksGame(wager)
+        setIsCreateModalOpen(false)
+      } else {
+        await createCeloGame(wager)
+        setIsCreateModalOpen(false)
+      }
+      refreshLobby()
+    } catch (err) {
+      console.error('Create game failed:', err)
+    } finally {
+      setIsPending(false)
+    }
+  }
+
   const handleJoinGame = async (gameId: number, matchWager: number) => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
     setIsPending(true)
@@ -84,43 +121,6 @@ export default function LobbyContent() {
       setIsPending(false)
     }
   }
-
-import { useState, useEffect, Suspense, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useWallet } from '@/components/wallet-provider'
-import GlowButton from '@/components/ui/GlowButton'
-import ClayCard from '@/components/ui/ClayCard'
-import ComingSoonOverlay from '@/components/ui/ComingSoonOverlay'
-import { useStacksRead } from '@/hooks/useStacksRead'
-import { useStacksChess } from '@/hooks/useStacksChess'
-import { useRouter } from 'next/navigation'
-import { Navbar } from '@/components/landing/Hero'
-import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
-import { useCeloChess } from '@/hooks/useCeloChess'
-import { useLobby } from '@/hooks/useLobby'
-import LoadingState from '@/components/ui/LoadingState'
-// @ts-expect-error - intentional unused variable
-import { useReadContract, useAccount } from 'wagmi'
-import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
-import { formatUnits } from 'viem'
-function BgIcon({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      position: 'absolute',
-      bottom: '-8%',
-      right: '-4%',
-      height: '80%',
-      aspectRatio: '1',
-      opacity: 0.04,
-      pointerEvents: 'none',
-      transition: 'opacity .3s',
-      overflow: 'hidden',
-      zIndex: 0,
-    }}>
-      {children}
-    </div>
-  )
-}
 
   const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
 

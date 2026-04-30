@@ -59,7 +59,7 @@ import { motion } from 'framer-motion'
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
+    <main_ className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
       <Navbar />
       
       <div className="absolute inset-0 z-0">
@@ -102,6 +102,6 @@ export default function NotFound() {
       {/* Decorative lines */}
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-30" />
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-10" />
-    </main>
+    </main_>
   )
 }

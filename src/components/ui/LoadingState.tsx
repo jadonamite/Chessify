@@ -17,7 +17,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
   const isInfinite = progress === undefined
 
   return (
-    <div className="flex flex-col items-center justify-center w-full py-24 gap-12 relative overflow-hidden_">
+    <div className="flex flex-col items-center justify-center w-full py-24 gap-12 relative overflow-hidden">
       {/* ── 3D PIECE ANIMATION ── */}
       <div className="w-64 h-64 relative">
         <Canvas camera={{ position: [0, 0, 5], fov: 40 }} gl={{ alpha: true }}>
@@ -46,7 +46,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
 
       {/* ── PROGRESS BAR ── */}
       <div className="w-full max-w-sm flex flex-col items-center gap-4">
-        <div className="w-full h-[2px] bg-white/5 relative overflow-hidden_ rounded-full border border-white/10">
+        <div className="w-full h-[2px] bg-white/5 relative overflow-hidden rounded-full border border-white/10">
           <motion.div
             className="absolute inset-y-0 left-0 bg-[var(--c)] shadow-[0_0_15px_var(--c)]"
             initial={{ width: 0 }}

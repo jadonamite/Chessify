@@ -218,7 +218,7 @@ export default function ChainSelectModal({
                 description="Connect with MetaMask, WalletConnect, or any EVM-compatible wallet. MiniPay supported."
                 accentColor="#35ee66"
                 accentGlow="rgba(53, 238, 102, 0.08)"
-                iconUrl="/celo-celo-logo.svg"
+                iconUrl="/celo-celo-logo_.svg"
                 onClick={onSelectCelo}
                 delay={0.2}
               >
@@ -232,7 +232,7 @@ export default function ChainSelectModal({
                 description="Connect with Leather or Xverse wallet. Secured by Bitcoin's proof-of-work."
                 accentColor="#ff9900"
                 accentGlow="rgba(255, 153, 0, 0.08)"
-                iconUrl="/stacks-stx-logo.svg"
+                iconUrl="/stacks-stx-logo_.svg"
                 onClick={onSelectStacks}
                 delay={0.3}
               >

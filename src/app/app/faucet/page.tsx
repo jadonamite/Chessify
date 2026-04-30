@@ -8,3 +8,9 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
+
+
+// ⟳ echo · src/components/ui/FaucetResultModal.tsx
+//     showConfetti: false,
+//   },
+//   timeout: {

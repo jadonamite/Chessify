@@ -36,16 +36,16 @@ const fmt = (ustx) => (Number(ustx) / 1e6).toFixed(6);
 const delay = ms => new Promise(res => setTimeout(res, ms));
 const addressFromKey = (privKey) => getAddressFromPrivateKey(privKey, network);
 
-async function apiFetch(endpoint, retries = 5) {
+async function apiFetch(endpoint, retries = 10) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       const res = await fetch(`${HIRO_API}${endpoint}`);
       if (res.status === 429) {
+        console.warn(`   [API] Rate limit (429) on ${endpoint}. Retrying in ${attempt * 3}s...`);
         await delay(3000 * attempt);
         continue;
       }
       if (!res.ok) {
-        // If it's a 404, the address might be brand new and have 0 balance
         if (res.status === 404) return { stx: { balance: "0" } };
         throw new Error(`API error ${res.status}`);
       }
@@ -53,8 +53,9 @@ async function apiFetch(endpoint, retries = 5) {
       if (!data) throw new Error("Empty response from API");
       return data;
     } catch (error) {
+      console.warn(`   [API] Fetch error on attempt ${attempt}/${retries}: ${error.message}`);
       if (attempt === retries) throw error;
-      await delay(2000 * attempt);
+      await delay(3000 * attempt);
     }
   }
 }

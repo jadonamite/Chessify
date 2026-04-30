@@ -11,5 +11,4 @@ export default function LandingPage() {
       <Footer />
     </main>
   )
-// ← the muse was here
 }

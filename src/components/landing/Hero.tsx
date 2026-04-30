@@ -23,7 +23,7 @@ const KEYFRAMES = `
 @media (max-width: 768px) {
   .hero-pieces { opacity: 0.08; transform: scale(0.6) translateY(20%); }
   .hero-navbar { padding: 18px 24px !important; }
-  .hero-nav-links_ { display: none !important; }
+  .hero-nav-links { display: none !important; }
   .hero-logo-img { width: 140px !important; height: auto !important; }
 }
 `
@@ -50,7 +50,7 @@ export function Navbar() {
         <div>
           <Image src="/chessify.png" alt="Chessify" width={200} height={50} className="w-[140px] md:w-[200px] h-auto object-contain" />
         </div>
-        <div className="nav-surface hero-nav-links_" style={{ display: "flex", gap: 28, borderRadius: 999, padding: "10px 28px" }}>
+        <div className="nav-surface hero-nav-links" style={{ display: "flex", gap: 28, borderRadius: 999, padding: "10px 28px" }}>
           {["How it works", "History", "Faucet"].map((l) => {
             const isAppRoute = l === "Faucet" || l === "History"
             const path = isAppRoute ? `/app/${l.toLowerCase()}` : `#${l.toLowerCase().replace(" ", "-")}`

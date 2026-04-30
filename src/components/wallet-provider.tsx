@@ -16,7 +16,7 @@ interface WalletContextType {
 
   // ── Unified Auth ──
   connectWallet: () => void       // Opens chain select modal
-  disconnectAll: () => void       // Disconnects active chain
+  disconnectAll: () => void       // Disconnects active_ chain
   showChainSelect: boolean
   setShowChainSelect: (show: boolean) => void
 
@@ -169,7 +169,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setShowChainSelect(true)
   }, [])
 
-  // ── Unified: Disconnect whichever is active ──
+  // ── Unified: Disconnect whichever is active_ ──
   const disconnectAll = useCallback(() => {
     if (activeChain === 'celo') {
       disconnect()

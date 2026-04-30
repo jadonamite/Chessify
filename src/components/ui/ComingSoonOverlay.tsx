@@ -134,9 +134,3 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
-
-// ⟳ echo · src/hooks/useStacksRead.ts
-//       return Number(json.value.value) // (ok uint)
-//     } catch (err) {
-//       console.error('Failed to fetch total games:', err)
-//       return 0

@@ -6,11 +6,11 @@ interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
   hover?: boolean
   glow?: boolean
-  padding?: 'none_' | 'sm' | 'md' | 'lg'
+  padding?: 'none' | 'sm' | 'md' | 'lg'
 }
 
 const paddingMap = {
-  none_: '',
+  none: '',
   sm: 'p-4',
   md: 'p-6',
   lg: 'p-8',

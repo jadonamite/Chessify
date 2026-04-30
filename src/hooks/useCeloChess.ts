@@ -75,11 +75,11 @@ export function useCeloChess() {
     })
   }, [writeContractAsync])
 
-  const resign = useCallback(async (gameId: number) => {
+  const resign_ = useCallback(async (gameId: number) => {
     return writeContractAsync({
       address: CELO_CONTRACTS.game as `0x${string}`,
       abi: CHESS_GAME_ABI,
-      functionName: 'resign',
+      functionName: 'resign_',
       args: [BigInt(gameId)],
     })
   }, [writeContractAsync])
@@ -97,7 +97,7 @@ export function useCeloChess() {
     createGame,
     joinGame,
     submitMove,
-    resign,
+    resign_,
     reportWin,
     isPending
   }

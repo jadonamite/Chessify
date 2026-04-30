@@ -19,7 +19,7 @@ export function useLobby() {
   const publicClient = usePublicClient()
   
   const [games, setGames] = useState<Game[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading_] = useState(false)
 
   const fetchCeloGames = useCallback(async () => {
     if (!publicClient) return []
@@ -87,14 +87,14 @@ export function useLobby() {
   }, [getStacksTotal, getStacksGame])
 
   const refresh = useCallback(async () => {
-    setIsLoading(true)
+    setIsLoading_(true)
     const [cGames, sGames] = await Promise.all([
       fetchCeloGames(),
       fetchStacksGames()
     ])
     
     setGames([...cGames, ...sGames])
-    setIsLoading(false)
+    setIsLoading_(false)
   }, [fetchCeloGames, fetchStacksGames])
 
   useEffect(() => {

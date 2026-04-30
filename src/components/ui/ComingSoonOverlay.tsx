@@ -1,11 +1,11 @@
 'use client'
 
-import { useGLTF, Float, Environment } from '@react-three/drei'
-import * as THREE from 'three'
 import { useEffect, useState, Suspense, useMemo } from 'react'
-import GlowButton from '@/components/ui/GlowButton'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
+import { useGLTF, Float, Environment } from '@react-three/drei'
+import * as THREE from 'three'
+import GlowButton from '@/components/ui/GlowButton'
 
 // PRELOAD
 useGLTF.preload('/models/King.glb')

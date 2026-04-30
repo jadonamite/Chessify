@@ -559,8 +559,3 @@ export default function LobbyContent() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/game/GameClient.tsx
-//       if (!move) {
-//         setStatusModalType('invalid_move')

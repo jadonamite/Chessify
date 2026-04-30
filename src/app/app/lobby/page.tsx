@@ -11,9 +11,3 @@ const LobbyContent = dynamic(
 export default function LobbyPage() {
   return <LobbyContent />
 }
-
-
-// ⟳ echo · src/components/ui/FaucetResultModal.tsx
-//                       chain === 'celo'
-//                         ? `https://celoscan.io/tx/${txHash}`
-//                         : `https://explorer.hiro.so/txid/${txHash}`

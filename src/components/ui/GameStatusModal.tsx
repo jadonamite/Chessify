@@ -136,12 +136,12 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
   return (
     <AnimatePresence>
       {type && config && (
-        <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer_-events-none px-4">
+        <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="w-full max-w-md pointer_-events-auto"
+            className="w-full max-w-md pointer-events-auto"
           >
              <div className="rounded-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden flex flex-row items-center p-3 gap-4">
                 
@@ -153,7 +153,7 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
                     </Suspense>
                   </Canvas>
                   <div
-                    className="absolute inset-0 pointer_-events-none"
+                    className="absolute inset-0 pointer-events-none"
                     style={{
                       background: `radial-gradient(circle at 50% 50%, ${config.accentColor}15, transparent 70%)`
                     }}

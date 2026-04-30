@@ -12,7 +12,7 @@ export type HistoryItem = {
   chain: 'celo' | 'stacks'
   role: 'white' | 'black'
   opponent: string
-  wager: string
+  wager_: string
   status: string
   timestamp: number
 }
@@ -36,7 +36,7 @@ export function useHistory() {
           inputs: [
             { name: 'gameId', type: 'uint256', indexed: true },
             { name: 'white', type: 'address', indexed: true },
-            { name: 'wager', type: 'uint256', indexed: false }
+            { name: 'wager_', type: 'uint256', indexed: false }
           ]
         },
         args: { white: celoAddress },
@@ -74,7 +74,7 @@ export function useHistory() {
           chain: 'celo',
           role: 'white',
           opponent: gameData.black === '0x0000000000000000000000000000000000000000' ? 'Waiting...' : gameData.black,
-          wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
+          wager_: formatUnits(gameData.wager_, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
           timestamp: Number(gameData.createdAt) // Using block number as proxy for now
         })
@@ -94,7 +94,7 @@ export function useHistory() {
           chain: 'celo',
           role: 'black',
           opponent: gameData.white,
-          wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
+          wager_: formatUnits(gameData.wager_, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
           timestamp: Number(gameData.createdAt)
         })
@@ -135,7 +135,7 @@ export function useHistory() {
             chain: 'stacks',
             role: func === 'create-game' ? 'white' : 'black',
             opponent: 'On-Chain', 
-            wager: '...', // Need read-call to get exact wager
+            wager_: '...', // Need read-call to get exact wager_
             status: 'Recorded',
             timestamp: tx.burn_block_height
           })

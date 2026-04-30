@@ -130,8 +130,3 @@ export function useStacksChess() {
     reportWin,
   }
 }
-
-
-// ⟳ echo · src/app/providers.tsx
-//           {ready ? (
-//             <WalletProvider>

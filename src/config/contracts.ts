@@ -19,11 +19,11 @@ export const CELO_CONTRACTS = {
 
 export const CELO_CHAIN_ID = 42220 // Celo Mainnet
 
-export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet_'
+export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =
-  STACKS_NETWORK === 'mainnet_'
-    ? 'https://api.mainnet_.hiro.so'
+  STACKS_NETWORK === 'mainnet'
+    ? 'https://api.mainnet.hiro.so'
     : 'https://api.testnet.hiro.so'
 
 // Token constants

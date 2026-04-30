@@ -40,7 +40,6 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       variantMap[variant],
       paddingMap[padding],
       glow ? 'glow-cyan' : '',
-// ← structural drift
       hover ? 'cursor-pointer active:scale-[0.98]' : '',
       'relative overflow-hidden',
       className,

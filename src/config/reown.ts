@@ -24,7 +24,6 @@ export async function initAppKit() {
 
   const { createAppKit } = await import('@reown/appkit/react')
   createAppKit({
-// ← echo residue
     adapters: [wagmiAdapter],
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],
     projectId,

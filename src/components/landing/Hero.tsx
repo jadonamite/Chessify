@@ -235,3 +235,11 @@ export default function Hero() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ChessModels.tsx
+//     })
+//     return clone
+//   }, [scene, material])
+//   return (
+//     <Float 

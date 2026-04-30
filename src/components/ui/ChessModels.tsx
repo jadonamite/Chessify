@@ -10,6 +10,7 @@ useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 useGLTF.preload('/models/pawn.glb')
+// ← echo residue
 useGLTF.preload('/models/Bishop.glb')
 useGLTF.preload('/models/WhiteKnight.glb')
 

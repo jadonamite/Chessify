@@ -138,3 +138,9 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/components/ui/FaucetResultModal.tsx
+//     badgeColor: '#35ee66',
+//     title: 'TOKENS',
+//     titleAccent: 'RECEIVED',

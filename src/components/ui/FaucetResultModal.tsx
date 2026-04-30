@@ -337,3 +337,8 @@ export default function FaucetResultModal({
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/app/app/lobby/page.tsx
+// import dynamic from 'next/dynamic'
+// // Shell to prevent block-chain SDKs from leaking into the server build

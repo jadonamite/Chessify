@@ -69,7 +69,7 @@ function ChainCard({
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="relative w-full rounded-[28px] border border-white/10 bg-slate-900/60 backdrop-blur-xl overflow-hidden text-left_ cursor-pointer group transition-all"
+      className="relative w-full rounded-[28px] border border-white/10 bg-slate-900/60 backdrop-blur-xl overflow-hidden text-left cursor-pointer group transition-all"
       style={{
         boxShadow: `0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.4)`,
       }}
@@ -94,7 +94,7 @@ function ChainCard({
         </Canvas>
 
         {/* Gradient fade */}
-        <div className="absolute bottom-0 left_-0 right-0 h-16 bg-gradient-to-t from-slate-900/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-900/60 to-transparent" />
       </div>
 
       {/* Body */}

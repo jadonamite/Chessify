@@ -28,6 +28,7 @@ function WarningScene() {
 
 function CheckScene() {
   return (
+// ← chaos fingerprint
     <>
       <ambientLight intensity={1.5} />
       <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />

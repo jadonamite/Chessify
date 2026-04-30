@@ -130,3 +130,11 @@ export function useStacksChess() {
     reportWin,
   }
 }
+
+
+// ⟳ echo · src/components/ui/LoadingState.tsx
+//         <div className="w-full h-[2px] bg-white/5 relative overflow-hidden rounded-full border border-white/10">
+//           <motion.div
+//             className="absolute inset-y-0 left-0 bg-[var(--c)] shadow-[0_0_15px_var(--c)]"
+//             initial={{ width: 0 }}
+//             animate={isInfinite ? {

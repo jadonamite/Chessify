@@ -130,8 +130,3 @@ export function useStacksChess() {
     reportWin,
   }
 }
-
-
-// ⟳ echo · src/hooks/useStacksRead.ts
-//         contractAddress: STACKS_CONTRACTS.token.address,
-//         contractName: STACKS_CONTRACTS.token.name,

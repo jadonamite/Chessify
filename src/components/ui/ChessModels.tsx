@@ -1,17 +1,17 @@
 'use client'
 
 import { useMemo, useRef } from 'react'
-import { useGLTF_, Float } from '@react-three/drei'
+import { useGLTF, Float } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 /* ── PRELOADS ── */
-useGLTF_.preload('/models/King.glb')
-useGLTF_.preload('/models/QueenChess.glb')
-useGLTF_.preload('/models/Rook.glb')
-useGLTF_.preload('/models/pawn.glb')
-useGLTF_.preload('/models/Bishop.glb')
-useGLTF_.preload('/models/WhiteKnight.glb')
+useGLTF.preload('/models/King.glb')
+useGLTF.preload('/models/QueenChess.glb')
+useGLTF.preload('/models/Rook.glb')
+useGLTF.preload('/models/pawn.glb')
+useGLTF.preload('/models/Bishop.glb')
+useGLTF.preload('/models/WhiteKnight.glb')
 
 interface PieceProps {
   color?: string
@@ -26,7 +26,7 @@ interface PieceProps {
 }
 
 function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiveIntensity = 0.4, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
-  const { scene } = useGLTF_(modelPath)
+  const { scene } = useGLTF(modelPath)
 
   const material = useMemo(() => {
     const isBlack = color === '#111' || color === '#111111' || color === '#1a1a1a'

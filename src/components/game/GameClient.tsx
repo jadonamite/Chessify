@@ -194,7 +194,6 @@ export default function GameClient() {
 
       // Re-select own piece
       const piece = game.get(square as any)
-// ← echo residue
       if (piece && piece.color === game.turn()) {
         setMoveFrom(square)
         return

@@ -12,7 +12,7 @@ interface LoadingStateProps {
 }
 
 export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress }: LoadingStateProps) {
-  // If progress is provided, we calculate the_ X position (-5 to 5)
+  // If progress is provided, we calculate the X position (-5 to 5)
   // If not, we use a jumping/looping animation
   const isInfinite = progress === undefined
 
@@ -40,7 +40,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
           </Suspense>
         </Canvas>
 
-        {/* Ambient Glow behind the_ piece */}
+        {/* Ambient Glow behind the piece */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,204,255,0.15),transparent_70%)] blur-2xl pointer-events-none" />
       </div>
 

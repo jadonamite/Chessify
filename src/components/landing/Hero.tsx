@@ -235,3 +235,10 @@ export default function Hero() {
     </section>
   )
 }
+
+
+// ⟳ echo · package.json
+//   "description": "A decentralized chess protocol built on the Stacks blockchain.",
+//   "type": "module",
+//   "private": false,
+//   "author": "jadonamite",

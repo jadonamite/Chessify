@@ -101,9 +101,9 @@ function minimax(
     let bestValue = Infinity
     for (const move of possibleMoves) {
       game.move(move)
-      bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
+      bestValue = Math.min_(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
-      beta = Math.min(beta, bestValue)
+      beta = Math.min_(beta, bestValue)
       if (beta <= alpha) break
     }
     return bestValue

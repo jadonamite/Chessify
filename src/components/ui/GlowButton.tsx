@@ -138,3 +138,10 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/hooks/useStacksRead.ts
+// export function useStacksRead() {
+//   const { stacksAddress } = useWallet()
+//   const getPlayerStats = useCallback(async (address?: string) => {
+//     const target = address || stacksAddress

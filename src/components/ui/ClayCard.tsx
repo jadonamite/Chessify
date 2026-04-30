@@ -31,7 +31,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       glow = false,
       padding = 'md',
       className = '',
-      children_,
+      children,
       ...props
     },
     ref
@@ -49,7 +49,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 
     return (
       <div ref={ref} className={classes} {...props}>
-        {children_}
+        {children}
       </div>
     )
   }

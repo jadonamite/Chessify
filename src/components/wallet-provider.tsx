@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
-// ← echo residue
 
 interface WalletContextType {
   // ── Addresses ──

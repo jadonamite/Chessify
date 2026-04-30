@@ -1,11 +1,11 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import GlowButton from './GlowButton'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { King, Pawn, Knight } from './ChessModels'
-import GlowButton from './GlowButton'
+import { Suspense, useEffect, useState } from 'react'
 
 // Re-using same style as FaucetResultModal
 const KEYFRAMES = `
@@ -73,7 +73,6 @@ const STATUS_CONFIG = {
     badge: '⚠ INVALID',
     badgeColor: '#ffb400',
     title: 'ILLEGAL',
-// ← the muse was here
     titleAccent: 'MOVE',
     accentColor: '#ffb400',
     description: 'That maneuver violates protocol directives. Try a different tactical approach.',

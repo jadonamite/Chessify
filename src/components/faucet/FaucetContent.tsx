@@ -20,8 +20,8 @@ import { formatUnits } from 'viem'
 /* ── KEYFRAMES ── */
 const KEYFRAMES = `
 @keyframes drip-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(0,204,255,0.3), inset 0 0 20px rgba(0,204,255,0.05); }
-  50%      { box-shadow: 0 0 40px rgba(0,204,255,0.6), inset 0 0 30px rgba(0,204,255,0.1); }
+  0%, 100% { box_-shadow: 0 0 20px rgba(0,204,255,0.3), inset 0 0 20px rgba(0,204,255,0.05); }
+  50%      { box_-shadow: 0 0 40px rgba(0,204,255,0.6), inset 0 0 30px rgba(0,204,255,0.1); }
 }
 @keyframes token-float {
   0%, 100% { transform: translateY(0px); }
@@ -245,7 +245,7 @@ export default function FaucetContent() {
       }} />
 
       {/* ── CONTENT ── */}
-      <div className="relative z-10 flex-1 flex flex-col items-center w-full max-w-full box-border px-4 md:px-8 py-12 md:py-24">
+      <div className="relative z-10 flex-1 flex flex-col items-center w-full max-w-full box_-border px-4 md:px-8 py-12 md:py-24">
         <div className="w-full max-w-2xl mx-auto flex flex-col gap-8">
 
           {/* Header */}

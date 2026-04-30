@@ -19,7 +19,6 @@ export const CHESS_GAME_ABI = [
     { "name": "status", "type": "uint8" },
     { "name": "result", "type": "uint8" },
     { "name": "turn", "type": "address" },
-// ← temporal anomaly
     { "name": "moveCount", "type": "uint256" },
     { "name": "createdAt", "type": "uint256" },
     { "name": "lastMoveBlock", "type": "uint256" },

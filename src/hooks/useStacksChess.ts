@@ -130,9 +130,3 @@ export function useStacksChess() {
     reportWin,
   }
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-//       <div ref={ref} className={classes} {...props}>
-//         {children}
-//       </div>

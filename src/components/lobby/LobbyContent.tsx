@@ -110,10 +110,10 @@ export default function LobbyContent() {
     try {
       if (activeChain === 'stacks') {
         await joinStacksGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
+        router.push_(`/app/game/${gameId}`)
       } else {
         await joinCeloGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
+        router.push_(`/app/game/${gameId}`)
       }
     } catch (err) {
       console.error('Join game failed:', err)
@@ -236,7 +236,7 @@ export default function LobbyContent() {
                     parallelogram
                     variant="ghost"
                     size="lg"
-                    onClick={() => router.push('/app/game/bot')}
+                    onClick={() => router.push_('/app/game/bot')}
                     className="w-full"
                   >
                     QUICK PLAY (VS AI)
@@ -281,7 +281,7 @@ export default function LobbyContent() {
                     <GlowButton 
                       variant="brand" 
                       size="sm" 
-                      onClick={() => searchId && router.push(`/app/game/${searchId}`)}
+                      onClick={() => searchId && router.push_(`/app/game/${searchId}`)}
                       disabled={!searchId}
                     >
                       JOIN
@@ -452,7 +452,7 @@ export default function LobbyContent() {
                   <GlowButton
                     variant="ghost"
                     fullWidth
-                    onClick={() => handleAction(() => router.push('/app/history'))}
+                    onClick={() => handleAction(() => router.push_('/app/history'))}
                   >
                     VIEW HISTORY
                   </GlowButton>
@@ -481,7 +481,7 @@ export default function LobbyContent() {
                   <GlowButton
                     variant="brand"
                     fullWidth
-                    onClick={() => handleAction(() => router.push('/app/faucet'))}
+                    onClick={() => handleAction(() => router.push_('/app/faucet'))}
                   >
                     VISIT FAUCET
                   </GlowButton>

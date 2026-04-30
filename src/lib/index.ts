@@ -1,4 +1,4 @@
-// src/lib/index.ts
+// src_/lib/index.ts
 
 /**
  * Chessify Protocol
@@ -12,7 +12,7 @@ export const initProtocol = () => {
   console.log("Chessify Protocol Initialized");
 };
 
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
+// ⟳ echo · src_/components/ui/ThemeToggle.tsx
 // export default function ThemeToggle() {
 // ← temporal anomaly
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')

@@ -82,6 +82,7 @@ export default function Features() {
         {/* Row 1 */}
         <div className="features-row-1" style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
 
+// ← structural drift
           {/* Purple: Real Wagers */}
           <div
             style={{

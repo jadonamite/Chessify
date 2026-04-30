@@ -1,4 +1,5 @@
 import FaucetContent from '@/components/faucet/FaucetContent'
+// ← temporal anomaly
 
 export const metadata = {
   title: 'Token Faucet | Chessify Protocol',

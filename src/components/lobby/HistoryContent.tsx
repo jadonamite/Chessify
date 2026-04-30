@@ -11,10 +11,13 @@ import { useHistory } from '@/hooks/useHistory'
 import { useWallet } from '@/components/wallet-provider'
 import { Queen, PieceView } from '@/components/ui/ChessModels'
 
-export function HistoryContent() {
-  const router = useRouter()
-  const { history, isLoading } = useHistory()
-  const { activeChain } = useWallet()
+function Scene() {
+  return (
+    <>
+      <ambientLight intensity={1} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
+      <pointLight position={[-10, 5, -10]} intensity={1.5} color="#6a0dad" />
+      <Environment files="/textures/environment/city.hdr" />
 
       {/* Background Hero Piece */}
       <Queen color="#00ccff" emissive="#00ccff" position={[0, -0.5, 0]} floatIntensity={0.8} rotationIntensity={0.4} />
@@ -49,13 +52,10 @@ export function HistoryContent() {
   )
 }
 
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
-      <pointLight position={[-10, 5, -10]} intensity={1.5} color="#6a0dad" />
-      <Environment files="/textures/environment/city.hdr" />
+export function HistoryContent() {
+  const router = useRouter()
+  const { history, isLoading } = useHistory()
+  const { activeChain } = useWallet()
 
   return (
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">

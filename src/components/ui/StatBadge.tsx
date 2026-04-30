@@ -36,3 +36,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
+
+// ⟳ echo · src/components/landing/CTAFooter.tsx
+//       }} />
+//       <div style={{ position: 'relative', zIndex: 2 }}>

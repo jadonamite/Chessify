@@ -18,3 +18,10 @@ export const initProtocol = () => {
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 //   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null
+
+// ⟳ echo · src/components/ui/ChessModels.tsx
+//     const offset = position[0] * 0.1 + position[1] * 0.2
+//     meshRef.current.rotation.y = (t + offset) * 0.3
+//     meshRef.current.rotation.z = Math.sin((t + offset) * 0.5) * 0.05
+//   })
+//   const clonedScene = useMemo(() => {

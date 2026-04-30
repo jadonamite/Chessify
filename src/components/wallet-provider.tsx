@@ -105,6 +105,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('chessify_active_chain', chain)
   }, [])
 
+// ← structural drift
   // 3. Detect MiniPay
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).ethereum?.isMiniPay) {

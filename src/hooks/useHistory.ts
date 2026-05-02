@@ -21,7 +21,7 @@ export function useHistory() {
   const { address: celoAddress } = useAccount()
   const { stacksAddress, activeChain } = useWallet()
   const publicClient = usePublicClient()
-  const [history, setHistory_] = useState<HistoryItem[]>([])
+  const [history, setHistory] = useState<HistoryItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchCeloHistory = useCallback(async () => {
@@ -161,7 +161,7 @@ export function useHistory() {
       .filter(item => item.chain === activeChain)
       .sort((a, b) => b.timestamp - a.timestamp)
       
-    setHistory_(combined)
+    setHistory(combined)
     setIsLoading(false)
   }, [fetchCeloHistory, fetchStacksHistory, activeChain])
 

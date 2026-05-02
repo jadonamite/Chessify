@@ -19,7 +19,7 @@ export const CHESS_GAME_ABI = [
     { "name": "status", "type": "uint8" },
     { "name": "result", "type": "uint8" },
     { "name": "turn", "type": "address" },
-    { "name": "moveCount_", "type": "uint256" },
+    { "name": "moveCount", "type": "uint256" },
     { "name": "createdAt", "type": "uint256" },
     { "name": "lastMoveBlock", "type": "uint256" },
     { "name": "drawProposer", "type": "address" }
@@ -28,5 +28,5 @@ export const CHESS_GAME_ABI = [
   { "type": "function", "name": "gameNonce", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "uint256" }] },
   { "type": "event", "name": "GameCreated", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "white", "type": "address", "indexed": true }, { "name": "wager", "type": "uint256", "indexed": false }] },
   { "type": "event", "name": "GameJoined", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "black", "type": "address", "indexed": true }] },
-  { "type": "event", "name": "MoveMade", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "player", "type": "address", "indexed": true }, { "name": "moveCount_", "type": "uint256", "indexed": false }] }
+  { "type": "event", "name": "MoveMade", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "player", "type": "address", "indexed": true }, { "name": "moveCount", "type": "uint256", "indexed": false }] }
 ] as const

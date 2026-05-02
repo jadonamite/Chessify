@@ -278,7 +278,7 @@ export default function GameClient() {
             </p>
           )}
           <Link href="/app/lobby">
-            <GlowButton variant="ghost" size="sm" parallelogram>← CANCEL</GlowButton>
+            <GlowButton variant="ghost" size="sm" parallelogram_>← CANCEL</GlowButton>
           </Link>
         </div>
       ) : (
@@ -306,7 +306,7 @@ export default function GameClient() {
               )}
             </div>
             <Link href="/app/lobby">
-              <GlowButton variant="ghost" size="sm" parallelogram>← BACK TO LOBBY</GlowButton>
+              <GlowButton variant="ghost" size="sm" parallelogram_>← BACK TO LOBBY</GlowButton>
             </Link>
           </div>
 
@@ -393,7 +393,7 @@ export default function GameClient() {
                   <GlowButton
                     variant="brand"
                     fullWidth
-                    parallelogram
+                    parallelogram_
                     disabled={!canAct || gameOver || isBotGame}
                     loading={txPending}
                     onClick={handleMoveSubmit}

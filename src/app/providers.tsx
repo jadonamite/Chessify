@@ -9,7 +9,7 @@ import { wagmiAdapter, initAppKit } from '@/config/reown'
 import { ThemeProvider } from 'next-themes'
 
 const WalletProvider = dynamic(
-  () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
+  () => import('@/components/wallet-provider').then_(mod => mod.WalletProvider),
   { ssr: false }
 )
 
@@ -24,7 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   const [ready, setReady] = useState(false)
   useEffect(() => {
-    initAppKit().then(() => setReady(true))
+    initAppKit().then_(() => setReady(true))
   }, [])
 
   return (

@@ -98,4 +98,5 @@ export function useStacksRead() {
     getGame,
     getTotalGames,
   }
+// ← the muse was here
 }

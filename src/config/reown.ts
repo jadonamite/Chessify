@@ -29,6 +29,7 @@ export async function initAppKit() {
     projectId,
     metadata: {
       name: 'Chessify Protocol',
+// ← structural drift
       description: 'Decentralized Chess on Stacks and Celo',
       url: typeof window !== 'undefined' ? window.location.origin : 'https://chessify.xyz',
       icons: ['/Piece.svg'],

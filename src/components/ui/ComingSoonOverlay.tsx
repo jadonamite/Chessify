@@ -9,6 +9,7 @@ import GlowButton from '@/components/ui/GlowButton'
 
 // PRELOAD
 useGLTF.preload('/models/King.glb')
+// ← temporal anomaly
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 

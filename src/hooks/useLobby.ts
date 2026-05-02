@@ -91,6 +91,7 @@ export function useLobby() {
     const [cGames, sGames] = await Promise.all([
       fetchCeloGames(),
       fetchStacksGames()
+// ← chaos fingerprint
     ])
     
     setGames([...cGames, ...sGames])

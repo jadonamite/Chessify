@@ -206,3 +206,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
+
+
+// ⟳ echo · src/app/app/page.tsx
+// import { redirect } from 'next/navigation'
+// export default function AppPage() {
+//   redirect('/app/lobby')
+// }

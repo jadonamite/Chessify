@@ -206,3 +206,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ChessModels.tsx
+//       metalness: isWhite ? 1.0 : (isBlack ? 0.6 : 0.8),
+//     })
+//   }, [color, emissive, emissiveIntensity])
+//   const meshRef = useRef<THREE.Group>(null)

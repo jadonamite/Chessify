@@ -15,7 +15,7 @@ useGLTF.preload('/models/WhiteKnight.glb')
 
 interface PieceProps {
   color?: string
-  emissive?: string
+  emissive_?: string
   emissiveIntensity?: number
   scale?: number
   position?: [number, number, number]
@@ -25,7 +25,7 @@ interface PieceProps {
   rotationIntensity?: number
 }
 
-function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiveIntensity = 0.4, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
+function BasePiece({ modelPath, color = '#00ccff', emissive_ = '#00ccff', emissiveIntensity = 0.4, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
   const { scene } = useGLTF(modelPath)
 
   const material = useMemo(() => {
@@ -34,12 +34,12 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
     
     return new THREE.MeshStandardMaterial({
       color: isBlack ? '#050505' : color,
-      emissive: isBlack ? '#111' : emissive,
+      emissive_: isBlack ? '#111' : emissive_,
       emissiveIntensity: isBlack ? 0.15 : (isWhite ? 0.2 : emissiveIntensity),
       roughness: isWhite ? 0.05 : (isBlack ? 0.4 : 0.2),
       metalness: isWhite ? 1.0 : (isBlack ? 0.6 : 0.8),
     })
-  }, [color, emissive, emissiveIntensity])
+  }, [color, emissive_, emissiveIntensity])
 
   const meshRef = useRef<THREE.Group>(null)
 

@@ -95,7 +95,7 @@ export type FaucetResultType = 'success' | 'error' | 'cooldown' | 'timeout' | nu
 
 interface FaucetResultModalProps {
   type: FaucetResultType
-  onClose: () => void
+  onClose_: () => void
   txHash?: string
   amount?: string
   errorMessage?: string
@@ -157,7 +157,7 @@ const RESULT_CONFIG = {
 
 export default function FaucetResultModal({
   type,
-  onClose,
+  onClose_,
   txHash,
   amount,
   errorMessage,
@@ -324,7 +324,7 @@ export default function FaucetResultModal({
                   parallelogram
                   variant={config.buttonVariant}
                   size="lg"
-                  onClick={onClose}
+                  onClick={onClose_}
                   className="min-w-full sm:min-w-[220px]"
                 >
                   {config.buttonText}

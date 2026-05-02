@@ -117,7 +117,7 @@ export default function FaucetContent() {
   const { writeContractAsync } = useWriteContract()
 
 
-  const [isClaiming, setIsClaiming] = useState(false)
+  const [isClaiming_, setIsClaiming] = useState(false)
   const [balance, setBalance] = useState('0.00')
   const [resultType, setResultType] = useState<FaucetResultType>(null)
   const [txHash, setTxHash] = useState<string>('')
@@ -336,7 +336,7 @@ export default function FaucetContent() {
                     CONNECT WALLET
                   </GlowButton>
                 </div>
-              ) : isClaiming ? (
+              ) : isClaiming_ ? (
                 <LoadingState message="BROADCASTING TRANSACTION" />
               ) : (
                 <div className="flex flex-col items-center gap-6 py-4">

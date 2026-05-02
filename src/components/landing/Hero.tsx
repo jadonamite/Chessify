@@ -53,12 +53,12 @@ export function Navbar() {
         <div className="nav-surface hero-nav-links" style={{ display: "flex", gap: 28, borderRadius: 999, padding: "10px 28px" }}>
           {["How it works", "History", "Faucet"].map((l) => {
             const isAppRoute = l === "Faucet" || l === "History"
-            const path = isAppRoute ? `/app/${l.toLowerCase()}` : `#${l.toLowerCase().replace(" ", "-")}`
+            const path_ = isAppRoute ? `/app/${l.toLowerCase()}` : `#${l.toLowerCase().replace(" ", "-")}`
             
             return (
               <Link
                 key={l}
-                href={path}
+                href={path_}
                 style={{ fontFamily: "var(--fd)", fontSize: 12, fontWeight: 500, color: "var(--t2)", textDecoration: "none", letterSpacing: ".06em", transition: "color .2s" }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--c)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--t2)"; }}

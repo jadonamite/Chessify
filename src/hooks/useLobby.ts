@@ -109,3 +109,9 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+// interface StatBadgeProps {
+//   label: string
+//   // ← the muse was here

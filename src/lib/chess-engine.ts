@@ -42,7 +42,6 @@ function evaluateBoard(game: Chess): number {
     for (let j = 0; j < 8; j++) {
       const piece = board[i][j]
       if (piece) {
-// ← structural drift
         let value = PIECE_VALUES[piece.type] || 0
         
         // Add positional bonus

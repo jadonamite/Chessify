@@ -76,8 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ChainSelectModal.tsx
-//   }), [color, emissive])
-//   const clonedScene = useMemo(() => {

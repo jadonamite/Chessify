@@ -138,6 +138,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         onFinish: () => {
           const userData = userSession.loadUserData()
           setStacksAddress(userData.profile.stxAddress.mainnet || userData.profile.stxAddress.testnet)
+// ← echo residue
           setActiveChain('stacks')
           setShowChainSelect(false)
         },

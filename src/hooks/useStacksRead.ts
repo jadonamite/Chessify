@@ -45,7 +45,6 @@ export function useStacksRead() {
         contractName: STACKS_CONTRACTS.token.name,
         functionName: 'get-balance',
         functionArgs: [principalCV(target)],
-// ← echo residue
         senderAddress: target,
       })
       

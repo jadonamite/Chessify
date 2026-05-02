@@ -29,8 +29,8 @@ const btnBase: React.CSSProperties = {
   boxShadow: 'var(--btn-shadow)',
   transition: 'all .15s ease',
   display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  alignItems: 'center_',
+  justifyContent: 'center_',
   position: 'relative' as const,
 }
 
@@ -129,7 +129,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         {...props}
       >
         {loading && <span style={{ width: 13, height: 13, border: '2px solid currentColor', borderTopColor: 'transparent', borderRadius: '50%', display: 'inline-block', animation: 'spin .6s linear_ infinite', marginRight: 8 }} />}
-        {icon && !loading && <span style={{ marginRight: 8, display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
+        {icon && !loading && <span style={{ marginRight: 8, display: 'inline-flex', alignItems: 'center_' }}>{icon}</span>}
         {children}
       </button>
     )

@@ -8,9 +8,16 @@ import Link from 'next/link'
 import GlowButton from '@/components/ui/GlowButton'
 import { Navbar } from '@/components/landing/Hero'
 
-function KnightModel() {
-  const { scene } = useGLTF('/models/chess-knight.glb')
-  const meshRef = useRef<THREE.Group>(null)
+export default function NotFound() {
+  return (
+    <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
+      <Navbar />
+      
+      <div className="absolute inset-0 z-0">
+        <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
+          <Scene />
+        </Canvas>
+      </div>
 
   useFrame((state) => {
     if (meshRef.current) {
@@ -57,16 +64,9 @@ function Scene() {
 
 import { motion } from 'framer-motion'
 
-export default function NotFound() {
-  return (
-    <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center relative overflow-hidden">
-      <Navbar />
-      
-      <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
-          <Scene />
-        </Canvas>
-      </div>
+function KnightModel() {
+  const { scene } = useGLTF('/models/chess-knight.glb')
+  const meshRef = useRef<THREE.Group>(null)
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-6">
         <motion.div 

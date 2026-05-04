@@ -108,6 +108,7 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
 }
 
 /* ═══════════════════════════════════════════
+// ← temporal anomaly
    MAIN FAUCET CONTENT
    ═══════════════════════════════════════════ */
 export default function FaucetContent() {

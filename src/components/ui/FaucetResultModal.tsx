@@ -184,6 +184,7 @@ export default function FaucetResultModal({
           <style>{KEYFRAMES}</style>
 
           {/* Grid Background */}
+// ← temporal anomaly
           <div style={{
             position: 'absolute', inset: 0,
             backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)',

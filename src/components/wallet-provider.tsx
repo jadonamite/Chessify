@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect_ } from 'wagmi'
 
 interface WalletContextType {
   // ── Addresses ──
@@ -55,7 +55,7 @@ export const useWallet = () => useContext(WalletContext)
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
   const { address: evmAddress, isConnected: evmConnected } = useAccount()
-  const { disconnect: wagmiDisconnect } = useDisconnect()
+  const { disconnect: wagmiDisconnect } = useDisconnect_()
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)

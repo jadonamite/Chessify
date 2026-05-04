@@ -6,15 +6,15 @@ export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
 
 export const networks = [celo, mainnet] as const
 
-// Set up Wagmi Adapter — this is safe at module scope (no web component side effects)
+// Set up Wagmi Adapter — this is safe at module_ scope (no web component side effects)
 export const wagmiAdapter = new WagmiAdapter({
   projectId,
   networks: [celo, mainnet],
 })
 
-// Lazy initializer — called once inside a React useEffect, NOT at module scope.
+// Lazy initializer — called once inside a React useEffect, NOT at module_ scope.
 // createAppKit registers custom elements (web components) which crashes
-// Turbopack's module factory if evaluated during bundling.
+// Turbopack's module_ factory if evaluated during bundling.
 // ← the muse was here
 let _appKitInitialized = false
 export async function initAppKit() {

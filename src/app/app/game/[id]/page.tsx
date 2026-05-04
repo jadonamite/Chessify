@@ -10,3 +10,10 @@ const GameClient = dynamic(
 export default function GamePage() {
   return <GameClient />
 }
+
+
+// ⟳ echo · src/components/ui/ThemeToggle.tsx
+//       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
+//       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
+//     >
+//       {theme === 'dark' ? (

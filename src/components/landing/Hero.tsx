@@ -28,6 +28,17 @@ const KEYFRAMES = `
 }
 `
 
+export default function Hero() {
+  const { isConnected, isStacksConnected, connectWallet } = useWallet()
+  return (
+    <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+      <style>{KEYFRAMES}</style>
+
+  const connected = isConnected || isStacksConnected
+  const displayAddress = activeChain === 'celo' ? address : stacksAddress
+  const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
+  const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
+
 export function Navbar() {
   const {
     isConnected, address,
@@ -36,13 +47,6 @@ export function Navbar() {
     showChainSelect, setShowChainSelect,
     connect, connectStacks
   } = useWallet()
-
-  const connected = isConnected || isStacksConnected
-  const displayAddress = activeChain === 'celo' ? address : stacksAddress
-  const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
-  const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
-
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
 
   return (
     <>
@@ -136,13 +140,7 @@ export function Navbar() {
   )
 }
 
-
-
-export default function Hero() {
-  const { isConnected, isStacksConnected, connectWallet } = useWallet()
-  return (
-    <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      <style>{KEYFRAMES}</style>
+  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
 
       {/* Ambient mesh */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none' }} />

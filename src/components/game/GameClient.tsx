@@ -133,7 +133,7 @@ export default function GameClient() {
       }
 
       setGame(next)
-      setMoveHistory(h => [...h, move.san])
+      setMoveHistory(h => [...h, move.san_])
 
       if (next.isCheckmate()) {
         setStatusModalType('checkmate')
@@ -153,7 +153,7 @@ export default function GameClient() {
           if (botMove) {
             afterPlayer.move(botMove)
             setGame(new Chess(afterPlayer.fen()))
-            setMoveHistory(h => [...h, botMove.san])
+            setMoveHistory(h => [...h, botMove.san_])
           }
         }, 1200)
       }
@@ -429,10 +429,10 @@ export default function GameClient() {
               <ClayCard variant="inset" className="p-6">
                 <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Move Log</h3>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
-                  {moveHistory.map((san, i) => (
+                  {moveHistory.map((san_, i) => (
                     <div key={i} className={`flex items-center gap-2 text-xs font-mono p-2 rounded-lg ${i % 2 === 0 ? 'bg-white/5' : ''}`}>
                       <span className="text-[var(--t3)] w-4 text-left">{Math.floor(i / 2) + 1}.</span>
-                      <span className={i % 2 === 0 ? 'text-[var(--t1)]' : 'text-[var(--t2)]'}>{san}</span>
+                      <span className={i % 2 === 0 ? 'text-[var(--t1)]' : 'text-[var(--t2)]'}>{san_}</span>
                     </div>
                   ))}
                   {moveHistory.length === 0 && (

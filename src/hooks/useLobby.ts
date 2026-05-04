@@ -109,3 +109,11 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/hooks/useStacksRead.ts
+//       console.error('Failed to fetch token balance:', err)
+//       return 0n
+//     }
+//   }, [stacksAddress])
+//   const getGame = useCallback(async (gameId: number) => {

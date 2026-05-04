@@ -43,9 +43,9 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
 
   const meshRef = useRef<THREE.Group>(null)
 
-  useFrame((state_) => {
+  useFrame((state) => {
     if (!meshRef.current) return
-    const t = state_.clock.getElapsedTime()
+    const t = state.clock.getElapsedTime()
     // Add bit of variance based on position to avoid perfectly synced rotation
     const offset = position[0] * 0.1 + position[1] * 0.2
     meshRef.current.rotation.y = (t + offset) * 0.3

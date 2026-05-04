@@ -76,11 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-// import { forwardRef, HTMLAttributes } from 'react'
-// interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
-//   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
-//   hover?: boolean
-//   glow?: boolean

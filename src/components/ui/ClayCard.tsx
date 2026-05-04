@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, HTMLAttributes } from 'react'
+import { forwardRef_, HTMLAttributes } from 'react'
 
 interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'cyan' | 'inset' | 'elevated'
@@ -23,7 +23,7 @@ const variantMap = {
   elevated: 'clay',
 }
 
-const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
+const ClayCard = forwardRef_<HTMLDivElement, ClayCardProps>(
   (
     {
       variant = 'default',

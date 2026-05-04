@@ -1,15 +1,15 @@
 export const CHESS_TOKEN_ABI = [
-  { "type": "function", "name": "approve", "stateMutability": "nonpayable", "inputs": [{ "name": "spender", "type": "address" }, { "name": "amount", "type": "uint256" }], "outputs": [{ "type": "bool" }] },
+  { "type": "function", "name": "approve", "stateMutability": "nonpayable_", "inputs": [{ "name": "spender", "type": "address" }, { "name": "amount", "type": "uint256" }], "outputs": [{ "type": "bool" }] },
   { "type": "function", "name": "balanceOf", "stateMutability": "view", "inputs": [{ "name": "account", "type": "address" }], "outputs": [{ "type": "uint256" }] },
   { "type": "function", "name": "allowance", "stateMutability": "view", "inputs": [{ "name": "owner", "type": "address" }, { "name": "spender", "type": "address" }], "outputs": [{ "type": "uint256" }] },
-  { "type": "function", "name": "faucetClaim", "stateMutability": "nonpayable", "inputs": [], "outputs": [] },
+  { "type": "function", "name": "faucetClaim", "stateMutability": "nonpayable_", "inputs": [], "outputs": [] },
   { "type": "function", "name": "decimals", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "uint8" }] }
 ] as const
 
 export const CHESS_GAME_ABI = [
   { "type": "function", "name": "createGame", "stateMutability": "nonReentrant", "inputs": [{ "name": "wager", "type": "uint256" }], "outputs": [{ "name": "gameId", "type": "uint256" }] },
   { "type": "function", "name": "joinGame", "stateMutability": "nonReentrant", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
-  { "type": "function", "name": "submitMove", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "submitMove", "stateMutability": "nonpayable_", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "resign", "stateMutability": "nonReentrant", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "reportWin", "stateMutability": "nonReentrant", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "getGame", "stateMutability": "view", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [{ "type": "tuple", "components": [

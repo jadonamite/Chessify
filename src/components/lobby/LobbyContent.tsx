@@ -559,8 +559,3 @@ export default function LobbyContent() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/app/app/lobby/page.tsx
-//   () => import('@/components/lobby/LobbyContent'),
-//   { ssr: false }

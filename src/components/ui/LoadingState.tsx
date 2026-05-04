@@ -91,11 +91,3 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
     </div>
   )
 }
-
-
-// ⟳ echo · src/components/wallet-provider.tsx
-//       disconnect()
-//     } else {
-//       disconnectStacks()
-//     }
-//     // Also disconnect the other if both happen to be connected

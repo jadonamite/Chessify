@@ -1,14 +1,14 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { celo, mainnet } from '@reown/appkit/networks'
 
-// Get projectId_ from environment variables
-export const projectId_ = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
+// Get projectId from environment variables
+export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
 
 export const networks = [celo, mainnet] as const
 
 // Set up Wagmi Adapter — this is safe at module scope (no web component side effects)
 export const wagmiAdapter = new WagmiAdapter({
-  projectId_,
+  projectId,
   networks: [celo, mainnet],
 })
 
@@ -26,7 +26,7 @@ export async function initAppKit() {
   createAppKit({
     adapters: [wagmiAdapter],
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],
-    projectId_,
+    projectId,
     metadata: {
       name: 'Chessify Protocol',
       description: 'Decentralized Chess on Stacks and Celo',

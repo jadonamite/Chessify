@@ -175,3 +175,8 @@ export function useHistory() {
     refreshHistory
   }
 }
+
+
+// ⟳ echo · src/hooks/useLobby.ts
+//     try {
+//       const nonce = await publicClient.readContract({

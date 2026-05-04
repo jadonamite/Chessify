@@ -35,7 +35,7 @@ export function useStacksRead() {
     }
   }, [stacksAddress])
 
-  const getTokenBalance_ = useCallback(async (address?: string) => {
+  const getTokenBalance = useCallback(async (address?: string) => {
     const target = address || stacksAddress
     if (!target) return 0n
 
@@ -94,7 +94,7 @@ export function useStacksRead() {
 
   return {
     getPlayerStats,
-    getTokenBalance_,
+    getTokenBalance,
     getGame,
     getTotalGames,
   }

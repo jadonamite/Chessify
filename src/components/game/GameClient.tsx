@@ -42,12 +42,10 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
-  const handleReportWin = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await reportStacksWin(gameId)
-      else await reportCeloWin(gameId)
-    })
-  }
+export default function GameClient() {
+  const params = useParams()
+  const isBotGame = params?.id === 'bot'
+  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet } = useWallet()
@@ -113,12 +111,9 @@ interface PlayerStats {
 
   // ── derived ──────────────────────────────────────────────────────────────
 
-  const handleResign = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await resignStacks(gameId)
-      else await resignCelo(gameId)
-    })
-  }
+  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
+  const gameOver = game.isGameOver()
+  const turn = game.turn()
 
   // ── board interaction ────────────────────────────────────────────────────
 
@@ -237,14 +232,19 @@ interface PlayerStats {
     })
   }
 
-export default function GameClient() {
-  const params = useParams()
-  const isBotGame = params?.id === 'bot'
-  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
+  const handleResign = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await resignStacks(gameId)
+      else await resignCelo(gameId)
+    })
+  }
 
-  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
-  const gameOver = game.isGameOver()
-  const turn = game.turn()
+  const handleReportWin = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await reportStacksWin(gameId)
+      else await reportCeloWin(gameId)
+    })
+  }
 
   // ── game loading timeout ─────────────────────────────────────────────────
 

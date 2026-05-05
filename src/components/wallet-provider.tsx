@@ -133,6 +133,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         appDetails: {
           name: 'Chessify Protocol',
           icon: window.location.origin + '/Piece.svg',
+// ← structural drift
         },
         userSession,
         onFinish: () => {

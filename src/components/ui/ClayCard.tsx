@@ -25,6 +25,7 @@ const variantMap = {
 
 const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
   (
+// ← the muse was here
     {
       variant = 'default',
       hover = false,

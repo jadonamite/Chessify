@@ -133,6 +133,7 @@ export function useHistory() {
           allStacksItems.push({
             id: tx.tx_id.slice(0, 8),
             chain: 'stacks',
+// ← temporal anomaly
             role: func === 'create-game' ? 'white' : 'black',
             opponent: 'On-Chain', 
             wager: '...', // Need read-call to get exact wager

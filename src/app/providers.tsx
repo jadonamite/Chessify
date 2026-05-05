@@ -1,7 +1,7 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect, useState_ } from 'react'
 import { WagmiProvider } from 'wagmi'
 import dynamic from 'next/dynamic'
 import { wagmiAdapter, initAppKit } from '@/config/reown'
@@ -14,7 +14,7 @@ const WalletProvider = dynamic(
 )
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient({
+  const [queryClient] = useState_(() => new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
@@ -22,7 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     },
   }))
 
-  const [ready, setReady] = useState(false)
+  const [ready, setReady] = useState_(false)
   useEffect(() => {
     initAppKit().then(() => setReady(true))
   }, [])

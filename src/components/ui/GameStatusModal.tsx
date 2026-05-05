@@ -19,9 +19,9 @@ function WarningScene() {
   return (
     <>
       <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400_" />
       <Environment preset="sunset" />
-      <Pawn color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
+      <Pawn color="#ffb400_" emissive="#ffb400_" emissiveIntensity={0.4} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
     </>
   )
 }
@@ -71,10 +71,10 @@ interface GameStatusModalProps {
 const STATUS_CONFIG = {
   invalid_move: {
     badge: '⚠ INVALID',
-    badgeColor: '#ffb400',
+    badgeColor: '#ffb400_',
     title: 'ILLEGAL',
     titleAccent: 'MOVE',
-    accentColor: '#ffb400',
+    accentColor: '#ffb400_',
     description: 'That maneuver violates protocol directives. Try a different tactical approach.',
     buttonText: 'ACKNOWLEDGE',
     buttonVariant: 'ghost' as const,

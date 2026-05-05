@@ -12,10 +12,3 @@ export default function LandingPage() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Hero.tsx
-//         </div>
-//       </nav>
-//       {/* Chain Select Modal */}
-//       <ChainSelectModal

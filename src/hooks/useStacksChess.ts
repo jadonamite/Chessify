@@ -20,7 +20,7 @@ export function useStacksChess() {
     const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
 
     const postCondition = Pc.principal(stacksAddress)
-      .willSendEq_(microWager)
+      .willSendEq(microWager)
       .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
 
     return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ export function useStacksChess() {
     const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
 
     const postCondition = Pc.principal(stacksAddress)
-      .willSendEq_(microWager)
+      .willSendEq(microWager)
       .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
 
     return new Promise((resolve, reject) => {

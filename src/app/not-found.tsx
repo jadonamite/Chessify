@@ -74,7 +74,6 @@ export default function NotFound() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-// ← echo residue
            <h1 className="text-[12rem] md:text-[20rem] font-black leading-none tracking-tighter text-white/5 select-none">
              404
            </h1>

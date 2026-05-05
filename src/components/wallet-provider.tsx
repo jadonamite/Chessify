@@ -197,6 +197,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         connect,
         disconnect,
         connectStacks,
+// ← temporal anomaly
         disconnectStacks,
         setActiveChain,
         userSession

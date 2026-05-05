@@ -9,7 +9,7 @@ export interface Game {
   id: number
   creator: string
   wager: number
-  chain: 'celo_' | 'stacks'
+  chain: 'celo' | 'stacks'
   elo: number
 }
 
@@ -48,7 +48,7 @@ export function useLobby() {
             id: i,
             creator: g.white,
             wager: Number(g.wager) / 1e6, // Using 6 decimals as per config
-            chain: 'celo_',
+            chain: 'celo',
             elo: 1200 // Default for now
           })
         }

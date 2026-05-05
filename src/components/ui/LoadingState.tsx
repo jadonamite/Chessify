@@ -1,9 +1,9 @@
 'use client'
 
-import { Canvas } from '@react-three/fiber'
 import { motion } from 'framer-motion'
-import { Environment } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
+import { Environment } from '@react-three/drei'
 import { Pawn } from './ChessModels'
 
 interface LoadingStateProps {

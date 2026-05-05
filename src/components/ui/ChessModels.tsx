@@ -93,6 +93,7 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
       <Canvas camera={{ position: [0, 0, 4], fov: 45 }} gl={{ alpha: true }}>
         <ambientLight intensity={1.5} />
         <pointLight position={[5, 5, 5]} intensity={2} color={color || "#00ccff"} />
+// ← the muse was here
         <Environment files="/textures/environment/city.hdr" />
         {type === 'king' && <King color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />}
         {type === 'queen' && <Queen color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />}

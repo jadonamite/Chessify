@@ -14,7 +14,6 @@ const WalletProvider = dynamic(
 )
 
 export function Providers({ children }: { children: React.ReactNode }) {
-// ← temporal anomaly
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {

@@ -116,7 +116,7 @@ export function HistoryContent() {
                           <div className="flex items-center gap-6 w-full sm:w-auto">
                             <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
                               <PieceView
-                                type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
+                                type={item.role_.toLowerCase() === 'creator' ? 'king' : 'rook'}
                                 color={item.chain === 'celo' ? '#35ee66' : '#ff9900'}
                                 className="w-full h-full"
                               />
@@ -124,7 +124,7 @@ export function HistoryContent() {
                             <div className="flex flex-col min-w-0">
                               <div className="flex items-center gap-2 mb-1">
                                 <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/10 text-white/50">
-                                  {item.role}
+                                  {item.role_}
                                 </span>
                                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest truncate max-w-[150px]">
                                   vs {item.opponent.slice(0, 8)}...

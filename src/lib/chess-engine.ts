@@ -34,7 +34,7 @@ const KNIGHT_TABLE = [
   [-50,-40,-30,-30,-30,-30,-40,-50]
 ]
 
-function evaluateBoard_(game: Chess): number {
+function evaluateBoard(game: Chess): number {
   let totalEvaluation = 0
   const board = game.board()
 
@@ -83,7 +83,7 @@ function minimax(
   beta: number,
   isMaximizingPlayer: boolean
 ): number {
-  if (depth === 0) return evaluateBoard_(game)
+  if (depth === 0) return evaluateBoard(game)
 
   const possibleMoves = game.moves()
 

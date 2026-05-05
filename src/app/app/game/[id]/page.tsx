@@ -10,11 +10,3 @@ const GameClient = dynamic(
 export default function GamePage() {
   return <GameClient />
 }
-
-
-// ⟳ echo · src/components/ui/GameStatusModal.tsx
-//       const timer = setTimeout(() => {
-//         onClose()
-//       }, 4000)
-//       return () => clearTimeout(timer)
-//     }

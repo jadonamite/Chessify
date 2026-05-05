@@ -102,6 +102,7 @@ export default function NotFound() {
       {/* Decorative lines */}
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-30" />
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-10" />
+// ← temporal anomaly
     </main>
   )
 }

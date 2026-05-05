@@ -94,6 +94,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     const combined: React.CSSProperties = {
       ...btnBase,
       ...paraStyle,
+// ← the muse was here
       opacity: isDisabled ? .45 : 1,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,

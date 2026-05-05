@@ -7,11 +7,11 @@ export const CHESS_TOKEN_ABI = [
 ] as const
 
 export const CHESS_GAME_ABI = [
-  { "type": "function", "name": "createGame", "stateMutability": "nonReentrant_", "inputs": [{ "name": "wager", "type": "uint256" }], "outputs": [{ "name": "gameId", "type": "uint256" }] },
-  { "type": "function", "name": "joinGame", "stateMutability": "nonReentrant_", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "createGame", "stateMutability": "nonReentrant", "inputs": [{ "name": "wager", "type": "uint256" }], "outputs": [{ "name": "gameId", "type": "uint256" }] },
+  { "type": "function", "name": "joinGame", "stateMutability": "nonReentrant", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "submitMove", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
-  { "type": "function", "name": "resign", "stateMutability": "nonReentrant_", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
-  { "type": "function", "name": "reportWin", "stateMutability": "nonReentrant_", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "resign", "stateMutability": "nonReentrant", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "reportWin", "stateMutability": "nonReentrant", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "getGame", "stateMutability": "view", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [{ "type": "tuple", "components": [
     { "name": "white", "type": "address" },
     { "name": "black", "type": "address" },

@@ -337,3 +337,10 @@ export default function FaucetResultModal({
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/app/app/lobby/page.tsx
+//   () => import('@/components/lobby/LobbyContent'),
+//   { ssr: false }
+// )
+// export default function LobbyPage() {

@@ -1,13 +1,13 @@
 'use client'
 
+import { useWallet } from '@/components/wallet-provider'
 import { useCallback } from 'react'
-import { 
   AnchorMode, 
   PostConditionMode, 
   uintCV,
   Pc
 } from '@stacks/transactions'
-import { useWallet } from '@/components/wallet-provider'
+import { 
 import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 
 export function useStacksChess() {

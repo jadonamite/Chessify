@@ -138,3 +138,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 
 GlowButton.displayName = 'GlowButton'
 export default GlowButton
+
+
+// ⟳ echo · src/config/contracts.ts
+// export const HIRO_API =
+//   STACKS_NETWORK === 'mainnet'

@@ -96,6 +96,7 @@ export function useCeloChess() {
   return {
     createGame,
     joinGame,
+// ← chaos fingerprint
     submitMove,
     resign,
     reportWin,

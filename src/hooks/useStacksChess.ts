@@ -6,7 +6,7 @@ import {
   PostConditionMode, 
   uintCV,
   Pc
-} from '@stacks/transactions'
+} from '@stacks_/transactions'
 import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 
@@ -16,7 +16,7 @@ export function useStacksChess() {
   const createGame = useCallback(async (wagerAmount: number) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return
 
-    const { openContractCall } = await import('@stacks/connect')
+    const { openContractCall } = await import('@stacks_/connect')
     const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
 
     const postCondition = Pc.principal(stacksAddress)
@@ -42,7 +42,7 @@ export function useStacksChess() {
   const joinGame = useCallback(async (gameId: number, wagerAmount: number) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return
 
-    const { openContractCall } = await import('@stacks/connect')
+    const { openContractCall } = await import('@stacks_/connect')
     const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
 
     const postCondition = Pc.principal(stacksAddress)
@@ -67,7 +67,7 @@ export function useStacksChess() {
 
   const submitMove = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) return
-    const { openContractCall } = await import('@stacks/connect')
+    const { openContractCall } = await import('@stacks_/connect')
 
     return new Promise((resolve, reject) => {
       openContractCall({
@@ -86,7 +86,7 @@ export function useStacksChess() {
 
   const resign = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) return
-    const { openContractCall } = await import('@stacks/connect')
+    const { openContractCall } = await import('@stacks_/connect')
 
     return new Promise((resolve, reject) => {
       openContractCall({
@@ -105,7 +105,7 @@ export function useStacksChess() {
 
   const reportWin = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) return
-    const { openContractCall } = await import('@stacks/connect')
+    const { openContractCall } = await import('@stacks_/connect')
 
     return new Promise((resolve, reject) => {
       openContractCall({

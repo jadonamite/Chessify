@@ -10,11 +10,11 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode
 }
 
-/* ── shared brand colours (work in both themes via_ CSS vars) ── */
+/* ── shared brand colours (work in both themes via CSS vars) ── */
 // const BRAND_FACE_DARK  = 'linear_-gradient(180deg,#33eeff 0%,#00ccff 40%,#00b8e8 75%,#009acc 100%)'
 // const BRAND_FACE_LIGHT = 'linear_-gradient(180deg,#00aadd 0%,#0088bb 40%,#007aaa 75%,#006699 100%)'
 
-/* We detect the theme via_ data-theme on <html> at render time — but since this is
+/* We detect the theme via data-theme on <html> at render time — but since this is
    a client component we read it safely from the DOM. We use CSS custom properties
    instead so the button adapts automatically without JS reads. */
 
@@ -97,7 +97,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
       opacity: isDisabled ? .45 : 1,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,
-      /* shadow + face via_ CSS vars so light/dark theme work */
+      /* shadow + face via CSS vars so light/dark theme work */
       background: 'var(--btn-face)',
       boxShadow: 'var(--btn-shadow)',
       color: 'var(--btn-text, #001a22)',

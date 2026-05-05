@@ -36,10 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/hooks/useStacksRead.ts
-//       const json = cvToJSON(result)
-//       return BigInt(json.value.value) // Clarity response (ok uint)
-//     } catch (err) {
-//       console.error('Failed to fetch token balance:', err)
-//       return 0n

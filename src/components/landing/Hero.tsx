@@ -28,11 +28,14 @@ const KEYFRAMES = `
 }
 `
 
-export default function Hero() {
-  const { isConnected, isStacksConnected, connectWallet } = useWallet()
-  return (
-    <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      <style>{KEYFRAMES}</style>
+export function Navbar() {
+  const {
+    isConnected, address,
+    isStacksConnected, stacksAddress,
+    activeChain, connectWallet, disconnectAll,
+    showChainSelect, setShowChainSelect,
+    connect, connectStacks
+  } = useWallet()
 
   const connected = isConnected || isStacksConnected
   const displayAddress = activeChain === 'celo' ? address : stacksAddress
@@ -133,14 +136,13 @@ export default function Hero() {
   )
 }
 
-export function Navbar() {
-  const {
-    isConnected, address,
-    isStacksConnected, stacksAddress,
-    activeChain, connectWallet, disconnectAll,
-    showChainSelect, setShowChainSelect,
-    connect, connectStacks
-  } = useWallet()
+
+
+export default function Hero() {
+  const { isConnected, isStacksConnected, connectWallet } = useWallet()
+  return (
+    <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+      <style>{KEYFRAMES}</style>
 
       {/* Ambient mesh */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none' }} />

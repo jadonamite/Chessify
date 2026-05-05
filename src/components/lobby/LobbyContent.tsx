@@ -85,7 +85,24 @@ export default function LobbyContent() {
 
   const { games: openGames, isLoading: isLobbyLoading, refresh: refreshLobby } = useLobby()
 
-  const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
+  const handleCreateGame = async () => {
+    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
+    setIsPending(true)
+    try {
+      if (activeChain === 'stacks') {
+        await createStacksGame(wager)
+        setIsCreateModalOpen(false)
+      } else {
+        await createCeloGame(wager)
+        setIsCreateModalOpen(false)
+      }
+      refreshLobby()
+    } catch (err) {
+      console.error('Create game failed:', err)
+    } finally {
+      setIsPending(false)
+    }
+  }
 
   const handleJoinGame = async (gameId: number, matchWager: number) => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
@@ -105,24 +122,7 @@ export default function LobbyContent() {
     }
   }
 
-  const handleCreateGame = async () => {
-    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
-    setIsPending(true)
-    try {
-      if (activeChain === 'stacks') {
-        await createStacksGame(wager)
-        setIsCreateModalOpen(false)
-      } else {
-        await createCeloGame(wager)
-        setIsCreateModalOpen(false)
-      }
-      refreshLobby()
-    } catch (err) {
-      console.error('Create game failed:', err)
-    } finally {
-      setIsPending(false)
-    }
-  }
+  const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
 
   useEffect(() => {
     // Redirect if not connected and not in a loading state

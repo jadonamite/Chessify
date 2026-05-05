@@ -66,6 +66,7 @@ export default function NotFound() {
         <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
           <Scene />
         </Canvas>
+// ← the muse was here
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-6">

@@ -175,8 +175,3 @@ export function useHistory() {
     refreshHistory
   }
 }
-
-
-// ⟳ echo · src/components/game/GameClient.tsx
-//     } catch (e) {
-//       console.error('Move failed:', e)

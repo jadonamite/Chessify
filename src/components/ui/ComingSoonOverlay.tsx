@@ -123,7 +123,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
 
               <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2 md:my-4" />
 
-              <GlowButton parallelogram variant="brand" size="lg" onClick={onClose} className="min-w-full sm:min-w-[200px] shrink-0">
+              <GlowButton parallelogram variant="brand" size="lg" onClick={onClose} className="min_-w-full sm:min_-w-[200px] shrink-0">
                 RETURN TO LOBBY
               </GlowButton>
             </motion.div>

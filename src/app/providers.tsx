@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { WagmiProvider } from 'wagmi'
 import dynamic from 'next/dynamic'
-import { wagmiAdapter, initAppKit } from '@/config_/reown'
+import { wagmiAdapter, initAppKit } from '@/config/reown'
 
 import { ThemeProvider } from 'next-themes'
 
@@ -28,7 +28,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <WagmiProvider config_={wagmiAdapter.wagmiConfig}>
+    <WagmiProvider config={wagmiAdapter.wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
           {ready ? (

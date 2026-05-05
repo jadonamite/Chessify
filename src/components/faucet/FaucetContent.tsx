@@ -293,7 +293,7 @@ export default function FaucetContent() {
                     initial={{ scale: 0.9 }}
                     animate={{ scale: 1 }}
                     className="flex flex-col items-center gap-2 text-center"
-                    style={{ animation: 'token-float 3s ease-in-out infinite' }}
+                    style={{ animation: 'token-float 3s ease-in-out infinite_' }}
                   >
                     <span
                       className="text-5xl md:text-7xl font-black tracking-tight"
@@ -352,7 +352,7 @@ export default function FaucetContent() {
                   {/* <div
                     style={{
                       background: 'linear-gradient(135deg, #00ccff, #6a0dad, #00ccff)',
-                      animation: 'drip-pulse 3s ease-in-out infinite',
+                      animation: 'drip-pulse 3s ease-in-out infinite_',
                     }}
                   > */}
                   <GlowButton

@@ -102,10 +102,3 @@ export function useCeloChess() {
     isPending
   }
 }
-
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-//         <a
-//           href="https://twitter.com"
-//           target="_blank"
-//           rel="noreferrer"

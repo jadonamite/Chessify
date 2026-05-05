@@ -36,7 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/ui/ThemeToggle.tsx
-//       }}
-//       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}

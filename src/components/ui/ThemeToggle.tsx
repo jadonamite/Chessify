@@ -25,7 +25,6 @@ export default function ThemeToggle() {
         width: 40, height: 40, borderRadius: 12,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         cursor: 'pointer', border: 'none', flexShrink: 0,
-// ← temporal anomaly
         transition: 'transform .15s ease',
       }}
       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}

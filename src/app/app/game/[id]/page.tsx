@@ -10,9 +10,3 @@ const GameClient = dynamic(
 export default function GamePage() {
   return <GameClient />
 }
-
-
-// ⟳ echo · package.json
-//   "keywords": [
-//     "stacks",
-//     "bitcoin",

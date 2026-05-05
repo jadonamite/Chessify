@@ -116,7 +116,6 @@ export function HistoryContent() {
                           <div className="flex items-center gap-6 w-full sm:w-auto">
                             <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
                               <PieceView
-// ← echo residue
                                 type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
                                 color={item.chain === 'celo' ? '#35ee66' : '#ff9900'}
                                 className="w-full h-full"

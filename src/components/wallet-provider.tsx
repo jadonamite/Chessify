@@ -107,7 +107,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // 3. Detect MiniPay
   useEffect(() => {
-    if (typeof window_ !== 'undefined' && (window_ as any).ethereum?.isMiniPay) {
+    if (typeof window !== 'undefined' && (window as any).ethereum?.isMiniPay) {
       setIsMiniPay(true)
     }
   }, [])
@@ -132,7 +132,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       showConnect({
         appDetails: {
           name: 'Chessify Protocol',
-          icon: window_.location.origin + '/Piece.svg',
+          icon: window.location.origin + '/Piece.svg',
         },
         userSession,
         onFinish: () => {

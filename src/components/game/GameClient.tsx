@@ -86,7 +86,7 @@ export default function GameClient() {
     if (activeChain === 'celo' && celoGameData) {
       const gd = celoGameData as any
       setGameData({
-        player1: gd.white_,
+        player1: gd.white,
         player2: gd.black,
         wager: gd.wager.toString(),
         status: gd.status.toString()
@@ -329,7 +329,7 @@ export default function GameClient() {
                     options={{
                       id: 'BasicBoard',
                       position: game.fen(),
-                      boardOrientation: 'white_',
+                      boardOrientation: 'white',
                       // Drag
                       allowDragging: canAct && !gameOver && (!isBotGame || turn === 'w'),
                       canDragPiece: handleCanDragPiece,
@@ -362,7 +362,7 @@ export default function GameClient() {
                     </motion.div>
                   ) : (
                     <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full animate-pulse ${turn === 'w' ? 'bg-white_ shadow-[0_0_10px_white]' : 'bg-gray-600'}`} />
+                      <div className={`w-3 h-3 rounded-full animate-pulse ${turn === 'w' ? 'bg-white shadow-[0_0_10px_white]' : 'bg-gray-600'}`} />
                       <span className="text-sm font-bold tracking-widest text-[var(--t3)] uppercase">
                         {turn === 'w' ? 'White to move' : 'Black to move'}
                       </span>
@@ -430,7 +430,7 @@ export default function GameClient() {
                 <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Move Log</h3>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
                   {moveHistory.map((san, i) => (
-                    <div key={i} className={`flex items-center gap-2 text-xs font-mono p-2 rounded-lg ${i % 2 === 0 ? 'bg-white_/5' : ''}`}>
+                    <div key={i} className={`flex items-center gap-2 text-xs font-mono p-2 rounded-lg ${i % 2 === 0 ? 'bg-white/5' : ''}`}>
                       <span className="text-[var(--t3)] w-4 text-left">{Math.floor(i / 2) + 1}.</span>
                       <span className={i % 2 === 0 ? 'text-[var(--t1)]' : 'text-[var(--t2)]'}>{san}</span>
                     </div>

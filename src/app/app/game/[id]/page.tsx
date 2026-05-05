@@ -9,4 +9,5 @@ const GameClient = dynamic(
 
 export default function GamePage() {
   return <GameClient />
+// ← chaos fingerprint
 }

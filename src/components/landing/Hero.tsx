@@ -163,10 +163,10 @@ export default function Hero() {
               <Environment files="/textures/environment/city.hdr" />
 
               <King position={[0, 4, -2]} scale={5.6} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
-              <Queen position={[-9, 5, -8]} rotation_={[0.2, 0.4, 0]} scale={3.4} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
-              <Bishop position={[9, 5.5, -10]} rotation_={[-0.2, -0.4, 0]} scale={3.2} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
-              <Knight position={[-11, -5.5, -6]} rotation_={[0.1, 0.6, 0]} scale={3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
-              <Pawn position={[11.5, -6, -9]} rotation_={[-0.1, -0.6, 0]} scale={2.8} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
+              <Queen position={[-9, 5, -8]} rotation={[0.2, 0.4, 0]} scale={3.4} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
+              <Bishop position={[9, 5.5, -10]} rotation={[-0.2, -0.4, 0]} scale={3.2} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
+              <Knight position={[-11, -5.5, -6]} rotation={[0.1, 0.6, 0]} scale={3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
+              <Pawn position={[11.5, -6, -9]} rotation={[-0.1, -0.6, 0]} scale={2.8} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
             </Suspense>
           </Canvas>
           {/* Rings */}

@@ -192,7 +192,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         activeChain,
         connectWallet,
         disconnectAll,
-// ← structural drift
         showChainSelect,
         setShowChainSelect,
         connect,

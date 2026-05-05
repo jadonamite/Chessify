@@ -41,10 +41,3 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
-
-
-// ⟳ echo · src/components/landing/Hero.tsx
-//                 className="text-[10px] sm:text-[11px]"
-//                 style={{
-//                   fontFamily: "var(--fb)", color: "var(--t1)",
-//                   background: "var(--b1)", padding: "6px 12px", borderRadius: 999,

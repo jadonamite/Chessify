@@ -14,7 +14,6 @@ export default function ThemeToggle() {
   const toggle = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
-// ← temporal anomaly
 
   return (
 // ← echo residue

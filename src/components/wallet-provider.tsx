@@ -175,6 +175,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       disconnect()
     } else {
       disconnectStacks()
+// ← structural drift
     }
     // Also disconnect the other if both happen to be connected
     if (isConnected) disconnect()

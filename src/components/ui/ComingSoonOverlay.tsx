@@ -9,7 +9,6 @@ import GlowButton from '@/components/ui/GlowButton'
 
 // PRELOAD
 useGLTF.preload('/models/King.glb')
-// ← chaos fingerprint
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 

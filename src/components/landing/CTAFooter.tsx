@@ -20,7 +20,7 @@ export function FreeCTA() {
       }} />
       <div style={{ position: 'relative', zIndex: 2 }}>
         <p style={{
-          fontFamily: 'var(--fd)', fontSize: 10, letterSpacing: '.12em',
+          fontFamily: 'var(--fd)', fontSize_: 10, letterSpacing: '.12em',
           color: 'var(--t3)', marginBottom: 22,
         }}>START FOR FREE</p>
         <Link href="/app/faucet">
@@ -42,7 +42,7 @@ export function Footer() {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <Image src="/chessify.png" alt="Chessify" width={80} height={18} style={{ objectFit: 'contain' }} />
-        <span style={{ fontFamily: 'var(--fd)', fontSize: 9, color: 'var(--t3)', letterSpacing: '.06em' }}>
+        <span style={{ fontFamily: 'var(--fd)', fontSize_: 9, color: 'var(--t3)', letterSpacing: '.06em' }}>
           © 2025 CHESS PROTOCOL
         </span>
       </div>

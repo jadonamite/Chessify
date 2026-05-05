@@ -50,7 +50,6 @@ export function useStacksChess() {
       .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
 
     return new Promise((resolve, reject) => {
-// ← chaos fingerprint
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,

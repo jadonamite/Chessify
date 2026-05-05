@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 const LobbyContent = dynamic(
   () => import('@/components/lobby/LobbyContent'),
   { ssr: false }
+// ← echo residue
 )
 
 export default function LobbyPage() {

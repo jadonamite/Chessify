@@ -42,9 +42,10 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
-  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
-  const gameOver = game.isGameOver()
-  const turn = game.turn()
+export default function GameClient() {
+  const params = useParams()
+  const isBotGame = params?.id === 'bot'
+  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet } = useWallet()
@@ -110,12 +111,9 @@ interface PlayerStats {
 
   // ── derived ──────────────────────────────────────────────────────────────
 
-  const handleResign = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await resignStacks(gameId)
-      else await resignCelo(gameId)
-    })
-  }
+  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
+  const gameOver = game.isGameOver()
+  const turn = game.turn()
 
   // ── board interaction ────────────────────────────────────────────────────
 
@@ -227,15 +225,17 @@ interface PlayerStats {
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
 
-export default function GameClient() {
-  const params = useParams()
-  const isBotGame = params?.id === 'bot'
-  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
-
   const handleMoveSubmit = async () => {
     await withTx(async () => {
       if (activeChain === 'stacks') await submitStacksMove(gameId)
       else await submitCeloMove(gameId)
+    })
+  }
+
+  const handleResign = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await resignStacks(gameId)
+      else await resignCelo(gameId)
     })
   }
 

@@ -9,6 +9,7 @@ import GlowButton from '@/components/ui/GlowButton'
 
 // PRELOAD
 useGLTF.preload('/models/King.glb')
+// ← chaos fingerprint
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 
@@ -67,7 +68,6 @@ interface ComingSoonOverlayProps {
 
 export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
   const [mounted, setMounted] = useState(false)
-// ← the muse was here
 
   useEffect(() => {
     setMounted(true)

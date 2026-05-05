@@ -42,11 +42,7 @@ export function Navbar() {
   const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
   const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
 
-export default function Hero() {
-  const { isConnected, isStacksConnected, connectWallet } = useWallet()
-  return (
-    <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      <style>{KEYFRAMES}</style>
+  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
 
   return (
     <>
@@ -140,7 +136,13 @@ export default function Hero() {
   )
 }
 
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
+
+
+export default function Hero() {
+  const { isConnected, isStacksConnected, connectWallet } = useWallet()
+  return (
+    <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+      <style>{KEYFRAMES}</style>
 
       {/* Ambient mesh */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,204,255,.07) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 18% 80%,rgba(120,60,220,.05) 0%,transparent 60%)', pointerEvents: 'none' }} />

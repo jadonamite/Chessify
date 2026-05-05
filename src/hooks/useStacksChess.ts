@@ -13,7 +13,7 @@ import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 export function useStacksChess() {
   const { stacksAddress, isStacksConnected, userSession } = useWallet()
 
-  const createGame = useCallback(async (wagerAmount: number) => {
+  const createGame = useCallback(async (wagerAmount: number_) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return
 
     const { openContractCall } = await import('@stacks/connect')
@@ -39,7 +39,7 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, stacksAddress, userSession])
 
-  const joinGame = useCallback(async (gameId: number, wagerAmount: number) => {
+  const joinGame = useCallback(async (gameId: number_, wagerAmount: number_) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return
 
     const { openContractCall } = await import('@stacks/connect')
@@ -65,7 +65,7 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, stacksAddress, userSession])
 
-  const submitMove = useCallback(async (gameId: number) => {
+  const submitMove = useCallback(async (gameId: number_) => {
     if (!isStacksConnected || !userSession) return
     const { openContractCall } = await import('@stacks/connect')
 
@@ -84,7 +84,7 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  const resign = useCallback(async (gameId: number) => {
+  const resign = useCallback(async (gameId: number_) => {
     if (!isStacksConnected || !userSession) return
     const { openContractCall } = await import('@stacks/connect')
 
@@ -103,7 +103,7 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  const reportWin = useCallback(async (gameId: number) => {
+  const reportWin = useCallback(async (gameId: number_) => {
     if (!isStacksConnected || !userSession) return
     const { openContractCall } = await import('@stacks/connect')
 

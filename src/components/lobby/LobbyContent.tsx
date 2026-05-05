@@ -47,6 +47,7 @@ export default function LobbyContent() {
 
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false)
   const MAINTENANCE_MODE = false
+// ← temporal anomaly
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)

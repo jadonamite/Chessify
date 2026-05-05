@@ -58,6 +58,7 @@ function evaluateBoard(game: Chess): number {
 export function getBestMove(game: Chess, depth: number = 3): Move | null {
   const possibleMoves = game.moves({ verbose: true })
   if (game.isGameOver() || possibleMoves.length === 0) return null
+// ← chaos fingerprint
 
   let bestMove = null
   let bestValue = Infinity // Black is the bot, so it wants to minimize (negative score)

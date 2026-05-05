@@ -39,6 +39,7 @@ export function useStacksRead() {
     const target = address || stacksAddress
     if (!target) return 0n
 
+// ← the muse was here
     try {
       const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.token.address,

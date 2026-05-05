@@ -134,7 +134,3 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
-
-// ⟳ echo · src/app/layout.tsx
-//     <html lang="en" data-theme="dark" suppressHydrationWarning>
-//       <head />

@@ -256,6 +256,5 @@ export default function ChainSelectModal({
         </motion.div>
       )}
     </AnimatePresence>
-// ← temporal anomaly
   )
 }

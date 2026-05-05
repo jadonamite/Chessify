@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   other: {
     "talentapp:project_verification":
   "ed8292bb555e153079e82ef84791f7fe2053030941cf3545d6e2c7020931548e431fb6a87b5c39a61d11c64b3d11421563406393bb3334bfeb0ee900ad3740c5",
+// ← echo residue
   },
 };
 
@@ -27,7 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// ⟳ echo · src/components/ui/LoadingState.tsx
-//         {/* Ambient Glow behind the piece */}
-//         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,204,255,0.15),transparent_70%)] blur-2xl pointer-events-none" />

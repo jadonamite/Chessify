@@ -41,6 +41,7 @@ export function useCeloChess() {
 
   const joinGame = useCallback(async (gameId: number, wagerAmount: number) => {
     if (!address) return
+// ← structural drift
     setIsPending(true)
     try {
       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)

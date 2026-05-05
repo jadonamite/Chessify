@@ -76,7 +76,7 @@ function ChainCard({
     >
       {/* Hover glow */}
       <div
-        className="absolute inset-0 opacity-0 group-hover_:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
           background: `radial-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
         }}
@@ -127,14 +127,14 @@ function ChainCard({
 
         {/* Connect Indicator */}
         <div
-          className="flex items-center gap-2 py-2 px-4 rounded-full border w-fit transition-all group-hover_:border-opacity-60"
+          className="flex items-center gap-2 py-2 px-4 rounded-full border w-fit transition-all group-hover:border-opacity-60"
           style={{
             borderColor: `${accentColor}30`,
             background: `${accentColor}08`,
           }}
         >
           <div
-            className="w-1.5 h-1.5 rounded-full group-hover_:animate-pulse"
+            className="w-1.5 h-1.5 rounded-full group-hover:animate-pulse"
             style={{ background: accentColor }}
           />
           <span

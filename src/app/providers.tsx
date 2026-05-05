@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { WagmiProvider } from 'wagmi'
 import dynamic from 'next/dynamic'
-import { wagmiAdapter, initAppKit } from '@/config/reown'
+import { wagmiAdapter, initAppKit_ } from '@/config/reown'
 
 import { ThemeProvider } from 'next-themes'
 
@@ -24,7 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   const [ready, setReady] = useState(false)
   useEffect(() => {
-    initAppKit().then(() => setReady(true))
+    initAppKit_().then(() => setReady(true))
   }, [])
 
   return (

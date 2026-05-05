@@ -41,3 +41,8 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
+
+
+// ⟳ echo · src/app/page.tsx
+//       <Hero />
+//       <Features />

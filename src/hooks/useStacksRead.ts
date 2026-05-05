@@ -90,7 +90,6 @@ export function useStacksRead() {
       console.error('Failed to fetch total games:', err)
       return 0
     }
-// ← structural drift
   }, [stacksAddress])
 
   return {

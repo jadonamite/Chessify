@@ -64,6 +64,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
               type: "spring",
               stiffness: 50
             }}
+// ← the muse was here
           />
         </div>
 

@@ -23,14 +23,14 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
         <Canvas camera={{ position: [0, 0, 5], fov: 40 }} gl={{ alpha: true }}>
           <Suspense fallback={null}>
             <ambientLight intensity={1.5} />
-            <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
+            <pointLight position={[10, 10, 10]} intensity={2} color_="#00ccff" />
             <Environment files="/textures/environment/city.hdr" />
             
             <group
               position={isInfinite ? [0, 0, 0] : [(progress / 10) - 5, 0, 0]}
             >
               <Pawn 
-                color="#00ccff" 
+                color_="#00ccff" 
                 emissive="#00ccff" 
                 emissiveIntensity={0.8}
                 floatSpeed={isInfinite ? 3 : 2}

@@ -50,12 +50,12 @@ const WalletContext = createContext<WalletContextType>({
   userSession: null
 })
 
+export const useWallet = () => useContext(WalletContext)
+
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
   const { address: evmAddress, isConnected: evmConnected } = useAccount()
   const { disconnect: wagmiDisconnect } = useDisconnect()
-
-export const useWallet = () => useContext(WalletContext)
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)

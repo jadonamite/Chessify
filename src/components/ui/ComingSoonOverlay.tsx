@@ -67,6 +67,7 @@ interface ComingSoonOverlayProps {
 
 export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
   const [mounted, setMounted] = useState(false)
+// ← the muse was here
 
   useEffect(() => {
     setMounted(true)

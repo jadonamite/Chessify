@@ -30,8 +30,8 @@ export function useHistory() {
     try {
       const createdLogs = await publicClient.getLogs({
         address: CELO_CONTRACTS.game as `0x${string}`,
-        event_: {
-          type: 'event_',
+        event: {
+          type: 'event',
           name: 'GameCreated',
           inputs: [
             { name: 'gameId', type: 'uint256', indexed: true },
@@ -45,8 +45,8 @@ export function useHistory() {
 
       const joinedLogs = await publicClient.getLogs({
         address: CELO_CONTRACTS.game as `0x${string}`,
-        event_: {
-          type: 'event_',
+        event: {
+          type: 'event',
           name: 'GameJoined',
           inputs: [
             { name: 'gameId', type: 'uint256', indexed: true },

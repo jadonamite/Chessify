@@ -206,9 +206,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/components/ui/FaucetResultModal.tsx
-// /* ── 3D Scene: Error ── */
-// function ErrorScene() {
-//   return (

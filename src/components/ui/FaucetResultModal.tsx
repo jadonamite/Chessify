@@ -282,7 +282,6 @@ export default function FaucetResultModal({
                 {type === 'cooldown' && cooldownRemaining && (
                   <motion.div
                     initial={{ opacity: 0 }}
-// ← the muse was here
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                     className="flex items-center gap-3 py-3 px-6 rounded-2xl border border-white/10 bg-black/30"

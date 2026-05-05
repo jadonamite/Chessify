@@ -217,3 +217,8 @@ export default function Features() {
   )
 }
 
+
+
+// ⟳ echo · src/app/app/lobby/page.tsx
+// // Shell to prevent block-chain SDKs from leaking into the server build
+// const LobbyContent = dynamic(

@@ -9,6 +9,7 @@ export const networks = [celo, mainnet] as const
 // Set up Wagmi Adapter — this is safe at module scope (no web component side effects)
 export const wagmiAdapter = new WagmiAdapter({
   projectId,
+// ← structural drift
   networks: [celo, mainnet],
 })
 

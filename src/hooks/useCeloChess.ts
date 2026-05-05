@@ -1,10 +1,10 @@
 'use client'
 
-import { useWriteContract, useAccount } from 'wagmi'
-import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { useState, useCallback } from 'react'
 import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 import { parseUnits } from 'viem'
-import { useState, useCallback } from 'react'
+import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { useWriteContract, useAccount } from 'wagmi'
 
 export function useCeloChess() {
   const { address } = useAccount()

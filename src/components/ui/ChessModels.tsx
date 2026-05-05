@@ -52,7 +52,7 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
     meshRef.current.rotation.z = Math.sin((t + offset) * 0.5) * 0.05
   })
 
-  const clonedScene = useMemo(() => {
+  const clonedScene_ = useMemo(() => {
     const clone = scene.clone()
     clone.traverse((child: any) => {
       if (child.isMesh) {
@@ -71,7 +71,7 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
       floatIntensity={floatIntensity * 2} 
       position={position}
     >
-      <primitive ref={meshRef} object={clonedScene} scale={scale} rotation={rotation} />
+      <primitive ref={meshRef} object={clonedScene_} scale={scale} rotation={rotation} />
     </Float>
   )
 }

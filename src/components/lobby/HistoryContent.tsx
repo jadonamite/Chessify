@@ -1,15 +1,15 @@
 'use client'
 
-import LoadingState from '@/components/ui/LoadingState'
-import GlowButton from '@/components/ui/GlowButton'
-import { useWallet } from '@/components/wallet-provider'
-import { useRouter } from 'next/navigation'
-import { Queen, PieceView } from '@/components/ui/ChessModels'
-import { useHistory } from '@/hooks/useHistory'
-import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Canvas } from '@react-three/fiber'
 import { Float, Environment, MeshDistortMaterial, Text } from '@react-three/drei'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import GlowButton from '@/components/ui/GlowButton'
+import LoadingState from '@/components/ui/LoadingState'
+import { useHistory } from '@/hooks/useHistory'
+import { useWallet } from '@/components/wallet-provider'
+import { Queen, PieceView } from '@/components/ui/ChessModels'
 
 function Scene() {
   return (

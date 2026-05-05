@@ -77,7 +77,7 @@ const STATUS_CONFIG = {
     accentColor: '#ffb400',
     description: 'That maneuver violates protocol directives. Try a different tactical approach.',
     buttonText: 'ACKNOWLEDGE',
-    buttonVariant: 'ghost' as const,
+    buttonVariant_: 'ghost' as const,
     Scene: WarningScene,
   },
   check: {
@@ -88,7 +88,7 @@ const STATUS_CONFIG = {
     accentColor: '#ff4466',
     description: 'Your King is under direct assault. You must parry or evade!',
     buttonText: 'DEFEND',
-    buttonVariant: 'brand' as const,
+    buttonVariant_: 'brand' as const,
     Scene: CheckScene,
   },
   checkmate: {
@@ -99,7 +99,7 @@ const STATUS_CONFIG = {
     accentColor: '#ff4466',
     description: 'The King has fallen. End of line.',
     buttonText: 'ACCEPT DEFEAT',
-    buttonVariant: 'brand' as const,
+    buttonVariant_: 'brand' as const,
     Scene: CheckmateScene,
   },
   draw: {
@@ -110,7 +110,7 @@ const STATUS_CONFIG = {
     accentColor: '#00ccff',
     description: 'Tactical deadlock achieved. Neither commander can proceed.',
     buttonText: 'FINISH',
-    buttonVariant: 'ghost' as const,
+    buttonVariant_: 'ghost' as const,
     Scene: StalemateScene,
   }
 }

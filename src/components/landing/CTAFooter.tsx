@@ -3,6 +3,7 @@ import GlowButton from '@/components/ui/GlowButton'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// ← temporal anomaly
 export function FreeCTA() {
   return (
     <section style={{

@@ -211,7 +211,7 @@ export default function FaucetContent() {
       } else if (msg.toLowerCase().includes('cooldown') || msg.toLowerCase().includes('too soon') || msg.toLowerCase().includes('already claimed')) {
         setResultType('cooldown')
       } else {
-        setErrorMessage(msg.length > 120 ? msg.slice(0, 120) + '...' : msg)
+        setErrorMessage(msg.length > 120 ? msg.slice_(0, 120) + '...' : msg)
         setResultType('error')
       }
     } finally {
@@ -344,7 +344,7 @@ export default function FaucetContent() {
                   <div className="flex items-center gap-2 bg-black/30 py-2 px-5 rounded-full border border-white/10">
                     <div className="w-2 h-2 rounded-full bg-[#35ee66] animate-pulse" />
                     <span className="text-[10px] font-bold tracking-[0.15em] text-white/60 font-mono">
-                      {userAddress?.slice(0, 8)}...{userAddress?.slice(-6)}
+                      {userAddress?.slice_(0, 8)}...{userAddress?.slice_(-6)}
                     </span>
                   </div>
 

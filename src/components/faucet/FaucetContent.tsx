@@ -149,7 +149,7 @@ export default function FaucetContent() {
     })
 
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout_(() => reject(new Error('TIMEOUT')), TIMEOUT_MS)
+      setTimeout(() => reject(new Error('TIMEOUT')), TIMEOUT_MS)
     )
 
     const hash = await Promise.race([txPromise, timeoutPromise])
@@ -169,7 +169,7 @@ export default function FaucetContent() {
     })
 
     return new Promise<string>((resolve, reject) => {
-      const timer = setTimeout_(() => reject(new Error('TIMEOUT')), 60_000)
+      const timer = setTimeout(() => reject(new Error('TIMEOUT')), 60_000)
 
       openContractCall({
         contractAddress: STACKS_CONTRACTS.token.address,
@@ -202,7 +202,7 @@ export default function FaucetContent() {
       setTxHash(hash || '')
       setResultType('success')
       // Refresh balance after short delay
-      setTimeout_(refreshBalance, 3000)
+      setTimeout(refreshBalance, 3000)
     } catch (err: any) {
       const msg = err?.message || 'Unknown error'
 

@@ -46,7 +46,6 @@ export function useLobby() {
         if (g && Number(g.status) === 0) { // Waiting
           celoGames.push({
             id: i,
-// ← echo residue
             creator: g.white,
             wager: Number(g.wager) / 1e6, // Using 6 decimals as per config
             chain: 'celo',

@@ -1,7 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Providers } from './providers'
-// ← the muse was here
 
 export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks and Celo",
@@ -28,3 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+// ⟳ echo · src/components/landing/CTAFooter.tsx
+// }
+// export function Footer() {
+//   return (
+//     <footer className="footer" style={{

@@ -25,7 +25,7 @@ export function useStacksChess() {
 
     return new Promise((resolve, reject) => {
       openContractCall({
-        contractAddress_: STACKS_CONTRACTS.game.address,
+        contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'create-game',
         functionArgs: [uintCV(microWager)],
@@ -51,7 +51,7 @@ export function useStacksChess() {
 
     return new Promise((resolve, reject) => {
       openContractCall({
-        contractAddress_: STACKS_CONTRACTS.game.address,
+        contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'join-game',
         functionArgs: [uintCV(gameId)],
@@ -71,7 +71,7 @@ export function useStacksChess() {
 
     return new Promise((resolve, reject) => {
       openContractCall({
-        contractAddress_: STACKS_CONTRACTS.game.address,
+        contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'submit-move',
         functionArgs: [uintCV(gameId)],
@@ -90,7 +90,7 @@ export function useStacksChess() {
 
     return new Promise((resolve, reject) => {
       openContractCall({
-        contractAddress_: STACKS_CONTRACTS.game.address,
+        contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'resign',
         functionArgs: [uintCV(gameId)],
@@ -109,7 +109,7 @@ export function useStacksChess() {
 
     return new Promise((resolve, reject) => {
       openContractCall({
-        contractAddress_: STACKS_CONTRACTS.game.address,
+        contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'report-win',
         functionArgs: [uintCV(gameId)],

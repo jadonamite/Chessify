@@ -24,7 +24,7 @@ export function useLobby() {
   const fetchCeloGames = useCallback(async () => {
     if (!publicClient) return []
     try {
-      const nonce = await publicClient.readContract_({
+      const nonce = await publicClient.readContract({
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'gameNonce',
@@ -36,7 +36,7 @@ export function useLobby() {
       const end = Math.max(1, start - 10)
       
       for (let i = start; i >= end; i--) {
-        const g = await publicClient.readContract_({
+        const g = await publicClient.readContract({
           address: CELO_CONTRACTS.game as `0x${string}`,
           abi: CHESS_GAME_ABI,
           functionName: 'getGame',

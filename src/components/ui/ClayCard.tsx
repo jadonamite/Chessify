@@ -58,10 +58,3 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
 ClayCard.displayName = 'ClayCard'
 
 export default ClayCard
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//   accent?: boolean
-//   size?: 'sm' | 'md'
-// }
-// export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {

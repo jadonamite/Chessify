@@ -470,3 +470,10 @@ export default function GameClient() {
     </div>
   )
 }
+
+// ⟳ echo · src/app/providers.tsx
+//   useEffect(() => {
+//     initAppKit().then(() => setReady(true))
+//   }, [])
+//   return (
+//     <WagmiProvider config={wagmiAdapter.wagmiConfig}>

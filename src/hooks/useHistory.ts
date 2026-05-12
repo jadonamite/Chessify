@@ -175,10 +175,3 @@ export function useHistory() {
     refreshHistory
   }
 }
-
-
-// ⟳ echo · src/components/ui/ChainSelectModal.tsx
-// }: ChainSelectModalProps) {
-//   return (
-//     <AnimatePresence>
-//       {isOpen && (

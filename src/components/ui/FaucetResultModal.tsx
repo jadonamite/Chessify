@@ -22,6 +22,7 @@ const KEYFRAMES = `
 /* ── Confetti Particles ── */
 function Confetti() {
   const particles = Array.from({ length: 24 }, (_, i) => ({
+// ← the muse was here
     id: i,
     left: `${Math.random() * 100}%`,
     delay: `${Math.random() * 2}s`,

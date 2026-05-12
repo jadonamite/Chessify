@@ -114,13 +114,13 @@ export function useHistory() {
       const res = await fetch(`${HIRO_API}/extended/v1/address/${stacksAddress}/transactions?limit=50`)
       const data = await res.json()
       
-      const gameContractId_ = `${STACKS_CONTRACTS.game.address}.${STACKS_CONTRACTS.game.name}`
+      const gameContractId = `${STACKS_CONTRACTS.game.address}.${STACKS_CONTRACTS.game.name}`
       
       // Filter for successful contract calls to the game contract
       const gameTxs = data.results.filter((tx: any) => 
         tx.tx_status === 'success' && 
         tx.tx_type === 'contract_call' &&
-        tx.contract_call.contract_id === gameContractId_
+        tx.contract_call.contract_id === gameContractId
       )
 
       const allStacksItems: HistoryItem[] = []

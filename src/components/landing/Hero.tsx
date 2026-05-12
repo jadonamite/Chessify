@@ -13,15 +13,15 @@ import { King, Queen, Bishop, Knight, Pawn } from '@/components/ui/ChessModels'
 const KEYFRAMES = `
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
 @keyframes pulseDot    { 0%,100%{box-shadow:0 0 8px var(--c),0 0 16px rgba(0,204,255,.4)} 50%{box-shadow:0 0 14px var(--c),0 0 28px rgba(0,204,255,.65)} }
-@keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp      { from{opacity_:0;transform:translateY(22px)} to{opacity_:1;transform:translateY(0)} }
 
 @media (max-width: 1024px) {
-  .hero-pieces { opacity: 0.15; transform: scale(0.85); }
+  .hero-pieces { opacity_: 0.15; transform: scale(0.85); }
   .hero-float-cards { display: none; }
 }
 
 @media (max-width: 768px) {
-  .hero-pieces { opacity: 0.08; transform: scale(0.6) translateY(20%); }
+  .hero-pieces { opacity_: 0.08; transform: scale(0.6) translateY(20%); }
   .hero-navbar { padding: 18px 24px !important; }
   .hero-nav-links { display: none !important; }
   .hero-logo-img { width: 140px !important; height: auto !important; }

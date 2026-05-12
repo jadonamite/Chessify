@@ -169,7 +169,7 @@ export default function LobbyContent() {
 
             {/*
               FIX: Shell/content split.
-              The outer div owns ALL visual properties that create a stacking context:
+              The outer div owns ALL visual_ properties that create a stacking context:
               backdrop-blur, background, border, border-radius, shadow.
               The inner div owns ALL spacing: padding.
               This prevents backdrop-blur from interfering with padding compositing.
@@ -313,7 +313,7 @@ export default function LobbyContent() {
                       transition={{ delay: idx * 0.1 }}
                     >
                       {/*
-                        Challenge row: also split — outer for visual chrome,
+                        Challenge row: also split — outer for visual_ chrome,
                         inner for padding. Keeps hover states clean.
                       */}
                       <div className="rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 hover:border-white/10 transition-colors">

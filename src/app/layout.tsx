@@ -27,9 +27,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// ⟳ echo · src/components/lobby/LobbyContent.tsx
-//                                 {game.wager}{' '}
-//                                 <span className="text-[10px] text-cyan-700">CHESS</span>
-//                               </div>
-//                             </div>

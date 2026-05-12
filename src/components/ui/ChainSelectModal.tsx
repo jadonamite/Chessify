@@ -258,9 +258,3 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/hooks/useLobby.ts
-// }
-// export function useLobby() {
-//   const { activeChain } = useWallet()

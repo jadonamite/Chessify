@@ -36,7 +36,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
     },
     ref
   ) => {
-    const classes = [
+    const classes_ = [
       variantMap[variant],
       paddingMap[padding],
       glow ? 'glow-cyan' : '',
@@ -48,7 +48,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       .join(' ')
 
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div ref={ref} className={classes_} {...props}>
         {children}
       </div>
     )

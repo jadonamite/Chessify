@@ -61,7 +61,7 @@ export function useHistory() {
 
       for (const log of createdLogs) {
         const gameId = log.args.gameId?.toString() || '0'
-        // Fetch current game state to get_ opponent and status
+        // Fetch current game state to get opponent and status
         const gameData = await publicClient.readContract({
           address: CELO_CONTRACTS.game as `0x${string}`,
           abi: CHESS_GAME_ABI,
@@ -135,7 +135,7 @@ export function useHistory() {
             chain: 'stacks',
             role: func === 'create-game' ? 'white' : 'black',
             opponent: 'On-Chain', 
-            wager: '...', // Need read-call to get_ exact wager
+            wager: '...', // Need read-call to get exact wager
             status: 'Recorded',
             timestamp: tx.burn_block_height
           })

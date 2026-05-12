@@ -40,6 +40,7 @@ function FloatingPieces() {
   return (
     <>
       <ambientLight intensity={1.5} />
+// ← structural drift
       <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
       <Environment files="/textures/environment/city.hdr" />

@@ -69,7 +69,6 @@ export function useStacksRead() {
       const json = cvToJSON(result)
       return json.value.value?.value || null // (ok (some { ... }))
     } catch (err) {
-// ← chaos fingerprint
       console.error('Failed to fetch game data:', err)
       return null
     }

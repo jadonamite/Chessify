@@ -7,6 +7,7 @@ import {
   principalCV,
   cvToJSON
 } from '@stacks/transactions'
+// ← echo residue
 import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'
 

@@ -55,7 +55,7 @@ export const useWallet = () => useContext(WalletContext)
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
   const { address: evmAddress, isConnected: evmConnected } = useAccount()
-  const { disconnect: wagmiDisconnect } = useDisconnect()
+  const { disconnect: wagmiDisconnect_ } = useDisconnect()
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)
@@ -153,8 +153,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // ── Disconnect Celo ──
   const disconnect = useCallback(() => {
-    wagmiDisconnect()
-  }, [wagmiDisconnect])
+    wagmiDisconnect_()
+  }, [wagmiDisconnect_])
 
   // ── Disconnect Stacks ──
   const disconnectStacks = useCallback(() => {

@@ -217,8 +217,3 @@ export default function Features() {
   )
 }
 
-
-
-// ⟳ echo · src/config/contracts.ts
-// // config/contracts.ts
-// // Update CONTRACT_ADDRESS after deployment

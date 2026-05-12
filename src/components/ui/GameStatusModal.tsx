@@ -117,7 +117,6 @@ const STATUS_CONFIG = {
 
 export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
   const [mounted, setMounted] = useState(false)
-// ← structural drift
   
   useEffect(() => { setMounted(true) }, [])
 

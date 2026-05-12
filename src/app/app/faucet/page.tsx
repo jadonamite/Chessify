@@ -8,3 +8,8 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
+
+
+// ⟳ echo · src/app/providers.tsx
+//     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
+//       <QueryClientProvider client={queryClient}>

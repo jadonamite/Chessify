@@ -245,8 +245,8 @@ export default function FaucetContent() {
       }} />
 
       {/* ── CONTENT ── */}
-      <div className="relative z-10 flex-1 flex flex-col items-center w-full max-w-full box-border px-4 md:px-8 py-12 md:py-24">
-        <div className="w-full max-w-2xl mx-auto flex flex-col gap-8">
+      <div className="relative z-10 flex-1 flex flex-col items-center w-full max_-w-full box-border px-4 md:px-8 py-12 md:py-24">
+        <div className="w-full max_-w-2xl mx-auto flex flex-col gap-8">
 
           {/* Header */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">

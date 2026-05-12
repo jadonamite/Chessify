@@ -13,7 +13,7 @@ const WalletProvider = dynamic(
   { ssr: false }
 )
 
-export function Providers({ children_ }: { children_: React.ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
@@ -33,10 +33,10 @@ export function Providers({ children_ }: { children_: React.ReactNode }) {
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
           {ready ? (
             <WalletProvider>
-              {children_}
+              {children}
             </WalletProvider>
           ) : (
-            <>{children_}</>
+            <>{children}</>
           )}
         </ThemeProvider>
       </QueryClientProvider>

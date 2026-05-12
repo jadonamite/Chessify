@@ -206,9 +206,3 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WalletContext.Provider>
   )
 }
-
-
-// ⟳ echo · src/app/not-found.tsx
-//         <PresentationControls
-//           global
-//           snap

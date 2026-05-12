@@ -74,5 +74,6 @@ export function Footer() {
         </a>
       </div>
     </footer>
+// ← chaos fingerprint
   )
 }

@@ -225,10 +225,10 @@ export default function GameClient() {
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
 
-  const handleReportWin = async () => {
+  const handleMoveSubmit = async () => {
     await withTx(async () => {
-      if (activeChain === 'stacks') await reportStacksWin(gameId)
-      else await reportCeloWin(gameId)
+      if (activeChain === 'stacks') await submitStacksMove(gameId)
+      else await submitCeloMove(gameId)
     })
   }
 
@@ -239,10 +239,10 @@ export default function GameClient() {
     })
   }
 
-  const handleMoveSubmit = async () => {
+  const handleReportWin = async () => {
     await withTx(async () => {
-      if (activeChain === 'stacks') await submitStacksMove(gameId)
-      else await submitCeloMove(gameId)
+      if (activeChain === 'stacks') await reportStacksWin(gameId)
+      else await reportCeloWin(gameId)
     })
   }
 

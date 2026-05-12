@@ -27,9 +27,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// ⟳ echo · src/components/landing/CTAFooter.tsx
-// }
-// export function Footer() {
-//   return (
-//     <footer className="footer" style={{

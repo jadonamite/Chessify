@@ -57,6 +57,7 @@ Stacks Repo.txt
 fetch_celo_balances.js
 distribute_celo.js
 scripts*
+distributestacks.js
 distribute-stacks.js
 distribute-stacks-test.js
 simulate-stacks.js

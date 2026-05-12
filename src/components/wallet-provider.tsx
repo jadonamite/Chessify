@@ -15,17 +15,17 @@ interface WalletContextType {
   activeChain: 'celo' | 'stacks'
 
   // ── Unified Auth ──
-  connectWallet: () => void_       // Opens chain select modal
-  disconnectAll: () => void_       // Disconnects active chain
+  connectWallet: () => void       // Opens chain select modal
+  disconnectAll: () => void       // Disconnects active chain
   showChainSelect: boolean
-  setShowChainSelect: (show: boolean) => void_
+  setShowChainSelect: (show: boolean) => void
 
   // ── Internal (used by ChainSelectModal) ──
-  connect: () => Promise<void_>
-  connectStacks: () => Promise<void_>
-  disconnect: () => void_
-  disconnectStacks: () => void_
-  setActiveChain: (chain: 'celo' | 'stacks') => void_
+  connect: () => Promise<void>
+  connectStacks: () => Promise<void>
+  disconnect: () => void
+  disconnectStacks: () => void
+  setActiveChain: (chain: 'celo' | 'stacks') => void
 
   // ── Session ──
   userSession: any | null

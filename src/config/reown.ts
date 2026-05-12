@@ -41,8 +41,3 @@ export async function initAppKit() {
     themeMode: 'dark',
   })
 }
-
-
-// ⟳ echo · src/config/abis.ts
-//   { "type": "function", "name": "faucetClaim", "stateMutability": "nonpayable", "inputs": [], "outputs": [] },
-//   { "type": "function", "name": "decimals", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "uint8" }] }

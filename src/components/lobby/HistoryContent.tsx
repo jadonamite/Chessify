@@ -167,8 +167,3 @@ export function HistoryContent() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/game/GameClient.tsx
-//   const handleResign = async () => {
-//     await withTx(async () => {

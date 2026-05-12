@@ -91,3 +91,10 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
     </div>
   )
 }
+
+
+// ⟳ echo · src/app/app/history/page.tsx
+// import { HistoryContent } from '@/components/lobby/HistoryContent'
+// export default function HistoryPage() {
+//   return <HistoryContent />
+// }

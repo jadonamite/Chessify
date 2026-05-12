@@ -470,3 +470,8 @@ export default function GameClient() {
     </div>
   )
 }
+
+// ⟳ echo · src/components/faucet/FaucetContent.tsx
+//           CHESS
+//         </Text>
+//       </Float>

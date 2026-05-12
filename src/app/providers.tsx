@@ -40,7 +40,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
           )}
         </ThemeProvider>
       </QueryClientProvider>
-// ← structural drift
     </WagmiProvider>
   )
 }

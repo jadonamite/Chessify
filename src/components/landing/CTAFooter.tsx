@@ -76,9 +76,3 @@ export function Footer() {
     </footer>
   )
 }
-
-
-// ⟳ echo · src/components/landing/Features.tsx
-//                 ))}
-//               </div>
-//             </div>

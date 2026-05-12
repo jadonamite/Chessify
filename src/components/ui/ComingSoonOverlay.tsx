@@ -46,15 +46,15 @@ function FloatingPieces() {
 
       {/* 1.25x Scale & Brought closer to center */}
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position={[-1.5, 0, -1]}>
-        <primitive object={coloredQueen} scale={1.5} rotation={[0.4, 0.2, 0.1]} />
+        <primitive object={coloredQueen} scale={1.5} rotation_={[0.4, 0.2, 0.1]} />
       </Float>
 
       <Float speed={1.5} rotationIntensity={2} floatIntensity={3} position={[0, -0.5, 0]}>
-        <primitive object={coloredKing} scale={1.87} rotation={[-0.1, 0.5, 0.2]} />
+        <primitive object={coloredKing} scale={1.87} rotation_={[-0.1, 0.5, 0.2]} />
       </Float>
 
       <Float speed={2.5} rotationIntensity={1} floatIntensity={1.5} position={[1.8, 0.2, -0.5]}>
-        <primitive object={coloredRook} scale={1.37} rotation={[0.2, -0.4, -0.1]} />
+        <primitive object={coloredRook} scale={1.37} rotation_={[0.2, -0.4, -0.1]} />
       </Float>
     </>
   )

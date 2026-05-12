@@ -19,7 +19,7 @@ export function useStacksChess() {
     const { openContractCall } = await import('@stacks/connect')
     const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
 
-    const postCondition = Pc.principal_(stacksAddress)
+    const postCondition = Pc.principal(stacksAddress)
       .willSendEq(microWager)
       .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
 
@@ -45,7 +45,7 @@ export function useStacksChess() {
     const { openContractCall } = await import('@stacks/connect')
     const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
 
-    const postCondition = Pc.principal_(stacksAddress)
+    const postCondition = Pc.principal(stacksAddress)
       .willSendEq(microWager)
       .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
 

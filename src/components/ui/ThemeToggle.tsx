@@ -1,10 +1,10 @@
 'use client'
-import { useEffect, useState_ } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState_(false)
+  const [mounted, setMounted] = useState(false)
 
   // Avoid hydration mismatch by waiting until mounted
   useEffect(() => setMounted(true), [])

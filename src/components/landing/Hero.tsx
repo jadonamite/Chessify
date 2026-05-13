@@ -190,11 +190,11 @@ export default function Hero() {
             <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: 'var(--c)', letterSpacing: '.14em' }}>ON-CHAIN CHESS — MULTI-CHAIN</span>
           </div>
 
-          <h1 className="hero-headline" style={{ fontFamily: 'var(--fd)', fontWeight: 900, fontSize: 'clamp(72px,12vw,148px)', lineHeight: .86, letterSpacing: '-.05em', textTransform: 'uppercase', marginBottom: 24, color: 'var(--t1)', textShadow: 'var(--hero-text-shadow, 0 4px 40px rgba(0,0,0,.7))', animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .1s both' }}>
-            Be the<br />
-            <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow, 0 0 80px rgba(0,204,255,.45))' }}>King</span><br />
-            of Chess
-          </h1>
+          <TypingHeroText 
+            prefix="YOUR" 
+            words={["CHAIN", "STAKE", "MOVE"]} 
+            className="mb-8"
+          />
 
           <p style={{ fontSize: 17, color: 'var(--t2)', lineHeight: 1.72, margin: '0 auto 38px', maxWidth: 500, fontWeight: 300, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .2s both' }}>
             Wager CHESS tokens, play on-chain.<br />Every move permanently recorded. Your rating, your winnings — provably yours.

@@ -197,7 +197,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .hero-headline { font-size: clamp(32px, 12vw, 64px) !important; }
   .hero-badge { padding: 5px 12px !important; }
   .hero-badge span { font-size: 7px !important; }
   .hero-stats { flex-direction: column !important; gap: 0 !important; }

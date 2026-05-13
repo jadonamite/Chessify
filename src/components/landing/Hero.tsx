@@ -139,8 +139,19 @@ export function Navbar() {
 
 
 
+import { useEffect, useState, Suspense } from 'react'
+
 export default function Hero() {
   const { isConnected, isStacksConnected, connectWallet } = useWallet()
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   return (
     <section className="hero-section" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
       <style>{KEYFRAMES}</style>
@@ -152,7 +163,7 @@ export default function Hero() {
 
       <Navbar />
 
-      <div className="hero-content" style={{ position: 'relative', minHeight: 'calc(100vh - 76px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '60px 48px 80px' }}>
+      <div className="hero-content" style={{ position: 'relative', minHeight: 'calc(100vh - 76px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: isMobile ? '40px 20px 60px' : '60px 48px 80px' }}>
 
         {/* PIECES — z:2, BEHIND text */}
         <div className="hero-pieces" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 2 }}>
@@ -163,16 +174,16 @@ export default function Hero() {
               <pointLight position={[-10, -10, -10]} intensity={1} color="#6a0dad" />
               <Environment files="/textures/environment/city.hdr" />
 
-              <King position={[0, 6, -5]} scale={5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
-              <Queen position={[-12, 7, -12]} rotation={[0.2, 0.4, 0]} scale={3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
-              <Bishop position={[12, 7.5, -14]} rotation={[-0.2, -0.4, 0]} scale={3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
-              <Knight position={[-14, -6.5, -10]} rotation={[0.1, 0.6, 0]} scale={2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
-              <Pawn position={[14.5, -7, -12]} rotation={[-0.1, -0.6, 0]} scale={2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
+              <King position={[0, isMobile ? 4.5 : 6, -5]} scale={isMobile ? 4.4 : 5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
+              <Queen position={[isMobile ? -2.8 : -12, isMobile ? 5.5 : 7, -12]} rotation={[0.2, 0.4, 0]} scale={isMobile ? 2.8 : 3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
+              <Bishop position={[isMobile ? 2.8 : 12, isMobile ? 5.8 : 7.5, -14]} rotation={[-0.2, -0.4, 0]} scale={isMobile ? 2.6 : 3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
+              <Knight position={[isMobile ? -3.2 : -14, isMobile ? -5.5 : -6.5, -10]} rotation={[0.1, 0.6, 0]} scale={isMobile ? 2.4 : 2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
+              <Pawn position={[isMobile ? 3.2 : 14.5, isMobile ? -5.8 : -7, -12]} rotation={[-0.1, -0.6, 0]} scale={isMobile ? 2.2 : 2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
             </Suspense>
           </Canvas>
           {/* Rings */}
-          <div style={{ position: 'absolute', top: '50%', left: '50%', width: 300, height: 300, border: '1px dashed rgba(0,204,255,.09)', borderRadius: '50%', transform: 'translate(-50%,-50%)', animation: 'rspin 28s linear infinite' }} />
-          <div style={{ position: 'absolute', top: '50%', left: '50%', width: 480, height: 480, border: '1px solid rgba(0,204,255,.04)', borderRadius: '50%', transform: 'translate(-50%,-50%)' }} />
+          <div style={{ position: 'absolute', top: '50%', left: '50%', width: isMobile ? 200 : 300, height: isMobile ? 200 : 300, border: '1px dashed rgba(0,204,255,.09)', borderRadius: '50%', transform: 'translate(-50%,-50%)', animation: 'rspin 28s linear infinite' }} />
+          <div style={{ position: 'absolute', top: '50%', left: '50%', width: isMobile ? 320 : 480, height: isMobile ? 320 : 480, border: '1px solid rgba(0,204,255,.04)', borderRadius: '50%', transform: 'translate(-50%,-50%)' }} />
           {/* Float cards */}
           <div className="hero-float-cards" style={{ position: 'absolute', right: '2%', top: '44%', padding: '12px 18px', borderRadius: 16, fontFamily: 'var(--fd)', background: 'linear-gradient(145deg,#041a2c,#020f1a)', border: '1px solid rgba(0,204,255,.26)', boxShadow: '0 2px 0 rgba(0,204,255,.12) inset,0 14px 36px rgba(0,180,240,.14)' }}>
             <div style={{ fontSize: 9, letterSpacing: '.12em', color: 'rgba(255,255,255,.35)', marginBottom: 4 }}>CURRENT LEADER</div>
@@ -185,34 +196,34 @@ export default function Hero() {
         </div>
 
         {/* TEXT — z:10, IN FRONT of pieces */}
-        <div style={{ position: 'relative', zIndex: 10 }}>
+        <div style={{ position: 'relative', zIndex: 10, width: '100%' }}>
           <div className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--badge-bg)', border: '1px solid var(--b1)', borderRadius: 999, padding: '7px 18px', marginBottom: 24, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) both' }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c)', animation: 'pulseDot 2s ease-in-out infinite', flexShrink: 0 }} />
             <span style={{ fontFamily: 'var(--fd)', fontSize: 9, fontWeight: 600, color: 'var(--c)', letterSpacing: '.14em' }}>ON-CHAIN CHESS — MULTI-CHAIN</span>
           </div>
 
           <TypingHeroText 
-            prefix="IMMUTABLE" 
-            subtitle="CHECKMATE"
+            prefix="THE CHECKMATE" 
+            subtitle="IS VERIFIED"
             words={["YOUR CHAIN", "YOUR STAKE", "YOUR MOVE"]} 
-            className="mb-12"
+            className="mb-14"
           />
 
-          <p style={{ fontSize: 17, color: 'var(--t2)', lineHeight: 1.72, margin: '0 auto 38px', maxWidth: 500, fontWeight: 300, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .2s both' }}>
+          <p style={{ fontSize: isMobile ? 14 : 17, color: 'var(--t2)', lineHeight: 1.72, margin: '0 auto 38px', maxWidth: 500, fontWeight: 300, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .2s both', padding: '0 20px' }}>
             Wager CHESS tokens, play on-chain.<br />Every move permanently recorded. Your rating, your winnings — provably yours.
           </p>
 
           <div className="hero-stats" style={{ display: 'flex', justifyContent: 'center', marginBottom: 46, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .3s both' }}>
-            <div style={{ paddingRight: 28, borderRight: '1px solid var(--b1)' }}>
-              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 18, color: 'var(--c)' }}>CHESS</div>
+            <div style={{ paddingRight: isMobile ? 14 : 28, borderRight: '1px solid var(--b1)' }}>
+              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: isMobile ? 14 : 18, color: 'var(--c)' }}>CHESS</div>
               <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.15em', marginTop: 4 }}>TOKEN</div>
             </div>
-            <div style={{ paddingLeft: 28, paddingRight: 28, borderRight: '1px solid var(--b1)' }}>
-              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 18, color: 'var(--c)' }}>Stacks</div>
+            <div style={{ paddingLeft: isMobile ? 14 : 28, paddingRight: isMobile ? 14 : 28, borderRight: '1px solid var(--b1)' }}>
+              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: isMobile ? 14 : 18, color: 'var(--c)' }}>Stacks</div>
               <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.15em', marginTop: 4 }}>BLOCKCHAIN</div>
             </div>
-            <div style={{ paddingLeft: 28 }}>
-              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 18, color: 'var(--c)' }}>Celo</div>
+            <div style={{ paddingLeft: isMobile ? 14 : 28 }}>
+              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: isMobile ? 14 : 18, color: 'var(--c)' }}>Celo</div>
               <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.15em', marginTop: 4 }}>MAINNET</div>
             </div>
           </div>
@@ -230,10 +241,12 @@ export default function Hero() {
       </div>
 
       {/* Scroll */}
-      <div style={{ textAlign: 'center', paddingBottom: 36, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, position: 'relative', zIndex: 4 }}>
-        <span style={{ fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.2em', color: 'var(--scroll-color)' }}>SCROLL</span>
-        <div style={{ width: 1, height: 32, background: 'linear-gradient(var(--c),transparent)' }} />
-      </div>
+      {!isMobile && (
+        <div style={{ textAlign: 'center', paddingBottom: 36, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, position: 'relative', zIndex: 4 }}>
+          <span style={{ fontFamily: 'var(--fd)', fontSize: 9, letterSpacing: '.2em', color: 'var(--scroll-color)' }}>SCROLL</span>
+          <div style={{ width: 1, height: 32, background: 'linear-gradient(var(--c),transparent)' }} />
+        </div>
+      )}
     </section>
   )
 }

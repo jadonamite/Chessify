@@ -1,5 +1,5 @@
 'use client'
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
+import { motion, useMotionValue, useTransform, animate, useMotionValueEvent } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 interface TypingHeroTextProps {
@@ -19,6 +19,12 @@ export default function TypingHeroText({
   const displayContext = useTransform(rounded, (latest) => 
     words[index].slice(0, latest)
   )
+
+  const [displayText, setDisplayText] = useState("")
+
+  useMotionValueEvent(displayContext, "change", (latest) => {
+    setDisplayText(latest)
+  })
 
   useEffect(() => {
     // Reset count for new word
@@ -76,7 +82,7 @@ export default function TypingHeroText({
               textShadow: 'var(--king-text-shadow, 0 0 60px rgba(0,204,255,0.35))' 
             }}
           >
-            {displayContext}
+            {displayText}
             <motion.span
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}

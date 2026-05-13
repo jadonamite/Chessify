@@ -179,11 +179,11 @@ export default function Hero() {
               <pointLight position={[-10, -10, -10]} intensity={1.5} color="#6a0dad" />
               <Environment files="/textures/environment/city.hdr" />
 
-              <King position={[0, isMobile ? 3.8 : 6, -5]} scale={isMobile ? 4.2 : 5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
-              <Queen position={[isMobile ? -2.4 : -12, isMobile ? 4.2 : 7, -12]} rotation={[0.2, 0.4, 0]} scale={isMobile ? 2.6 : 3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
-              <Bishop position={[isMobile ? 2.4 : 12, isMobile ? 4.5 : 7.5, -14]} rotation={[-0.2, -0.4, 0]} scale={isMobile ? 2.4 : 3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
-              <Knight position={[isMobile ? -2.8 : -14, isMobile ? -5.0 : -6.5, -10]} rotation={[0.1, 0.6, 0]} scale={isMobile ? 2.2 : 2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
-              <Pawn position={[isMobile ? 2.8 : 14.5, isMobile ? -5.2 : -7, -12]} rotation={[-0.1, -0.6, 0]} scale={isMobile ? 2.0 : 2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
+              <King position={[0, isMobile ? 0 : 6, isMobile ? -3 : -5]} scale={isMobile ? 3.2 : 5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
+              <Queen position={[isMobile ? -3.5 : -12, isMobile ? 2 : 7, isMobile ? -8 : -12]} rotation={[0.2, 0.4, 0]} scale={isMobile ? 2.0 : 3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
+              <Bishop position={[isMobile ? 3.5 : 12, isMobile ? 2.2 : 7.5, isMobile ? -9 : -14]} rotation={[-0.2, -0.4, 0]} scale={isMobile ? 1.8 : 3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
+              <Knight position={[isMobile ? -4.0 : -14, isMobile ? -3 : -6.5, isMobile ? -7 : -10]} rotation={[0.1, 0.6, 0]} scale={isMobile ? 1.6 : 2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
+              <Pawn position={[isMobile ? 4.0 : 14.5, isMobile ? -3.2 : -7, isMobile ? -8 : -12]} rotation={[-0.1, -0.6, 0]} scale={isMobile ? 1.5 : 2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
             </Suspense>
           </Canvas>
           {/* Rings */}

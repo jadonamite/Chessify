@@ -197,10 +197,20 @@ body {
 }
 
 @media (max-width: 480px) {
-  .hero-headline { font-size: clamp(48px, 16vw, 72px) !important; }
+  .hero-headline { font-size: clamp(32px, 12vw, 64px) !important; }
   .hero-badge { padding: 5px 12px !important; }
   .hero-badge span { font-size: 7px !important; }
-  .hero-stats { flex-direction: column !important; gap: 16px !important; }
+  .hero-stats { flex-direction: column !important; gap: 0 !important; }
+  .hero-stats > div {
+    border-right: none !important;
+    border-bottom: 1px solid var(--b1);
+    padding: 12px 0 !important;
+    width: 100%;
+  }
+  .hero-stats > div:last-child {
+    border-bottom: none;
+    padding-bottom: 0 !important;
+  }
 }
 
 .btn-brand-para-mobile {

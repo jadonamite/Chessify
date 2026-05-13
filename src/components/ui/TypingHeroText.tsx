@@ -59,7 +59,7 @@ export default function TypingHeroText({
         style={{ 
           fontFamily: 'var(--fd)', 
           fontWeight: 900, 
-          fontSize: 'clamp(28px, 9.5vw, 110px)', // Lowered min to 28px, increased vw for faster scaling
+          fontSize: 'clamp(24px, 8vw, 110px)', // Tightened for mobile
           color: 'var(--t1)',
           textShadow: 'var(--hero-text-shadow)',
           textWrap: 'balance' as any
@@ -69,7 +69,7 @@ export default function TypingHeroText({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="whitespace-nowrap"
+          className="whitespace-normal" // Allow wrapping
         >
           {prefix}
         </motion.div>

@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 
 interface TypingHeroTextProps {
   prefix?: string
-  words: string[]
+  subtitle?: string
+  words?: string[]
   className?: string
 }
 

@@ -172,6 +172,10 @@ body {
 }
 
 /* ── MOBILE RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .hero-pieces { pointer-events: none; }
+}
+
 @media (max-width: 768px) {
   .hero-navbar { padding: 14px 20px !important; }
   .hero-nav-links { display: none !important; }

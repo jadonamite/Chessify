@@ -58,9 +58,10 @@ export default function TypingHeroText({
         style={{ 
           fontFamily: 'var(--fd)', 
           fontWeight: 900, 
-          fontSize: 'clamp(40px, 8.2vw, 108px)', 
+          fontSize: 'clamp(28px, 9.5vw, 110px)', // Lowered min to 28px, increased vw for faster scaling
           color: 'var(--t1)',
-          textShadow: 'var(--hero-text-shadow)'
+          textShadow: 'var(--hero-text-shadow)',
+          textWrap: 'balance' as any
         }}
       >
         <motion.div 

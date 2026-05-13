@@ -3,7 +3,7 @@ import Image from 'next/image'
 import GlowButton from '@/components/ui/GlowButton'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import Link from 'next/link'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { useWallet } from '@/components/wallet-provider'
@@ -139,7 +139,6 @@ export function Navbar() {
 
 
 
-import { useEffect, useState, Suspense } from 'react'
 
 export default function Hero() {
   const { isConnected, isStacksConnected, connectWallet } = useWallet()

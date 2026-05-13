@@ -176,7 +176,8 @@ body {
   .hero-navbar { padding: 14px 20px !important; }
   .hero-nav-links { display: none !important; }
   .hero-content { padding: 40px 20px 60px !important; }
-  .hero-pieces, .hero-float-cards { display: none !important; }
+  .hero-pieces { display: block !important; pointer-events: none; }
+  .hero-float-cards { display: none !important; }
   .features-section { padding: 48px 20px !important; }
   .features-row-1, .features-row-2 { grid-template-columns: 1fr !important; }
   .footer {

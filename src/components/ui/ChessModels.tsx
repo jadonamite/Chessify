@@ -29,17 +29,14 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
   const { scene } = useGLTF(modelPath)
 
   const material = useMemo(() => {
-    const isBlack = color === '#111' || color === '#111111' || color === '#1a1a1a'
-    const isWhite = color === '#ffffff' || color === '#fff'
-    
     return new THREE.MeshStandardMaterial({
-      color: isBlack ? '#050505' : color,
-      emissive: isBlack ? '#111' : emissive,
-      emissiveIntensity: isBlack ? 0.15 : (isWhite ? 0.2 : emissiveIntensity),
-      roughness: isWhite ? 0.05 : (isBlack ? 0.4 : 0.2),
-      metalness: isWhite ? 1.0 : (isBlack ? 0.6 : 0.8),
+      color: color === '#ffffff' ? '#ffffff' : (color === '#111111' ? '#080808' : color),
+      emissive: color === '#00ccff' ? color : '#000',
+      emissiveIntensity: 0.15,
+      roughness: 0.88,
+      metalness: 0.1,
     })
-  }, [color, emissive, emissiveIntensity])
+  }, [])
 
   const meshRef = useRef<THREE.Group>(null)
 

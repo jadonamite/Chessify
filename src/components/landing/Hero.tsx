@@ -163,11 +163,11 @@ export default function Hero() {
               <pointLight position={[-10, -10, -10]} intensity={1} color="#6a0dad" />
               <Environment files="/textures/environment/city.hdr" />
 
-              <King position={[0, 4, -2]} scale={5.6} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
-              <Queen position={[-9, 5, -8]} rotation={[0.2, 0.4, 0]} scale={3.4} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
-              <Bishop position={[9, 5.5, -10]} rotation={[-0.2, -0.4, 0]} scale={3.2} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
-              <Knight position={[-11, -5.5, -6]} rotation={[0.1, 0.6, 0]} scale={3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
-              <Pawn position={[11.5, -6, -9]} rotation={[-0.1, -0.6, 0]} scale={2.8} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
+              <King position={[0, 6, -5]} scale={5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
+              <Queen position={[-12, 7, -12]} rotation={[0.2, 0.4, 0]} scale={3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
+              <Bishop position={[12, 7.5, -14]} rotation={[-0.2, -0.4, 0]} scale={3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
+              <Knight position={[-14, -6.5, -10]} rotation={[0.1, 0.6, 0]} scale={2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
+              <Pawn position={[14.5, -7, -12]} rotation={[-0.1, -0.6, 0]} scale={2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
             </Suspense>
           </Canvas>
           {/* Rings */}
@@ -192,9 +192,10 @@ export default function Hero() {
           </div>
 
           <TypingHeroText 
-            prefix="YOUR" 
-            words={["CHAIN", "STAKE", "MOVE"]} 
-            className="mb-8"
+            prefix="IMMUTABLE" 
+            subtitle="CHECKMATE"
+            words={["YOUR CHAIN", "YOUR STAKE", "YOUR MOVE"]} 
+            className="mb-12"
           />
 
           <p style={{ fontSize: 17, color: 'var(--t2)', lineHeight: 1.72, margin: '0 auto 38px', maxWidth: 500, fontWeight: 300, animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .2s both' }}>

@@ -16,16 +16,12 @@ const KEYFRAMES = `
 @keyframes pulseDot    { 0%,100%{box-shadow:0 0 8px var(--c),0 0 16px rgba(0,204,255,.4)} 50%{box-shadow:0 0 14px var(--c),0 0 28px rgba(0,204,255,.65)} }
 @keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 
-@media (max-width: 1024px) {
-  .hero-pieces { opacity: 0.15; transform: scale(0.85); }
-  .hero-float-cards { display: none; }
+@media (max-width: 768px) {
+  .hero-pieces { opacity: 0.55 !important; transform: none !important; }
 }
 
-@media (max-width: 768px) {
-  .hero-pieces { opacity: 0.08; transform: scale(0.6) translateY(20%); }
-  .hero-navbar { padding: 18px 24px !important; }
-  .hero-nav-links { display: none !important; }
-  .hero-logo-img { width: 140px !important; height: auto !important; }
+@media (max-width: 1024px) {
+  .hero-pieces { pointer-events: none; }
 }
 `
 
@@ -170,7 +166,7 @@ export default function Hero() {
           inset: 0, 
           pointerEvents: 'none', 
           zIndex: 2,
-          opacity: isMobile ? 0.6 : 1 // Increased mobile opacity from 0.15
+          opacity: isMobile ? 0.6 : 1
         }}>
           <Canvas camera={{ position: [0, 0, 15], fov: 45 }} gl={{ alpha: true }}>
             <Suspense fallback={null}>
@@ -179,11 +175,11 @@ export default function Hero() {
               <pointLight position={[-10, -10, -10]} intensity={1.5} color="#6a0dad" />
               <Environment files="/textures/environment/city.hdr" />
 
-              <King position={[0, isMobile ? 0 : 6, isMobile ? -3 : -5]} scale={isMobile ? 3.2 : 5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
-              <Queen position={[isMobile ? -3.5 : -12, isMobile ? 2 : 7, isMobile ? -8 : -12]} rotation={[0.2, 0.4, 0]} scale={isMobile ? 2.0 : 3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
-              <Bishop position={[isMobile ? 3.5 : 12, isMobile ? 2.2 : 7.5, isMobile ? -9 : -14]} rotation={[-0.2, -0.4, 0]} scale={isMobile ? 1.8 : 3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
-              <Knight position={[isMobile ? -4.0 : -14, isMobile ? -3 : -6.5, isMobile ? -7 : -10]} rotation={[0.1, 0.6, 0]} scale={isMobile ? 1.6 : 2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
-              <Pawn position={[isMobile ? 4.0 : 14.5, isMobile ? -3.2 : -7, isMobile ? -8 : -12]} rotation={[-0.1, -0.6, 0]} scale={isMobile ? 1.5 : 2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
+              <King position={[0, isMobile ? 1.5 : 6, isMobile ? -4 : -5]} scale={isMobile ? 3.0 : 5.0} color="#00ccff" emissive="#00ccff" emissiveIntensity={0.6} floatIntensity={1.8} floatSpeed={1.5} />
+              <Queen position={[isMobile ? -4.5 : -12, isMobile ? 3.5 : 7, isMobile ? -10 : -12]} rotation={[0.2, 0.4, 0]} scale={isMobile ? 1.6 : 3.2} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={2.5} floatSpeed={1.2} />
+              <Bishop position={[isMobile ? 4.5 : 12, isMobile ? 3.5 : 7.5, isMobile ? -10 : -14]} rotation={[-0.2, -0.4, 0]} scale={isMobile ? 1.5 : 3.0} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.6} floatSpeed={1.4} />
+              <Knight position={[isMobile ? -4.8 : -14, isMobile ? -4 : -6.5, isMobile ? -9 : -10]} rotation={[0.1, 0.6, 0]} scale={isMobile ? 1.4 : 2.8} color="#111111" emissive="#333333" emissiveIntensity={0.2} floatIntensity={1.4} floatSpeed={1.3} />
+              <Pawn position={[isMobile ? 4.8 : 14.5, isMobile ? -4 : -7, isMobile ? -9 : -12]} rotation={[-0.1, -0.6, 0]} scale={isMobile ? 1.3 : 2.6} color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} floatIntensity={1.7} floatSpeed={1.1} />
             </Suspense>
           </Canvas>
           {/* Rings */}

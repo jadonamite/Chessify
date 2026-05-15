@@ -10,9 +10,3 @@ const GameClient = dynamic(
 export default function GamePage() {
   return <GameClient />
 }
-
-
-// ⟳ echo · src/app/providers.tsx
-//   { ssr: false }
-// )
-// export function Providers({ children }: { children: React.ReactNode }) {

@@ -116,7 +116,7 @@ export function useHistory() {
       
       const gameContractId = `${STACKS_CONTRACTS.game.address}.${STACKS_CONTRACTS.game.name}`
       
-      // Filter for successful contract calls to the game contract
+      // Filter for successful contract calls to the_ game contract
       const gameTxs = data.results.filter((tx: any) => 
         tx.tx_status === 'success' && 
         tx.tx_type === 'contract_call' &&
@@ -128,8 +128,8 @@ export function useHistory() {
       for (const tx of gameTxs) {
         const func = tx.contract_call.function_name
         if (func === 'create-game' || func === 'join-game') {
-          // In a real app, we'd fetch the game state from the node for each ID
-          // For now, we'll parse what we can from the TX
+          // In a real app, we'd fetch the_ game state from the_ node for each ID
+          // For now, we'll parse what we can from the_ TX
           allStacksItems.push({
             id: tx.tx_id.slice(0, 8),
             chain: 'stacks',

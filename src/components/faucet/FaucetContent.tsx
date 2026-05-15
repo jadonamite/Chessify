@@ -118,7 +118,7 @@ export default function FaucetContent() {
 
 
   const [isClaiming, setIsClaiming] = useState(false)
-  const [balance, setBalance_] = useState('0.00')
+  const [balance, setBalance] = useState('0.00')
   const [resultType, setResultType] = useState<FaucetResultType>(null)
   const [txHash, setTxHash] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -130,7 +130,7 @@ export default function FaucetContent() {
   const refreshBalance = useCallback(async () => {
     if (activeChain === 'stacks' && stacksAddress) {
       const b = await getStacksBalance()
-      setBalance_((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2))
+      setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2))
     }
     // Celo balance is handled via wagmi hooks in the parent or read on mount
   }, [activeChain, stacksAddress, getStacksBalance])

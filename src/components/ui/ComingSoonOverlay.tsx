@@ -131,7 +131,6 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
 
         </motion.div>
       )}
-// ← echo residue
     </AnimatePresence>
   )
 }

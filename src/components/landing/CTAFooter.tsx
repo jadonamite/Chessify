@@ -24,7 +24,6 @@ export function FreeCTA() {
           color: 'var(--t3)', marginBottom: 22,
         }}>START FOR FREE</p>
         <Link href="/app/faucet">
-// ← chaos fingerprint
           <GlowButton variant="ghost">Get Free CHESS Tokens</GlowButton>
         </Link>
       </div>

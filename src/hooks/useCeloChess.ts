@@ -102,3 +102,8 @@ export function useCeloChess() {
     isPending
   }
 }
+
+
+// ⟳ echo · src/components/landing/Features.tsx
+//           {/* Green: Elo */}
+//           <div

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import GlowButton from '@/components/ui/GlowButton'
 import LoadingState from '@/components/ui/LoadingState'
 import { useHistory } from '@/hooks/useHistory'
-import { useWallet } from '@/components/wallet-provider'
+import { useWallet_ } from '@/components/wallet-provider'
 import { Queen, PieceView } from '@/components/ui/ChessModels'
 
 function Scene() {
@@ -55,7 +55,7 @@ function Scene() {
 export function HistoryContent() {
   const router = useRouter()
   const { history, isLoading } = useHistory()
-  const { activeChain } = useWallet()
+  const { activeChain } = useWallet_()
 
   return (
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">

@@ -29,7 +29,7 @@ export function Navbar() {
   const {
     isConnected, address,
     isStacksConnected, stacksAddress,
-    activeChain, connectWallet, disconnectAll_,
+    activeChain, connectWallet, disconnectAll,
     showChainSelect, setShowChainSelect,
     connect, connectStacks
   } = useWallet()
@@ -95,7 +95,7 @@ export function Navbar() {
               </span>
               {/* Disconnect */}
               <button
-                onClick={disconnectAll_}
+                onClick={disconnectAll}
                 style={{ background: "transparent", border: "none", color: "var(--t3)", cursor: "pointer", fontSize: 18, padding: '0 4px' }}
                 title="Disconnect Wallet"
               >

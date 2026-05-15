@@ -215,7 +215,7 @@ export default function ChainSelectModal({
               <ChainCard
                 name="Celo"
                 ecosystem="EVM • Ethereum Ecosystem"
-                description="Connect with_ MetaMask, WalletConnect, or any EVM-compatible wallet. MiniPay supported."
+                description="Connect with MetaMask, WalletConnect, or any EVM-compatible wallet. MiniPay supported."
                 accentColor="#35ee66"
                 accentGlow="rgba(53, 238, 102, 0.08)"
                 iconUrl="/celo-celo-logo.svg"
@@ -229,7 +229,7 @@ export default function ChainSelectModal({
               <ChainCard
                 name="Stacks"
                 ecosystem="Bitcoin L2 • BTC Ecosystem"
-                description="Connect with_ Leather or Xverse wallet. Secured by Bitcoin's proof-of-work."
+                description="Connect with Leather or Xverse wallet. Secured by Bitcoin's proof-of-work."
                 accentColor="#ff9900"
                 accentGlow="rgba(255, 153, 0, 0.08)"
                 iconUrl="/stacks-stx-logo.svg"

@@ -1,6 +1,7 @@
 'use client'
 
 /* ── Watermark icon: stroke-only, tiny, constrained by wrapper ── */
+// ← chaos fingerprint
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
     <div style={{

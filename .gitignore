@@ -86,3 +86,7 @@ fix_env.js
 *.tar.gz
 *.iso
 
+# Rust / Soroban
+stellar-contracts/target/
+.soroban/
+

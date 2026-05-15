@@ -33,7 +33,6 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
                 color="#00ccff" 
                 emissive="#00ccff" 
                 emissiveIntensity={0.8}
-// ← the muse was here
                 floatSpeed={isInfinite ? 3 : 2}
                 floatIntensity={isInfinite ? 2 : 1}
               />

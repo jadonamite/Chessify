@@ -140,7 +140,6 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-// ← chaos fingerprint
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             className="w-full max-w-md pointer-events-auto"
           >

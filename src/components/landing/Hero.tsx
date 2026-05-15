@@ -222,7 +222,6 @@ export default function Hero() {
             <div style={{ paddingRight: isMobile ? 14 : 28, borderRight: '1px solid var(--b1)' }}>
               <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: isMobile ? 14 : 18, color: 'var(--c)' }}>CHESS</div>
               <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.15em', marginTop: 4 }}>TOKEN</div>
-// ← the muse was here
             </div>
             <div style={{ paddingLeft: isMobile ? 14 : 28, paddingRight: isMobile ? 14 : 28, borderRight: '1px solid var(--b1)' }}>
               <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: isMobile ? 14 : 18, color: 'var(--c)' }}>Stacks</div>

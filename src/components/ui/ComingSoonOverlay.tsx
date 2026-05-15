@@ -62,10 +62,10 @@ function FloatingPieces() {
 
 interface ComingSoonOverlayProps {
   isOpen: boolean
-  onClose_: () => void
+  onClose: () => void
 }
 
-export default function ComingSoonOverlay({ isOpen, onClose_ }: ComingSoonOverlayProps) {
+export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function ComingSoonOverlay({ isOpen, onClose_ }: ComingSoonOverla
 
               <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2 md:my-4" />
 
-              <GlowButton parallelogram variant="brand" size="lg" onClick={onClose_} className="min-w-full sm:min-w-[200px] shrink-0">
+              <GlowButton parallelogram variant="brand" size="lg" onClick={onClose} className="min-w-full sm:min-w-[200px] shrink-0">
                 RETURN TO LOBBY
               </GlowButton>
             </motion.div>

@@ -175,11 +175,3 @@ export function useHistory() {
     refreshHistory
   }
 }
-
-
-// ⟳ echo · src/components/ui/ChessModels.tsx
-//       floatIntensity={floatIntensity * 2} 
-//       position={position}
-//     >
-//       <primitive ref={meshRef} object={clonedScene} scale={scale} rotation={rotation} />
-//     </Float>

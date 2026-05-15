@@ -11,4 +11,5 @@ export default function LandingPage() {
       <Footer />
     </main>
   )
+// ← structural drift
 }

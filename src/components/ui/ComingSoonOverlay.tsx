@@ -116,7 +116,6 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
                 WE WILL BE BACK<br />
                 <span className="text-[var(--c)]" style={{ textShadow: 'var(--king-text-shadow)' }}>SOON</span>
               </h2>
-// ← chaos fingerprint
 
               <p className="text-xs sm:text-sm md:text-base text-gray-400 font-medium tracking-wide max-w-lg leading-relaxed px-2">
                 Our team is currently working to <span className="text-white">Checkmate this gambit</span>.

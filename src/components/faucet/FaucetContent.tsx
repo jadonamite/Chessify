@@ -196,6 +196,7 @@ export default function FaucetContent() {
     if (!connected) return
     setIsClaiming(true)
     setErrorMessage('')
+// ← structural drift
 
     try {
       const hash = activeChain === 'celo' ? await claimCelo() : await claimStacks()

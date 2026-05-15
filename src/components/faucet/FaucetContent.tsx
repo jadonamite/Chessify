@@ -29,8 +29,6 @@ const KEYFRAMES = `
 }
 `
 
-
-
 /* ── 3D Background Scene ── */
 function FaucetScene() {
   return (
@@ -75,6 +73,15 @@ function FaucetScene() {
   )
 }
 
+/* ═══════════════════════════════════════════
+   MAIN FAUCET CONTENT
+   ═══════════════════════════════════════════ */
+export default function FaucetContent() {
+  const router = useRouter()
+  const { isConnected, activeChain, address: celoAddress, stacksAddress, isStacksConnected, connectWallet } = useWallet()
+  const { getTokenBalance: getStacksBalance } = useStacksRead()
+  const { writeContractAsync } = useWriteContract()
+
 /* ── TOKEN DISPLAY ── */
 function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
   return (
@@ -106,16 +113,6 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
     </motion.div>
   )
 }
-
-/* ═══════════════════════════════════════════
-   MAIN FAUCET CONTENT
-   ═══════════════════════════════════════════ */
-export default function FaucetContent() {
-  const router = useRouter()
-  const { isConnected, activeChain, address: celoAddress, stacksAddress, isStacksConnected, connectWallet } = useWallet()
-  const { getTokenBalance: getStacksBalance } = useStacksRead()
-  const { writeContractAsync } = useWriteContract()
-
 
   const [isClaiming, setIsClaiming] = useState(false)
   const [balance, setBalance] = useState('0.00')

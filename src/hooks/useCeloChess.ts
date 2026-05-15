@@ -9,11 +9,11 @@ import { useState, useCallback } from 'react'
 export function useCeloChess() {
   const { address } = useAccount()
   const { writeContractAsync } = useWriteContract()
-  const [isPending, setIsPending_] = useState(false)
+  const [isPending, setIsPending] = useState(false)
 
   const createGame = useCallback(async (wagerAmount: number) => {
     if (!address) return
-    setIsPending_(true)
+    setIsPending(true)
     try {
       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
@@ -35,13 +35,13 @@ export function useCeloChess() {
       })
       return createTx
     } finally {
-      setIsPending_(false)
+      setIsPending(false)
     }
   }, [address, writeContractAsync])
 
   const joinGame = useCallback(async (gameId: number, wagerAmount: number) => {
     if (!address) return
-    setIsPending_(true)
+    setIsPending(true)
     try {
       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
@@ -62,7 +62,7 @@ export function useCeloChess() {
       })
       return joinTx
     } finally {
-      setIsPending_(false)
+      setIsPending(false)
     }
   }, [address, writeContractAsync])
 

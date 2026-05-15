@@ -58,6 +58,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
+// ← structural drift
         onFinish: (data) => resolve(data),
         onCancel: () => reject(new Error('Transaction cancelled')),
         userSession

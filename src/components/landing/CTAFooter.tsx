@@ -3,6 +3,7 @@ import GlowButton from '@/components/ui/GlowButton'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// ← chaos fingerprint
 export function FreeCTA() {
   return (
     <section style={{

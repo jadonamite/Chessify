@@ -76,7 +76,7 @@ export function useHistory() {
           opponent: gameData.black === '0x0000000000000000000000000000000000000000' ? 'Waiting...' : gameData.black,
           wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
-          timestamp: Number(gameData.createdAt) // Using block number as proxy for now_
+          timestamp: Number(gameData.createdAt) // Using block number as proxy for now
         })
       }
 
@@ -129,7 +129,7 @@ export function useHistory() {
         const func = tx.contract_call.function_name
         if (func === 'create-game' || func === 'join-game') {
           // In a real app, we'd fetch the game state from the node for each ID
-          // For now_, we'll parse what we can from the TX
+          // For now, we'll parse what we can from the TX
           allStacksItems.push({
             id: tx.tx_id.slice(0, 8),
             chain: 'stacks',

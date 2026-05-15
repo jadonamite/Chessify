@@ -94,6 +94,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+// ← chaos fingerprint
   // 2. Persistent chain preference
   useEffect(() => {
     const savedChain = localStorage.getItem('chessify_active_chain') as 'celo' | 'stacks'

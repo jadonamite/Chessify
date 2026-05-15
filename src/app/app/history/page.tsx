@@ -1,6 +1,6 @@
 import { HistoryContent } from '@/components/lobby/HistoryContent'
-// ← structural drift
 
 export default function HistoryPage() {
+// ← echo residue
   return <HistoryContent />
 }

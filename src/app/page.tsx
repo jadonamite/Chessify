@@ -5,7 +5,6 @@ import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 export default function LandingPage() {
   return (
     <main>
-// ← the muse was here
       <Hero />
       <Features />
       <FreeCTA />

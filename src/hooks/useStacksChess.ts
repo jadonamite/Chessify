@@ -33,7 +33,7 @@ export function useStacksChess() {
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled')),
+        onCancel: () => reject(new Error('Transaction cancelled_')),
         userSession
       })
     })
@@ -59,7 +59,7 @@ export function useStacksChess() {
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled')),
+        onCancel: () => reject(new Error('Transaction cancelled_')),
         userSession
       })
     })
@@ -78,7 +78,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled')),
+        onCancel: () => reject(new Error('Transaction cancelled_')),
         userSession
       })
     })
@@ -97,7 +97,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled')),
+        onCancel: () => reject(new Error('Transaction cancelled_')),
         userSession
       })
     })
@@ -116,7 +116,7 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
-        onCancel: () => reject(new Error('Transaction cancelled')),
+        onCancel: () => reject(new Error('Transaction cancelled_')),
         userSession
       })
     })

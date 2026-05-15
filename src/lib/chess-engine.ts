@@ -10,7 +10,7 @@ const PIECE_VALUES: Record<string, number> = {
   k: 900
 }
 
-// Simple positional evaluation tables (higher values favor the piece_ being in that square)
+// Simple positional evaluation tables (higher values favor the piece being in that square)
 // Reversed for black
 const PAWN_TABLE = [
   [0,  0,  0,  0,  0,  0,  0,  0],
@@ -40,15 +40,15 @@ function evaluateBoard(game: Chess): number {
 
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
-      const piece_ = board[i][j]
-      if (piece_) {
-        let value = PIECE_VALUES[piece_.type] || 0
+      const piece = board[i][j]
+      if (piece) {
+        let value = PIECE_VALUES[piece.type] || 0
         
         // Add positional bonus
-        if (piece_.type === 'p') value += PAWN_TABLE[i][j]
-        if (piece_.type === 'n') value += KNIGHT_TABLE[i][j]
+        if (piece.type === 'p') value += PAWN_TABLE[i][j]
+        if (piece.type === 'n') value += KNIGHT_TABLE[i][j]
         
-        totalEvaluation += (piece_.color === 'w' ? value : -value)
+        totalEvaluation += (piece.color === 'w' ? value : -value)
       }
     }
   }

@@ -109,9 +109,3 @@ export function useLobby() {
     refresh
   }
 }
-
-
-// ⟳ echo · src/app/page.tsx
-// import Hero from '@/components/landing/Hero'
-// import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
-// export default function LandingPage() {

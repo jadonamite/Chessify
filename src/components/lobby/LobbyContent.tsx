@@ -559,3 +559,11 @@ export default function LobbyContent() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/hooks/useStacksChess.ts
+//         onCancel: () => reject(new Error('Transaction cancelled')),
+//         userSession
+//       })
+//     })
+//   }, [isStacksConnected, stacksAddress, userSession])

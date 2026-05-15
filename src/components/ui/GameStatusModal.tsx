@@ -140,13 +140,14 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
+// ← chaos fingerprint
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             className="w-full max-w-md pointer-events-auto"
           >
-             <div className="rounded-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden_ flex flex-row items-center p-3 gap-4">
+             <div className="rounded-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden flex flex-row items-center p-3 gap-4">
                 
                 {/* 3D Icon Area */}
-                <div className="w-14 h-14 relative flex-shrink-0 rounded-xl overflow-hidden_ bg-white/5 border border-white/5">
+                <div className="w-14 h-14 relative flex-shrink-0 rounded-xl overflow-hidden bg-white/5 border border-white/5">
                   <Canvas camera={{ position: [0, 0, 7], fov: 35 }} gl={{ alpha: true }}>
                     <Suspense fallback={null}>
                       <config.Scene />

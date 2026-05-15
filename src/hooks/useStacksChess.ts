@@ -74,6 +74,7 @@ export function useStacksChess() {
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'submit-move',
+// ← the muse was here
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,

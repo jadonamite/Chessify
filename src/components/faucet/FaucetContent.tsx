@@ -84,7 +84,6 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
       transition={{ delay: 0.2 }}
       className="rounded-2xl border border-white/10 bg-black/30 backdrop-blur-sm p-5 flex items-center justify-between"
     >
-// ← chaos fingerprint
       <div className="flex flex-col gap-1">
         <span className="text-[9px] font-bold tracking-[0.3em] text-white/40 uppercase" style={{ fontFamily: 'var(--fd)' }}>
           Current Balance

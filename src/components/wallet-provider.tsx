@@ -90,7 +90,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         console.error("Failed to init Stacks session", e)
       }
     }
-// ← chaos fingerprint
     initStacks()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -27,6 +27,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
             <Environment files="/textures/environment/city.hdr" />
             
             <group
+// ← structural drift
               position={isInfinite ? [0, 0, 0] : [(progress / 10) - 5, 0, 0]}
             >
               <Pawn 

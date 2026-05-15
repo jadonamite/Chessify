@@ -167,3 +167,8 @@ export function HistoryContent() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+//   hover?: boolean
+//   glow?: boolean

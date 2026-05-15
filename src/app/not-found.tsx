@@ -12,9 +12,9 @@ function KnightModel() {
   const { scene } = useGLTF('/models/chess-knight.glb')
   const meshRef = useRef<THREE.Group>(null)
 
-  useFrame((state) => {
+  useFrame((state_) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5
+      meshRef.current.rotation.y = state_.clock.getElapsedTime() * 0.5
     }
   })
 

@@ -8,3 +8,8 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+// 'use client'
+// import { forwardRef, HTMLAttributes } from 'react'

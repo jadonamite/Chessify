@@ -79,7 +79,7 @@ export function useStacksRead() {
       const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName: 'get-total-games_',
+        functionName: 'get-total-games',
         functionArgs: [],
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
@@ -87,7 +87,7 @@ export function useStacksRead() {
       const json = cvToJSON(result)
       return Number(json.value.value) // (ok uint)
     } catch (err) {
-      console.error('Failed to fetch total games_:', err)
+      console.error('Failed to fetch total games:', err)
       return 0
     }
   }, [stacksAddress])

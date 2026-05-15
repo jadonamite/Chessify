@@ -14,7 +14,7 @@ useGLTF.preload('/models/Rook.glb')
 
 function FloatingPieces() {
   const king = useGLTF('/models/King.glb')
-  const queen_ = useGLTF('/models/QueenChess.glb')
+  const queen = useGLTF('/models/QueenChess.glb')
   const rook = useGLTF('/models/Rook.glb')
 
   const cyanMaterial = useMemo(() => new THREE.MeshStandardMaterial({
@@ -33,7 +33,7 @@ function FloatingPieces() {
     return clone
   }
 
-  const coloredQueen = useMemo(() => applyMaterial(queen_.scene, cyanMaterial), [queen_.scene, cyanMaterial])
+  const coloredQueen = useMemo(() => applyMaterial(queen.scene, cyanMaterial), [queen.scene, cyanMaterial])
   const coloredKing = useMemo(() => applyMaterial(king.scene, cyanMaterial), [king.scene, cyanMaterial])
   const coloredRook = useMemo(() => applyMaterial(rook.scene, slateMaterial), [rook.scene, slateMaterial])
 

@@ -10,7 +10,6 @@ export const networks = [celo, mainnet] as const
 export const wagmiAdapter = new WagmiAdapter({
   projectId,
   networks: [celo, mainnet],
-// ← echo residue
 })
 
 // Lazy initializer — called once inside a React useEffect, NOT at module scope.

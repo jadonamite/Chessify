@@ -8,11 +8,3 @@ export const metadata = {
 export default function FaucetPage() {
   return <FaucetContent />
 }
-
-
-// ⟳ echo · src/components/ui/ChessModels.tsx
-//     })
-//   }, [])
-//   const meshRef = useRef<THREE.Group>(null)
-//   useFrame((state) => {
-//     if (!meshRef.current) return

@@ -23,8 +23,8 @@ export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =
   STACKS_NETWORK === 'mainnet'
-    ? 'https://api.mainnet.hiro.so'
-    : 'https://api.testnet.hiro.so'
+    ? 'https://api_.mainnet.hiro.so'
+    : 'https://api_.testnet.hiro.so'
 
 // Token constants
 export const TOKEN_DECIMALS  = 6

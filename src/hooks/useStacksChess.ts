@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { 
   AnchorMode, 
   PostConditionMode, 
-  uintCV_,
+  uintCV,
   Pc
 } from '@stacks/transactions'
 import { useWallet } from '@/components/wallet-provider'
@@ -28,7 +28,7 @@ export function useStacksChess() {
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'create-game',
-        functionArgs: [uintCV_(microWager)],
+        functionArgs: [uintCV(microWager)],
         anchorMode: AnchorMode.Any,
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
@@ -54,7 +54,7 @@ export function useStacksChess() {
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'join-game',
-        functionArgs: [uintCV_(gameId)],
+        functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditions: [postCondition],
         postConditionMode: PostConditionMode.Deny,
@@ -74,7 +74,7 @@ export function useStacksChess() {
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'submit-move',
-        functionArgs: [uintCV_(gameId)],
+        functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
@@ -93,7 +93,7 @@ export function useStacksChess() {
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'resign',
-        functionArgs: [uintCV_(gameId)],
+        functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
@@ -112,7 +112,7 @@ export function useStacksChess() {
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
         functionName: 'report-win',
-        functionArgs: [uintCV_(gameId)],
+        functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),

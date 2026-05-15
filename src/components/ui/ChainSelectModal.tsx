@@ -258,8 +258,3 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/wallet-provider.tsx
-//   isConnected: boolean
-//   isStacksConnected: boolean

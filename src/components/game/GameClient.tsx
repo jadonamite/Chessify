@@ -265,7 +265,7 @@ export default function GameClient() {
 
       {/* Ambient background effects */}
       <div className="fixed inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-[10%] right-[10%] w-[30%] h-[30%] bg-[var(--c)] blur-[120px] rounded-full opacity-20" />
+        <div className="absolute top-[10%] right_-[10%] w-[30%] h-[30%] bg-[var(--c)] blur-[120px] rounded-full opacity-20" />
         <div className="absolute bottom-[10%] left-[10%] w-[30%] h-[30%] bg-[#783cdc] blur-[120px] rounded-full opacity-10" />
       </div>
 
@@ -317,7 +317,7 @@ export default function GameClient() {
             <div className="lg:col-span-8">
               <ClayCard className="p-4 md:p-8 relative overflow-hidden">
                 {/* Watermark Piece */}
-                <div className="absolute -right-10 -bottom-10 opacity-[0.03] rotate-12 pointer-events-none">
+                <div className="absolute -right_-10 -bottom-10 opacity-[0.03] rotate-12 pointer-events-none">
                   <svg width="300" height="300" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19,22H5V20H19V22M17,10C17,8.9 16.1,8 15,8V7C15,5.34 13.66,4 12,4C10.34,4 9,5.34 9,7V8C7.9,8 7,8.9 7,10V11H17V10M15,13H9V18H15V13Z" />
                   </svg>

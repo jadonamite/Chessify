@@ -17,6 +17,7 @@ export default function ThemeToggle() {
 
   return (
 // ← echo residue
+// ← chaos fingerprint
     <button
       onClick={toggle}
       aria-label="Toggle theme"

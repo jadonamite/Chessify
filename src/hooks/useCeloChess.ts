@@ -22,7 +22,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args_: [CELO_CONTRACTS.game as `0x${string}`, amount],
+        args: [CELO_CONTRACTS.game as `0x${string}`, amount],
       })
       console.log('Approval tx:', approveTx)
 
@@ -31,7 +31,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'createGame',
-        args_: [amount],
+        args: [amount],
       })
       return createTx
     } finally {
@@ -50,7 +50,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args_: [CELO_CONTRACTS.game as `0x${string}`, amount],
+        args: [CELO_CONTRACTS.game as `0x${string}`, amount],
       })
 
       // 2. Join
@@ -58,7 +58,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'joinGame',
-        args_: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
       return joinTx
     } finally {
@@ -71,7 +71,7 @@ export function useCeloChess() {
       address: CELO_CONTRACTS.game as `0x${string}`,
       abi: CHESS_GAME_ABI,
       functionName: 'submitMove',
-      args_: [BigInt(gameId)],
+      args: [BigInt(gameId)],
     })
   }, [writeContractAsync])
 
@@ -80,7 +80,7 @@ export function useCeloChess() {
       address: CELO_CONTRACTS.game as `0x${string}`,
       abi: CHESS_GAME_ABI,
       functionName: 'resign',
-      args_: [BigInt(gameId)],
+      args: [BigInt(gameId)],
     })
   }, [writeContractAsync])
 
@@ -89,7 +89,7 @@ export function useCeloChess() {
       address: CELO_CONTRACTS.game as `0x${string}`,
       abi: CHESS_GAME_ABI,
       functionName: 'reportWin',
-      args_: [BigInt(gameId)],
+      args: [BigInt(gameId)],
     })
   }, [writeContractAsync])
 

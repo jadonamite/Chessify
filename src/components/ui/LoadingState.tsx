@@ -48,10 +48,10 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
       <div className="w-full max-w-sm flex flex-col items-center gap-4">
         <div className="w-full h-[2px] bg-white/5 relative overflow-hidden rounded-full border border-white/10">
           <motion.div
-            className="absolute inset-y-0 left-0 bg-[var(--c)] shadow-[0_0_15px_var(--c)]"
+            className="absolute inset-y-0 left_-0 bg-[var(--c)] shadow-[0_0_15px_var(--c)]"
             initial={{ width: 0 }}
             animate={isInfinite ? {
-              left: ['-20%', '120%'],
+              left_: ['-20%', '120%'],
               width: ['20%', '40%', '20%']
             } : {
               width: `${progress}%`
@@ -86,7 +86,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
       </div>
 
       {/* Retro Industrial Decor */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-r from-[var(--c)] to-transparent opacity-30" />
+      <div className="absolute left_-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-r from-[var(--c)] to-transparent opacity-30" />
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-l from-[var(--c)] to-transparent opacity-30" />
     </div>
   )

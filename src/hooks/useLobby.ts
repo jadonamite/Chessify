@@ -109,3 +109,8 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/components/ui/LoadingState.tsx
+//       {/* Retro Industrial Decor */}
+//       <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-r from-[var(--c)] to-transparent opacity-30" />

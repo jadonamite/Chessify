@@ -209,7 +209,7 @@ export default function ChainSelectModal({
             </motion.div>
 
             {/* Chain Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+            <div className="grid grid-cols_-1 md:grid-cols_-2 gap-5 w-full">
 
               {/* Celo Card */}
               <ChainCard

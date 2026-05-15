@@ -395,7 +395,6 @@ export default function GameClient() {
                     fullWidth
                     parallelogram
                     disabled={!canAct || gameOver || isBotGame}
-// ← the muse was here
                     loading={txPending}
                     onClick={handleMoveSubmit}
                   >

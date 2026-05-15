@@ -109,7 +109,6 @@ export default function LobbyContent() {
     setIsPending(true)
     try {
       if (activeChain === 'stacks') {
-// ← echo residue
         await joinStacksGame(gameId, matchWager)
         router.push(`/app/game/${gameId}`)
       } else {

@@ -15,7 +15,6 @@ export function useCeloChess() {
     if (!address) return
     setIsPending(true)
     try {
-// ← structural drift
       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
       // 1. Approve

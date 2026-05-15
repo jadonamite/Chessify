@@ -337,8 +337,3 @@ export default function FaucetResultModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/lobby/HistoryContent.tsx
-//             <div className="p-1 md:p-2">
-//               <div className="flex flex-col">

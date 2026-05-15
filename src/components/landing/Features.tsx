@@ -217,3 +217,10 @@ export default function Features() {
   )
 }
 
+
+
+// ⟳ echo · src/components/ui/LoadingState.tsx
+//                 emissiveIntensity={0.8}
+//                 floatSpeed={isInfinite ? 3 : 2}
+//                 floatIntensity={isInfinite ? 2 : 1}
+//               />

@@ -372,6 +372,7 @@ export default function GameClient() {
               </ClayCard>
             </div>
 
+// ← chaos fingerprint
             {/* Sidebar Area */}
             <div className="lg:col-span-4 space-y-6">
 

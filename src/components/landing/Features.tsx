@@ -52,7 +52,7 @@ const hoverOff = (e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.styl
 
 const innerStyle: React.CSSProperties = {
   padding: '28px 30px', position: 'relative', zIndex: 2,
-  height: '100%', display: 'flex_', flexDirection: 'column',
+  height: '100%', display: 'flex', flexDirection: 'column',
 }
 
 export default function Features() {
@@ -62,7 +62,7 @@ export default function Features() {
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 54 }}>
         <div style={{
-          display: 'inline-flex_', alignItems: 'center',
+          display: 'inline-flex', alignItems: 'center',
           background: 'linear-gradient(145deg,rgba(160,100,255,.12),rgba(160,100,255,.05))',
           border: '1px solid rgba(160,100,255,.22)', borderRadius: 999,
           padding: '6px 18px', marginBottom: 18,
@@ -77,7 +77,7 @@ export default function Features() {
         </p>
       </div>
 
-      <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex_', flexDirection: 'column', gap: 14 }}>
+      <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
 
         {/* Row 1 */}
         <div className="features-row-1" style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
@@ -106,7 +106,7 @@ export default function Features() {
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
                 <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
-              <div style={{ display: 'flex_', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
+              <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
                 {[{ v: '2×', l: 'PAYOUT' }, { v: '0%', l: 'FEES' }, { v: '∞', l: 'GAMES' }].map(m => (
                   <div key={m.l}>
                     <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 28, color: '#c090ff' }}>{m.v}</div>
@@ -132,7 +132,7 @@ export default function Features() {
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="rgba(0,204,255,.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </BgIcon>
-            <div style={{ ...innerStyle, justifyContent: 'flex_-end' }}>
+            <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <span style={tagStyle('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>MULTI-CHAIN</span>
               <div style={titleStyle('var(--c)', 19)}>Every Move Recorded</div>
               <div style={descStyle}>Each move is a verifiable transaction. Provably fair, permanently on-chain.</div>
@@ -159,7 +159,7 @@ export default function Features() {
                 <polyline points="16 7 22 7 22 13" stroke="rgba(0,220,120,.9)" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
             </BgIcon>
-            <div style={{ ...innerStyle, justifyContent: 'flex_-end' }}>
+            <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#00dc78')}>Elo Rankings</div>
               <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain rating.</div>
             </div>
@@ -180,7 +180,7 @@ export default function Features() {
                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke="rgba(255,180,0,.9)" strokeWidth="1.5" strokeLinejoin="round" />
               </svg>
             </BgIcon>
-            <div style={{ ...innerStyle, justifyContent: 'flex_-end' }}>
+            <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#ffb400')}>Daily Faucet</div>
               <div style={descStyle}>Claim 1,000 CHESS tokens every day — completely free.</div>
             </div>
@@ -201,7 +201,7 @@ export default function Features() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="rgba(255,255,255,.5)" strokeWidth="1.5" strokeLinejoin="round" />
               </svg>
             </BgIcon>
-            <div style={{ ...innerStyle, justifyContent: 'flex_-end' }}>
+            <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('var(--t1)')}>Supported</div>
               <div style={descStyle}>MiniPay, Leather & Xverse supported. Multi-chain ready.</div>
               <div style={{ marginTop: 12 }}>

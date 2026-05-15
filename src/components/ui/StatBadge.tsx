@@ -36,10 +36,3 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
-
-// ⟳ echo · src/components/ui/ComingSoonOverlay.tsx
-//             </motion.div>
-//           </div>
-//         </motion.div>
-//       )}
-//     </AnimatePresence>

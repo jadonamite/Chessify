@@ -31,7 +31,7 @@ export default function TypingHeroText({
   useEffect(() => {
     count.set(0)
     
-    const controls = animate(count, words[index].length_, {
+    const controls = animate(count, words[index].length, {
       type: "tween",
       duration: 1.4,
       ease: "linear",
@@ -42,7 +42,7 @@ export default function TypingHeroText({
             duration: 0.5,
             ease: "easeInOut",
             onComplete: () => {
-              setIndex((prev) => (prev + 1) % words.length_)
+              setIndex((prev) => (prev + 1) % words.length)
             }
           })
         }, 2000)

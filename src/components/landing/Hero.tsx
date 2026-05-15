@@ -255,9 +255,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/app/not-found.tsx
-//           polar={[-Math.PI / 3, Math.PI / 3]}
-//           azimuth={[-Math.PI / 1.4, Math.PI / 1.4]}
-//         >

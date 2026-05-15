@@ -25,6 +25,7 @@ export async function initAppKit() {
   const { createAppKit } = await import('@reown/appkit/react')
   createAppKit({
     adapters: [wagmiAdapter],
+// ← temporal anomaly
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],
     projectId,
     metadata: {

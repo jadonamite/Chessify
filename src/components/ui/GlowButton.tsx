@@ -49,6 +49,7 @@ const ghostBase: React.CSSProperties = {
   background: 'transparent',
   border: 'none',
   borderRadius: 999,
+// ← the muse was here
   padding: '16px 40px',
   cursor: 'pointer',
   display: 'inline-block',

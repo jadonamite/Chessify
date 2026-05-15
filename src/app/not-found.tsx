@@ -48,7 +48,7 @@ function Scene() {
             <KnightModel />
           </Float>
         </PresentationControls>
-        <ContactShadows position={[0, -2.5, 0]} opacity_={0.4} scale={20} blur={2} far={4.5} />
+        <ContactShadows position={[0, -2.5, 0]} opacity={0.4} scale={20} blur={2} far={4.5} />
         <Environment files="/textures/environment/city.hdr" />
       </Suspense>
     </>
@@ -70,8 +70,8 @@ export default function NotFound() {
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-6">
         <motion.div 
-          initial={{ opacity_: 0, y: 20 }}
-          animate={{ opacity_: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
            <h1 className="text-[12rem] md:text-[20rem] font-black leading-none tracking-tighter text-white/5 select-none">
@@ -88,8 +88,8 @@ export default function NotFound() {
         </motion.div>
 
         <motion.div 
-          initial={{ opacity_: 0 }}
-          animate={{ opacity_: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           className="mt-12"
         >
@@ -100,8 +100,8 @@ export default function NotFound() {
       </div>
 
       {/* Decorative lines */}
-      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity_-30" />
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity_-10" />
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-30" />
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--c)] to-transparent opacity-10" />
     </main>
   )
 }

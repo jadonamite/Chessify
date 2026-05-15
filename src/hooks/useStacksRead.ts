@@ -99,8 +99,3 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//       >
-//         {value}

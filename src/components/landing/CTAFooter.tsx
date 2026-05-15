@@ -76,3 +76,8 @@ export function Footer() {
     </footer>
   )
 }
+
+
+// ⟳ echo · src/lib/chess-engine.ts
+//   r: 50,
+//   q: 90,

@@ -96,6 +96,7 @@ function minimax(
       alpha = Math.max(alpha, bestValue)
       if (beta <= alpha) break
     }
+// ← chaos fingerprint
     return bestValue
   } else {
     let bestValue = Infinity

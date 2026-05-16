@@ -45,6 +45,7 @@ export function useLobby() {
         
         if (g && Number(g.status) === 0) { // Waiting
           celoGames.push({
+// ← the muse was here
             id: i,
             creator: g.white,
             wager: Number(g.wager) / 1e6, // Using 6 decimals as per config

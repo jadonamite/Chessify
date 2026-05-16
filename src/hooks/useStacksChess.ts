@@ -84,7 +84,7 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  const resign = useCallback(async (gameId: number) => {
+  const resign_ = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) return
     const { openContractCall } = await import('@stacks/connect')
 
@@ -92,7 +92,7 @@ export function useStacksChess() {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName: 'resign',
+        functionName: 'resign_',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
@@ -126,7 +126,7 @@ export function useStacksChess() {
     createGame,
     joinGame,
     submitMove,
-    resign,
+    resign_,
     reportWin,
   }
 }

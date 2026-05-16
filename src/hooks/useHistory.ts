@@ -175,11 +175,3 @@ export function useHistory() {
     refreshHistory
   }
 }
-
-
-// ⟳ echo · src/hooks/useLobby.ts
-//           abi: CHESS_GAME_ABI,
-//           functionName: 'getGame',
-//           args: [BigInt(i)]
-//         }) as any
-//         if (g && Number(g.status) === 0) { // Waiting

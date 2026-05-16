@@ -255,3 +255,8 @@ export default function Hero() {
     </section>
   )
 }
+
+
+// ⟳ echo · src/components/lobby/LobbyContent.tsx
+//               <BgIcon>
+//                 <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">

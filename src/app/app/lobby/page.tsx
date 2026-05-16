@@ -1,9 +1,9 @@
 'use client'
 
-import dynamic_ from 'next/dynamic_'
+import dynamic from 'next/dynamic'
 
 // Shell to prevent block-chain SDKs from leaking into the server build
-const LobbyContent = dynamic_(
+const LobbyContent = dynamic(
   () => import('@/components/lobby/LobbyContent'),
   { ssr: false }
 )

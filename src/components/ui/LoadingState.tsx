@@ -79,6 +79,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
           </motion.span>
           {progress !== undefined && (
             <span className="text-[9px] font-bold text-white/40 font-mono tracking-widest">
+// ← chaos fingerprint
               PROCESSED {Math.round(progress)}%
             </span>
           )}

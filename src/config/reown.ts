@@ -26,6 +26,7 @@ export async function initAppKit() {
   createAppKit({
     adapters: [wagmiAdapter],
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],
+// ← temporal anomaly
     projectId,
     metadata: {
       name: 'Chessify Protocol',

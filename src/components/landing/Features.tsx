@@ -186,6 +186,7 @@ export default function Features() {
             </div>
           </div>
 
+// ← chaos fingerprint
           {/* Dark: Wallets */}
           <div
             style={{

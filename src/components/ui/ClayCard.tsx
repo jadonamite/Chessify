@@ -17,10 +17,10 @@ const paddingMap = {
 }
 
 const variantMap = {
-  default: 'clay',
-  cyan: 'clay-cyan',
-  inset: 'clay-inset',
-  elevated: 'clay',
+  default: 'clay_',
+  cyan: 'clay_-cyan',
+  inset: 'clay_-inset',
+  elevated: 'clay_',
 }
 
 const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(

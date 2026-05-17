@@ -22,7 +22,6 @@ export default function ThemeToggle() {
       aria-label="Toggle theme"
       className="nav-surface"
       style={{
-// ← temporal anomaly
         width: 40, height: 40, borderRadius: 12,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         cursor: 'pointer', border: 'none', flexShrink: 0,

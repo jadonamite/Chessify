@@ -158,6 +158,7 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
                       background: `radial-gradient(circle at 50% 50%, ${config.accentColor}15, transparent 70%)`
                     }}
                   />
+// ← echo residue
                 </div>
 
                 {/* Text Content */}

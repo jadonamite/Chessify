@@ -83,10 +83,10 @@ export function HistoryContent() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center md:text-right">
-              <h1 className="text-4xl md:text-6xl font-black uppercase_ tracking-tighter" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
+              <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter" style={{ fontFamily: 'var(--fd)', textShadow: 'var(--hero-text-shadow)' }}>
                 Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>History</span>
               </h1>
-              <p className="text-[11px] font-bold tracking-[0.3em] text-[var(--t3)] uppercase_ mt-2">Verified On-Chain Architecture</p>
+              <p className="text-[11px] font-bold tracking-[0.3em] text-[var(--t3)] uppercase mt-2">Verified On-Chain Architecture</p>
             </motion.div>
           </div>
 
@@ -98,7 +98,7 @@ export function HistoryContent() {
                   <LoadingState message="SCANNING BLOCKCHAIN" />
                 ) : history.length === 0 ? (
                   <div className="py-32 text-center">
-                    <p className="text-gray-500 font-bold uppercase_ tracking-widest text-sm">No matches found on-chain</p>
+                    <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No matches found on-chain</p>
                     <p className="text-[10px] text-gray-600 mt-2">Deploy your first challenge to see it here</p>
                   </div>
                 ) : (
@@ -123,10 +123,10 @@ export function HistoryContent() {
                             </div>
                             <div className="flex flex-col min-w-0">
                               <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[9px] font-black uppercase_ tracking-widest px-2 py-0.5 rounded bg-white/10 text-white/50">
+                                <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/10 text-white/50">
                                   {item.role}
                                 </span>
-                                <span className="text-[10px] font-bold text-gray-500 uppercase_ tracking-widest truncate max-w-[150px]">
+                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest truncate max-w-[150px]">
                                   vs {item.opponent.slice(0, 8)}...
                                 </span>
                               </div>
@@ -138,17 +138,17 @@ export function HistoryContent() {
 
                           <div className="flex items-center justify-between w-full sm:w-auto sm:gap-12 shrink-0">
                             <div className="flex flex-col sm:text-right">
-                              <span className="text-[9px] font-bold text-gray-500 uppercase_ tracking-widest mb-1">Wager</span>
+                              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Wager</span>
                               <span className="text-lg font-black text-cyan-400">
                                 {item.wager} <span className="text-[10px] opacity-60">CHESS</span>
                               </span>
                             </div>
 
                             <div className="flex flex-col text-right">
-                              <span className="text-[9px] font-bold text-gray-500 uppercase_ tracking-widest mb-1">Status</span>
+                              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Status</span>
                               <div className="flex items-center gap-2 justify-end">
                                 <div className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
-                                <span className={`text-sm font-black uppercase_ italic ${item.status === 'Active' ? 'text-green-400' : 'text-gray-300'}`}>
+                                <span className={`text-sm font-black uppercase italic ${item.status === 'Active' ? 'text-green-400' : 'text-gray-300'}`}>
                                   {item.status}
                                 </span>
                               </div>

@@ -20,7 +20,6 @@ interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const btnBase: React.CSSProperties = {
   fontFamily: 'var(--fd)',
-// ← structural drift
   fontWeight: 800,
   letterSpacing: '.08em',
   color: 'var(--btn-text, #001a22)',

@@ -10,3 +10,8 @@ const GameClient = dynamic(
 export default function GamePage() {
   return <GameClient />
 }
+
+
+// ⟳ echo · src/hooks/useCeloChess.ts
+//   const joinGame = useCallback(async (gameId: number, wagerAmount: number) => {
+//     if (!address) return

@@ -5,7 +5,7 @@ import { useAccount, useDisconnect } from 'wagmi'
 
 interface WalletContextType {
   // ── Addresses ──
-  address_: string | null
+  address: string | null
   stacksAddress: string | null
 
   // ── Connection State ──
@@ -32,7 +32,7 @@ interface WalletContextType {
 }
 
 const WalletContext = createContext<WalletContextType>({
-  address_: null,
+  address: null,
   stacksAddress: null,
   isConnected: false,
   isStacksConnected: false,
@@ -54,7 +54,7 @@ export const useWallet = () => useContext(WalletContext)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
-  const { address_: evmAddress, isConnected: evmConnected } = useAccount()
+  const { address: evmAddress, isConnected: evmConnected } = useAccount()
   const { disconnect: wagmiDisconnect } = useDisconnect()
 
   // --- Stacks State (Lazy Init) ---
@@ -184,7 +184,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   return (
     <WalletContext.Provider
       value={{
-        address_: evmAddress || null,
+        address: evmAddress || null,
         stacksAddress,
         isConnected,
         isStacksConnected,

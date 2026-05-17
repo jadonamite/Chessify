@@ -55,14 +55,9 @@ function evaluateBoard(game: Chess): number {
   return totalEvaluation
 }
 
-function minimax(
-  game: Chess,
-  depth: number,
-  alpha: number,
-  beta: number,
-  isMaximizingPlayer: boolean
-): number {
-  if (depth === 0) return evaluateBoard(game)
+export function getBestMove(game: Chess, depth: number = 3): Move | null {
+  const possibleMoves = game.moves({ verbose: true })
+  if (game.isGameOver() || possibleMoves.length === 0) return null
 
   let bestMove = null
   let bestValue = Infinity // Black is the bot, so it wants to minimize (negative score)
@@ -81,9 +76,14 @@ function minimax(
   return bestMove
 }
 
-export function getBestMove(game: Chess, depth: number = 3): Move | null {
-  const possibleMoves = game.moves({ verbose: true })
-  if (game.isGameOver() || possibleMoves.length === 0) return null
+function minimax(
+  game: Chess,
+  depth: number,
+  alpha: number,
+  beta: number,
+  isMaximizingPlayer: boolean
+): number {
+  if (depth === 0) return evaluateBoard(game)
 
   const possibleMoves = game.moves()
 

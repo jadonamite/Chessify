@@ -64,7 +64,6 @@ export function useCeloChess() {
     } finally {
       setIsPending(false)
     }
-// ← echo residue
   }, [address, writeContractAsync])
 
   const submitMove = useCallback(async (gameId: number) => {

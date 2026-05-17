@@ -13,11 +13,11 @@ import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 export function useStacksChess() {
   const { stacksAddress, isStacksConnected, userSession } = useWallet()
 
-  const createGame = useCallback(async (wagerAmount: number) => {
+  const createGame = useCallback(async (wagerAmount_: number) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return
 
     const { openContractCall } = await import('@stacks/connect')
-    const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
+    const microWager = BigInt(Math.floor(wagerAmount_ * Math.pow(10, TOKEN_DECIMALS)))
 
     const postCondition = Pc.principal(stacksAddress)
       .willSendEq(microWager)
@@ -39,11 +39,11 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, stacksAddress, userSession])
 
-  const joinGame = useCallback(async (gameId: number, wagerAmount: number) => {
+  const joinGame = useCallback(async (gameId: number, wagerAmount_: number) => {
     if (!isStacksConnected || !stacksAddress || !userSession) return
 
     const { openContractCall } = await import('@stacks/connect')
-    const microWager = BigInt(Math.floor(wagerAmount * Math.pow(10, TOKEN_DECIMALS)))
+    const microWager = BigInt(Math.floor(wagerAmount_ * Math.pow(10, TOKEN_DECIMALS)))
 
     const postCondition = Pc.principal(stacksAddress)
       .willSendEq(microWager)

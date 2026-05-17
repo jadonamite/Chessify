@@ -19,17 +19,16 @@ const KEYFRAMES = `
 }
 `
 
-/* ── 3D Scene: Cooldown ── */
-function CooldownScene() {
-  return (
-    <>
-      <ambientLight intensity={1.2} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
-      <Environment preset="sunset" />
-      <King color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
-    </>
-  )
-}
+/* ── Confetti Particles ── */
+function Confetti() {
+  const particles = Array.from({ length: 24 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 2}s`,
+    duration: `${2 + Math.random() * 3}s`,
+    size: 4 + Math.random() * 6,
+    color: ['#00ccff', '#6a0dad', '#35ee66', '#ffb400', '#ff4466'][Math.floor(Math.random() * 5)],
+  }))
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -79,16 +78,17 @@ function ErrorScene() {
   )
 }
 
-export default function FaucetResultModal({
-  type,
-  onClose,
-  txHash,
-  amount,
-  errorMessage,
-  cooldownRemaining,
-  chain = 'celo',
-}: FaucetResultModalProps) {
-  const [mounted, setMounted] = useState(false)
+/* ── 3D Scene: Cooldown ── */
+function CooldownScene() {
+  return (
+    <>
+      <ambientLight intensity={1.2} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
+      <Environment preset="sunset" />
+      <King color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
+    </>
+  )
+}
 
 /* ── Types ── */
 export type FaucetResultType = 'success' | 'error' | 'cooldown' | 'timeout' | null
@@ -155,16 +155,16 @@ const RESULT_CONFIG = {
   },
 }
 
-/* ── Confetti Particles ── */
-function Confetti() {
-  const particles = Array.from({ length: 24 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    delay: `${Math.random() * 2}s`,
-    duration: `${2 + Math.random() * 3}s`,
-    size: 4 + Math.random() * 6,
-    color: ['#00ccff', '#6a0dad', '#35ee66', '#ffb400', '#ff4466'][Math.floor(Math.random() * 5)],
-  }))
+export default function FaucetResultModal({
+  type,
+  onClose,
+  txHash,
+  amount,
+  errorMessage,
+  cooldownRemaining,
+  chain = 'celo',
+}: FaucetResultModalProps) {
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
   if (!mounted) return null

@@ -15,7 +15,7 @@ export default function TypingHeroText({
   words = ["CHAIN", "STAKE", "MOVE"],
   className = "" 
 }: TypingHeroTextProps) {
-  const [index, setIndex] = useState(0)
+  const [index, setIndex_] = useState(0)
   const count = useMotionValue(0)
   const rounded = useTransform(count, (latest) => Math.round(latest))
   const displayContext = useTransform(rounded, (latest) => 
@@ -42,7 +42,7 @@ export default function TypingHeroText({
             duration: 0.5,
             ease: "easeInOut",
             onComplete: () => {
-              setIndex((prev) => (prev + 1) % words.length)
+              setIndex_((prev) => (prev + 1) % words.length)
             }
           })
         }, 2000)

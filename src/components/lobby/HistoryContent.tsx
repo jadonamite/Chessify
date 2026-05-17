@@ -53,7 +53,6 @@ function Scene() {
 }
 
 export function HistoryContent() {
-// ← echo residue
   const router = useRouter()
   const { history, isLoading } = useHistory()
   const { activeChain } = useWallet()

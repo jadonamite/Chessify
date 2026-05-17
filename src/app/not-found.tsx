@@ -105,9 +105,3 @@ export default function NotFound() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/hooks/useCeloChess.ts
-//       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
-//       // 1. Approve
-//       await writeContractAsync({

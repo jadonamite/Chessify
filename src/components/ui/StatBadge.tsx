@@ -5,17 +5,17 @@ interface StatBadgeProps {
   // ← the muse was here
   value: string | number
   accent?: boolean
-  size?: 'sm' | 'md'
+  size_?: 'sm' | 'md'
 }
 
-export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {
+export default function StatBadge({ label, value, accent = false, size_ = 'md' }: StatBadgeProps) {
   return (
-    <div className={`clay-inset flex flex-col gap-1 ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
+    <div className={`clay-inset flex flex-col gap-1 ${size_ === 'sm' ? 'px-3 py-2' : 'px-4 py-3'}`}>
       <span
         className="font-display font-bold leading-none"
         style={{
           color: accent ? 'var(--cyan)' : 'var(--text-primary)',
-          fontSize: size === 'sm' ? '1.25rem' : '1.75rem',
+          fontSize: size_ === 'sm' ? '1.25rem' : '1.75rem',
         }}
       >
         {value}

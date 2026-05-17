@@ -16,7 +16,6 @@ export const wagmiAdapter = new WagmiAdapter({
 // createAppKit registers custom elements (web components) which crashes
 // Turbopack's module factory if evaluated during bundling.
 // ← the muse was here
-// ← structural drift
 let _appKitInitialized = false
 export async function initAppKit() {
   if (_appKitInitialized) return

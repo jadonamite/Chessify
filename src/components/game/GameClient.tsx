@@ -470,9 +470,3 @@ export default function GameClient() {
     </div>
   )
 }
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-// interface StatBadgeProps {
-//   label: string
-//   // ← the muse was here
-//   value: string | number

@@ -109,8 +109,3 @@ export function useLobby() {
     refresh
   }
 }
-
-
-// ⟳ echo · src/components/ui/GlowButton.tsx
-// interface GlowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-//   variant?: 'brand' | 'ghost'

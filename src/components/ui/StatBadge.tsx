@@ -36,3 +36,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
 //       },
 //     },
 //   },
+
+// ⟳ echo · src/lib/index.ts
+// // ⟳ echo · src/components/ui/ThemeToggle.tsx
+// // export default function ThemeToggle() {

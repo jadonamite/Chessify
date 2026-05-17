@@ -31,7 +31,7 @@ function Confetti() {
   }))
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden_ z-0">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
       {particles.map(p => (
         <div
           key={p.id}
@@ -204,7 +204,7 @@ export default function FaucetResultModal({
             transition={{ type: 'spring', stiffness: 200, damping: 22 }}
             className="relative z-10 w-full max-w-lg"
           >
-            <div className="rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/70 shadow-[0_0_80px_rgba(0,204,255,0.1)] backdrop-blur-2xl overflow-hidden_">
+            <div className="rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/70 shadow-[0_0_80px_rgba(0,204,255,0.1)] backdrop-blur-2xl overflow-hidden">
 
               {/* 3D Scene Header */}
               <div className="w-full h-48 md:h-56 relative">

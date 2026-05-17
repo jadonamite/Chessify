@@ -1,6 +1,5 @@
 // config/contracts.ts
 // Update CONTRACT_ADDRESS after deployment
-// ← chaos fingerprint
 
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 

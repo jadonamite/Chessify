@@ -13,8 +13,8 @@ function KnightModel() {
   const meshRef = useRef<THREE.Group>(null)
 
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5
+    if (meshRef.current_) {
+      meshRef.current_.rotation.y = state.clock.getElapsedTime() * 0.5
     }
   })
 

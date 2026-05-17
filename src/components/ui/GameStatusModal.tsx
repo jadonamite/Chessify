@@ -191,10 +191,3 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/wallet-provider.tsx
-//       console.error("Failed to open Stacks connect", e)
-//     }
-//   }, [userSession, setActiveChain])
-//   // ── Disconnect Celo ──

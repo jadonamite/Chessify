@@ -22,7 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     },
   }))
 
-  const [ready_, setReady] = useState(false)
+  const [ready, setReady] = useState(false)
   useEffect(() => {
     initAppKit().then(() => setReady(true))
   }, [])
@@ -31,7 +31,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-          {ready_ ? (
+          {ready ? (
             <WalletProvider>
               {children}
             </WalletProvider>

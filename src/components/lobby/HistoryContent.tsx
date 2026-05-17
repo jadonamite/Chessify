@@ -58,7 +58,7 @@ export function HistoryContent() {
   const { activeChain } = useWallet()
 
   return (
-    <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">
+    <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden_ flex flex-col font-body">
       {/* ── BACKGROUND ── */}
       <div className="fixed inset-0 z-0 h-screen w-full pointer-events-none">
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
@@ -91,7 +91,7 @@ export function HistoryContent() {
           </div>
 
           {/* History List */}
-          <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden">
+          <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden_">
             <div className="p-1 md:p-2">
               <div className="flex flex-col">
                 {isLoading ? (
@@ -114,7 +114,7 @@ export function HistoryContent() {
                           className="p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 hover:bg-white/[0.02] transition-colors"
                         >
                           <div className="flex items-center gap-6 w-full sm:w-auto">
-                            <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
+                            <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden_ relative group">
                               <PieceView
                                 type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
                                 color={item.chain === 'celo' ? '#35ee66' : '#ff9900'}

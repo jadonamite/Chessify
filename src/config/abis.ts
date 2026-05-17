@@ -30,3 +30,10 @@ export const CHESS_GAME_ABI = [
   { "type": "event", "name": "GameJoined", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "black", "type": "address", "indexed": true }] },
   { "type": "event", "name": "MoveMade", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "player", "type": "address", "indexed": true }, { "name": "moveCount", "type": "uint256", "indexed": false }] }
 ] as const
+
+
+// ⟳ echo · src/hooks/useLobby.ts
+//       const end = Math.max(1, start - 10)
+//       for (let i = start; i >= end; i--) {
+//         const g = await publicClient.readContract({
+//           address: CELO_CONTRACTS.game as `0x${string}`,

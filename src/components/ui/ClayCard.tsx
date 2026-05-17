@@ -30,7 +30,6 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       hover = false,
       glow = false,
       padding = 'md',
-// ← chaos fingerprint
       className = '',
       children,
       ...props

@@ -102,8 +102,3 @@ export function useCeloChess() {
     isPending
   }
 }
-
-
-// ⟳ echo · src/components/ui/LoadingState.tsx
-//             transition={{ duration: 2, repeat: Infinity }}
-//             className="text-[10px] font-black tracking-[0.4em] text-[var(--c)] uppercase"

@@ -255,11 +255,3 @@ export default function Hero() {
     </section>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GameStatusModal.tsx
-// }
-// function CheckmateScene() {
-//   return (
-//     <>
-//       <ambientLight intensity={0.5} />

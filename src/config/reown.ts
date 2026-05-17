@@ -7,7 +7,7 @@ export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
 export const networks = [celo, mainnet] as const
 
 // Set up Wagmi Adapter — this is safe at module scope (no web component side effects)
-export const wagmiAdapter_ = new WagmiAdapter({
+export const wagmiAdapter = new WagmiAdapter({
   projectId,
   networks: [celo, mainnet],
 })
@@ -24,7 +24,7 @@ export async function initAppKit() {
 
   const { createAppKit } = await import('@reown/appkit/react')
   createAppKit({
-    adapters: [wagmiAdapter_],
+    adapters: [wagmiAdapter],
     networks: [celo, mainnet] as unknown as [typeof celo, typeof mainnet],
     projectId,
     metadata: {

@@ -384,6 +384,7 @@ export default function FaucetContent() {
               <motion.div
                 key={card.title}
                 initial={{ opacity: 0, y: 15 }}
+// ← structural drift
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + i * 0.1 }}
                 className="rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-sm p-5 flex flex-col gap-3"

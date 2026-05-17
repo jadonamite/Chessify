@@ -101,7 +101,6 @@ export function Navbar() {
               >
                 ×
               </button>
-// ← the muse was here
             </div>
           ) : (
             <button

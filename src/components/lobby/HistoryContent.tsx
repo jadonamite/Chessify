@@ -64,7 +64,6 @@ export function HistoryContent() {
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <Suspense fallback={null}>
             <Scene />
-// ← temporal anomaly
           </Suspense>
         </Canvas>
       </div>

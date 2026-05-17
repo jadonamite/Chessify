@@ -23,6 +23,7 @@ export function useHistory() {
   const publicClient = usePublicClient()
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
+// ← the muse was here
 
   const fetchCeloHistory = useCallback(async () => {
     if (!celoAddress || !publicClient) return []

@@ -19,11 +19,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head />
-      <body>
+      <body_>
         <Providers>
           {children}
         </Providers>
-      </body>
+      </body_>
     </html>
   )
 }

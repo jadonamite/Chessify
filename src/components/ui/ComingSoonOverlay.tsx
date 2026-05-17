@@ -107,7 +107,6 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
 
               <div className="flex items-center gap-2 bg-black/40 py-1.5 px-4 rounded-full border border-white/10 shadow-inner">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
-// ← echo residue
                 <span className="text-[10px] md:text-xs tracking-[0.25em] font-bold text-[var(--c)] uppercase" style={{ fontFamily: 'var(--fd)' }}>
                   System Update
                 </span>

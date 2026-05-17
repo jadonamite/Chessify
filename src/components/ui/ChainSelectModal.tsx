@@ -78,7 +78,7 @@ function ChainCard({
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial_-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
+          background: `radial-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
         }}
       />
 
@@ -181,8 +181,8 @@ export default function ChainSelectModal({
             position: 'absolute', inset: 0,
             backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)',
             backgroundSize: '52px 52px', pointerEvents: 'none',
-            WebkitMaskImage: 'radial_-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
-            maskImage: 'radial_-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
+            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
             opacity: 0.3,
           }} />
 

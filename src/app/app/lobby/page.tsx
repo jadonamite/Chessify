@@ -1,5 +1,4 @@
 'use client'
-// ← chaos fingerprint
 
 import dynamic from 'next/dynamic'
 

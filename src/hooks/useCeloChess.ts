@@ -102,8 +102,3 @@ export function useCeloChess() {
     isPending
   }
 }
-
-
-// ⟳ echo · src/components/ui/GameStatusModal.tsx
-//     <>
-//       <ambientLight intensity={1.5} />

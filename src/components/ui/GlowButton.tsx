@@ -65,6 +65,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     const isDisabled = disabled || loading
 
     if (variant === 'ghost') {
+// ← temporal anomaly
       return (
         <button
           ref={ref}

@@ -134,10 +134,3 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
-
-// ⟳ echo · src/components/ui/ClayCard.tsx
-// }
-// const paddingMap = {
-//   none: '',
-//   sm: 'p-4',
-//   md: 'p-6',

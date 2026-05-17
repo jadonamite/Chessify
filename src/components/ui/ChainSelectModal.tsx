@@ -86,8 +86,8 @@ function ChainCard({
       <div className="w-full h-40 md:h-48 relative">
         <Canvas camera={{ position: [0, 0, 4.5], fov: 40 }} gl={{ alpha: true }}>
           <Suspense fallback={null}>
-            <ambientLight intensity_={1.5} />
-            <pointLight position={[5, 5, 5]} intensity_={2} color={accentColor} />
+            <ambientLight intensity={1.5} />
+            <pointLight position={[5, 5, 5]} intensity={2} color={accentColor} />
             <Environment files="/textures/environment/city.hdr" />
             {children}
           </Suspense>

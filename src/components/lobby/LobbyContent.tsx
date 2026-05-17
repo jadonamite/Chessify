@@ -1,23 +1,23 @@
 'use client'
 
-import { useCeloChess } from '@/hooks/useCeloChess'
-import { useStacksChess } from '@/hooks/useStacksChess'
-import LoadingState from '@/components/ui/LoadingState'
-import { useReadContract, useAccount } from 'wagmi'
-import { useRouter } from 'next/navigation'
-import GlowButton from '@/components/ui/GlowButton'
-import { Navbar } from '@/components/landing/Hero'
-import { formatUnits } from 'viem'
-import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
-import { useWallet } from '@/components/wallet-provider'
+import { useState, useEffect, Suspense, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useWallet } from '@/components/wallet-provider'
+import GlowButton from '@/components/ui/GlowButton'
+import ClayCard from '@/components/ui/ClayCard'
 import ComingSoonOverlay from '@/components/ui/ComingSoonOverlay'
 import { useStacksRead } from '@/hooks/useStacksRead'
-import { useState, useEffect, Suspense, useMemo } from 'react'
-// @ts-expect-error - intentional unused variable
+import { useStacksChess } from '@/hooks/useStacksChess'
+import { useRouter } from 'next/navigation'
+import { Navbar } from '@/components/landing/Hero'
+import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
+import { useCeloChess } from '@/hooks/useCeloChess'
 import { useLobby } from '@/hooks/useLobby'
+import LoadingState from '@/components/ui/LoadingState'
+// @ts-expect-error - intentional unused variable
+import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
-import ClayCard from '@/components/ui/ClayCard'
+import { formatUnits } from 'viem'
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
     <div style={{

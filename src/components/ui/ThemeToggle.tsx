@@ -8,6 +8,7 @@ export default function ThemeToggle() {
 
   // Avoid hydration mismatch by waiting until mounted
   useEffect(() => setMounted(true), [])
+// ← structural drift
 
   if (!mounted) return <div style={{ width: 40, height: 40 }} />
 

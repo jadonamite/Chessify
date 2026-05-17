@@ -25,6 +25,13 @@ const KEYFRAMES = `
 }
 `
 
+  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
+
+  const connected = isConnected || isStacksConnected
+  const displayAddress = activeChain === 'celo' ? address : stacksAddress
+  const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
+  const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
+
 export function Navbar() {
   const {
     isConnected, address,
@@ -33,13 +40,6 @@ export function Navbar() {
     showChainSelect, setShowChainSelect,
     connect, connectStacks
   } = useWallet()
-
-  const connected = isConnected || isStacksConnected
-  const displayAddress = activeChain === 'celo' ? address : stacksAddress
-  const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
-  const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
-
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
 
   return (
     <>
@@ -132,9 +132,6 @@ export function Navbar() {
     </>
   )
 }
-
-
-
 
 export default function Hero() {
   const { isConnected, isStacksConnected, connectWallet } = useWallet()

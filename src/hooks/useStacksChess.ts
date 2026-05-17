@@ -1,14 +1,14 @@
 'use client'
 
+import { useCallback } from 'react'
 import { 
-import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
   AnchorMode, 
   PostConditionMode, 
   uintCV,
   Pc
 } from '@stacks/transactions'
-import { useCallback } from 'react'
 import { useWallet } from '@/components/wallet-provider'
+import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 
 export function useStacksChess() {
   const { stacksAddress, isStacksConnected, userSession } = useWallet()

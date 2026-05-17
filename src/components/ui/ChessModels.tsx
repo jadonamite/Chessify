@@ -73,6 +73,17 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
   )
 }
 
+export const King = (props: PieceProps) => <BasePiece modelPath="/models/King.glb" scale={1.87} {...props} />
+export const Queen = (props: PieceProps) => <BasePiece modelPath="/models/QueenChess.glb" scale={1.62} {...props} />
+export const Rook = (props: PieceProps) => <BasePiece modelPath="/models/Rook.glb" scale={1.37} {...props} />
+export const Pawn = (props: PieceProps) => <BasePiece modelPath="/models/pawn.glb" scale={1.25} {...props} />
+export const Bishop = (props: PieceProps) => <BasePiece modelPath="/models/Bishop.glb" scale={1.45} {...props} />
+export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/WhiteKnight.glb" scale={1.4} {...props} />
+
+/* ── SMALL CANVAS COMPONENT FOR LISTS ── */
+import { Canvas } from '@react-three/fiber'
+import { Environment } from '@react-three/drei'
+
 export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string, className?: string }) {
   return (
     <div className={className}>
@@ -90,15 +101,3 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
     </div>
   )
 }
-
-
-/* ── SMALL CANVAS COMPONENT FOR LISTS ── */
-import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
-
-export const King = (props: PieceProps) => <BasePiece modelPath="/models/King.glb" scale={1.87} {...props} />
-export const Queen = (props: PieceProps) => <BasePiece modelPath="/models/QueenChess.glb" scale={1.62} {...props} />
-export const Rook = (props: PieceProps) => <BasePiece modelPath="/models/Rook.glb" scale={1.37} {...props} />
-export const Pawn = (props: PieceProps) => <BasePiece modelPath="/models/pawn.glb" scale={1.25} {...props} />
-export const Bishop = (props: PieceProps) => <BasePiece modelPath="/models/Bishop.glb" scale={1.45} {...props} />
-export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/WhiteKnight.glb" scale={1.4} {...props} />

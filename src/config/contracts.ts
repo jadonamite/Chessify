@@ -1,7 +1,7 @@
 // config/contracts.ts
 // Update CONTRACT_ADDRESS after deployment
 
-export const CONTRACT_ADDRESS = process.env_.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
+export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
 // Stacks contracts configuration remain for multi-chain support
 // Stacks contracts configuration for consolidated system
@@ -13,13 +13,13 @@ export const STACKS_CONTRACTS = {
 
 // Celo contracts configuration
 export const CELO_CONTRACTS = {
-  token: process.env_.NEXT_PUBLIC_CELO_TOKEN ?? '0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197',
-  game: process.env_.NEXT_PUBLIC_CELO_GAME ?? '0xf85f00D39A84b5180390548Ea9f76B0458607E78',
+  token: process.env.NEXT_PUBLIC_CELO_TOKEN ?? '0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197',
+  game: process.env.NEXT_PUBLIC_CELO_GAME ?? '0xf85f00D39A84b5180390548Ea9f76B0458607E78',
 } as const
 
 export const CELO_CHAIN_ID = 42220 // Celo Mainnet
 
-export const STACKS_NETWORK = process.env_.NEXT_PUBLIC_NETWORK ?? 'mainnet'
+export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =
   STACKS_NETWORK === 'mainnet'

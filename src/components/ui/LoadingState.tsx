@@ -91,3 +91,8 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
     </div>
   )
 }
+
+
+// ⟳ echo · src/app/providers.tsx
+//   () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
+//   { ssr: false }

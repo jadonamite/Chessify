@@ -167,3 +167,8 @@ export function HistoryContent() {
     </main>
   )
 }
+
+
+// ⟳ echo · src/hooks/useHistory.ts
+//           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
+//           timestamp: Number(gameData.createdAt) // Using block number as proxy for now

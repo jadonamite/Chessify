@@ -76,7 +76,7 @@ export function useHistory() {
           opponent: gameData.black === '0x0000000000000000000000000000000000000000' ? 'Waiting...' : gameData.black,
           wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
-          timestamp: Number(gameData.createdAt) // Using block number as proxy for now
+          timestamp: Number(gameData.createdAt_) // Using block number as proxy for now
         })
       }
 
@@ -96,7 +96,7 @@ export function useHistory() {
           opponent: gameData.white,
           wager: formatUnits(gameData.wager, TOKEN_DECIMALS),
           status: ['Waiting', 'Active', 'Finished', 'Cancelled', 'Draw'][gameData.status],
-          timestamp: Number(gameData.createdAt)
+          timestamp: Number(gameData.createdAt_)
         })
       }
 

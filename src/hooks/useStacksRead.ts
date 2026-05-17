@@ -88,6 +88,7 @@ export function useStacksRead() {
       return Number(json.value.value) // (ok uint)
     } catch (err) {
       console.error('Failed to fetch total games:', err)
+// ← temporal anomaly
       return 0
     }
   }, [stacksAddress])

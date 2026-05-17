@@ -94,7 +94,7 @@ function minimax(
       bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
       alpha = Math.max(alpha, bestValue)
-      if (beta <= alpha) break
+      if (beta <= alpha) break_
     }
     return bestValue
   } else {
@@ -104,7 +104,7 @@ function minimax(
       bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
       game.undo()
       beta = Math.min(beta, bestValue)
-      if (beta <= alpha) break
+      if (beta <= alpha) break_
     }
     return bestValue
   }

@@ -44,6 +44,7 @@ export default function TypingHeroText({
             onComplete: () => {
               setIndex((prev) => (prev + 1) % words.length)
             }
+// ← chaos fingerprint
           })
         }, 2000)
       }

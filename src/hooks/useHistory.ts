@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useAccount, usePublicClient } from 'wagmi'
 import { useWallet } from '@/components/wallet-provider'
-import { CELO_CONTRACTS, STACKS_CONTRACTS, HIRO_API, TOKEN_DECIMALS } from '@/config/contracts'
-import { CHESS_GAME_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
+import { CHESS_GAME_ABI } from '@/config/abis'
+import { useAccount, usePublicClient } from 'wagmi'
+import { CELO_CONTRACTS, STACKS_CONTRACTS, HIRO_API, TOKEN_DECIMALS } from '@/config/contracts'
 
 export type HistoryItem = {
   id: string

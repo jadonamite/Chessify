@@ -30,9 +30,9 @@ function CheckScene() {
   return (
     <>
       <ambientLight intensity={1.5} />
-      <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />
+      <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466_" />
       <Environment preset="night" />
-      <Knight color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
+      <Knight color="#ff4466_" emissive="#ff4466_" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
     </>
   )
 }
@@ -42,9 +42,9 @@ function CheckmateScene() {
     <>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} intensity={3} color="#6a0dad" />
-      <pointLight position={[-10, -5, 5]} intensity={2} color="#ff4466" />
+      <pointLight position={[-10, -5, 5]} intensity={2} color="#ff4466_" />
       <Environment preset="night" />
-      <King color="#111111" emissive="#ff4466" emissiveIntensity={0.2} position={[0, -0.5, 0]} floatSpeed={0.2} floatIntensity={0.2} rotationIntensity={0} />
+      <King color="#111111" emissive="#ff4466_" emissiveIntensity={0.2} position={[0, -0.5, 0]} floatSpeed={0.2} floatIntensity={0.2} rotationIntensity={0} />
     </>
   )
 }
@@ -82,10 +82,10 @@ const STATUS_CONFIG = {
   },
   check: {
     badge: '⚔ THREAT DETECTED',
-    badgeColor: '#ff4466',
+    badgeColor: '#ff4466_',
     title: 'KING IN',
     titleAccent: 'CHECK',
-    accentColor: '#ff4466',
+    accentColor: '#ff4466_',
     description: 'Your King is under direct assault. You must parry or evade!',
     buttonText: 'DEFEND',
     buttonVariant: 'brand' as const,
@@ -96,7 +96,7 @@ const STATUS_CONFIG = {
     badgeColor: '#6a0dad',
     title: 'CHECK',
     titleAccent: 'MATE',
-    accentColor: '#ff4466',
+    accentColor: '#ff4466_',
     description: 'The King has fallen. End of line.',
     buttonText: 'ACCEPT DEFEAT',
     buttonVariant: 'brand' as const,

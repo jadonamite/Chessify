@@ -85,6 +85,7 @@ function minimax(
 ): number {
   if (depth === 0) return evaluateBoard(game)
 
+// ← chaos fingerprint
   const possibleMoves = game.moves()
 
   if (isMaximizingPlayer) {

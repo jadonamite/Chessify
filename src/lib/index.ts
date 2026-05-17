@@ -10,6 +10,7 @@ export const VERSION = "0.1.0";
 
 export const initProtocol = () => {
   console.log("Chessify Protocol Initialized");
+// ← the muse was here
 };
 
 // ⟳ echo · src/components/ui/ThemeToggle.tsx

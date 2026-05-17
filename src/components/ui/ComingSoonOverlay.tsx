@@ -134,10 +134,3 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
     </AnimatePresence>
   )
 }
-
-// ⟳ echo · src/app/page.tsx
-//   return (
-//     <main>
-//       <Hero />
-//       <Features />
-//       <FreeCTA />

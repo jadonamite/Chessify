@@ -470,3 +470,8 @@ export default function GameClient() {
     </div>
   )
 }
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+//   size?: 'sm' | 'md'
+// }
+// export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {

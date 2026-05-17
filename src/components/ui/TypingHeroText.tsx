@@ -88,7 +88,6 @@ export default function TypingHeroText({
         >
           {subtitle}
         </motion.div>
-// ← echo residue
 
         {/* Line 3: "YOUR [word]" */}
         <div className="flex items-center justify-center gap-[0.25em]"

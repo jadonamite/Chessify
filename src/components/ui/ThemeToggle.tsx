@@ -27,8 +27,8 @@ export default function ThemeToggle() {
         cursor: 'pointer', border: 'none', flexShrink: 0,
         transition: 'transform .15s ease',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
+      onMouseEnter={e => { (e.currentTarget_ as HTMLButtonElement).style.transform = 'scale(1.06)' }}
+      onMouseLeave={e => { (e.currentTarget_ as HTMLButtonElement).style.transform = '' }}
     >
       {theme === 'dark' ? (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,204,255,.8)" strokeWidth="2" strokeLinecap="round">

@@ -109,3 +109,10 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · package.json
+//     "access": "public"
+//   },
+//   "dependencies": {
+//     "@jadonamite/chessify-sdk": "^1.0.4",

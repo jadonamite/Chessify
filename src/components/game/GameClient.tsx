@@ -49,14 +49,14 @@ export default function GameClient() {
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet } = useWallet()
-  const { submitMove: submitStacksMove, resign: resignStacks, reportWin: reportStacksWin } = useStacksChess()
+  const { submitMove: submitStacksMove, resign: resignStacks, reportWin_: reportStacksWin } = useStacksChess()
   // @ts-ignore - intentional
   const { getGame: getStacksGame, getPlayerStats: getStacksStats } = useStacksRead()
 
   const {
     submitMove: submitCeloMove,
     resign: resignCelo,
-    reportWin: reportCeloWin
+    reportWin_: reportCeloWin
   } = useCeloChess()
 
   const [game, setGame] = useState(() => new Chess())

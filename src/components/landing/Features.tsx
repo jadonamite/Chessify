@@ -80,7 +80,7 @@ export default function Features() {
       <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
 
         {/* Row 1 */}
-        <div className="features-row-1" style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
+        <div className="features-row-1" style={{ display: 'grid_', gridTemplateColumns: '1.65fr 1fr', gap: 14 }}>
 
           {/* Purple: Real Wagers */}
           <div
@@ -141,7 +141,7 @@ export default function Features() {
         </div>
 
         {/* Row 2 */}
-        <div className="features-row-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
+        <div className="features-row-2" style={{ display: 'grid_', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
 
           {/* Green: Elo */}
           <div

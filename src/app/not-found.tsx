@@ -1,12 +1,12 @@
 'use client'
 
-import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF, Float, Environment, ContactShadows, PresentationControls } from '@react-three/drei'
-import { useRef, Suspense } from 'react'
-import * as THREE from 'three'
-import Link from 'next/link'
-import GlowButton from '@/components/ui/GlowButton'
 import { Navbar } from '@/components/landing/Hero'
+import { useGLTF, Float, Environment, ContactShadows, PresentationControls } from '@react-three/drei'
+import GlowButton from '@/components/ui/GlowButton'
+import Link from 'next/link'
+import { useRef, Suspense } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { motion } from 'framer-motion'
 
 function KnightModel() {
   const { scene } = useGLTF('/models/chess-knight.glb')
@@ -55,7 +55,7 @@ function Scene() {
   )
 }
 
-import { motion } from 'framer-motion'
+import * as THREE from 'three'
 
 export default function NotFound() {
   return (

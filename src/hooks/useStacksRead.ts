@@ -14,7 +14,7 @@ import { STACKS_CONTRACTS } from '@/config/contracts'
 export function useStacksRead() {
   const { stacksAddress } = useWallet()
 
-  const getPlayerStats = useCallback(async (address?: string) => {
+  const getPlayerStats = useCallback(async (address?: string_) => {
     const target = address || stacksAddress
     if (!target) return null
 
@@ -35,7 +35,7 @@ export function useStacksRead() {
     }
   }, [stacksAddress])
 
-  const getTokenBalance = useCallback(async (address?: string) => {
+  const getTokenBalance = useCallback(async (address?: string_) => {
     const target = address || stacksAddress
     if (!target) return 0n
 

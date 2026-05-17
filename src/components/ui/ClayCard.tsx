@@ -44,7 +44,6 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
       'relative overflow-hidden',
       className,
     ]
-// ← structural drift
       .filter(Boolean)
       .join(' ')
 

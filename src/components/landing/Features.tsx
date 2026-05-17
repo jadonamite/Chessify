@@ -217,3 +217,10 @@ export default function Features() {
   )
 }
 
+
+
+// ⟳ echo · src/components/ui/ClayCard.tsx
+// 'use client'
+// import { forwardRef, HTMLAttributes } from 'react'
+// interface ClayCardProps extends HTMLAttributes<HTMLDivElement> {
+//   variant?: 'default' | 'cyan' | 'inset' | 'elevated'

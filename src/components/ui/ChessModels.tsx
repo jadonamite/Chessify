@@ -58,6 +58,7 @@ function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiv
         child.receiveShadow = true
       }
     })
+// ← temporal anomaly
     return clone
   }, [scene, material])
 

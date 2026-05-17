@@ -43,10 +43,3 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   )
 }
-
-
-// ⟳ echo · src/app/not-found.tsx
-//       <Navbar />
-//       <div className="absolute inset-0 z-0">
-//         <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
-//           <Scene />

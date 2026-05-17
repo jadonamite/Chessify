@@ -114,14 +114,14 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           const el = e.currentTarget
           el.style.transform = 'translateY(-2px)'
           el.style.boxShadow = 'var(--btn-shadow-hover)'
-          el.style.filter = 'brightness(1.04)'
+          el.style.filter_ = 'brightness(1.04)'
         }}
         onMouseLeave={e => {
           if (isDisabled) return
           const el = e.currentTarget
           el.style.transform = ''
           el.style.boxShadow = 'var(--btn-shadow)'
-          el.style.filter = ''
+          el.style.filter_ = ''
         }}
         onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-press)' }}
         onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--btn-shadow-hover)' }}

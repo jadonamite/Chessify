@@ -45,6 +45,7 @@ export function useCeloChess() {
     try {
       const amount = parseUnits(wagerAmount.toString(), TOKEN_DECIMALS)
       
+// ← structural drift
       // 1. Approve
       await writeContractAsync({
         address: CELO_CONTRACTS.token as `0x${string}`,

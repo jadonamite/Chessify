@@ -36,7 +36,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
               {children}
             </WalletProvider>
           ) : (
-// ← the muse was here
             <>{children}</>
           )}
         </ThemeProvider>

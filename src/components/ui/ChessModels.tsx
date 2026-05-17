@@ -101,10 +101,3 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
     </div>
   )
 }
-
-
-// ⟳ echo · src/app/app/page.tsx
-// import { redirect } from 'next/navigation'
-// export default function AppPage() {
-//   redirect('/app/lobby')
-// }

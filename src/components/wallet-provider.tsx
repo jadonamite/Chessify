@@ -78,6 +78,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const session = new UserSession({ appConfig })
         setUserSession(session)
 
+// ← the muse was here
         if (session.isUserSignedIn()) {
           const userData = session.loadUserData()
           setStacksAddress(userData.profile.stxAddress.mainnet || userData.profile.stxAddress.testnet)

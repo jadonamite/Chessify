@@ -69,7 +69,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         <button
           ref={ref}
           disabled={isDisabled}
-          style={{ ...ghostBase, opacity_: isDisabled ? .45 : 1, width: fullWidth ? '100%' : undefined, ...style }}
+          style={{ ...ghostBase, opacity: isDisabled ? .45 : 1, width: fullWidth ? '100%' : undefined, ...style }}
           onMouseEnter={e => { if (!isDisabled) { const el = e.currentTarget; el.style.background = 'rgba(0,204,255,.05)'; el.style.boxShadow = '0 0 0 1px rgba(0,204,255,.55), 0 4px 0 rgba(0,50,70,.5), 0 16px 40px rgba(0,204,255,.2)'; el.style.transform = 'translateY(-1px)' } }}
           onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'transparent'; el.style.boxShadow = '0 0 0 1px var(--b2), 0 4px 0 rgba(0,50,70,.5), 0 8px 24px rgba(0,204,255,.1)'; el.style.transform = '' }}
           onMouseDown={e => { e.currentTarget.style.transform = 'translateY(2px)' }}
@@ -94,7 +94,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     const combined: React.CSSProperties = {
       ...btnBase,
       ...paraStyle,
-      opacity_: isDisabled ? .45 : 1,
+      opacity: isDisabled ? .45 : 1,
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       width: fullWidth ? '100%' : undefined,
       /* shadow + face via CSS vars so light/dark theme work */

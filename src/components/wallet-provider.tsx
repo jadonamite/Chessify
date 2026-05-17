@@ -112,7 +112,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  // ── Connect Celo (via_ Reown AppKit) ──
+  // ── Connect Celo (via Reown AppKit) ──
   const connect = useCallback(async () => {
     try {
       const { modal } = await import('@reown/appkit/react')
@@ -124,7 +124,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setShowChainSelect(false)
   }, [setActiveChain])
 
-  // ── Connect Stacks (via_ Stacks Connect) ──
+  // ── Connect Stacks (via Stacks Connect) ──
   const connectStacks = useCallback(async () => {
     if (!userSession) return
     try {

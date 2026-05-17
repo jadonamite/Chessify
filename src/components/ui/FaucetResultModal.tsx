@@ -337,8 +337,3 @@ export default function FaucetResultModal({
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/components/ui/GameStatusModal.tsx
-// }
-// function CheckScene() {

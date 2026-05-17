@@ -88,6 +88,7 @@ function ChainCard({
           <Suspense fallback={null}>
             <ambientLight intensity={1.5} />
             <pointLight position={[5, 5, 5]} intensity={2} color={accentColor} />
+// ← temporal anomaly
             <Environment files="/textures/environment/city.hdr" />
             {children}
           </Suspense>

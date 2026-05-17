@@ -5,7 +5,6 @@
  * A decentralized chess protocol built on the Stacks blockchain.
  * Full SDK functionality coming in v0.2.0
  */
-// ← the muse was here
 
 export const VERSION = "0.1.0";
 

@@ -1,12 +1,12 @@
 'use client'
 
-import { Canvas, useFrame } from '@react-three/fiber'
+import GlowButton from '@/components/ui/GlowButton'
 import { useGLTF, Float, Environment, ContactShadows, PresentationControls } from '@react-three/drei'
 import { useRef, Suspense } from 'react'
 import * as THREE from 'three'
-import Link from 'next/link'
-import GlowButton from '@/components/ui/GlowButton'
 import { Navbar } from '@/components/landing/Hero'
+import Link from 'next/link'
+import { Canvas, useFrame } from '@react-three/fiber'
 
 function KnightModel() {
   const { scene } = useGLTF('/models/chess-knight.glb')

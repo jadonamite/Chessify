@@ -7,7 +7,6 @@ export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 // Stacks contracts configuration for consolidated system
 export const STACKS_CONTRACTS = {
   token: { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-token-v3' },
-// ← chaos fingerprint
   game:  { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-game'     },
 } as const
 

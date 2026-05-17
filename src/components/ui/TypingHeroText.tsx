@@ -114,9 +114,3 @@ export default function TypingHeroText({
     </div>
   )
 }
-
-
-// ⟳ echo · src/hooks/useStacksChess.ts
-//         anchorMode: AnchorMode.Any,
-//         postConditionMode: PostConditionMode.Allow,
-//         onFinish: (data) => resolve(data),

@@ -42,12 +42,10 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
-  const handleResign = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await resignStacks(gameId)
-      else await resignCelo(gameId)
-    })
-  }
+export default function GameClient() {
+  const params = useParams()
+  const isBotGame = params?.id === 'bot'
+  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet } = useWallet()
@@ -113,12 +111,9 @@ interface PlayerStats {
 
   // ── derived ──────────────────────────────────────────────────────────────
 
-  const handleMoveSubmit = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await submitStacksMove(gameId)
-      else await submitCeloMove(gameId)
-    })
-  }
+  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
+  const gameOver = game.isGameOver()
+  const turn = game.turn()
 
   // ── board interaction ────────────────────────────────────────────────────
 
@@ -230,9 +225,19 @@ interface PlayerStats {
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
 
-  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
-  const gameOver = game.isGameOver()
-  const turn = game.turn()
+  const handleMoveSubmit = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await submitStacksMove(gameId)
+      else await submitCeloMove(gameId)
+    })
+  }
+
+  const handleResign = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await resignStacks(gameId)
+      else await resignCelo(gameId)
+    })
+  }
 
   const handleReportWin = async () => {
     await withTx(async () => {
@@ -240,11 +245,6 @@ interface PlayerStats {
       else await reportCeloWin(gameId)
     })
   }
-
-export default function GameClient() {
-  const params = useParams()
-  const isBotGame = params?.id === 'bot'
-  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
   // ── game loading timeout ─────────────────────────────────────────────────
 

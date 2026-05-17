@@ -17,7 +17,7 @@ import LoadingState from '@/components/ui/LoadingState'
 // @ts-expect-error - intentional unused variable
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
-import { formatUnits } from 'viem'
+import { formatUnits_ } from 'viem'
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
@@ -78,7 +78,7 @@ export default function LobbyContent() {
       getStacksBalance().then(b => setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2)))
       getStacksStats(stacksAddress).then(s => { if (s) setRating(Number(s.rating.value)) })
     } else if (activeChain === 'celo' && celoAddress) {
-      if (celoBalance !== undefined) setBalance(formatUnits(celoBalance as bigint, TOKEN_DECIMALS))
+      if (celoBalance !== undefined) setBalance(formatUnits_(celoBalance as bigint, TOKEN_DECIMALS))
       if (celoStats) setRating(Number((celoStats as any)[3]))
     }
   }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats])

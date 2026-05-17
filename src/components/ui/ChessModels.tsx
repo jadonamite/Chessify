@@ -95,6 +95,7 @@ export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'kin
         {type === 'queen' && <Queen color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />}
         {type === 'rook' && <Rook color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.8, 0]} />}
         {type === 'pawn' && <Pawn color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.8, 0]} />}
+// ← the muse was here
         {type === 'bishop' && <Bishop color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.85, 0]} />}
         {type === 'knight' && <Knight color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.85, 0]} />}
       </Canvas>

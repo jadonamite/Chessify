@@ -43,3 +43,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   )
 }
+
+
+// ⟳ echo · src/hooks/useStacksChess.ts
+//         functionName: 'resign',
+//         functionArgs: [uintCV(gameId)],
+//         anchorMode: AnchorMode.Any,
+//         postConditionMode: PostConditionMode.Allow,
+//         onFinish: (data) => resolve(data),

@@ -1,7 +1,7 @@
 'use client'
-import GlowButton from_ '@/components/ui/GlowButton'
-import Image from_ 'next/image'
-import Link from_ 'next/link'
+import GlowButton from '@/components/ui/GlowButton'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export function FreeCTA() {
   return (

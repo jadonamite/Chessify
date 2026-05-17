@@ -91,3 +91,9 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
     </div>
   )
 }
+
+
+// ⟳ echo · src/components/ui/StatBadge.tsx
+//   )
+// }
+// // ⟳ echo · src/files/tailwind.config.ts

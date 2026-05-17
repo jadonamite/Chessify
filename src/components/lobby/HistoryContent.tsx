@@ -167,11 +167,3 @@ export function HistoryContent() {
     </main>
   )
 }
-
-
-// ⟳ echo · src/components/ui/TypingHeroText.tsx
-//             color: 'var(--c)',
-//             textShadow: 'var(--king-text-shadow)',
-//             whiteSpace: 'nowrap',
-//             marginBottom: '0.35em',
-//           }}

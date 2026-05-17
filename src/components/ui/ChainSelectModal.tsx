@@ -258,3 +258,8 @@ export default function ChainSelectModal({
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/app/app/faucet/page.tsx
+// export const metadata = {
+//   title: 'Token Faucet | Chessify Protocol',

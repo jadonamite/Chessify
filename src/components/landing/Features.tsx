@@ -24,7 +24,7 @@ const titleStyle = (color: string, size = 18): React.CSSProperties => ({
   color, lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 9,
 })
 
-const descStyle_: React.CSSProperties = {
+const descStyle: React.CSSProperties = {
   fontSize: 13.5, color: 'var(--t2)', lineHeight: 1.65, fontWeight: 300,
 }
 
@@ -104,7 +104,7 @@ export default function Features() {
               <div>
                 <span style={tagStyle('rgba(160,100,255,.15)', 'rgba(160,100,255,.28)', '#c090ff')}>CORE FEATURE</span>
                 <div style={titleStyle('#c090ff', 23)}>Real Wagers</div>
-                <div style={descStyle_}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
+                <div style={descStyle}>Stake CHESS tokens before each game. Winner takes the full pot — on-chain, instant, zero middlemen.</div>
               </div>
               <div style={{ display: 'flex', gap: 22, paddingTop: 18, marginTop: 18, borderTop: '1px solid rgba(255,255,255,.07)' }}>
                 {[{ v: '2×', l: 'PAYOUT' }, { v: '0%', l: 'FEES' }, { v: '∞', l: 'GAMES' }].map(m => (
@@ -135,7 +135,7 @@ export default function Features() {
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <span style={tagStyle('rgba(0,204,255,.1)', 'rgba(0,204,255,.24)', '#00ccff')}>MULTI-CHAIN</span>
               <div style={titleStyle('var(--c)', 19)}>Every Move Recorded</div>
-              <div style={descStyle_}>Each move is a verifiable transaction. Provably fair, permanently on-chain.</div>
+              <div style={descStyle}>Each move is a verifiable transaction. Provably fair, permanently on-chain.</div>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#00dc78')}>Elo Rankings</div>
-              <div style={descStyle_}>Win to climb. Lose to fall. Permanent on-chain rating.</div>
+              <div style={descStyle}>Win to climb. Lose to fall. Permanent on-chain rating.</div>
             </div>
           </div>
 
@@ -182,7 +182,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('#ffb400')}>Daily Faucet</div>
-              <div style={descStyle_}>Claim 1,000 CHESS tokens every day — completely free.</div>
+              <div style={descStyle}>Claim 1,000 CHESS tokens every day — completely free.</div>
             </div>
           </div>
 
@@ -203,7 +203,7 @@ export default function Features() {
             </BgIcon>
             <div style={{ ...innerStyle, justifyContent: 'flex-end' }}>
               <div style={titleStyle('var(--t1)')}>Supported</div>
-              <div style={descStyle_}>MiniPay, Leather & Xverse supported. Multi-chain ready.</div>
+              <div style={descStyle}>MiniPay, Leather & Xverse supported. Multi-chain ready.</div>
               <div style={{ marginTop: 12 }}>
                 <span style={pillStyle('rgba(0,220,120,.12)', 'rgba(0,220,120,.28)', '#00dc78')}>MiniPay</span>
                 <span style={pillStyle('rgba(0,204,255,.12)', 'rgba(0,204,255,.28)', 'var(--c)')}>Leather</span>

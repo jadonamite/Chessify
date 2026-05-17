@@ -1,5 +1,65 @@
 'use client'
 
+  const handleJoinGame = async (gameId: number, matchWager: number) => {
+    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
+    setIsPending(true)
+    try {
+      if (activeChain === 'stacks') {
+        await joinStacksGame(gameId, matchWager)
+        router.push(`/app/game/${gameId}`)
+      } else {
+        await joinCeloGame(gameId, matchWager)
+        router.push(`/app/game/${gameId}`)
+      }
+    } catch (err) {
+      console.error('Join game failed:', err)
+    } finally {
+      setIsPending(false)
+    }
+  }
+
+  const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
+
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false)
+  const MAINTENANCE_MODE = false
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isPending, setIsPending] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchId, setSearchId] = useState('')
+  const ITEMS_PER_PAGE = 3
+  const [wager, setWager] = useState(100)
+  const [balance, setBalance] = useState<string>('0.00')
+  const [rating, setRating] = useState<number>(1200)
+
+  const { data: celoBalance } = useReadContract({
+    address: CELO_CONTRACTS.token as `0x${string}`,
+    abi: CHESS_TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: [celoAddress as `0x${string}`],
+    query: { enabled: activeChain === 'celo' && !!celoAddress }
+  })
+
+  const { data: celoStats } = useReadContract({
+    address: CELO_CONTRACTS.game as `0x${string}`,
+    abi: CHESS_GAME_ABI,
+    functionName: 'playerStats',
+    args: [celoAddress as `0x${string}`],
+    query: { enabled: activeChain === 'celo' && !!celoAddress }
+  })
+
+  useEffect(() => {
+    if (activeChain === 'stacks' && stacksAddress) {
+      getStacksBalance().then(b => setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2)))
+      getStacksStats(stacksAddress).then(s => { if (s) setRating(Number(s.rating.value)) })
+    } else if (activeChain === 'celo' && celoAddress) {
+      if (celoBalance !== undefined) setBalance(formatUnits(celoBalance as bigint, TOKEN_DECIMALS))
+      if (celoStats) setRating(Number((celoStats as any)[3]))
+    }
+  }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats])
+
+  const { games: openGames, isLoading: isLobbyLoading, refresh: refreshLobby } = useLobby()
+
 import { useState, useEffect, Suspense, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
@@ -45,46 +105,6 @@ export default function LobbyContent() {
   const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
   const router = useRouter()
 
-  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false)
-  const MAINTENANCE_MODE = false
-
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [isPending, setIsPending] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchId, setSearchId] = useState('')
-  const ITEMS_PER_PAGE = 3
-  const [wager, setWager] = useState(100)
-  const [balance, setBalance] = useState<string>('0.00')
-  const [rating, setRating] = useState<number>(1200)
-
-  const { data: celoBalance } = useReadContract({
-    address: CELO_CONTRACTS.token as `0x${string}`,
-    abi: CHESS_TOKEN_ABI,
-    functionName: 'balanceOf',
-    args: [celoAddress as `0x${string}`],
-    query: { enabled: activeChain === 'celo' && !!celoAddress }
-  })
-
-  const { data: celoStats } = useReadContract({
-    address: CELO_CONTRACTS.game as `0x${string}`,
-    abi: CHESS_GAME_ABI,
-    functionName: 'playerStats',
-    args: [celoAddress as `0x${string}`],
-    query: { enabled: activeChain === 'celo' && !!celoAddress }
-  })
-
-  useEffect(() => {
-    if (activeChain === 'stacks' && stacksAddress) {
-      getStacksBalance().then(b => setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2)))
-      getStacksStats(stacksAddress).then(s => { if (s) setRating(Number(s.rating.value)) })
-    } else if (activeChain === 'celo' && celoAddress) {
-      if (celoBalance !== undefined) setBalance(formatUnits(celoBalance as bigint, TOKEN_DECIMALS))
-      if (celoStats) setRating(Number((celoStats as any)[3]))
-    }
-  }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats])
-
-  const { games: openGames, isLoading: isLobbyLoading, refresh: refreshLobby } = useLobby()
-
   const handleCreateGame = async () => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
     setIsPending(true)
@@ -103,26 +123,6 @@ export default function LobbyContent() {
       setIsPending(false)
     }
   }
-
-  const handleJoinGame = async (gameId: number, matchWager: number) => {
-    if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
-    setIsPending(true)
-    try {
-      if (activeChain === 'stacks') {
-        await joinStacksGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
-      } else {
-        await joinCeloGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
-      }
-    } catch (err) {
-      console.error('Join game failed:', err)
-    } finally {
-      setIsPending(false)
-    }
-  }
-
-  const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
 
   useEffect(() => {
     // Redirect if not connected and not in a loading state

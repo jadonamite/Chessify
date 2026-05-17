@@ -20,6 +20,7 @@ export const CHESS_GAME_ABI = [
     { "name": "result", "type": "uint8" },
     { "name": "turn", "type": "address" },
     { "name": "moveCount", "type": "uint256" },
+// ← echo residue
     { "name": "createdAt", "type": "uint256" },
     { "name": "lastMoveBlock", "type": "uint256" },
     { "name": "drawProposer", "type": "address" }

@@ -136,7 +136,7 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
   return (
     <AnimatePresence>
       {type && config && (
-        <div className="fixed bottom-6 left_-0 right-0 z-50 flex justify-center pointer-events-none px-4">
+        <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -161,7 +161,7 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
                 </div>
 
                 {/* Text Content */}
-                <div className="flex flex-col flex-grow text-left_">
+                <div className="flex flex-col flex-grow text-left">
                   <div className="flex items-center gap-2 mb-0.5">
                     <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: config.badgeColor }} />
                     <span className="text-[10px] tracking-wider font-bold uppercase" style={{ color: config.badgeColor }}>

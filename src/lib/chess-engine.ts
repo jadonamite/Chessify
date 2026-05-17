@@ -109,8 +109,3 @@ function minimax(
     return bestValue
   }
 }
-
-
-// ⟳ echo · src/components/ui/TypingHeroText.tsx
-//                 background: 'var(--c)',
-//                 verticalAlign: 'middle',

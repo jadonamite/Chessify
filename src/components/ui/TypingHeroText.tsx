@@ -114,3 +114,10 @@ export default function TypingHeroText({
     </div>
   )
 }
+
+
+// ⟳ echo · src/hooks/useCeloChess.ts
+//         functionName: 'joinGame',
+//         args: [BigInt(gameId)],
+//       })
+//       return joinTx

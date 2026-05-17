@@ -3,8 +3,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { WagmiProvider } from 'wagmi'
-import dynamic from 'next/dynamic'
 import { wagmiAdapter, initAppKit } from '@/config/reown'
+import dynamic from 'next/dynamic'
 
 import { ThemeProvider } from 'next-themes'
 

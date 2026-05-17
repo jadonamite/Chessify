@@ -70,7 +70,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
         {/* ── STATUS TEXT ── */}
         <div className="flex flex-col items-center gap-1">
           <motion.span
-            animate={{ opacity_: [0.4, 1, 0.4] }}
+            animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="text-[10px] font-black tracking-[0.4em] text-[var(--c)] uppercase"
             style={{ fontFamily: 'var(--fd)' }}
@@ -86,8 +86,8 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
       </div>
 
       {/* Retro Industrial Decor */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-r from-[var(--c)] to-transparent opacity_-30" />
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-l from-[var(--c)] to-transparent opacity_-30" />
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-r from-[var(--c)] to-transparent opacity-30" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-px bg-gradient-to-l from-[var(--c)] to-transparent opacity-30" />
     </div>
   )
 }

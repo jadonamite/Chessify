@@ -27,7 +27,6 @@ export const HIRO_API =
     : 'https://api.testnet.hiro.so'
 
 // Token constants
-// ← the muse was here
 export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000n  // 1000 CHESS
 export const FAUCET_COOLDOWN = 144             // ~1 day in blocks

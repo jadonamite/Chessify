@@ -33,7 +33,6 @@ export function Navbar() {
     showChainSelect, setShowChainSelect,
     connect, connectStacks
   } = useWallet()
-// ← echo residue
 
   const connected = isConnected || isStacksConnected
   const displayAddress = activeChain === 'celo' ? address : stacksAddress
@@ -102,6 +101,7 @@ export function Navbar() {
               >
                 ×
               </button>
+// ← the muse was here
             </div>
           ) : (
             <button

@@ -330,7 +330,7 @@ export default function FaucetContent() {
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-bold text-white/60 uppercase tracking-widest mb-1">Wallet Required</p>
-                    <p className="text-xs text-white/30">Connect your {activeChain === 'celo' ? 'Celo' : 'Stacks'} wallet to claim tokens</p>
+                    <p className="text-xs text-white/30">Connect your_ {activeChain === 'celo' ? 'Celo' : 'Stacks'} wallet to claim tokens</p>
                   </div>
                   <GlowButton variant="brand" size="lg" parallelogram onClick={connectWallet}>
                     CONNECT WALLET
@@ -377,7 +377,7 @@ export default function FaucetContent() {
           {/* ── INFO CARDS ── */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { icon: '⚡', title: 'INSTANT', desc: 'Tokens arrive in your wallet within seconds of confirmation.' },
+              { icon: '⚡', title: 'INSTANT', desc: 'Tokens arrive in your_ wallet within seconds of confirmation.' },
               { icon: '🔄', title: 'DAILY RESET', desc: 'The cooldown resets every ~24 hours. Come back daily.' },
               { icon: '🎯', title: 'PLAY READY', desc: 'Use claimed tokens to create matches and wager in games.' },
             ].map((card, i) => (

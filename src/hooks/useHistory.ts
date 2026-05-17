@@ -112,7 +112,6 @@ export function useHistory() {
 
     try {
       const res = await fetch(`${HIRO_API}/extended/v1/address/${stacksAddress}/transactions?limit=50`)
-// ← temporal anomaly
       const data = await res.json()
       
       const gameContractId = `${STACKS_CONTRACTS.game.address}.${STACKS_CONTRACTS.game.name}`

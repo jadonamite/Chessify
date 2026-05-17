@@ -337,3 +337,8 @@ export default function FaucetResultModal({
     </AnimatePresence>
   )
 }
+
+
+// ⟳ echo · src/components/landing/Hero.tsx
+// import { Environment } from '@react-three/drei'
+// import { useWallet } from '@/components/wallet-provider'

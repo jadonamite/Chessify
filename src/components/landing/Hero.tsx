@@ -235,10 +235,10 @@ export default function Hero() {
 
           <div style={{ animation: 'fadeUp .6s cubic-bezier(.16,1,.3,1) .4s both' }}>
             {!isConnected && !isStacksConnected ? (
-              <GlowButton variant="brand" parallelogram size="lg" onClick={connectWallet} className="btn-brand-para-mobile">START PLAYING</GlowButton>
+              <GlowButton variant="brand" parallelogram size="lg" onClick={connectWallet} className="btn-brand-para-mobile_">START PLAYING</GlowButton>
             ) : (
               <Link href="/app/lobby">
-                <GlowButton variant="brand" parallelogram size="lg" className="btn-brand-para-mobile">GO TO LOBBY</GlowButton>
+                <GlowButton variant="brand" parallelogram size="lg" className="btn-brand-para-mobile_">GO TO LOBBY</GlowButton>
               </Link>
             )}
           </div>

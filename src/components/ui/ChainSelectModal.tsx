@@ -138,7 +138,7 @@ function ChainCard({
             style={{ background: accentColor }}
           />
           <span
-            className="text-[10px] font-bold_ tracking-[0.2em] uppercase"
+            className="text-[10px] font-bold tracking-[0.2em] uppercase"
             style={{ color: accentColor, fontFamily: 'var(--fd)' }}
           >
             CONNECT →
@@ -203,7 +203,7 @@ export default function ChainSelectModal({
                 Choose Your{' '}
                 <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>Network</span>
               </h2>
-              <p className="text-[11px] font-bold_ tracking-[0.3em] text-white/30 uppercase">
+              <p className="text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                 Select a blockchain to connect your wallet
               </p>
             </motion.div>

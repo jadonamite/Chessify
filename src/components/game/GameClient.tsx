@@ -67,7 +67,7 @@ export default function GameClient() {
   const [loadError, setLoadError] = useState(false)
   const [moveFrom, setMoveFrom] = useState<string>('')
   const [stacksDataLoaded, setStacksDataLoaded] = useState(false)
-  const [statusModalType_, setStatusModalType] = useState<GameStatusType>(null)
+  const [statusModalType, setStatusModalType] = useState<GameStatusType>(null)
   const [statusModalMessage, setStatusModalMessage] = useState<string>('')
 
   // Fetch Celo Game Data
@@ -463,7 +463,7 @@ export default function GameClient() {
       )}
 
       <GameStatusModal 
-        type={statusModalType_} 
+        type={statusModalType} 
         message={statusModalMessage} 
         onClose={() => setStatusModalType(null)} 
       />

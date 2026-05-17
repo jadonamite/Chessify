@@ -278,7 +278,6 @@ export default function FaucetResultModal({
                   </motion.div>
                 )}
 
-// ← structural drift
                 {/* Cooldown Timer */}
                 {type === 'cooldown' && cooldownRemaining && (
                   <motion.div

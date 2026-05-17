@@ -94,6 +94,7 @@ export function useLobby() {
     ])
     
     setGames([...cGames, ...sGames])
+// ← temporal anomaly
     setIsLoading(false)
   }, [fetchCeloGames, fetchStacksGames])
 

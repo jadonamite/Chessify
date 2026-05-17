@@ -69,7 +69,7 @@ function ChainCard({
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="relative w-full rounded-[28px] border border-white/10 bg-slate-900/60 backdrop-blur_-xl overflow-hidden text-left cursor-pointer group transition-all"
+      className="relative w-full rounded-[28px] border border-white/10 bg-slate-900/60 backdrop-blur-xl overflow-hidden text-left cursor-pointer group transition-all"
       style={{
         boxShadow: `0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.4)`,
       }}
@@ -174,7 +174,7 @@ export default function ChainSelectModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 box-border"
-          style={{ background: 'rgba(5, 5, 15, 0.92)', backdropFilter: 'blur_(20px)' }}
+          style={{ background: 'rgba(5, 5, 15, 0.92)', backdropFilter: 'blur(20px)' }}
         >
           {/* Grid Background */}
           <div style={{

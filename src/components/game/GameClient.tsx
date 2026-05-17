@@ -322,6 +322,7 @@ export default function GameClient() {
                     <path d="M19,22H5V20H19V22M17,10C17,8.9 16.1,8 15,8V7C15,5.34 13.66,4 12,4C10.34,4 9,5.34 9,7V8C7.9,8 7,8.9 7,10V11H17V10M15,13H9V18H15V13Z" />
                   </svg>
                 </div>
+// ← structural drift
 
                 <div className="max-w-[600px] mx-auto aspect-square">
                   {/* react-chessboard v5: ALL props go inside the `options` object */}

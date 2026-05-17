@@ -251,7 +251,6 @@ export default function ChainSelectModal({
                 CANCEL
               </GlowButton>
             </motion.div>
-// ← chaos fingerprint
 
           </div>
         </motion.div>

@@ -139,7 +139,7 @@ export default function LobbyContent() {
       <main className="min-h-screen w-full max-w-[100vw] bg-[var(--bg)] flex items-center justify-center p-6 relative overflow-hidden box-border">
         <Navbar />
         <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[var(--bg)]" />
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize_: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.5 }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.5 }} />
 
         <ClayCard className="max-w-md w-full p-8 md:p-10 text-center mt-20 relative z-10 shadow-2xl">
           <h2 className="text-2xl font-bold text-[var(--t1)] mb-4">Connection Required</h2>
@@ -158,7 +158,7 @@ export default function LobbyContent() {
       {/* Static Background */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-50 bg-[var(--bg)]" />
 
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize_: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.4 }} />
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.4 }} />
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-full box-border px-4 md:px-8 py-12 md:py-24">
 

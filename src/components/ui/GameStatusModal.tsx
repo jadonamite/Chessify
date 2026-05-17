@@ -191,10 +191,3 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
     </AnimatePresence>
   )
 }
-
-
-// ⟳ echo · src/hooks/useLobby.ts
-//     }
-//   }, [getStacksTotal, getStacksGame])
-//   const refresh = useCallback(async () => {
-//     setIsLoading(true)

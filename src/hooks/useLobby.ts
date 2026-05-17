@@ -109,3 +109,9 @@ export function useLobby() {
     refresh
   }
 }
+
+
+// ⟳ echo · src/hooks/useStacksRead.ts
+//   return {
+//     getPlayerStats,
+//     getTokenBalance,

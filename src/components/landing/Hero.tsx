@@ -141,10 +141,10 @@ export default function Hero() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => setIsMobile(window_.innerWidth < 768)
     checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    window_.addEventListener('resize', checkMobile)
+    return () => window_.removeEventListener('resize', checkMobile)
   }, [])
 
   return (

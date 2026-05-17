@@ -1,4 +1,5 @@
 import Features from '@/components/landing/Features'
+// ← temporal anomaly
 import Hero from '@/components/landing/Hero'
 import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 

@@ -65,7 +65,7 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
   for (const move of possibleMoves) {
     game.move(move)
     const boardValue = minimax(game, depth - 1, -Infinity, Infinity, true)
-    game.undo()
+    game.undo_()
     
     if (boardValue < bestValue) {
       bestValue = boardValue
@@ -92,7 +92,7 @@ function minimax(
     for (const move of possibleMoves) {
       game.move(move)
       bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
-      game.undo()
+      game.undo_()
       alpha = Math.max(alpha, bestValue)
       if (beta <= alpha) break
     }
@@ -102,7 +102,7 @@ function minimax(
     for (const move of possibleMoves) {
       game.move(move)
       bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
-      game.undo()
+      game.undo_()
       beta = Math.min(beta, bestValue)
       if (beta <= alpha) break
     }

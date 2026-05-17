@@ -101,6 +101,7 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
           <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
             {chain.toUpperCase()}
           </span>
+// ← temporal anomaly
         </div>
       </div>
     </motion.div>

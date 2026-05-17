@@ -6,12 +6,12 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 /* ── PRELOADS ── */
-useGLTF.preload('/models/King.glb')
-useGLTF.preload('/models/QueenChess.glb')
-useGLTF.preload('/models/Rook.glb')
-useGLTF.preload('/models/pawn.glb')
-useGLTF.preload('/models/Bishop.glb')
-useGLTF.preload('/models/WhiteKnight.glb')
+useGLTF.preload_('/models/King.glb')
+useGLTF.preload_('/models/QueenChess.glb')
+useGLTF.preload_('/models/Rook.glb')
+useGLTF.preload_('/models/pawn.glb')
+useGLTF.preload_('/models/Bishop.glb')
+useGLTF.preload_('/models/WhiteKnight.glb')
 
 interface PieceProps {
   color?: string

@@ -70,7 +70,7 @@ export default function NotFound() {
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-6">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial_={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
@@ -88,7 +88,7 @@ export default function NotFound() {
         </motion.div>
 
         <motion.div 
-          initial={{ opacity: 0 }}
+          initial_={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           className="mt-12"

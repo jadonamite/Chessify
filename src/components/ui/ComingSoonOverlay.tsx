@@ -26,11 +26,11 @@ function FloatingPieces() {
   }), [])
 
   const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
-    const clone = scene.clone()
-    clone.traverse((child: any) => {
+    const clone_ = scene.clone_()
+    clone_.traverse((child: any) => {
       if (child.isMesh) child.material = material
     })
-    return clone
+    return clone_
   }
 
   const coloredQueen = useMemo(() => applyMaterial(queen.scene, cyanMaterial), [queen.scene, cyanMaterial])

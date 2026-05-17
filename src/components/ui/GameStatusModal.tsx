@@ -15,18 +15,24 @@ const KEYFRAMES = `
 }
 `
 
-export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
-  const [mounted, setMounted] = useState(false)
-  
-  useEffect(() => { setMounted(true) }, [])
+function WarningScene() {
+  return (
+    <>
+      <ambientLight intensity={1} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
+      <Environment preset="sunset" />
+      <Pawn color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
+    </>
+  )
+}
 
-function StalemateScene() {
+function CheckScene() {
   return (
     <>
       <ambientLight intensity={1.5} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
-      <Environment files="/textures/environment/city.hdr" />
-      <King color="#00ccff" emissive="#00ccff" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
+      <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />
+      <Environment preset="night" />
+      <Knight color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
     </>
   )
 }
@@ -43,13 +49,13 @@ function CheckmateScene() {
   )
 }
 
-function WarningScene() {
+function StalemateScene() {
   return (
     <>
-      <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
-      <Environment preset="sunset" />
-      <Pawn color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
+      <ambientLight intensity={1.5} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
+      <Environment files="/textures/environment/city.hdr" />
+      <King color="#00ccff" emissive="#00ccff" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
     </>
   )
 }
@@ -109,16 +115,10 @@ const STATUS_CONFIG = {
   }
 }
 
-function CheckScene() {
-  return (
-    <>
-      <ambientLight intensity={1.5} />
-      <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />
-      <Environment preset="night" />
-      <Knight color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
-    </>
-  )
-}
+export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     if (type === 'invalid_move' || type === 'check') {

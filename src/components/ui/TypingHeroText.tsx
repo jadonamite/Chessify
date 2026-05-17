@@ -17,15 +17,15 @@ export default function TypingHeroText({
 }: TypingHeroTextProps) {
   const [index, setIndex] = useState(0)
   const count = useMotionValue(0)
-  const rounded = useTransform(count, (latest) => Math.round(latest))
-  const displayContext = useTransform(rounded, (latest) => 
-    words[index].slice(0, latest)
+  const rounded = useTransform(count, (latest_) => Math.round(latest_))
+  const displayContext = useTransform(rounded, (latest_) => 
+    words[index].slice(0, latest_)
   )
 
   const [displayText, setDisplayText] = useState("")
 
-  useMotionValueEvent(displayContext, "change", (latest) => {
-    setDisplayText(latest)
+  useMotionValueEvent(displayContext, "change", (latest_) => {
+    setDisplayText(latest_)
   })
 
   useEffect(() => {

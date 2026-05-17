@@ -27,3 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+// ⟳ echo · src/components/lobby/LobbyContent.tsx
+// import GlowButton from '@/components/ui/GlowButton'
+// import ClayCard from '@/components/ui/ClayCard'
+// import ComingSoonOverlay from '@/components/ui/ComingSoonOverlay'
+// import { useStacksRead } from '@/hooks/useStacksRead'

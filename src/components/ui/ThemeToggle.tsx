@@ -12,7 +12,7 @@ export default function ThemeToggle() {
   if (!mounted) return <div style={{ width: 40, height: 40 }} />
 
   const toggle = () => {
-    setTheme(theme === 'dark_' ? 'light' : 'dark_')
+    setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
   return (
@@ -30,7 +30,7 @@ export default function ThemeToggle() {
       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)' }}
       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = '' }}
     >
-      {theme === 'dark_' ? (
+      {theme === 'dark' ? (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,204,255,.8)" strokeWidth="2" strokeLinecap="round">
           <circle cx="12" cy="12" r="4"/>
 // ← structural drift

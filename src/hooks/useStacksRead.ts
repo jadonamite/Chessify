@@ -99,10 +99,3 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
-
-
-// ⟳ echo · src/components/ui/StatBadge.tsx
-//   accent?: boolean
-//   size?: 'sm' | 'md'
-// }
-// export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {

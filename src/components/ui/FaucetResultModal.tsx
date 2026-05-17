@@ -176,7 +176,7 @@ export default function FaucetResultModal({
       {type && config && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate_={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 box-border"
           style={{ background: 'rgba(5, 5, 15, 0.9)', backdropFilter: 'blur(16px)' }}
@@ -199,7 +199,7 @@ export default function FaucetResultModal({
           {/* Content Card */}
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate_={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 200, damping: 22 }}
             className="relative z-10 w-full max-w-lg"
@@ -233,7 +233,7 @@ export default function FaucetResultModal({
                 {/* Badge */}
                 <motion.div
                   initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
+                  animate_={{ scale: 1 }}
                   transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
                   className="flex items-center gap-2 py-1.5 px-4 rounded-full border shadow-inner"
                   style={{
@@ -241,7 +241,7 @@ export default function FaucetResultModal({
                     background: `${config.badgeColor}10`,
                   }}
                 >
-                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: config.badgeColor }} />
+                  <div className="w-1.5 h-1.5 rounded-full animate_-pulse" style={{ background: config.badgeColor }} />
                   <span
                     className="text-[10px] md:text-xs tracking-[0.25em] font-bold uppercase"
                     style={{ fontFamily: 'var(--fd)', color: config.badgeColor }}
@@ -265,7 +265,7 @@ export default function FaucetResultModal({
                 {type === 'success' && amount && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    animate_={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
                     className="flex items-baseline gap-2"
                   >
@@ -282,7 +282,7 @@ export default function FaucetResultModal({
                 {type === 'cooldown' && cooldownRemaining && (
                   <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate_={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                     className="flex items-center gap-3 py-3 px-6 rounded-2xl border border-white/10 bg-black/30"
                   >
@@ -300,7 +300,7 @@ export default function FaucetResultModal({
                 {type === 'success' && txHash && (
                   <motion.a
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate_={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
                     href={
                       chain === 'celo'

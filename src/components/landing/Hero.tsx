@@ -43,7 +43,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="hero-navbar w-full flex items-center justify-between" style={{ padding: "18px 56px", position: "relative", zIndex: 20 }}>
+      <nav className="hero-navbar w-full flex items_-center justify-between" style={{ padding: "18px 56px", position: "relative", zIndex: 20 }}>
         <div>
           <Image src="/chessify.png" alt="Chessify" width={200} height={50} className="w-[140px] md:w-[200px] h-auto object-contain" />
         </div>
@@ -65,7 +65,7 @@ export function Navbar() {
             )
           })}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items_-center gap-3">
           <div className="hidden sm:block">
             <ThemeToggle />
           </div>
@@ -74,7 +74,7 @@ export function Navbar() {
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               {/* Chain badge */}
               <div
-                className="flex items-center gap-1.5 py-1 px-2.5 rounded-full"
+                className="flex items_-center gap-1.5 py-1 px-2.5 rounded-full"
                 style={{ background: `${chainColor}15`, border: `1px solid ${chainColor}30` }}
               >
                 <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: chainColor }} />

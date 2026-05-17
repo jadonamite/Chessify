@@ -25,21 +25,16 @@ const KEYFRAMES = `
 }
 `
 
-export function Navbar() {
-  const {
-    isConnected, address,
-    isStacksConnected, stacksAddress,
-    activeChain, connectWallet, disconnectAll,
-    showChainSelect, setShowChainSelect,
-    connect, connectStacks
-  } = useWallet()
+  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
 
   const connected = isConnected || isStacksConnected
   const displayAddress = activeChain === 'celo' ? address : stacksAddress
   const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
   const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
 
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
+export default function Hero() {
+  const { isConnected, isStacksConnected, connectWallet } = useWallet()
+  const [isMobile, setIsMobile] = useState(false)
 
   return (
     <>
@@ -133,12 +128,14 @@ export function Navbar() {
   )
 }
 
-
-
-
-export default function Hero() {
-  const { isConnected, isStacksConnected, connectWallet } = useWallet()
-  const [isMobile, setIsMobile] = useState(false)
+export function Navbar() {
+  const {
+    isConnected, address,
+    isStacksConnected, stacksAddress,
+    activeChain, connectWallet, disconnectAll,
+    showChainSelect, setShowChainSelect,
+    connect, connectStacks
+  } = useWallet()
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)

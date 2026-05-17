@@ -99,3 +99,10 @@ export function useStacksRead() {
     getTotalGames,
   }
 }
+
+
+// ⟳ echo · src/hooks/useStacksChess.ts
+//       })
+//     })
+//   }, [isStacksConnected, userSession])
+//   const reportWin = useCallback(async (gameId: number) => {

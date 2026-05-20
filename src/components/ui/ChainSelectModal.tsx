@@ -158,13 +158,22 @@ interface ChainSelectModalProps {
   onClose: () => void
   onSelectCelo: () => void
   onSelectStacks: () => void
+  onSelectSocial: () => void
 }
+
+const SOCIAL_PROVIDERS = [
+  { name: 'Google',  icon: 'https://www.svgrepo.com/show/303108/google-icon-logo.svg' },
+  { name: 'GitHub',  icon: 'https://www.svgrepo.com/show/512317/github-142.svg' },
+  { name: 'Twitter', icon: 'https://www.svgrepo.com/show/506463/twitter-x.svg' },
+  { name: 'Apple',   icon: 'https://www.svgrepo.com/show/452188/apple.svg' },
+]
 
 export default function ChainSelectModal({
   isOpen,
   onClose,
   onSelectCelo,
   onSelectStacks,
+  onSelectSocial,
 }: ChainSelectModalProps) {
   return (
     <AnimatePresence>
@@ -241,11 +250,60 @@ export default function ChainSelectModal({
 
             </div>
 
+            {/* Social login divider */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="w-full flex items-center gap-4"
+            >
+              <div className="flex-1 h-px bg-white/8" />
+              <span className="text-[10px] font-bold tracking-[0.25em] text-white/25 uppercase whitespace-nowrap">
+                or sign in with
+              </span>
+              <div className="flex-1 h-px bg-white/8" />
+            </motion.div>
+
+            {/* Social login button */}
+            <motion.button
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, type: 'spring', stiffness: 200, damping: 22 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={onSelectSocial}
+              className="w-full flex items-center justify-center gap-4 py-3.5 px-6 rounded-2xl border border-white/10 bg-white/4 hover:bg-white/8 hover:border-white/20 transition-all group"
+            >
+              {/* Provider icons */}
+              <div className="flex items-center gap-2">
+                {SOCIAL_PROVIDERS.map((provider) => (
+                  <div
+                    key={provider.name}
+                    className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center overflow-hidden"
+                    title={provider.name}
+                  >
+                    <img
+                      src={provider.icon}
+                      alt={provider.name}
+                      className="w-3 h-3 object-contain opacity-60 group-hover:opacity-90 transition-opacity"
+                      style={{ filter: 'brightness(0) invert(1)' }}
+                    />
+                  </div>
+                ))}
+              </div>
+              <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/40 group-hover:text-white/70 transition-colors">
+                Social Login
+              </span>
+              <span className="text-[9px] font-semibold tracking-[0.15em] uppercase text-white/20 group-hover:text-white/40 transition-colors ml-1">
+                · Web3Auth
+              </span>
+            </motion.button>
+
             {/* Dismiss */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.55 }}
             >
               <GlowButton variant="ghost" size="sm" onClick={onClose}>
                 CANCEL

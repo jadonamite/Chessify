@@ -31,7 +31,7 @@ export function Navbar() {
     isStacksConnected, stacksAddress,
     activeChain, connectWallet, disconnectAll,
     showChainSelect, setShowChainSelect,
-    connect, connectStacks
+    connect, connectStacks, connectSocial
   } = useWallet()
 
   const connected = isConnected || isStacksConnected
@@ -128,6 +128,7 @@ export function Navbar() {
         onClose={() => setShowChainSelect(false)}
         onSelectCelo={connect}
         onSelectStacks={connectStacks}
+        onSelectSocial={connectSocial}
       />
     </>
   )

@@ -21,6 +21,8 @@ import LoadingState from '@/components/ui/LoadingState'
 import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
 import { Navbar } from '@/components/landing/Hero'
 import { getBestMove } from '@/lib/chess-engine'
+import { TOKEN_DECIMALS } from '@/config/contracts'
+import { useGameMoves } from '@/hooks/useGameMoves'
 
 // Dynamically import Chessboard to avoid SSR issues
 const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
@@ -48,13 +50,14 @@ export default function GameClient() {
   const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
   // @ts-ignore - intentional
-  const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet } = useWallet()
-  const { submitMove: submitStacksMove, resign: resignStacks, reportWin: reportStacksWin } = useStacksChess()
+  const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet, setActiveChain } = useWallet()
+  const { submitMove: submitStacksMove, joinGame: joinStacks, resign: resignStacks, reportWin: reportStacksWin } = useStacksChess()
   // @ts-ignore - intentional
   const { getGame: getStacksGame, getPlayerStats: getStacksStats } = useStacksRead()
 
   const {
     submitMove: submitCeloMove,
+    joinGame: joinCelo,
     resign: resignCelo,
     reportWin: reportCeloWin
   } = useCeloChess()
@@ -70,13 +73,16 @@ export default function GameClient() {
   const [statusModalType, setStatusModalType] = useState<GameStatusType>(null)
   const [statusModalMessage, setStatusModalMessage] = useState<string>('')
 
-  // Fetch Celo Game Data
+  // Poll game data on Celo so WAITING → ACTIVE transitions surface without a refresh
   const { data: celoGameData } = useReadContract({
     address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'getGame',
     args: [BigInt(gameId)],
-    query: { enabled: activeChain === 'celo' && !!gameId }
+    query: {
+      enabled: activeChain === 'celo' && !!gameId,
+      refetchInterval: 5_000,
+    }
   })
 
   // ── FIX 1: Celo game data — use a dedicated effect so it re-runs
@@ -94,30 +100,139 @@ export default function GameClient() {
     }
   }, [celoGameData, activeChain])
 
-  // ── FIX 2: Stacks data — separate effect with its own loaded guard
-  // so it doesn't interfere with the Celo flow above.
+  // ── Stacks data — poll every 15s to catch WAITING → ACTIVE transitions.
+  // Stacks blocks take ~10 min, so 15s is a reasonable balance.
   useEffect(() => {
     if (activeChain !== 'stacks') return
-    if (stacksDataLoaded) return
-    setStacksDataLoaded(true)
 
-    if (gameId) {
-      void getStacksGame(gameId).then((d: any) => { if (d) setGameData(d as GameData) })
+    const load = () => {
+      if (gameId) {
+        void getStacksGame(gameId).then((d: any) => {
+          if (!d) return
+          // Map raw Clarity CV structure to the typed GameData shape
+          setGameData({
+            player1: d.white?.value ?? '',
+            player2: d.black?.value ?? '',
+            wager: d.wager?.value ?? '0',
+            status: d.status?.value ?? '0',
+          })
+        })
+      }
+      if (stacksAddress) {
+        void getStacksStats(stacksAddress).then((s: any) => {
+          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
+        })
+      }
     }
-    if (stacksAddress) {
-      void getStacksStats(stacksAddress).then((s: any) => { if (s) setPlayerStats(s as PlayerStats) })
+
+    if (!stacksDataLoaded) {
+      setStacksDataLoaded(true)
+      load()
     }
+
+    const interval = setInterval(load, 15_000)
+    return () => clearInterval(interval)
   }, [activeChain, stacksDataLoaded, gameId, stacksAddress, getStacksGame, getStacksStats])
 
   // ── derived ──────────────────────────────────────────────────────────────
 
-  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
+  const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
+  const STATUS_LABELS: Record<string, string> = {
+    '0': 'WAITING',
+    '1': 'ACTIVE',
+    '2': 'FINISHED',
+    '3': 'CANCELLED',
+    '4': 'DRAW',
+  }
+  const normalize = (a: string) => (a ?? '').toLowerCase()
+  const myAddress = normalize(activeChain === 'stacks' ? stacksAddress ?? '' : celoAddress ?? '')
+
+  const gameIsWaiting = gameData?.status === '0'
+  const isCreator = !!gameData && normalize(gameData.player1) === myAddress && myAddress !== ''
+  const isOpponent = !!gameData && normalize(gameData.player2) === myAddress && gameData.player2 !== '' && gameData.player2 !== ZERO_ADDR
+  const isParticipant = isCreator || isOpponent
+  // User navigated directly (e.g. via search) to a WAITING game they haven't joined
+  const canJoinFromPage = gameIsWaiting && !isParticipant && !isBotGame && (isConnected || isStacksConnected)
+
+  // Color assignment: creator (player1) is white, opponent (player2) is black.
+  // Mirrors the contract's assignment in chess-game.clar / ChessGame.sol.
+  const myColor: 'white' | 'black' | null = isBotGame
+    ? 'white'
+    : isCreator
+      ? 'white'
+      : isOpponent
+        ? 'black'
+        : null
+  const isMyTurn = isBotGame
+    ? game.turn() === 'w'
+    : (game.turn() === 'w' && myColor === 'white') || (game.turn() === 'b' && myColor === 'black')
+
+  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending && isParticipant
   const gameOver = game.isGameOver()
   const turn = game.turn()
 
+  const wagerFormatted = gameData
+    ? (Number(gameData.wager) / Math.pow(10, TOKEN_DECIMALS)).toFixed(0)
+    : '0'
+  const statusLabel = gameData ? (STATUS_LABELS[gameData.status] ?? 'UNKNOWN') : ''
+
+  // ── move relay ──────────────────────────────────────────────────────────
+  // The relay is the shared truth for the board position between both players.
+  // Only enable once we know it's a PvP game with a valid id and chain.
+  const {
+    moves: relayMoves,
+    submitMove: relaySubmitMove,
+    error: relayError,
+  } = useGameMoves({
+    chain: activeChain,
+    gameId,
+    enabled: !isBotGame && !!gameId && !!gameData,
+  })
+
   // ── board interaction ────────────────────────────────────────────────────
 
-  // Core move executor — takes plain square strings, returns success bool.
+  // Rebuild the chess.js position from the relay-sourced move list. The relay
+  // is the authoritative truth for PvP — if local optimistic state diverges
+  // (e.g. after a 409), this effect overwrites it. Bot games skip the relay.
+  useEffect(() => {
+    if (isBotGame) return
+    if (relayMoves.length === 0) return
+
+    const replayed = new Chess()
+    const sanHistory: string[] = []
+    for (const m of relayMoves) {
+      const result = replayed.move(m.san)
+      if (!result) {
+        console.error('[GameClient] relay move rejected by chess.js — aborting replay to avoid corrupted state', { move: m })
+        return
+      }
+      sanHistory.push(result.san)
+    }
+
+    // Compare full SAN sequence rather than just length — guards against the
+    // case where lengths match but contents differ (optimistic-vs-authoritative).
+    const same = sanHistory.length === moveHistory.length &&
+      sanHistory.every((san, i) => san === moveHistory[i])
+    if (same) return
+
+    setGame(new Chess(replayed.fen()))
+    setMoveHistory(sanHistory)
+
+    if (replayed.isCheckmate()) {
+      setStatusModalType('checkmate')
+      setStatusModalMessage('The King has fallen. End of line.')
+    } else if (replayed.inCheck()) {
+      setStatusModalType('check')
+      setStatusModalMessage('Your King is under direct assault. You must parry or evade!')
+    } else if (replayed.isDraw() || replayed.isStalemate()) {
+      setStatusModalType('draw')
+      setStatusModalMessage('Tactical deadlock achieved. Neither commander can proceed.')
+    }
+  }, [relayMoves, isBotGame, moveHistory])
+
+  // Core move executor — synchronous local apply (so react-chessboard's drop
+  // handler gets its boolean), then a fire-and-forget relay POST for PvP.
+  // If the relay 409s, the replay effect resyncs board state from authoritative truth.
   const executeMove = useCallback((sourceSquare: string, targetSquare: string): boolean => {
     try {
       const next = new Chess(game.fen())
@@ -132,9 +247,11 @@ export default function GameClient() {
         return false
       }
 
+      // Optimistic local commit — instant feedback for the mover
       setGame(next)
       setMoveHistory(h => [...h, move.san])
 
+      // Status banners from the new position
       if (next.isCheckmate()) {
         setStatusModalType('checkmate')
         setStatusModalMessage('The King has fallen. End of line.')
@@ -146,6 +263,20 @@ export default function GameClient() {
         setStatusModalMessage('Tactical deadlock achieved. Neither commander can proceed.')
       }
 
+      // PvP: sync to relay in background. The replay effect will resync from
+      // authoritative state if the POST is rejected (409 conflict).
+      if (!isBotGame) {
+        const player = activeChain === 'stacks' ? (stacksAddress ?? '') : (celoAddress ?? '')
+        void relaySubmitMove(move.san, player).then((ok) => {
+          if (!ok) {
+            console.warn('[GameClient] relay rejected move — resyncing from authoritative state', { san: move.san })
+            setStatusModalType('invalid_move')
+            setStatusModalMessage('Move conflict with opponent — resyncing.')
+          }
+        })
+      }
+
+      // Bot: trigger bot reply after a beat
       if (isBotGame && !next.isGameOver()) {
         setTimeout(() => {
           const afterPlayer = new Chess(next.fen())
@@ -159,7 +290,7 @@ export default function GameClient() {
       }
       return true
     } catch (e) {
-      console.error('Move failed:', e)
+      console.error('[GameClient] executeMove failed:', e)
       setStatusModalType('invalid_move')
       if (game.inCheck()) {
         setStatusModalMessage('Invalid move: Your King is in check!')
@@ -168,7 +299,7 @@ export default function GameClient() {
       }
       return false
     }
-  }, [game, isBotGame])
+  }, [game, isBotGame, activeChain, stacksAddress, celoAddress, relaySubmitMove])
 
   // ── v5 onPieceDrop: receives an object { piece, sourceSquare, targetSquare }
   const handlePieceDrop = useCallback(
@@ -182,9 +313,11 @@ export default function GameClient() {
   // ── v5 onSquareClick: receives an object { piece, square }
   const handleSquareClick = useCallback(
     ({ square }: { piece: any; square: string }) => {
-      const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending
-      if (!canAct || game.isGameOver()) return
+      if (!canAct || gameOver) return
+      // Bot game: bot always plays black, so block clicks when it's bot's turn
       if (isBotGame && game.turn() === 'b') return
+      // PvP: only the player whose color is on the move can interact
+      if (!isBotGame && !isMyTurn) return
 
       if (!moveFrom) {
         const piece = game.get(square as any)
@@ -202,7 +335,7 @@ export default function GameClient() {
       executeMove(moveFrom, square)
       setMoveFrom('') // always clear
     },
-    [game, moveFrom, executeMove, isBotGame, isStacksConnected, isConnected, txPending]
+    [canAct, gameOver, game, moveFrom, executeMove, isBotGame, isMyTurn]
   )
 
   // ── v5 canDragPiece: receives { isSparePiece, piece, square }
@@ -210,11 +343,12 @@ export default function GameClient() {
     ({ square }: { isSparePiece: boolean; piece: any; square: string | null }): boolean => {
       if (!canAct || gameOver) return false
       if (isBotGame && game.turn() === 'b') return false
+      if (!isBotGame && !isMyTurn) return false
       if (!square) return false
       const piece = game.get(square as any)
       return !!piece && piece.color === game.turn()
     },
-    [canAct, gameOver, isBotGame, game]
+    [canAct, gameOver, isBotGame, isMyTurn, game]
   )
 
   // ── tx helpers ───────────────────────────────────────────────────────────
@@ -246,16 +380,42 @@ export default function GameClient() {
     })
   }
 
-  // ── game loading timeout ─────────────────────────────────────────────────
+  const handleJoinMatch = async () => {
+    if (!gameData) return
+    await withTx(async () => {
+      const wagerInChess = Number(gameData.wager) / Math.pow(10, TOKEN_DECIMALS)
+      console.info('[GameClient] joining game from page', { gameId, wagerInChess })
+      if (activeChain === 'stacks') {
+        await joinStacks(gameId, wagerInChess)
+        // Reset loaded flag to re-fetch Stacks game data after the tx is broadcast
+        setStacksDataLoaded(false)
+      } else {
+        await joinCelo(gameId, wagerInChess)
+        // Celo: refetchInterval on useReadContract will pick up the ACTIVE state within 5s
+      }
+    })
+  }
 
+  // ── game loading timeout ─────────────────────────────────────────────────
+  // Stacks blocks take ~10 min, so the loading state stays until the user
+  // cancels. We only show a "not found" hint after 30s to avoid false alarms
+  // for freshly created Stacks games.
   useEffect(() => {
     if (isBotGame) return
     if (gameData) return
     const timer = setTimeout(() => {
       setLoadError(true)
-    }, 5000)
+    }, activeChain === 'stacks' ? 30_000 : 8_000)
     return () => clearTimeout(timer)
-  }, [isBotGame, gameData])
+  }, [isBotGame, gameData, activeChain])
+
+  // Reset transient state when the user switches chains so the next fetch
+  // runs from a clean slate (avoids stale Celo data leaking into a Stacks lookup).
+  useEffect(() => {
+    setGameData(null)
+    setLoadError(false)
+    setStacksDataLoaded(false)
+  }, [activeChain])
 
   // ── render ───────────────────────────────────────────────────────────────
 
@@ -270,15 +430,25 @@ export default function GameClient() {
       </div>
 
       {!isBotGame && !gameData ? (
-        <div className="min-h-screen flex flex-col items-center justify-center gap-12 relative z-10">
+        <div className="min-h-screen flex flex-col items-center justify-center gap-8 relative z-10">
           <LoadingState message={loadError ? `MATCH #${gameId} NOT FOUND` : `RETRIEVING MATCH DATA #${gameId}`} />
           {loadError && (
-            <p className="text-[var(--t3)] text-xs font-bold tracking-widest text-center max-w-xs -mt-6">
-              The requested match ID could not be found on the active network.
-            </p>
+            <>
+              <p className="text-[var(--t3)] text-xs font-bold tracking-widest text-center max-w-sm -mt-4">
+                Not found on <span className="text-[var(--c)]">{activeChain?.toUpperCase()}</span>. This match might live on the other network.
+              </p>
+              <GlowButton
+                variant="brand"
+                size="sm"
+                parallelogram
+                onClick={() => setActiveChain(activeChain === 'celo' ? 'stacks' : 'celo')}
+              >
+                SEARCH ON {activeChain === 'celo' ? 'STACKS' : 'CELO'}
+              </GlowButton>
+            </>
           )}
           <Link href="/app/lobby">
-            <GlowButton variant="ghost" size="sm" parallelogram>← CANCEL</GlowButton>
+            <GlowButton variant="ghost" size="sm" parallelogram>← BACK TO LOBBY</GlowButton>
           </Link>
         </div>
       ) : (
@@ -299,9 +469,10 @@ export default function GameClient() {
                   <StatBadge label="OPPONENT" value="SYSTEM BOT" />
                 </div>
               ) : gameData && (
-                <div className="flex gap-4 mt-4">
-                  <StatBadge label="WAGER" value={`${gameData.wager} CHESS`} accent />
-                  <StatBadge label="STATUS" value={gameData.status.toUpperCase()} />
+                <div className="flex flex-wrap gap-4 mt-4">
+                  <StatBadge label="WAGER" value={`${wagerFormatted} CHESS`} accent />
+                  <StatBadge label="STATUS" value={statusLabel} />
+                  {myColor && <StatBadge label="YOU PLAY" value={myColor.toUpperCase()} />}
                 </div>
               )}
             </div>
@@ -329,9 +500,10 @@ export default function GameClient() {
                     options={{
                       id: 'BasicBoard',
                       position: game.fen(),
-                      boardOrientation: 'white',
-                      // Drag
-                      allowDragging: canAct && !gameOver && (!isBotGame || turn === 'w'),
+                      boardOrientation: myColor === 'black' ? 'black' : 'white',
+                      // Drag — bot games allow only when it's white's turn (player);
+                      // PvP allows only when it's the player's color's turn
+                      allowDragging: canAct && !gameOver && (isBotGame ? turn === 'w' : isMyTurn),
                       canDragPiece: handleCanDragPiece,
                       onPieceDrop: handlePieceDrop,
                       // Click-to-move
@@ -386,44 +558,104 @@ export default function GameClient() {
                 </div>
               </ClayCard>
 
-              {/* Actions */}
-              <ClayCard className="p-6">
-                <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Operations</h3>
-                <div className="space-y-3">
+              {/* Actions — context-aware based on game state */}
+              {canJoinFromPage ? (
+                // Visitor who navigated directly to a WAITING game
+                <ClayCard className="p-6">
+                  <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Open Challenge</h3>
+                  <p className="text-xs text-[var(--t2)] mb-1">
+                    Wager:{' '}
+                    <span className="text-[var(--c)] font-black">
+                      {(Number(gameData?.wager ?? 0) / Math.pow(10, TOKEN_DECIMALS)).toFixed(0)} CHESS
+                    </span>
+                  </p>
+                  <p className="text-[10px] text-[var(--t3)] mb-6 leading-relaxed">
+                    Accepting this challenge locks the matching wager from your wallet.
+                  </p>
                   <GlowButton
                     variant="brand"
                     fullWidth
                     parallelogram
-                    disabled={!canAct || gameOver || isBotGame}
                     loading={txPending}
-                    onClick={handleMoveSubmit}
+                    onClick={handleJoinMatch}
                   >
-                    {isBotGame ? 'BOT SESSION ACTIVE' : 'BROADCAST MOVE'}
+                    CONFIRM JOIN
                   </GlowButton>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <GlowButton
-                      variant="ghost"
-                      size="sm"
-                      disabled={!canAct || gameOver}
-                      loading={txPending}
-                      onClick={handleReportWin}
+                </ClayCard>
+              ) : gameIsWaiting && isCreator ? (
+                // Creator waiting for an opponent
+                <ClayCard className="p-6">
+                  <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Waiting for Opponent</h3>
+                  <p className="text-xs text-[var(--t2)] mb-4 leading-relaxed">
+                    Share your match ID with your opponent so they can join.
+                  </p>
+                  <div className="flex items-center gap-2 bg-black/40 rounded-xl p-3 border border-white/10 mb-6">
+                    <span className="text-2xl font-black text-[var(--c)] tracking-widest flex-1 text-center">
+                      #{gameId}
+                    </span>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(String(gameId))}
+                      className="text-[9px] font-black tracking-widest uppercase text-[var(--t3)] hover:text-[var(--c)] transition-colors px-2 py-1 rounded-lg hover:bg-white/5"
                     >
-                      REPORT WIN
-                    </GlowButton>
-                    <GlowButton
-                      variant="ghost"
-                      size="sm"
-                      disabled={!canAct || gameOver}
-                      loading={txPending}
-                      className="text-red-400 !border-red-500/20 hover:!bg-red-500/10"
-                      onClick={handleResign}
-                    >
-                      RESIGN
-                    </GlowButton>
+                      COPY
+                    </button>
                   </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
+                    <span className="text-[10px] text-[var(--t3)] tracking-widest uppercase font-bold">
+                      {activeChain === 'stacks' ? 'Confirming on Stacks...' : 'Watching for opponent...'}
+                    </span>
+                  </div>
+                </ClayCard>
+              ) : (
+                // Normal in-game operations
+                <ClayCard className="p-6">
+                  <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-4">Operations</h3>
+                  <div className="space-y-3">
+                    <GlowButton
+                      variant="brand"
+                      fullWidth
+                      parallelogram
+                      disabled={!canAct || gameOver || isBotGame}
+                      loading={txPending}
+                      onClick={handleMoveSubmit}
+                    >
+                      {isBotGame ? 'BOT SESSION ACTIVE' : 'BROADCAST MOVE'}
+                    </GlowButton>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <GlowButton
+                        variant="ghost"
+                        size="sm"
+                        disabled={!canAct || gameOver}
+                        loading={txPending}
+                        onClick={handleReportWin}
+                      >
+                        REPORT WIN
+                      </GlowButton>
+                      <GlowButton
+                        variant="ghost"
+                        size="sm"
+                        disabled={!canAct || gameOver}
+                        loading={txPending}
+                        className="text-red-400 !border-red-500/20 hover:!bg-red-500/10"
+                        onClick={handleResign}
+                      >
+                        RESIGN
+                      </GlowButton>
+                    </div>
+                  </div>
+                </ClayCard>
+              )}
+
+              {/* Relay status banner — only visible when sync is degraded */}
+              {!isBotGame && relayError && (
+                <div className="px-4 py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-center">
+                  <span className="text-red-300/80 text-[10px] uppercase font-bold tracking-widest">
+                    Move sync offline — board may be stale
+                  </span>
                 </div>
-              </ClayCard>
+              )}
 
               {/* History */}
               <ClayCard variant="inset" className="p-6">

@@ -1,15 +1,16 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { celo, mainnet } from '@reown/appkit/networks'
+import { getWeb3Auth } from '@/config/web3auth'
+import { web3AuthConnector } from '@/lib/web3auth-connector'
 
-// Get projectId from environment variables
 export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '151115'
 
 export const networks = [celo, mainnet] as const
 
-// Set up Wagmi Adapter — this is safe at module scope (no web component side effects)
 export const wagmiAdapter = new WagmiAdapter({
   projectId,
   networks: [celo, mainnet],
+  connectors: [web3AuthConnector(getWeb3Auth)],
 })
 
 // Lazy initializer — called once inside a React useEffect, NOT at module scope.

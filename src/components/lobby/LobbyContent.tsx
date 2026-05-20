@@ -50,12 +50,16 @@ export default function LobbyContent() {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)
+  const [createError, setCreateError] = useState<string | null>(null)
+  const [searchError, setSearchError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [searchId, setSearchId] = useState('')
   const ITEMS_PER_PAGE = 3
   const [wager, setWager] = useState(100)
   const [balance, setBalance] = useState<string>('0.00')
   const [rating, setRating] = useState<number>(1200)
+  const [wins, setWins] = useState(0)
+  const [losses, setLosses] = useState(0)
 
   const { data: celoBalance } = useReadContract({
     address: CELO_CONTRACTS.token as `0x${string}`,
@@ -76,10 +80,21 @@ export default function LobbyContent() {
   useEffect(() => {
     if (activeChain === 'stacks' && stacksAddress) {
       getStacksBalance().then(b => setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2)))
-      getStacksStats(stacksAddress).then(s => { if (s) setRating(Number(s.rating.value)) })
+      getStacksStats(stacksAddress).then(s => {
+        if (s) {
+          setRating(Number(s.rating.value))
+          setWins(Number(s.wins.value))
+          setLosses(Number(s.losses.value))
+        }
+      })
     } else if (activeChain === 'celo' && celoAddress) {
       if (celoBalance !== undefined) setBalance(formatUnits(celoBalance as bigint, TOKEN_DECIMALS))
-      if (celoStats) setRating(Number((celoStats as any)[3]))
+      if (celoStats) {
+        const s = celoStats as any
+        setRating(Number(s[3]))
+        setWins(Number(s[0]))
+        setLosses(Number(s[1]))
+      }
     }
   }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats])
 
@@ -88,17 +103,32 @@ export default function LobbyContent() {
   const handleCreateGame = async () => {
     if (MAINTENANCE_MODE) return setIsComingSoonOpen(true)
     setIsPending(true)
+    setCreateError(null)
     try {
+      let gameId: number | null = null
+
       if (activeChain === 'stacks') {
-        await createStacksGame(wager)
-        setIsCreateModalOpen(false)
+        const result = await createStacksGame(wager)
+        gameId = result.gameId
       } else {
-        await createCeloGame(wager)
-        setIsCreateModalOpen(false)
+        gameId = await createCeloGame(wager)
       }
-      refreshLobby()
-    } catch (err) {
-      console.error('Create game failed:', err)
+
+      setIsCreateModalOpen(false)
+
+      if (gameId !== null) {
+        console.info('[LobbyContent] game created, navigating', { gameId })
+        router.push(`/app/game/${gameId}`)
+      } else {
+        console.warn('[LobbyContent] createGame returned no gameId — falling back to lobby refresh')
+        refreshLobby()
+      }
+    } catch (err: any) {
+      const msg = err?.message?.includes('cancelled')
+        ? 'Transaction cancelled.'
+        : 'Failed to create game. Check your balance and try again.'
+      console.error('[LobbyContent] handleCreateGame failed:', err)
+      setCreateError(msg)
     } finally {
       setIsPending(false)
     }
@@ -110,16 +140,29 @@ export default function LobbyContent() {
     try {
       if (activeChain === 'stacks') {
         await joinStacksGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
       } else {
         await joinCeloGame(gameId, matchWager)
-        router.push(`/app/game/${gameId}`)
       }
-    } catch (err) {
-      console.error('Join game failed:', err)
+      console.info('[LobbyContent] joined game, navigating', { gameId })
+      router.push(`/app/game/${gameId}`)
+    } catch (err: any) {
+      if (!err?.message?.includes('cancelled')) {
+        console.error('[LobbyContent] handleJoinGame failed:', err)
+      }
     } finally {
       setIsPending(false)
     }
+  }
+
+  const handleSearchJoin = () => {
+    setSearchError(null)
+    const id = parseInt(searchId, 10)
+    if (!searchId || isNaN(id) || id <= 0) {
+      setSearchError('Enter a valid numeric match ID.')
+      return
+    }
+    // Navigate to the game page — it will handle join/spectate logic based on game state
+    router.push(`/app/game/${id}`)
   }
 
   const handleAction = (action: () => void) => MAINTENANCE_MODE ? setIsComingSoonOpen(true) : action()
@@ -270,22 +313,29 @@ export default function LobbyContent() {
                   </div>
                   
                   {/* Search / Join by ID */}
-                  <div className="flex items-center gap-2">
-                    <input 
-                      type="text" 
-                      placeholder="ENTER MATCH ID..."
-                      value={searchId}
-                      onChange={(e) => setSearchId(e.target.value)}
-                      className="bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] tracking-widest uppercase font-bold text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--c)]/50 transition-colors w-40"
-                    />
-                    <GlowButton 
-                      variant="brand" 
-                      size="sm" 
-                      onClick={() => searchId && router.push(`/app/game/${searchId}`)}
-                      disabled={!searchId}
-                    >
-                      JOIN
-                    </GlowButton>
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="ENTER MATCH ID..."
+                        value={searchId}
+                        onChange={(e) => { setSearchId(e.target.value); setSearchError(null) }}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearchJoin()}
+                        className="bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] tracking-widest uppercase font-bold text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--c)]/50 transition-colors w-40"
+                      />
+                      <GlowButton
+                        variant="brand"
+                        size="sm"
+                        onClick={handleSearchJoin}
+                        disabled={!searchId}
+                      >
+                        GO
+                      </GlowButton>
+                    </div>
+                    {searchError && (
+                      <span className="text-[9px] text-red-400 font-bold tracking-widest uppercase">{searchError}</span>
+                    )}
                   </div>
                 </div>
 
@@ -437,14 +487,14 @@ export default function LobbyContent() {
                     <span className="text-[11px] text-gray-500 font-bold tracking-widest uppercase mb-2">
                       Wins
                     </span>
-                    <span className="text-2xl font-bold text-white leading-none">14</span>
+                    <span className="text-2xl font-bold text-white leading-none">{wins}</span>
                   </div>
                   <div className="w-[1px] h-10 bg-white/10 mx-4 shrink-0" />
                   <div className="flex flex-col flex-1 text-right">
                     <span className="text-[11px] text-gray-500 font-bold tracking-widest uppercase mb-2">
                       Losses
                     </span>
-                    <span className="text-2xl font-bold text-gray-300 leading-none">8</span>
+                    <span className="text-2xl font-bold text-gray-300 leading-none">{losses}</span>
                   </div>
                 </div>
 
@@ -538,6 +588,11 @@ export default function LobbyContent() {
                       </div>
                     </div>
                   </div>
+                  {createError && (
+                    <p className="text-[10px] text-red-400 font-bold tracking-widest uppercase mb-4 text-center">
+                      {createError}
+                    </p>
+                  )}
                   <div className="flex gap-4">
                     <GlowButton
                       fullWidth

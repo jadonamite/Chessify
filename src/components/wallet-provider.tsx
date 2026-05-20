@@ -1,7 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect, useConnect } from 'wagmi'
+import { WEB3AUTH_CONNECTOR_ID } from '@/lib/web3auth-connector'
 
 interface WalletContextType {
   // ── Addresses ──
@@ -23,6 +24,7 @@ interface WalletContextType {
   // ── Internal (used by ChainSelectModal) ──
   connect: () => Promise<void>
   connectStacks: () => Promise<void>
+  connectSocial: () => Promise<void>
   disconnect: () => void
   disconnectStacks: () => void
   setActiveChain: (chain: 'celo' | 'stacks') => void
@@ -45,6 +47,7 @@ const WalletContext = createContext<WalletContextType>({
   connect: async () => { },
   disconnect: () => { },
   connectStacks: async () => { },
+  connectSocial: async () => { },
   disconnectStacks: () => { },
   setActiveChain: () => { },
   userSession: null
@@ -56,6 +59,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state ---
   const { address: evmAddress, isConnected: evmConnected } = useAccount()
   const { disconnect: wagmiDisconnect } = useDisconnect()
+  const { connect: wagmiConnect, connectors } = useConnect()
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)
@@ -123,6 +127,22 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setActiveChain('celo')
     setShowChainSelect(false)
   }, [setActiveChain])
+
+  // ── Connect via Web3Auth social login ──
+  const connectSocial = useCallback(async () => {
+    const socialConnector = connectors.find(c => c.id === WEB3AUTH_CONNECTOR_ID)
+    if (!socialConnector) {
+      console.error('Web3Auth connector not found')
+      return
+    }
+    try {
+      wagmiConnect({ connector: socialConnector })
+      setActiveChain('celo')
+      setShowChainSelect(false)
+    } catch (e) {
+      console.error('Social login failed:', e)
+    }
+  }, [connectors, wagmiConnect, setActiveChain])
 
   // ── Connect Stacks (via Stacks Connect) ──
   const connectStacks = useCallback(async () => {
@@ -197,6 +217,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         connect,
         disconnect,
         connectStacks,
+        connectSocial,
         disconnectStacks,
         setActiveChain,
         userSession

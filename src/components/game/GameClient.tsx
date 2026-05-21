@@ -19,6 +19,7 @@ import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
 import LoadingState from '@/components/ui/LoadingState'
 import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
+import PromotionModal, { PromotionPiece } from '@/components/ui/PromotionModal'
 import { Navbar } from '@/components/landing/Hero'
 import { getBestMove } from '@/lib/chess-engine'
 import { TOKEN_DECIMALS } from '@/config/contracts'
@@ -72,6 +73,7 @@ export default function GameClient() {
   const [stacksDataLoaded, setStacksDataLoaded] = useState(false)
   const [statusModalType, setStatusModalType] = useState<GameStatusType>(null)
   const [statusModalMessage, setStatusModalMessage] = useState<string>('')
+  const [pendingPromotion, setPendingPromotion] = useState<{ from: string; to: string; color: 'white' | 'black' } | null>(null)
 
   // Bot reply timer — cleared on unmount so setState never fires after teardown
   const botReplyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -239,10 +241,28 @@ export default function GameClient() {
   // Core move executor — synchronous local apply (so react-chessboard's drop
   // handler gets its boolean), then a fire-and-forget relay POST for PvP.
   // If the relay 409s, the replay effect resyncs board state from authoritative truth.
-  const executeMove = useCallback((sourceSquare: string, targetSquare: string): boolean => {
+  // If the move is a pawn promotion and no piece was chosen yet, defers to the
+  // promotion modal: stashes the pending move and returns true so the board
+  // accepts the drop visually while we wait for the user's selection.
+  const executeMove = useCallback((sourceSquare: string, targetSquare: string, promotion?: PromotionPiece): boolean => {
     try {
+      // Detect promotion: any legal move from this square to this target that
+      // carries a `promotion` field means the user must pick a piece.
+      if (!promotion) {
+        const legalFromSquare = game.moves({ square: sourceSquare as any, verbose: true }) as any[]
+        const promo = legalFromSquare.find((m) => m.to === targetSquare && m.promotion)
+        if (promo) {
+          setPendingPromotion({
+            from: sourceSquare,
+            to: targetSquare,
+            color: promo.color === 'w' ? 'white' : 'black',
+          })
+          return true
+        }
+      }
+
       const next = new Chess(game.fen())
-      const move = next.move({ from: sourceSquare, to: targetSquare, promotion: 'q' })
+      const move = next.move({ from: sourceSquare, to: targetSquare, promotion: promotion ?? 'q' })
       if (!move) {
         setStatusModalType('invalid_move')
         if (game.inCheck()) {
@@ -317,6 +337,17 @@ export default function GameClient() {
     },
     [executeMove]
   )
+
+  const handlePromotionSelect = useCallback((piece: PromotionPiece) => {
+    if (!pendingPromotion) return
+    const { from, to } = pendingPromotion
+    setPendingPromotion(null)
+    executeMove(from, to, piece)
+  }, [pendingPromotion, executeMove])
+
+  const handlePromotionCancel = useCallback(() => {
+    setPendingPromotion(null)
+  }, [])
 
   // ── v5 onSquareClick: receives an object { piece, square }
   const handleSquareClick = useCallback(
@@ -702,10 +733,17 @@ export default function GameClient() {
         </main>
       )}
 
-      <GameStatusModal 
-        type={statusModalType} 
-        message={statusModalMessage} 
-        onClose={() => setStatusModalType(null)} 
+      <GameStatusModal
+        type={statusModalType}
+        message={statusModalMessage}
+        onClose={() => setStatusModalType(null)}
+      />
+
+      <PromotionModal
+        open={!!pendingPromotion}
+        color={pendingPromotion?.color ?? 'white'}
+        onSelect={handlePromotionSelect}
+        onCancel={handlePromotionCancel}
       />
     </div>
   )

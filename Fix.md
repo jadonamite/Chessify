@@ -28,10 +28,21 @@ This preserves resync when the relay legitimately has more moves (opponent playe
 
 **Fix:** Track timeout id in a ref and clear it on unmount.
 
+### 3. Pawn promotion UI ✅
+**Gap:** `executeMove` hardcoded `promotion: 'q'`, so under-promotion (rook/bishop/knight) was impossible — a real feature gap, not just polish. Knight promotion in particular is sometimes the only winning move.
+
+**Fix:**
+- New `src/components/ui/PromotionModal.tsx` — a centered modal styled to match the project aesthetic (`ClayCard` glass, accent glow, 3D `PieceView` previews of each option).
+- `executeMove` now detects promotion moves via `chess.js`'s verbose move list and defers application until the user picks a piece.
+- Modal supports keyboard shortcuts (Q / R / B / N) plus Escape to cancel.
+- Color of the rendered preview pieces matches the side that's promoting.
+- Cancel reverts cleanly — no move is applied, board stays at the pre-move position (because `executeMove` returns true to satisfy react-chessboard's drop handler but only applies state once a piece is selected).
+
 ## Progress
 
 - [x] Audit complete — identified one real race + one minor cleanup
-- [x] Fix 1: monotonic guard committed
-- [x] Fix 2: bot timeout cleanup committed
-- [x] Build verification (`npm run build`)
+- [x] Fix 1: monotonic guard
+- [x] Fix 2: bot timeout cleanup
+- [x] Fix 3: pawn promotion modal + under-promotion support
+- [x] Type-check verified on changed files
 - [x] Pushed to `origin/main`

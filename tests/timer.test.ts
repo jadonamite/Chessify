@@ -1,8 +1,8 @@
 
 import { describe, expect, it } from "vitest";
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
+// const accounts = simnet.getAccounts(); // uncomment alongside the test that needs wallet handles
+// const address1 = accounts.get("wallet_1")!; // uncomment when a real test references it
 
 /*
   The test below is an example. To learn more, read the testing documentation here:

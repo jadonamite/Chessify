@@ -2,13 +2,12 @@
 
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Float, Environment, MeshDistortMaterial, Text } from '@react-three/drei'
+import { Float, Environment, Text } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import GlowButton from '@/components/ui/GlowButton'
 import LoadingState from '@/components/ui/LoadingState'
 import { useHistory } from '@/hooks/useHistory'
-import { useWallet } from '@/components/wallet-provider'
 import { Queen, PieceView } from '@/components/ui/ChessModels'
 
 function Scene() {
@@ -55,7 +54,6 @@ function Scene() {
 export function HistoryContent() {
   const router = useRouter()
   const { history, isLoading } = useHistory()
-  const { activeChain } = useWallet()
 
   return (
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">

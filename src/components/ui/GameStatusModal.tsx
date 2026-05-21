@@ -5,15 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { King, Pawn, Knight } from './ChessModels'
-import GlowButton from './GlowButton'
-
-// Re-using same style as FaucetResultModal
-const KEYFRAMES = `
-@keyframes pulse-glow {
-  0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 68, 102, 0.6)); }
-  50%      { filter: drop-shadow(0 0 35px rgba(255, 68, 102, 1)); }
-}
-`
 
 function WarningScene() {
   return (

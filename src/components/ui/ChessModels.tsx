@@ -25,18 +25,22 @@ interface PieceProps {
   rotationIntensity?: number
 }
 
-function BasePiece({ modelPath, color = '#00ccff', emissive = '#00ccff', emissiveIntensity = 0.4, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
+function BasePiece({ modelPath, color = '#00ccff', emissive, emissiveIntensity, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
   const { scene } = useGLTF(modelPath)
 
   const material = useMemo(() => {
+    // Default emissive is a soft self-tint so the piece reads in low light;
+    // callers can override with a stronger glow (e.g. modal accents).
+    const resolvedEmissive = emissive ?? (color === '#00ccff' ? color : '#000')
+    const resolvedEmissiveIntensity = emissiveIntensity ?? 0.15
     return new THREE.MeshStandardMaterial({
       color: color === '#ffffff' ? '#ffffff' : (color === '#111111' ? '#080808' : color),
-      emissive: color === '#00ccff' ? color : '#000',
-      emissiveIntensity: 0.15,
+      emissive: resolvedEmissive,
+      emissiveIntensity: resolvedEmissiveIntensity,
       roughness: 0.88,
       metalness: 0.1,
     })
-  }, [])
+  }, [color, emissive, emissiveIntensity])
 
   const meshRef = useRef<THREE.Group>(null)
 

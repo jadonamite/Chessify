@@ -38,11 +38,34 @@ This preserves resync when the relay legitimately has more moves (opponent playe
 - Color of the rendered preview pieces matches the side that's promoting.
 - Cancel reverts cleanly — no move is applied, board stays at the pre-move position (because `executeMove` returns true to satisfy react-chessboard's drop handler but only applies state once a piece is selected).
 
+### 4. Stronger bot evaluation ✅
+**Gap:** The original bot only scored pawn/knight piece-square positions; bishops, rooks, queens, and the king were material-only. No move ordering, so alpha-beta pruning was less effective than it could be at depth 3 — the bot would routinely hang pieces and miss simple tactics.
+
+**Fix (`src/lib/chess-engine.ts`):**
+- Added piece-square tables for **bishop, rook, queen, and king** (middlegame) alongside the existing pawn/knight tables. Tables mirror correctly for Black.
+- Switched piece values to standard centipawn scale (`p=100, n=320, b=330, r=500, q=900, k=20000`) so material outweighs positional bonuses correctly.
+- Added **MVV-LVA move ordering** (`orderMoves` / `scoreMove`): captures of high-value victims by low-value attackers first, then promotions, en passant, checks, mates. Better ordering = more cutoffs = stronger play at the same depth.
+- `evaluateBoard` now short-circuits on terminal states (checkmate → ±∞, draw/stalemate/threefold → 0) so the search prefers/avoids them correctly.
+- `minimax` now stops at `game.isGameOver()` in addition to depth 0, avoiding wasted recursion past terminal nodes.
+
+Bonus: also fixed a sign-flip I almost introduced — the minimizing branch must recurse with `isMaximizingPlayer=true`, not `false`. Caught and corrected in the same change.
+
+### 5. Pre-existing TS warnings cleaned ✅
+Out-of-scope on the first pass; cleared now so the project type-checks cleanly end-to-end.
+
+- `lobby/HistoryContent.tsx` — dropped unused `MeshDistortMaterial` import and the unused `useWallet()` destructure.
+- `lobby/LobbyContent.tsx` — dropped unused `Suspense` and `useMemo` imports.
+- `ui/ChessModels.tsx` — `BasePiece` now actually consumes its `emissive` and `emissiveIntensity` props (they were being silently ignored, so modal accents like the red CheckScene glow weren't reaching the material).
+- `ui/GameStatusModal.tsx` — removed dead `GlowButton` import and the never-injected `KEYFRAMES` string.
+- `tests/global.d.ts` (new) — re-declares the Clarinet vitest globals (`simnet`, `testEnvironment`, etc.) locally because the upstream `.d.ts` under `node_modules/@stacks/clarinet-sdk/vitest-helpers` is filtered out by this tsconfig's blanket `exclude: ["node_modules"]`. Vitest still installs the runtime globals; this just teaches the type-checker about them.
+- `tests/*.test.ts` — commented out the unused `accounts` / `address1` stub bindings; they're brought back when a real test references them.
+
 ## Progress
 
-- [x] Audit complete — identified one real race + one minor cleanup
+- [x] Audit complete
 - [x] Fix 1: monotonic guard
 - [x] Fix 2: bot timeout cleanup
 - [x] Fix 3: pawn promotion modal + under-promotion support
-- [x] Type-check verified on changed files
+- [x] Fix 4: stronger bot eval (full PSTs, centipawn values, MVV-LVA ordering, terminal short-circuit)
+- [x] Fix 5: TS warnings cleared — `tsc --noEmit` is now silent across the whole project
 - [x] Pushed to `origin/main`

@@ -1,26 +1,27 @@
 import { Chess, Move } from 'chess.js'
 
-// Piece values for material evaluation
+// Piece values for material evaluation (centipawn-style, scaled by 10).
 const PIECE_VALUES: Record<string, number> = {
-  p: 10,
-  n: 30,
-  b: 30,
-  r: 50,
-  q: 90,
-  k: 900
+  p: 100,
+  n: 320,
+  b: 330,
+  r: 500,
+  q: 900,
+  k: 20000,
 }
 
-// Simple positional evaluation tables (higher values favor the piece being in that square)
-// Reversed for black
+// Piece-square tables — White's perspective. Row 0 = rank 8 (Black's back rank).
+// Mirrored at lookup time for Black. Higher = better square for that piece.
+
 const PAWN_TABLE = [
-  [0,  0,  0,  0,  0,  0,  0,  0],
+  [ 0,  0,  0,  0,  0,  0,  0,  0],
   [50, 50, 50, 50, 50, 50, 50, 50],
   [10, 10, 20, 30, 30, 20, 10, 10],
-  [5,  5, 10, 25, 25, 10,  5,  5],
-  [0,  0,  0, 20, 20,  0,  0,  0],
-  [5, -5,-10,  0,  0,-10, -5,  5],
-  [5, 10, 10,-20,-20, 10, 10,  5],
-  [0,  0,  0,  0,  0,  0,  0,  0]
+  [ 5,  5, 10, 25, 25, 10,  5,  5],
+  [ 0,  0,  0, 20, 20,  0,  0,  0],
+  [ 5, -5,-10,  0,  0,-10, -5,  5],
+  [ 5, 10, 10,-20,-20, 10, 10,  5],
+  [ 0,  0,  0,  0,  0,  0,  0,  0],
 ]
 
 const KNIGHT_TABLE = [
@@ -31,42 +32,122 @@ const KNIGHT_TABLE = [
   [-30,  0, 15, 20, 20, 15,  0,-30],
   [-30,  5, 10, 15, 15, 10,  5,-30],
   [-40,-20,  0,  5,  5,  0,-20,-40],
-  [-50,-40,-30,-30,-30,-30,-40,-50]
+  [-50,-40,-30,-30,-30,-30,-40,-50],
 ]
 
+const BISHOP_TABLE = [
+  [-20,-10,-10,-10,-10,-10,-10,-20],
+  [-10,  0,  0,  0,  0,  0,  0,-10],
+  [-10,  0,  5, 10, 10,  5,  0,-10],
+  [-10,  5,  5, 10, 10,  5,  5,-10],
+  [-10,  0, 10, 10, 10, 10,  0,-10],
+  [-10, 10, 10, 10, 10, 10, 10,-10],
+  [-10,  5,  0,  0,  0,  0,  5,-10],
+  [-20,-10,-10,-10,-10,-10,-10,-20],
+]
+
+const ROOK_TABLE = [
+  [ 0,  0,  0,  0,  0,  0,  0,  0],
+  [ 5, 10, 10, 10, 10, 10, 10,  5],
+  [-5,  0,  0,  0,  0,  0,  0, -5],
+  [-5,  0,  0,  0,  0,  0,  0, -5],
+  [-5,  0,  0,  0,  0,  0,  0, -5],
+  [-5,  0,  0,  0,  0,  0,  0, -5],
+  [-5,  0,  0,  0,  0,  0,  0, -5],
+  [ 0,  0,  0,  5,  5,  0,  0,  0],
+]
+
+const QUEEN_TABLE = [
+  [-20,-10,-10, -5, -5,-10,-10,-20],
+  [-10,  0,  0,  0,  0,  0,  0,-10],
+  [-10,  0,  5,  5,  5,  5,  0,-10],
+  [ -5,  0,  5,  5,  5,  5,  0, -5],
+  [  0,  0,  5,  5,  5,  5,  0, -5],
+  [-10,  5,  5,  5,  5,  5,  0,-10],
+  [-10,  0,  5,  0,  0,  0,  0,-10],
+  [-20,-10,-10, -5, -5,-10,-10,-20],
+]
+
+// Middlegame king table — keep the king tucked behind pawns and away from the center.
+const KING_TABLE = [
+  [-30,-40,-40,-50,-50,-40,-40,-30],
+  [-30,-40,-40,-50,-50,-40,-40,-30],
+  [-30,-40,-40,-50,-50,-40,-40,-30],
+  [-30,-40,-40,-50,-50,-40,-40,-30],
+  [-20,-30,-30,-40,-40,-30,-30,-20],
+  [-10,-20,-20,-20,-20,-20,-20,-10],
+  [ 20, 20,  0,  0,  0,  0, 20, 20],
+  [ 20, 30, 10,  0,  0, 10, 30, 20],
+]
+
+const TABLES: Record<string, number[][]> = {
+  p: PAWN_TABLE,
+  n: KNIGHT_TABLE,
+  b: BISHOP_TABLE,
+  r: ROOK_TABLE,
+  q: QUEEN_TABLE,
+  k: KING_TABLE,
+}
+
+function squareValue(type: string, color: 'w' | 'b', row: number, col: number): number {
+  const table = TABLES[type]
+  if (!table) return 0
+  // White uses the table as-is (row 0 is Black's back rank). For Black, mirror vertically.
+  return color === 'w' ? table[row][col] : table[7 - row][col]
+}
+
 function evaluateBoard(game: Chess): number {
+  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
+  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
+  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
+
   let totalEvaluation = 0
   const board = game.board()
 
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      const piece = board[i][j]
-      if (piece) {
-        let value = PIECE_VALUES[piece.type] || 0
-        
-        // Add positional bonus
-        if (piece.type === 'p') value += PAWN_TABLE[i][j]
-        if (piece.type === 'n') value += KNIGHT_TABLE[i][j]
-        
-        totalEvaluation += (piece.color === 'w' ? value : -value)
-      }
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      const piece = board[row][col]
+      if (!piece) continue
+      const value = (PIECE_VALUES[piece.type] || 0) + squareValue(piece.type, piece.color, row, col)
+      totalEvaluation += piece.color === 'w' ? value : -value
     }
   }
   return totalEvaluation
 }
 
+// MVV-LVA-style move ordering — captures of high-value victims by low-value
+// attackers come first, then other captures, promotions, checks, then quiet
+// moves. Better ordering = better alpha-beta pruning = a stronger bot at the
+// same depth.
+function orderMoves(moves: Move[]): Move[] {
+  return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
+}
+
+function scoreMove(m: Move): number {
+  let score = 0
+  if (m.captured) {
+    score += 10 * (PIECE_VALUES[m.captured] || 0) - (PIECE_VALUES[m.piece] || 0)
+  }
+  if (m.promotion) score += PIECE_VALUES[m.promotion] || 0
+  if (m.flags.includes('e')) score += 100 // en passant
+  if (m.san.includes('+')) score += 50    // gives check
+  if (m.san.includes('#')) score += 10000 // delivers mate
+  return score
+}
+
 export function getBestMove(game: Chess, depth: number = 3): Move | null {
-  const possibleMoves = game.moves({ verbose: true })
+  const possibleMoves = orderMoves(game.moves({ verbose: true }))
   if (game.isGameOver() || possibleMoves.length === 0) return null
 
-  let bestMove = null
-  let bestValue = Infinity // Black is the bot, so it wants to minimize (negative score)
+  // The bot always plays Black (enforced by GameClient): Black minimizes.
+  let bestMove: Move | null = null
+  let bestValue = Infinity
 
   for (const move of possibleMoves) {
     game.move(move)
     const boardValue = minimax(game, depth - 1, -Infinity, Infinity, true)
     game.undo()
-    
+
     if (boardValue < bestValue) {
       bestValue = boardValue
       bestMove = move
@@ -83,15 +164,15 @@ function minimax(
   beta: number,
   isMaximizingPlayer: boolean
 ): number {
-  if (depth === 0) return evaluateBoard(game)
+  if (depth === 0 || game.isGameOver()) return evaluateBoard(game)
 
-  const possibleMoves = game.moves()
+  const possibleMoves = orderMoves(game.moves({ verbose: true }))
 
   if (isMaximizingPlayer) {
     let bestValue = -Infinity
     for (const move of possibleMoves) {
       game.move(move)
-      bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
+      bestValue = Math.max(bestValue, minimax(game, depth - 1, alpha, beta, false))
       game.undo()
       alpha = Math.max(alpha, bestValue)
       if (beta <= alpha) break
@@ -101,7 +182,7 @@ function minimax(
     let bestValue = Infinity
     for (const move of possibleMoves) {
       game.move(move)
-      bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, !isMaximizingPlayer))
+      bestValue = Math.min(bestValue, minimax(game, depth - 1, alpha, beta, true))
       game.undo()
       beta = Math.min(beta, bestValue)
       if (beta <= alpha) break

@@ -8,10 +8,24 @@ plan:
   - id: 0
     transactions:
     - transaction-type: contract-publish
-      contract-name: automata-agent
+      contract-name: chess-token-v4
       expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
       cost: 50000
-      path: contracts/automata-agent.clar
+      path: contracts/chess-token-v4.clar
+      anchor-block-only: true
+      clarity-version: 2
+    - transaction-type: contract-publish
+      contract-name: chess-game-v2
+      expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
+      cost: 50000
+      path: contracts/chess-game-v2.clar
+      anchor-block-only: true
+      clarity-version: 2
+    - transaction-type: contract-publish
+      contract-name: logic-v2
+      expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
+      cost: 50000
+      path: contracts/logic-v2.clar
       anchor-block-only: true
       clarity-version: 2
     epoch: '3.4'

@@ -68,8 +68,28 @@ plan:
       path: contracts/automata-agent.clar
       clarity-version: 2
     - transaction-type: emulated-contract-publish
+      contract-name: chess-token-v3
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/chess-token-v3.clar
+      clarity-version: 2
+    - transaction-type: emulated-contract-publish
       contract-name: chess-game
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       path: contracts/chess-game.clar
+      clarity-version: 2
+    - transaction-type: emulated-contract-publish
+      contract-name: chess-token-v4
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/chess-token-v4.clar
+      clarity-version: 2
+    - transaction-type: emulated-contract-publish
+      contract-name: chess-game-v2
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/chess-game-v2.clar
+      clarity-version: 2
+    - transaction-type: emulated-contract-publish
+      contract-name: logic-v2
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/logic-v2.clar
       clarity-version: 2
     epoch: '3.4'

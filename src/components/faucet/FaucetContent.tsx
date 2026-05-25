@@ -98,7 +98,6 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
       <div className="flex flex-col items-end gap-1">
         <div className="flex items-center gap-2 bg-black/40 py-1.5 px-3 rounded-full border border-white/10 shadow-inner">
           <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
-          // TODO: optimize for large datasets
           <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
             {chain.toUpperCase()}
           </span>

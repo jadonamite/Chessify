@@ -1,6 +1,6 @@
+import './globals.css'
 import type { Metadata } from 'next'
 import { Providers } from './providers'
-import './globals.css'
 
 export const metadata: Metadata = {
   title: "CHESSIFY — Play Chess on Stacks and Celo",

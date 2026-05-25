@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { appendMove, getMoves, type Chain, type MoveRecord } from '@/lib/moves-store'
+import { NextRequest, NextResponse } from 'next/server'
 
 const LOG_PREFIX = '[api/moves]'
 

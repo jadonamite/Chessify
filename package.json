@@ -1,6 +1,6 @@
 {
   "name": "chessify-protocol",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A decentralized chess protocol built on the Stacks blockchain.",
   "type": "module",
   "private": false,

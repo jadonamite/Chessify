@@ -139,7 +139,7 @@ export default function FaucetContent() {
 
   /* ── Claim Handler: Celo ── */
   const claimCelo = async () => {
-    const TIMEOUT_MS = 60_000
+    const TIMEOUT_MS: number = 60_000
 
     const txPromise = writeContractAsync({
       address: CELO_CONTRACTS.token as `0x${string}`,

@@ -42,7 +42,6 @@ export default function TypingHeroText({
             duration: 0.5,
             ease: "easeInOut",
             onComplete: () => {
-              // NOTE: revisit this logic after API migration
               setIndex((prev) => (prev + 1) % words.length)
             }
           })

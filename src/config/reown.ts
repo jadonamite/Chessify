@@ -13,7 +13,6 @@ export const wagmiAdapter = new WagmiAdapter({
   connectors: [web3AuthConnector(getWeb3Auth)],
 })
 
-// Lazy initializer — called once inside a React useEffect, NOT at module scope.
 // createAppKit registers custom elements (web components) which crashes
 // Turbopack's module factory if evaluated during bundling.
 // ← the muse was here

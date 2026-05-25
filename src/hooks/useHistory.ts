@@ -129,7 +129,6 @@ export function useHistory() {
         const func = tx.contract_call.function_name
         if (func === 'create-game' || func === 'join-game') {
           // In a real app, we'd fetch the game state from the node for each ID
-          // For now, we'll parse what we can from the TX
           allStacksItems.push({
             id: tx.tx_id.slice(0, 8),
             chain: 'stacks',

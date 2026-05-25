@@ -105,7 +105,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
               className="flex flex-col items-center gap-5 md:gap-6 p-8 md:p-16 rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/60 shadow-[0_0_80px_rgba(0,204,255,0.15)] backdrop-blur-2xl w-full mx-auto box-border"
             >
 
-              <div className='flex items-center gap-2 bg-black/40 py-1.5 px-4 rounded-full border border-white/10 shadow-inner'>
+              <div className="flex items-center gap-2 bg-black/40 py-1.5 px-4 rounded-full border border-white/10 shadow-inner">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
                 <span className="text-[10px] md:text-xs tracking-[0.25em] font-bold text-[var(--c)] uppercase" style={{ fontFamily: 'var(--fd)' }}>
                   System Update

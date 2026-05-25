@@ -1,6 +1,6 @@
+import { createConnector } from 'wagmi'
 import type { EIP1193Provider } from 'viem'
 import type { Web3Auth } from '@web3auth/modal'
-import { createConnector } from 'wagmi'
 
 export const WEB3AUTH_CONNECTOR_ID = 'web3auth-social'
 

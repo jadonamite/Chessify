@@ -268,7 +268,7 @@ export default function LobbyContent() {
                 >
                   <GlowButton
                     parallelogram
-                    variant='brand'
+                    variant="brand"
                     size="lg"
                     onClick={() => handleAction(() => setIsCreateModalOpen(true))}
                     className="w-full"

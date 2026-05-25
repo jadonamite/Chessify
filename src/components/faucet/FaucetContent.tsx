@@ -145,7 +145,7 @@ export default function FaucetContent() {
       address: CELO_CONTRACTS.token as `0x${string}`,
       abi: CHESS_TOKEN_ABI,
       functionName: 'faucetClaim',
-      args: [],
+      params: [],
     })
 
     const timeoutPromise = new Promise<never>((_, reject) =>

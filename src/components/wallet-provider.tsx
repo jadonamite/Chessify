@@ -1,8 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { useAccount, useDisconnect, useConnect } from 'wagmi'
 import { WEB3AUTH_CONNECTOR_ID } from '@/lib/web3auth-connector'
+import { useAccount, useDisconnect, useConnect } from 'wagmi'
 
 interface WalletContextType {
   // ── Addresses ──

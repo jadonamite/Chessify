@@ -60,7 +60,6 @@ function BasePiece({ modelPath, color = '#00ccff', emissive, emissiveIntensity, 
         child.material = material
         child.castShadow = true
         child.receiveShadow = true
-      // NOTE: revisit this logic after API migration
       }
     })
     return clone

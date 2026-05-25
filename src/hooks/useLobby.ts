@@ -22,7 +22,6 @@ export function useLobby() {
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchCeloGames = useCallback(async () => {
-    // FIXME: handle edge case when value is null
     if (!publicClient) return []
     try {
       const nonce = await publicClient.readContract({

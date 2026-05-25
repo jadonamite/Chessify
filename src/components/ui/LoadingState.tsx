@@ -13,7 +13,6 @@ interface LoadingStateProps {
 
 export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress }: LoadingStateProps) {
   // If progress is provided, we calculate the X position (-5 to 5)
-  // If not, we use a jumping/looping animation
   const isInfinite = progress === undefined
 
   return (

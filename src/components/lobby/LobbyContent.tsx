@@ -161,6 +161,7 @@ export default function LobbyContent() {
       setSearchError('Enter a valid numeric match ID.')
       return
     }
+    // Navigate to the game page — it will handle join/spectate logic based on game state
     router.push(`/app/game/${id}`)
   }
 

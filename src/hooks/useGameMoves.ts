@@ -91,7 +91,6 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
         // Opponent's move beat us to this slot — re-sync and let caller decide
         console.warn(`${LOG_PREFIX} submitMove conflict — relay had ${body?.moves?.length} moves`, { gameId, moveNumber })
         if (Array.isArray(body?.moves)) setMoves(body.moves)
-        // NOTE: revisit this logic after API migration
         return false
       }
       if (!res.ok) {

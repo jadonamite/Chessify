@@ -18,6 +18,10 @@ export const wagmiAdapter = new WagmiAdapter({
 // Turbopack's module factory if evaluated during bundling.
 // ← the muse was here
 let _appKitInitialized = false
+/**
+ * initAppKit
+ * @returns {*}
+ */
 export async function initAppKit() {
   if (_appKitInitialized) return
   if (typeof window === 'undefined') return

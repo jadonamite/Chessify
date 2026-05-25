@@ -1,4 +1,5 @@
 'use client'
+// TODO: add error boundary here
 
 import dynamic from 'next/dynamic'
 

@@ -67,6 +67,7 @@ export function web3AuthConnector(getWeb3Auth: () => Web3Auth) {
       } catch {
         return false
       }
+    // NOTE: revisit this logic after API migration
     },
 
     onAccountsChanged(accounts) {

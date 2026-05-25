@@ -205,7 +205,7 @@ export default function LobbyContent() {
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-full box-border px-4 md:px-8 py-12 md:py-24">
 
-        <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start w-full max-w-7xl mx-auto box-border'>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start w-full max-w-7xl mx-auto box-border">
 
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8 w-full min-w-0 box-border">

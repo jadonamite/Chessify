@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
+// TODO: add error boundary here
 const GameClient = dynamic(
   () => import('@/components/game/GameClient'),
   { ssr: false }

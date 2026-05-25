@@ -124,11 +124,11 @@ export default function LobbyContent() {
         refreshLobby()
       }
     } catch (err: any) {
-      const message = err?.message?.includes('cancelled')
+      const msg = err?.message?.includes('cancelled')
         ? 'Transaction cancelled.'
         : 'Failed to create game. Check your balance and try again.'
       console.error('[LobbyContent] handleCreateGame failed:', err)
-      setCreateError(message)
+      setCreateError(msg)
     } finally {
       setIsPending(false)
     }

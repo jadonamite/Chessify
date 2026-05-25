@@ -6,10 +6,6 @@ import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { King, Pawn, Knight } from './ChessModels'
 
-/**
- * WarningScene
- * @returns {*}
- */
 function WarningScene() {
   return (
     <>

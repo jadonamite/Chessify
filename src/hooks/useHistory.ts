@@ -101,8 +101,8 @@ export function useHistory() {
       }
 
       return allCeloItems
-    } catch (error) {
-      console.error('Celo history fetch error:', error)
+    } catch (err) {
+      console.error('Celo history fetch error:', err)
       return []
     }
   }, [celoAddress, publicClient])
@@ -143,8 +143,8 @@ export function useHistory() {
       }
 
       return allStacksItems
-    } catch (error) {
-      console.error('Stacks history fetch error:', error)
+    } catch (err) {
+      console.error('Stacks history fetch error:', err)
       return []
     }
   }, [stacksAddress])

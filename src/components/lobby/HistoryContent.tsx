@@ -10,10 +10,6 @@ import LoadingState from '@/components/ui/LoadingState'
 import { useHistory } from '@/hooks/useHistory'
 import { Queen, PieceView } from '@/components/ui/ChessModels'
 
-/**
- * Scene
- * @returns {*}
- */
 function Scene() {
   return (
     <>

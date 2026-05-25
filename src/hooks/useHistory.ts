@@ -14,7 +14,7 @@ export type HistoryItem = {
   opponent: string
   wager: string
   status: string
-  timestamp: number,
+  timestamp: number
 }
 
 export function useHistory() {

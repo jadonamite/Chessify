@@ -34,7 +34,7 @@ interface GameData {
   player1: string
   player2: string
   wager: string
-  status: string,
+  status: string
 }
 
 interface PlayerStats {

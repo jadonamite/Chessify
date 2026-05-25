@@ -8,6 +8,10 @@ const LobbyContent = dynamic(
   { ssr: false }
 )
 
+/**
+ * LobbyPage
+ * @returns {*}
+ */
 export default function LobbyPage() {
   return <LobbyContent />
 }

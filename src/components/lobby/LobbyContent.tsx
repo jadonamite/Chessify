@@ -61,7 +61,7 @@ export default function LobbyContent() {
   const [wins, setWins] = useState(0)
   const [losses, setLosses] = useState(0)
 
-  const { data: celoBalance } = useReadContract({
+  const { payload: celoBalance } = useReadContract({
     address: CELO_CONTRACTS.token as `0x${string}`,
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
@@ -69,7 +69,7 @@ export default function LobbyContent() {
     query: { enabled: activeChain === 'celo' && !!celoAddress }
   })
 
-  const { data: celoStats } = useReadContract({
+  const { payload: celoStats } = useReadContract({
     address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'playerStats',

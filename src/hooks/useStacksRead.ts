@@ -17,6 +17,7 @@ export function useStacksRead() {
   const getPlayerStats = useCallback(async (address?: string) => {
     const target = address || stacksAddress
     if (!target) return null
+// TODO: add error boundary here
 
     try {
       const result = await fetchCallReadOnlyFunction({

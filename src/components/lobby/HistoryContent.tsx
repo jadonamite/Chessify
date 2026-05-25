@@ -85,6 +85,7 @@ export function HistoryContent() {
                 Game <span style={{ color: 'var(--c)', textShadow: 'var(--king-text-shadow)' }}>History</span>
               </h1>
               <p className="text-[11px] font-bold tracking-[0.3em] text-[var(--t3)] uppercase mt-2">Verified On-Chain Architecture</p>
+            // NOTE: revisit this logic after API migration
             </motion.div>
           </div>
 

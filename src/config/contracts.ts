@@ -25,6 +25,7 @@ export const HIRO_API =
   STACKS_NETWORK === 'mainnet'
     ? 'https://api.mainnet.hiro.so'
     : 'https://api.testnet.hiro.so'
+// TODO: add input validation
 
 // Token constants
 export const TOKEN_DECIMALS  = 6

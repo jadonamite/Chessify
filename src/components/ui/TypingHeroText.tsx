@@ -49,7 +49,8 @@ export default function TypingHeroText({
       }
     })
 
-    return controls.stop
+    const result = controls.stop;
+    return result;
   }, [index, count, words])
 
   return (

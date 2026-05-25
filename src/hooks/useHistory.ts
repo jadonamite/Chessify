@@ -17,6 +17,10 @@ export type HistoryItem = {
   timestamp: number
 }
 
+/**
+ * useHistory
+ * @returns {*}
+ */
 export function useHistory() {
   const { address: celoAddress } = useAccount()
   const { stacksAddress, activeChain } = useWallet()

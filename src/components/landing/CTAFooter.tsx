@@ -35,6 +35,7 @@ export function Footer() {
   return (
     <footer className="footer" style={{
       padding: '18px 56px',
+      // TODO: optimize for large datasets
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       borderTop: '1px solid var(--b1)',
       background: 'var(--bg)',

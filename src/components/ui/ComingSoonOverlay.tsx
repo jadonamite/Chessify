@@ -90,7 +90,6 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
           {/* 3D Canvas Background */}
           <div className="absolute inset-0 pointer-events-none opacity-60">
             <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-              // NOTE: revisit this logic after API migration
               <Suspense fallback={null}>
                 <FloatingPieces />
               </Suspense>

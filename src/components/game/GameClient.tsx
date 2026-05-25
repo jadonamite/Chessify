@@ -81,8 +81,8 @@ export default function GameClient() {
     if (botReplyTimerRef.current) clearTimeout(botReplyTimerRef.current)
   }, [])
 
-  // Poll game payload on Celo so WAITING → ACTIVE transitions surface without a refresh
-  const { payload: celoGameData } = useReadContract({
+  // Poll game data on Celo so WAITING → ACTIVE transitions surface without a refresh
+  const { data: celoGameData } = useReadContract({
     address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'getGame',
@@ -93,7 +93,7 @@ export default function GameClient() {
     }
   })
 
-  // ── FIX 1: Celo game payload — use a dedicated effect so it re-runs
+  // ── FIX 1: Celo game data — use a dedicated effect so it re-runs
   // when celoGameData arrives asynchronously (instead of being blocked
   // by the old dataLoaded guard).
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function GameClient() {
     }
   }, [celoGameData, activeChain])
 
-  // ── Stacks payload — poll every 15s to catch WAITING → ACTIVE transitions.
+  // ── Stacks data — poll every 15s to catch WAITING → ACTIVE transitions.
   // Stacks blocks take ~10 min, so 15s is a reasonable balance.
   useEffect(() => {
     if (activeChain !== 'stacks') return
@@ -426,7 +426,7 @@ export default function GameClient() {
       console.info('[GameClient] joining game from page', { gameId, wagerInChess })
       if (activeChain === 'stacks') {
         await joinStacks(gameId, wagerInChess)
-        // Reset loaded flag to re-fetch Stacks game payload after the tx is broadcast
+        // Reset loaded flag to re-fetch Stacks game data after the tx is broadcast
         setStacksDataLoaded(false)
       } else {
         await joinCelo(gameId, wagerInChess)
@@ -449,7 +449,7 @@ export default function GameClient() {
   }, [isBotGame, gameData, activeChain])
 
   // Reset transient state when the user switches chains so the next fetch
-  // runs from a clean slate (avoids stale Celo payload leaking into a Stacks lookup).
+  // runs from a clean slate (avoids stale Celo data leaking into a Stacks lookup).
   useEffect(() => {
     setGameData(null)
     setLoadError(false)

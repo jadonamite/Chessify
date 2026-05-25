@@ -19,16 +19,17 @@ const KEYFRAMES = `
 }
 `
 
-/* ── Confetti Particles ── */
-function Confetti() {
-  const particles = Array.from({ length: 24 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    delay: `${Math.random() * 2}s`,
-    duration: `${2 + Math.random() * 3}s`,
-    size: 4 + Math.random() * 6,
-    color: ['#00ccff', '#6a0dad', '#35ee66', '#ffb400', '#ff4466'][Math.floor(Math.random() * 5)],
-  }))
+/* ── 3D Scene: Cooldown ── */
+function CooldownScene() {
+  return (
+    <>
+      <ambientLight intensity={1.2} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
+      <Environment preset="sunset" />
+      <King color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
+    </>
+  )
+}
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -65,6 +66,17 @@ function SuccessScene() {
   )
 }
 
+export default function FaucetResultModal({
+  type,
+  onClose,
+  txHash,
+  amount,
+  errorMessage,
+  cooldownRemaining,
+  chain = 'celo',
+}: FaucetResultModalProps) {
+  const [mounted, setMounted] = useState(false)
+
 /* ── 3D Scene: Error ── */
 function ErrorScene() {
   return (
@@ -74,18 +86,6 @@ function ErrorScene() {
       <pointLight position={[-10, -5, 5]} intensity={1.5} color="#6a0dad" />
       <Environment preset="night" />
       <Pawn color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.6, 0]} floatSpeed={1} floatIntensity={0.5} rotationIntensity={0.2} />
-    </>
-  )
-}
-
-/* ── 3D Scene: Cooldown ── */
-function CooldownScene() {
-  return (
-    <>
-      <ambientLight intensity={1.2} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#ffb400" />
-      <Environment preset="sunset" />
-      <King color="#ffb400" emissive="#ffb400" emissiveIntensity={0.4} position={[0, -0.5, 0]} floatSpeed={0.8} floatIntensity={0.4} rotationIntensity={0.15} />
     </>
   )
 }
@@ -155,16 +155,16 @@ const RESULT_CONFIG = {
   },
 }
 
-export default function FaucetResultModal({
-  type,
-  onClose,
-  txHash,
-  amount,
-  errorMessage,
-  cooldownRemaining,
-  chain = 'celo',
-}: FaucetResultModalProps) {
-  const [mounted, setMounted] = useState(false)
+/* ── Confetti Particles ── */
+function Confetti() {
+  const particles = Array.from({ length: 24 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 2}s`,
+    duration: `${2 + Math.random() * 3}s`,
+    size: 4 + Math.random() * 6,
+    color: ['#00ccff', '#6a0dad', '#35ee66', '#ffb400', '#ff4466'][Math.floor(Math.random() * 5)],
+  }))
 
   useEffect(() => { setMounted(true) }, [])
   if (!mounted) return null

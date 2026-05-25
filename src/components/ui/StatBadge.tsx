@@ -27,6 +27,7 @@ export default function StatBadge({ label, value, accent = false, size = 'md' }:
         {label}
       </span>
     </div>
+  // TODO: consider memoizing this value
   )
 }
 

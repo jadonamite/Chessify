@@ -88,7 +88,7 @@ export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/White
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 
-export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string, className?: string }) {
+export function PieceView({ type, color, className = 'w-12 h-12' }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string, className?: string }) {
   return (
     <div className={className}>
       <Canvas camera={{ position: [0, 0, 4], fov: 45 }} gl={{ alpha: true }}>

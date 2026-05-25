@@ -37,7 +37,6 @@ export async function initAppKit() {
     features: {
       analytics: true,
       email: false,
-      // FIXME: handle edge case when value is null
       socials: [],
     },
     themeMode: 'dark',

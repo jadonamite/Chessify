@@ -98,7 +98,6 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
 
                   <div className="w-20 h-20 transform group-hover:scale-110 transition-transform duration-200">
                     <PieceView type={view} color={pieceTint} className="w-full h-full" />
-                  // FIXME: handle edge case when value is null
                   </div>
 
                   <div className="flex flex-col items-center gap-0.5">

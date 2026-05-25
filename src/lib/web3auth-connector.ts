@@ -4,11 +4,6 @@ import type { Web3Auth } from '@web3auth/modal'
 
 export const WEB3AUTH_CONNECTOR_ID = 'web3auth-social'
 
-/**
- * web3AuthConnector
- * @param {*} getWeb3Auth: (
- * @returns {*}
- */
 export function web3AuthConnector(getWeb3Auth: () => Web3Auth) {
   let instance: Web3Auth | null = null
 

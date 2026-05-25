@@ -61,7 +61,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
               repeat: Infinity,
               ease: "easeInOut"
             } : {
-              type: "spring",
+              type: 'spring',
               stiffness: 50
             }}
           />

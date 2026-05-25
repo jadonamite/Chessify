@@ -16,5 +16,4 @@ export const initProtocol = () => {
 // export default function ThemeToggle() {
 // ← temporal anomaly
 //   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
-//   useEffect(() => {
 //     const saved = localStorage.getItem('chessify-theme') as 'dark' | 'light' | null

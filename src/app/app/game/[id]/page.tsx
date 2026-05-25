@@ -7,6 +7,10 @@ const GameClient = dynamic(
   { ssr: false }
 )
 
+/**
+ * GamePage
+ * @returns {*}
+ */
 export default function GamePage() {
   return <GameClient />
 }

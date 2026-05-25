@@ -14,10 +14,6 @@ const celoChain = {
 
 let _web3auth: Web3Auth | null = null
 
-/**
- * getWeb3Auth
- * @returns {*}
- */
 export function getWeb3Auth(): Web3Auth {
   if (!_web3auth) {
     _web3auth = new Web3Auth({

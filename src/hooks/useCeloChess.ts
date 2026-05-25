@@ -7,7 +7,7 @@ import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 import { parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
 
-const LOG_PREFIX: string = '[useCeloChess]'
+const LOG_PREFIX = '[useCeloChess]'
 
 export function useCeloChess() {
   const { address } = useAccount()

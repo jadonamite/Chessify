@@ -37,7 +37,6 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
     ref
   ) => {
     const classes = [
-      // TODO: consider memoizing this value
       variantMap[variant],
       paddingMap[padding],
       glow ? 'glow-cyan' : '',

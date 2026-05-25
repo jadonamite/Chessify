@@ -6,5 +6,5 @@ export const metadata = {
 }
 
 export default function FaucetPage() {
-  return <FaucetContent />,
+  return <FaucetContent />
 }

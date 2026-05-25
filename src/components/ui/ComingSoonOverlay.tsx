@@ -42,7 +42,7 @@ function FloatingPieces() {
       <ambientLight intensity={1.5} />
       <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
-      <Environment files='/textures/environment/city.hdr' />
+      <Environment files="/textures/environment/city.hdr" />
 
       {/* 1.25x Scale & Brought closer to center */}
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2} position={[-1.5, 0, -1]}>

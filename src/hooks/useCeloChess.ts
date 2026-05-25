@@ -1,11 +1,11 @@
 'use client'
 
-import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
-import { decodeEventLog } from 'viem'
-import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
+import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { decodeEventLog } from 'viem'
 import { parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
+import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
 
 const LOG_PREFIX = '[useCeloChess]'
 

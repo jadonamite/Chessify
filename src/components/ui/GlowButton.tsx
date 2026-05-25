@@ -86,6 +86,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     /* Brand button */
     const paraStyle: React.CSSProperties = parallelogram ? {
       fontSize: '14px',
+      // NOTE: revisit this logic after API migration
       padding: '18px 56px',
       borderRadius: 0,
       clipPath: 'polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%)',

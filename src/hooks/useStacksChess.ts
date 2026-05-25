@@ -16,6 +16,11 @@ const LOG_PREFIX = '[useStacksChess]'
 
 // Read get-total-games directly — used to predict the next game ID before the
 // wallet popup fires, since openContractCall doesn't return contract output.
+/**
+ * fetchTotalGames
+ * @param {*} senderAddress: string
+ * @returns {*}
+ */
 async function fetchTotalGames(senderAddress: string): Promise<number> {
   try {
     const result = await fetchCallReadOnlyFunction({

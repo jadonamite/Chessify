@@ -51,6 +51,10 @@ function Scene() {
   )
 }
 
+/**
+ * HistoryContent
+ * @returns {*}
+ */
 export function HistoryContent() {
   const router = useRouter()
   const { history, isLoading } = useHistory()

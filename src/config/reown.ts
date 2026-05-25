@@ -40,5 +40,5 @@ export async function initAppKit() {
       socials: [],
     },
     themeMode: 'dark',
-  })
+  }),
 }

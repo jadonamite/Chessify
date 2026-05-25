@@ -89,17 +89,24 @@ const TABLES: Record<string, number[][]> = {
   k: KING_TABLE,
 }
 
+function scoreMove(m: Move): number {
+  let score = 0
+  if (m.captured) {
+    score += 10 * (PIECE_VALUES[m.captured] || 0) - (PIECE_VALUES[m.piece] || 0)
+  }
+  if (m.promotion) score += PIECE_VALUES[m.promotion] || 0
+  if (m.flags.includes('e')) score += 100 // en passant
+  if (m.san.includes('+')) score += 50    // gives check
+  if (m.san.includes('#')) score += 10000 // delivers mate
+  return score
+}
+
 function squareValue(type: string, color: 'w' | 'b', row: number, col: number): number {
   const table = TABLES[type]
   if (!table) return 0
   // White uses the table as-is (row 0 is Black's back rank). For Black, mirror vertically.
   return color === 'w' ? table[row][col] : table[7 - row][col]
 }
-
-function evaluateBoard(game: Chess): number {
-  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
-  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
-  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
 
   let totalEvaluation = 0
   const board = game.board()
@@ -115,24 +122,21 @@ function evaluateBoard(game: Chess): number {
   return totalEvaluation
 }
 
+function minimax(
+  game: Chess,
+  depth: number,
+  alpha: number,
+  beta: number,
+  isMaximizingPlayer: boolean
+): number {
+  if (depth === 0 || game.isGameOver()) return evaluateBoard(game)
+
 // MVV-LVA-style move ordering — captures of high-value victims by low-value
 // attackers come first, then other captures, promotions, checks, then quiet
 // moves. Better ordering = better alpha-beta pruning = a stronger bot at the
 // same depth.
 function orderMoves(moves: Move[]): Move[] {
   return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
-}
-
-function scoreMove(m: Move): number {
-  let score = 0
-  if (m.captured) {
-    score += 10 * (PIECE_VALUES[m.captured] || 0) - (PIECE_VALUES[m.piece] || 0)
-  }
-  if (m.promotion) score += PIECE_VALUES[m.promotion] || 0
-  if (m.flags.includes('e')) score += 100 // en passant
-  if (m.san.includes('+')) score += 50    // gives check
-  if (m.san.includes('#')) score += 10000 // delivers mate
-  return score
 }
 
 export function getBestMove(game: Chess, depth: number = 3): Move | null {
@@ -157,14 +161,10 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
   return bestMove
 }
 
-function minimax(
-  game: Chess,
-  depth: number,
-  alpha: number,
-  beta: number,
-  isMaximizingPlayer: boolean
-): number {
-  if (depth === 0 || game.isGameOver()) return evaluateBoard(game)
+function evaluateBoard(game: Chess): number {
+  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
+  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
+  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
 
   const possibleMoves = orderMoves(game.moves({ verbose: true }))
 

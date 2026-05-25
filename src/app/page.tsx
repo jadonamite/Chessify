@@ -2,6 +2,10 @@ import Features from '@/components/landing/Features'
 import Hero from '@/components/landing/Hero'
 import { FreeCTA, Footer } from '@/components/landing/CTAFooter'
 
+/**
+ * LandingPage
+ * @returns {*}
+ */
 export default function LandingPage() {
   return (
     <main>

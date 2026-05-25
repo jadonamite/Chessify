@@ -144,7 +144,7 @@ export default function GameClient() {
 
   // ── derived ──────────────────────────────────────────────────────────────
 
-  const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
+  const ZERO_ADDR: string = '0x0000000000000000000000000000000000000000'
   const STATUS_LABELS: Record<string, string> = {
     '0': 'WAITING',
     '1': 'ACTIVE',

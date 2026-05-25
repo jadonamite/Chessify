@@ -25,10 +25,6 @@ const KEYFRAMES = `
 }
 `
 
-/**
- * Navbar
- * @returns {*}
- */
 export function Navbar() {
   const {
     isConnected, address,

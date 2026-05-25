@@ -14,7 +14,7 @@ function KnightModel() {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5,
+      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5
     }
   })
 

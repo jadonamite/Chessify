@@ -176,7 +176,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     wagmiDisconnect()
   }, [wagmiDisconnect])
 
-  // ── Disconnect Stacks ──
   const disconnectStacks = useCallback(() => {
     if (userSession) {
       userSession.signUserOut()

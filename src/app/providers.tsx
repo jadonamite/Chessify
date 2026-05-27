@@ -8,9 +8,15 @@ import dynamic from 'next/dynamic'
 import { celo } from 'viem/chains'
 import { wagmiConfig } from '@/config/wagmi'
 import { ThemeProvider } from 'next-themes'
+import CenterToast from '@/components/ui/CenterToast'
 
 const WalletProvider = dynamic(
   () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
+  { ssr: false }
+)
+
+const AudioManager = dynamic(
+  () => import('@/components/AudioManager'),
   { ssr: false }
 )
 
@@ -43,7 +49,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <WagmiProvider config={wagmiConfig} reconnectOnMount>
           <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
             <WalletProvider>
+              <AudioManager />
               {children}
+              <CenterToast />
             </WalletProvider>
           </ThemeProvider>
         </WagmiProvider>

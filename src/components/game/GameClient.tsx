@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { Chess } from 'chess.js'
 import dynamic from 'next/dynamic'
@@ -21,9 +21,14 @@ import LoadingState from '@/components/ui/LoadingState'
 import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
 import PromotionModal, { PromotionPiece } from '@/components/ui/PromotionModal'
 import { Navbar } from '@/components/landing/Hero'
-import { getBestMove } from '@/lib/chess-engine'
+import { getBestMove, getHintMove } from '@/lib/chess-engine'
 import { TOKEN_DECIMALS } from '@/config/contracts'
 import { useGameMoves } from '@/hooks/useGameMoves'
+import { useSettingsStore, BOARD_THEMES, AI_DEPTH } from '@/hooks/useSettingsStore'
+import { buildPieces } from '@/lib/chessPieces'
+import { playMoveChime } from '@/lib/audio'
+import ChessName from '@/components/ui/ChessName'
+import ChessAvatar from '@/components/ui/ChessAvatar'
 
 // Dynamically import Chessboard to avoid SSR issues
 const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
@@ -75,10 +80,35 @@ export default function GameClient() {
   const [statusModalMessage, setStatusModalMessage] = useState<string>('')
   const [pendingPromotion, setPendingPromotion] = useState<{ from: string; to: string; color: 'white' | 'black' } | null>(null)
 
+  // ── settings-driven board UX (piece set, theme, hints, AI depth, sound) ──
+  const { soundEnabled, boardTheme, pieceSet, aiDifficulty, showMoveHints } = useSettingsStore()
+  const customPieces = useMemo(() => buildPieces(pieceSet), [pieceSet])
+  const aiDepthRef = useRef(AI_DEPTH[aiDifficulty])
+  useEffect(() => { aiDepthRef.current = AI_DEPTH[aiDifficulty] }, [aiDifficulty])
+  const soundOnRef = useRef(soundEnabled)
+  useEffect(() => { soundOnRef.current = soundEnabled }, [soundEnabled])
+
+  const [hintMove, setHintMove] = useState<{ from: string; to: string } | null>(null)
+  const [isHintLoading, setIsHintLoading] = useState(false)
+  const audioCtxRef = useRef<AudioContext | null>(null)
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const getCtx = useCallback((): AudioContext | null => {
+    if (typeof window === 'undefined') return null
+    try {
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+      }
+      if (audioCtxRef.current.state === 'suspended') audioCtxRef.current.resume()
+      return audioCtxRef.current
+    } catch { return null }
+  }, [])
+
   // Bot reply timer — cleared on unmount so setState never fires after teardown
   const botReplyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   useEffect(() => () => {
     if (botReplyTimerRef.current) clearTimeout(botReplyTimerRef.current)
+    if (hintTimerRef.current) clearTimeout(hintTimerRef.current)
   }, [])
 
   // Poll game data on Celo so WAITING → ACTIVE transitions surface without a refresh
@@ -223,6 +253,12 @@ export default function GameClient() {
       sanHistory.every((san, i) => san === moveHistory[i])
     if (same) return
 
+    // Opponent move arrived over the relay — chime once (skip bulk replay on load)
+    if (soundOnRef.current && sanHistory.length === moveHistory.length + 1) {
+      const ctx = getCtx()
+      if (ctx) playMoveChime(ctx, true)
+    }
+
     setGame(new Chess(replayed.fen()))
     setMoveHistory(sanHistory)
 
@@ -276,6 +312,8 @@ export default function GameClient() {
       // Optimistic local commit — instant feedback for the mover
       setGame(next)
       setMoveHistory(h => [...h, move.san])
+      setHintMove(null)
+      if (soundOnRef.current) { const ctx = getCtx(); if (ctx) playMoveChime(ctx, false) }
 
       // Status banners from the new position
       if (next.isCheckmate()) {
@@ -308,7 +346,7 @@ export default function GameClient() {
         botReplyTimerRef.current = setTimeout(() => {
           botReplyTimerRef.current = null
           const afterPlayer = new Chess(next.fen())
-          const botMove = getBestMove(afterPlayer, 3)
+          const botMove = getBestMove(afterPlayer, aiDepthRef.current)
           if (botMove) {
             afterPlayer.move(botMove)
             setGame(new Chess(afterPlayer.fen()))
@@ -348,6 +386,23 @@ export default function GameClient() {
   const handlePromotionCancel = useCallback(() => {
     setPendingPromotion(null)
   }, [])
+
+  // GET HINT — runs the engine for the side to move and flashes the suggested
+  // move on the board for 6s. Deferred a tick so the button shows ANALYSING.
+  const handleHint = useCallback(() => {
+    if (isHintLoading || game.isGameOver()) return
+    setIsHintLoading(true)
+    if (hintTimerRef.current) { clearTimeout(hintTimerRef.current); hintTimerRef.current = null }
+    setTimeout(() => {
+      const clone = new Chess(game.fen())
+      const hint = getHintMove(clone, 3)
+      setIsHintLoading(false)
+      if (hint) {
+        setHintMove({ from: hint.from, to: hint.to })
+        hintTimerRef.current = setTimeout(() => setHintMove(null), 6000)
+      }
+    }, 0)
+  }, [game, isHintLoading])
 
   // ── v5 onSquareClick: receives an object { piece, square }
   const handleSquareClick = useCallback(
@@ -508,11 +563,28 @@ export default function GameClient() {
                   <StatBadge label="OPPONENT" value="SYSTEM BOT" />
                 </div>
               ) : gameData && (
-                <div className="flex flex-wrap gap-4 mt-4">
-                  <StatBadge label="WAGER" value={`${wagerFormatted} CHESS`} accent />
-                  <StatBadge label="STATUS" value={statusLabel} />
-                  {myColor && <StatBadge label="YOU PLAY" value={myColor.toUpperCase()} />}
-                </div>
+                <>
+                  <div className="flex flex-wrap gap-4 mt-4">
+                    <StatBadge label="WAGER" value={`${wagerFormatted} CHESS`} accent />
+                    <StatBadge label="STATUS" value={statusLabel} />
+                    {myColor && <StatBadge label="YOU PLAY" value={myColor.toUpperCase()} />}
+                  </div>
+                  <div className="flex items-center gap-3 mt-4">
+                    <div className="flex items-center gap-2">
+                      <ChessAvatar address={gameData.player1} size={24} />
+                      <ChessName address={gameData.player1} short className="text-xs font-bold text-white/80" />
+                    </div>
+                    <span className="text-[var(--t3)] text-xs font-black">vs</span>
+                    {gameData.player2 && gameData.player2 !== ZERO_ADDR ? (
+                      <div className="flex items-center gap-2">
+                        <ChessAvatar address={gameData.player2} size={24} />
+                        <ChessName address={gameData.player2} short className="text-xs font-bold text-white/80" />
+                      </div>
+                    ) : (
+                      <span className="text-xs text-[var(--t3)] italic">waiting…</span>
+                    )}
+                  </div>
+                </>
               )}
             </div>
             <Link href="/app/lobby">
@@ -539,6 +611,7 @@ export default function GameClient() {
                     options={{
                       id: 'BasicBoard',
                       position: game.fen(),
+                      pieces: customPieces,
                       boardOrientation: myColor === 'black' ? 'black' : 'white',
                       // Drag — bot games allow only when it's white's turn (player);
                       // PvP allows only when it's the player's color's turn
@@ -547,12 +620,29 @@ export default function GameClient() {
                       onPieceDrop: handlePieceDrop,
                       // Click-to-move
                       onSquareClick: handleSquareClick,
-                      // Styles
-                      darkSquareStyle: { backgroundColor: '#0f172a' },
-                      lightSquareStyle: { backgroundColor: '#1e293b' },
-                      squareStyles: moveFrom
-                        ? { [moveFrom]: { backgroundColor: 'rgba(0, 204, 255, 0.4)' } }
-                        : {},
+                      // Styles — board theme from settings
+                      darkSquareStyle: { backgroundColor: BOARD_THEMES[boardTheme].dark },
+                      lightSquareStyle: { backgroundColor: BOARD_THEMES[boardTheme].light },
+                      squareStyles: (() => {
+                        const styles: Record<string, React.CSSProperties> = {}
+                        if (moveFrom) {
+                          styles[moveFrom] = { backgroundColor: 'rgba(0, 204, 255, 0.4)' }
+                          if (showMoveHints) {
+                            const legalMoves = game.moves({ square: moveFrom as any, verbose: true }) as Array<{ to: string; flags: string }>
+                            legalMoves.forEach(({ to, flags }) => {
+                              const isCapture = flags.includes('c') || flags.includes('e')
+                              styles[to] = isCapture
+                                ? { boxShadow: 'inset 0 0 0 3px rgba(74,222,128,0.7)', borderRadius: '4px' }
+                                : { background: 'radial-gradient(circle, rgba(74,222,128,0.7) 30%, transparent 32%)' }
+                            })
+                          }
+                        }
+                        if (hintMove) {
+                          styles[hintMove.from] = { backgroundColor: 'rgba(251,191,36,0.35)' }
+                          styles[hintMove.to] = { background: 'radial-gradient(circle, rgba(251,191,36,0.65) 30%, transparent 32%)' }
+                        }
+                        return styles
+                      })(),
                       boardStyle: {
                         borderRadius: '12px',
                         boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
@@ -684,6 +774,21 @@ export default function GameClient() {
                       </GlowButton>
                     </div>
                   </div>
+                </ClayCard>
+              )}
+
+              {/* Analysis — engine hint for the side to move */}
+              {!gameOver && (isBotGame ? turn === 'w' : (isParticipant && isMyTurn)) && (
+                <ClayCard className="p-6">
+                  <h3 className="text-[10px] font-black tracking-[0.2em] text-[var(--t3)] uppercase mb-3">Analysis</h3>
+                  <GlowButton variant="ghost" fullWidth onClick={handleHint} disabled={isHintLoading}>
+                    {isHintLoading ? 'ANALYSING…' : hintMove ? `HINT: ${hintMove.from.toUpperCase()} → ${hintMove.to.toUpperCase()}` : 'GET HINT'}
+                  </GlowButton>
+                  {hintMove && (
+                    <p className="text-[9px] text-amber-400 font-bold tracking-widest uppercase text-center mt-2 opacity-70">
+                      Amber squares show the suggested move
+                    </p>
+                  )}
                 </ClayCard>
               )}
 

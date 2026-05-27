@@ -10,6 +10,8 @@ import { useWallet } from '@/components/wallet-provider'
 import ChainSelectModal from '@/components/ui/ChainSelectModal'
 import { King, Queen, Bishop, Knight, Pawn } from '@/components/ui/ChessModels'
 import TypingHeroText from '@/components/ui/TypingHeroText'
+import ChessAvatar from '@/components/ui/ChessAvatar'
+import ChessName from '@/components/ui/ChessName'
 
 const KEYFRAMES = `
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
@@ -38,8 +40,6 @@ export function Navbar() {
   const displayAddress = activeChain === 'celo' ? address : stacksAddress
   const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
   const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
-
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`
 
   return (
     <>
@@ -82,17 +82,24 @@ export function Navbar() {
                   {chainLabel}
                 </span>
               </div>
-              {/* Address */}
-              <span
-                className="text-[10px] sm:text-[11px]"
+              {/* Profile pill — avatar + .chess name (falls back to address) */}
+              <Link
+                href={`/app/profile/${displayAddress}`}
+                title="View profile"
+                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                 style={{
-                  fontFamily: "var(--fb)", color: "var(--t1)",
-                  background: "var(--b1)", padding: "6px 12px", borderRadius: 999,
+                  textDecoration: "none",
+                  background: "var(--b1)", padding: "4px 10px 4px 4px", borderRadius: 999,
                   border: '1px solid var(--b2)'
                 }}
               >
-                {formatAddress(displayAddress)}
-              </span>
+                <ChessAvatar address={displayAddress} size={24} />
+                <ChessName
+                  address={displayAddress}
+                  className="text-[10px] sm:text-[11px]"
+                  style={{ fontFamily: "var(--fb)", color: "var(--t1)" }}
+                />
+              </Link>
               {/* Disconnect */}
               <button
                 onClick={disconnectAll}

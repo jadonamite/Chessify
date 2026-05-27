@@ -9,6 +9,8 @@ import GlowButton from '@/components/ui/GlowButton'
 import LoadingState from '@/components/ui/LoadingState'
 import { useHistory } from '@/hooks/useHistory'
 import { Queen, PieceView } from '@/components/ui/ChessModels'
+import ChessName from '@/components/ui/ChessName'
+import ChessAvatar from '@/components/ui/ChessAvatar'
 
 function Scene() {
   return (
@@ -124,9 +126,14 @@ export function HistoryContent() {
                                 <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/10 text-white/50">
                                   {item.role}
                                 </span>
-                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest truncate max-w-[150px]">
-                                  vs {item.opponent.slice(0, 8)}...
-                                </span>
+                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">vs</span>
+                                <ChessAvatar address={item.opponent} size={18} />
+                                <ChessName
+                                  address={item.opponent}
+                                  short
+                                  asLink
+                                  className="text-[11px] font-bold text-gray-300 tracking-wide truncate max-w-[150px]"
+                                />
                               </div>
                               <span className="font-black text-xl text-white tracking-tight">
                                 MATCH #{item.id}

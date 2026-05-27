@@ -8,6 +8,10 @@ import ClayCard from '@/components/ui/ClayCard'
 import ComingSoonOverlay from '@/components/ui/ComingSoonOverlay'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import { useStacksChess } from '@/hooks/useStacksChess'
+import { useProfile } from '@/hooks/useProfile'
+import ChessName from '@/components/ui/ChessName'
+import ChessAvatar from '@/components/ui/ChessAvatar'
+import ClaimModal from '@/components/ui/ClaimModal'
 import { useRouter } from 'next/navigation'
 import { Navbar } from '@/components/landing/Hero'
 import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
@@ -39,6 +43,9 @@ function BgIcon({ children }: { children: React.ReactNode }) {
 
 export default function LobbyContent() {
   const { isConnected, isStacksConnected, activeChain, stacksAddress, address: celoAddress, connectWallet } = useWallet()
+  const activeAddress = activeChain === 'stacks' ? stacksAddress : celoAddress
+  const { data: myProfile } = useProfile(activeAddress ?? null)
+  const [claimOpen, setClaimOpen] = useState(false)
   const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
   // @ts-expect-error - intentional unused isCeloPending
   const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
@@ -204,6 +211,33 @@ export default function LobbyContent() {
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', zIndex: 0, opacity: 0.4 }} />
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-full box-border px-4 md:px-8 py-12 md:py-24">
+
+        {/* ── .chess onboarding banner — connected wallet with no profile yet ── */}
+        <AnimatePresence>
+          {activeAddress && myProfile === null && (
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              className="w-full max-w-7xl mx-auto mb-6 md:mb-8 rounded-2xl border border-[var(--c)]/25 bg-[var(--c)]/[0.05] backdrop-blur-sm px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            >
+              <div className="flex items-center gap-4 min-w-0">
+                <ChessAvatar address={activeAddress} size={40} />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-[var(--t1)]">
+                    Claim your <span style={{ color: 'var(--c)' }}>.chess</span> identity
+                  </p>
+                  <p className="text-[11px] text-[var(--t3)] mt-0.5">
+                    Get a name + avatar so opponents recognise you across the board.
+                  </p>
+                </div>
+              </div>
+              <GlowButton variant="brand" parallelogram size="sm" onClick={() => setClaimOpen(true)} className="shrink-0">
+                CLAIM NAME
+              </GlowButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start w-full max-w-7xl mx-auto box-border">
 
@@ -381,9 +415,14 @@ export default function LobbyContent() {
                               >
                                 CHALLENGER
                               </span>
-                              <span className="font-bold tracking-wide text-base text-gray-200 truncate max-w-full">
-                                {game.creator}
-                              </span>
+                              <div className="flex items-center gap-2 min-w-0">
+                                <ChessAvatar address={game.creator} size={24} />
+                                <ChessName
+                                  address={game.creator}
+                                  asLink
+                                  className="font-bold tracking-wide text-base text-gray-200 truncate max-w-full"
+                                />
+                              </div>
                             </div>
                           </div>
 
@@ -611,6 +650,15 @@ export default function LobbyContent() {
       </AnimatePresence>
 
       <ComingSoonOverlay isOpen={isComingSoonOpen} onClose={() => setIsComingSoonOpen(false)} />
+
+      {activeAddress && (
+        <ClaimModal
+          open={claimOpen}
+          address={activeAddress}
+          onClose={() => setClaimOpen(false)}
+          onSuccess={() => setClaimOpen(false)}
+        />
+      )}
     </main>
   )
 }

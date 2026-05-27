@@ -1,11 +1,12 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { WagmiProvider } from 'wagmi'
+import { useState } from 'react'
+import { WagmiProvider } from '@privy-io/wagmi'
+import { PrivyProvider } from '@privy-io/react-auth'
 import dynamic from 'next/dynamic'
-import { wagmiAdapter, initAppKit } from '@/config/reown'
-
+import { celo } from 'viem/chains'
+import { wagmiConfig } from '@/config/wagmi'
 import { ThemeProvider } from 'next-themes'
 
 const WalletProvider = dynamic(
@@ -16,30 +17,37 @@ const WalletProvider = dynamic(
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-      },
+      queries: { staleTime: 60 * 1000 },
     },
   }))
 
-  const [ready, setReady] = useState(false)
-  useEffect(() => {
-    initAppKit().then(() => setReady(true))
-  }, [])
-
   return (
-    <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-          {ready ? (
+    <QueryClientProvider client={queryClient}>
+      <PrivyProvider
+        appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? 'placeholder-set-env-var'}
+        config={{
+          defaultChain: celo,
+          supportedChains: [celo],
+          appearance: {
+            theme: 'dark',
+            accentColor: '#00ccff',
+            logo: '/Piece.svg',
+            walletChainType: 'ethereum-only',
+          },
+          loginMethods: ['google', 'twitter', 'github', 'email', 'wallet'],
+          embeddedWallets: {
+            createOnLogin: 'users-without-wallets',
+          },
+        }}
+      >
+        <WagmiProvider config={wagmiConfig} reconnectOnMount>
+          <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
             <WalletProvider>
               {children}
             </WalletProvider>
-          ) : (
-            <>{children}</>
-          )}
-        </ThemeProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+          </ThemeProvider>
+        </WagmiProvider>
+      </PrivyProvider>
+    </QueryClientProvider>
   )
 }

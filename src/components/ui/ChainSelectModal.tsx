@@ -295,7 +295,7 @@ export default function ChainSelectModal({
                 Social Login
               </span>
               <span className="text-[9px] font-semibold tracking-[0.15em] uppercase text-white/20 group-hover:text-white/40 transition-colors ml-1">
-                · Web3Auth
+                · Privy
               </span>
             </motion.button>
 

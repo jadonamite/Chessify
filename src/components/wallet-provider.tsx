@@ -1,8 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { useAccount, useDisconnect, useConnect } from 'wagmi'
-import { WEB3AUTH_CONNECTOR_ID } from '@/lib/web3auth-connector'
+import { usePrivy, useWallets, useCreateWallet } from '@privy-io/react-auth'
+import { useAccount, useDisconnect } from 'wagmi'
 
 interface WalletContextType {
   // ── Addresses ──
@@ -56,10 +56,12 @@ const WalletContext = createContext<WalletContextType>({
 export const useWallet = () => useContext(WalletContext)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  // --- EVM state ---
-  const { address: evmAddress, isConnected: evmConnected } = useAccount()
+  // --- EVM state (Privy) ---
+  const { login, logout, authenticated, ready } = usePrivy()
+  const { address: evmAddress } = useAccount()
+  const { wallets } = useWallets()
+  const { createWallet } = useCreateWallet()
   const { disconnect: wagmiDisconnect } = useDisconnect()
-  const { connect: wagmiConnect, connectors } = useConnect()
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)
@@ -70,7 +72,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [activeChain, setActiveChainState] = useState<'celo' | 'stacks'>('celo')
   const [showChainSelect, setShowChainSelect] = useState(false)
 
-  const isConnected = evmConnected || !!evmAddress
+  // Prefer wagmi (external wallet), fall back to Privy embedded wallet
+  const privyAddress = wallets[0]?.address as `0x${string}` | undefined
+  const evmResolvedAddress = evmAddress ?? privyAddress ?? null
+
+  const isConnected = ready && authenticated
   const isStacksConnected = !!stacksAddress
 
   // 1. Initialize Stacks Session only on Client
@@ -86,7 +92,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           const userData = session.loadUserData()
           setStacksAddress(userData.profile.stxAddress.mainnet || userData.profile.stxAddress.testnet)
           // Auto-set chain if Stacks session exists and no Celo connection
-          if (!evmConnected) {
+          if (!authenticated) {
             setActiveChainState('stacks')
           }
         }
@@ -116,33 +122,27 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  // ── Connect Celo (via Reown AppKit) ──
-  const connect = useCallback(async () => {
-    try {
-      const { modal } = await import('@reown/appkit/react')
-      await modal?.open()
-    } catch (e) {
-      console.error('Failed to open AppKit modal:', e)
+  // 4. If authenticated but no wallet exists yet, create an embedded one
+  useEffect(() => {
+    if (!ready || !authenticated) return
+    if (wallets.length === 0 && !evmAddress) {
+      createWallet().catch(() => {})
     }
+  }, [ready, authenticated, wallets.length, evmAddress, createWallet])
+
+  // ── Connect Celo (via Privy — wallet or social) ──
+  const connect = useCallback(async () => {
+    if (!authenticated) login()
     setActiveChain('celo')
     setShowChainSelect(false)
-  }, [setActiveChain])
+  }, [login, authenticated, setActiveChain])
 
-  // ── Connect via Web3Auth social login ──
+  // ── Connect via social login (Privy unified modal) ──
   const connectSocial = useCallback(async () => {
-    const socialConnector = connectors.find(c => c.id === WEB3AUTH_CONNECTOR_ID)
-    if (!socialConnector) {
-      console.error('Web3Auth connector not found')
-      return
-    }
-    try {
-      wagmiConnect({ connector: socialConnector })
-      setActiveChain('celo')
-      setShowChainSelect(false)
-    } catch (e) {
-      console.error('Social login failed:', e)
-    }
-  }, [connectors, wagmiConnect, setActiveChain])
+    if (!authenticated) login()
+    setActiveChain('celo')
+    setShowChainSelect(false)
+  }, [login, authenticated, setActiveChain])
 
   // ── Connect Stacks (via Stacks Connect) ──
   const connectStacks = useCallback(async () => {
@@ -171,10 +171,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [userSession, setActiveChain])
 
-  // ── Disconnect Celo ──
+  // ── Disconnect Celo (Privy) ──
   const disconnect = useCallback(() => {
+    logout()
     wagmiDisconnect()
-  }, [wagmiDisconnect])
+  }, [logout, wagmiDisconnect])
 
   // ── Disconnect Stacks ──
   const disconnectStacks = useCallback(() => {
@@ -204,7 +205,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   return (
     <WalletContext.Provider
       value={{
-        address: evmAddress || null,
+        address: evmResolvedAddress,
         stacksAddress,
         isConnected,
         isStacksConnected,

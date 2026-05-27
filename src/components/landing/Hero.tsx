@@ -1,17 +1,16 @@
 'use client'
-import Image from 'next/image'
 import GlowButton from '@/components/ui/GlowButton'
-import ThemeToggle from '@/components/ui/ThemeToggle'
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { useWallet } from '@/components/wallet-provider'
-import ChainSelectModal from '@/components/ui/ChainSelectModal'
 import { King, Queen, Bishop, Knight, Pawn } from '@/components/ui/ChessModels'
 import TypingHeroText from '@/components/ui/TypingHeroText'
-import ChessAvatar from '@/components/ui/ChessAvatar'
-import ChessName from '@/components/ui/ChessName'
+import NavbarComponent from '@/components/ui/Navbar'
+
+// Re-export so all existing `import { Navbar } from '@/components/landing/Hero'` keep working
+export { default as Navbar } from '@/components/ui/Navbar'
 
 const KEYFRAMES = `
 @keyframes rspin       { to{transform:translate(-50%,-50%) rotate(360deg)} }
@@ -26,123 +25,6 @@ const KEYFRAMES = `
   .hero-pieces { pointer-events: none; }
 }
 `
-
-export function Navbar() {
-  const {
-    isConnected, address,
-    isStacksConnected, stacksAddress,
-    activeChain, connectWallet, disconnectAll,
-    showChainSelect, setShowChainSelect,
-    connect, connectStacks, connectSocial
-  } = useWallet()
-
-  const connected = isConnected || isStacksConnected
-  const displayAddress = activeChain === 'celo' ? address : stacksAddress
-  const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
-  const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
-
-  return (
-    <>
-      <nav className="hero-navbar w-full flex items-center justify-between" style={{ padding: "18px 56px", position: "relative", zIndex: 20 }}>
-        <div>
-          <Image src="/chessify.png" alt="Chessify" width={200} height={50} className="w-[140px] md:w-[200px] h-auto object-contain" />
-        </div>
-        <div className="nav-surface hero-nav-links" style={{ display: "flex", gap: 28, borderRadius: 999, padding: "10px 28px" }}>
-          {["How it works", "History", "Faucet"].map((l) => {
-            const isAppRoute = l === "Faucet" || l === "History"
-            const path = isAppRoute ? `/app/${l.toLowerCase()}` : `#${l.toLowerCase().replace(" ", "-")}`
-            
-            return (
-              <Link
-                key={l}
-                href={path}
-                style={{ fontFamily: "var(--fd)", fontSize: 12, fontWeight: 500, color: "var(--t2)", textDecoration: "none", letterSpacing: ".06em", transition: "color .2s" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--c)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--t2)"; }}
-              >
-                {l}
-              </Link>
-            )
-          })}
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:block">
-            <ThemeToggle />
-          </div>
-
-          {connected && displayAddress ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              {/* Chain badge */}
-              <div
-                className="flex items-center gap-1.5 py-1 px-2.5 rounded-full"
-                style={{ background: `${chainColor}15`, border: `1px solid ${chainColor}30` }}
-              >
-                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: chainColor }} />
-                <span className="text-[9px] font-bold tracking-[0.15em]" style={{ color: chainColor, fontFamily: 'var(--fd)' }}>
-                  {chainLabel}
-                </span>
-              </div>
-              {/* Profile pill — avatar + .chess name (falls back to address) */}
-              <Link
-                href={`/app/profile/${displayAddress}`}
-                title="View profile"
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-                style={{
-                  textDecoration: "none",
-                  background: "var(--b1)", padding: "4px 10px 4px 4px", borderRadius: 999,
-                  border: '1px solid var(--b2)'
-                }}
-              >
-                <ChessAvatar address={displayAddress} size={24} />
-                <ChessName
-                  address={displayAddress}
-                  className="text-[10px] sm:text-[11px]"
-                  style={{ fontFamily: "var(--fb)", color: "var(--t1)" }}
-                />
-              </Link>
-              {/* Disconnect */}
-              <button
-                onClick={disconnectAll}
-                style={{ background: "transparent", border: "none", color: "var(--t3)", cursor: "pointer", fontSize: 18, padding: '0 4px' }}
-                title="Disconnect Wallet"
-              >
-                ×
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={connectWallet}
-              className="text-[10px] sm:text-[11px] px-3 py-2 sm:px-4"
-              style={{
-                background: "var(--c)",
-                color: "#000",
-                border: "none",
-                fontWeight: "bold",
-                borderRadius: 999,
-                cursor: "pointer",
-                fontFamily: 'var(--fd)'
-              }}
-            >
-              Connect Wallet
-            </button>
-          )}
-        </div>
-      </nav>
-
-      {/* Chain Select Modal */}
-      <ChainSelectModal
-        isOpen={showChainSelect}
-        onClose={() => setShowChainSelect(false)}
-        onSelectCelo={connect}
-        onSelectStacks={connectStacks}
-        onSelectSocial={connectSocial}
-      />
-    </>
-  )
-}
-
-
-
 
 export default function Hero() {
   const { isConnected, isStacksConnected, connectWallet } = useWallet()
@@ -164,7 +46,7 @@ export default function Hero() {
       {/* Grid */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)', maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,black 30%,transparent 80%)' }} />
 
-      <Navbar />
+      <NavbarComponent />
 
       <div className="hero-content" style={{ position: 'relative', minHeight: 'calc(100vh - 76px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: isMobile ? '20px 16px 60px' : '60px 48px 80px' }}>
 

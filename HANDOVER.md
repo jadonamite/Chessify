@@ -6,6 +6,35 @@
 
 ---
 
+## ✅ PORT STATUS — Phases A–F complete (pushed to `main`)
+
+All six phases of §4 are implemented and pushed. `npm run build` is clean (Turbopack);
+`tsc` is clean except one pre-existing Privy `createOnLogin` type error (tolerated by
+`next.config.ts` `ignoreBuildErrors`).
+
+| Phase | What shipped | Commit |
+|---|---|---|
+| A | Chain-agnostic infra: settings/toast stores, audio + AudioManager, 5 piece sets, CenterToast, assets | `e2ce615` |
+| B | Redesigned `ui/Navbar` (trapezoid links, music toggle, parallelogram wallet pill) multi-chain-adapted; Hero re-export; old inline nav removed | `0078c3e` |
+| C | `/app/settings` (chain-aware signing) + `/app/leaderboard` (active-chain; Celo `useLeaderboard` + new `useStacksLeaderboard`) | `bb26f06` |
+| D | Lobby `.chess` onboarding banner + ChessName/ChessAvatar rows in lobby & history | `0f0e910` |
+| E | GameClient merge: piece sets, board themes, move hints, GET HINT (`getHintMove`), move chimes, AI depth, player headers | `8d0b025` |
+| F | Build/type verification + this doc update | — |
+
+**Deferred / not ported (intentional):**
+- **Opponent turn countdown** (playchessify's cosmetic 5-min timer): skipped — it had no
+  on-expiry enforcement in the source, and Chessify's **REPORT WIN** already handles timeout claims.
+- **CapturedTray** (captured-pieces display via `getCaptureSummary`): not in the §4 scope; skip unless wanted.
+- Two harmless `react-hooks/exhaustive-deps` warnings on the stable `getCtx` callback in GameClient.
+
+**⚠️ STILL NEEDS A HUMAN:** browser-test both chains end-to-end (wallet connect, claim `.chess`,
+leaderboard, in-game settings) on the Vercel preview — see §8. This could not be automated
+(requires Privy login + Leather/Xverse signature popups). Also still pending from §1/§2:
+swap the borrowed Privy app ID for a dedicated Chessify Privy app, and set Chessify's own
+Talent Protocol `talentapp:project_verification` meta in `app/layout.tsx`.
+
+---
+
 ## 0. Read this first — what went wrong, what's true now
 
 The first pass treated this as a *backend port* and missed that playchessify is a **full UI/UX redesign**. The wallet migration and the `.chess` profile *backend* were ported correctly, but the **navigation, leaderboard, settings, audio, multi-piece-set board, and lobby onboarding were NOT** — so in the live app you currently see **no `.chess` identity surface and no leaderboard**, because those pages/components don't exist in Chessify yet.

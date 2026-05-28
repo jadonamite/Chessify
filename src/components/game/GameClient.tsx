@@ -205,7 +205,7 @@ export default function GameClient() {
     ? game.turn() === 'w'
     : (game.turn() === 'w' && myColor === 'white') || (game.turn() === 'b' && myColor === 'black')
 
-  const canAct = (isBotGame || isStacksConnected || isConnected) && !txPending && isParticipant
+  const canAct = !txPending && (isBotGame || (isParticipant && (isConnected || isStacksConnected)))
   const gameOver = game.isGameOver()
   const turn = game.turn()
 

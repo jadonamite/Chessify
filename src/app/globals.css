@@ -171,14 +171,22 @@ body {
   border-radius: 999px;
 }
 
+/* Navbar responsive helpers */
+.nav-desktop { display: flex; }
+.nav-mobile  { display: none !important; } /* must beat inline display:flex on the button */
+
 /* ── MOBILE RESPONSIVE ── */
 @media (max-width: 1024px) {
   .hero-pieces { pointer-events: none; }
 }
 
 @media (max-width: 768px) {
-  .hero-navbar { padding: 14px 20px !important; }
+  .nav-desktop { display: none !important; }
+  .nav-mobile  { display: flex !important; }
+  .hero-navbar { padding: 0 !important; }
   .hero-nav-links { display: none !important; }
+  #hamburger-btn { display: flex !important; }
+  #mobile-menu { display: block; }
   .hero-content { padding: 40px 20px 60px !important; }
   .hero-pieces { display: block !important; pointer-events: none; }
   .hero-float-cards { display: none !important; }

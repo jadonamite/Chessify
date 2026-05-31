@@ -322,29 +322,96 @@ The comment says "~30 min = 3 blocks" then sets the constant to 432 (~3 days). T
 
 ---
 
+---
+
+### W-018 · Timeout Handler Calls `reportWin` Instead of `claimTimeout`
+
+**File**: `src/components/game/GameClient.tsx` (inherited from playchessify)
+
+The timeout handler was calling `reportCeloWin` / `reportStacksWin`. Both emit `CheckmateReported` on-chain instead of `TimeoutClaimed`, polluting event logs and making it impossible to distinguish checkmate wins from timeout wins.
+
+**Fix**: Added `handleClaimTimeout` that calls `claimCeloTimeout` / `claimStacksTimeout`. A "CLAIM TIMEOUT WIN" button is shown when `canClaimTimeout` returns true from the contract.
+
+**Status**: ✅ Fixed
+
+---
+
+### W-019 · Client Timer Does Not Match Contract Block-Based Timeout
+
+**File**: `src/components/game/GameClient.tsx` (inherited from playchessify)
+
+playchessify had a 5-minute client-side countdown that fired `reportWin`. The Celo contract timeout is 360 blocks (~30 min). The two never matched.
+
+**Fix**: Removed the client-side countdown. The "CLAIM TIMEOUT WIN" button now appears only when `canClaimTimeout(gameId)` returns `true` from the contract (polled every 30s). The actual enforcement is entirely on-chain.
+
+**Status**: ✅ Fixed
+
+---
+
+### W-020 · Profile API Lowercases All Addresses — Breaks Stacks Principals
+
+**File**: `/src/app/api/profile/*`
+
+All profile API routes call `.toLowerCase()` on addresses before storage and lookup. Stacks principals (`SP...`) are **case-sensitive** — lowercasing them produces a different (invalid) string. Any Stacks player who claims a profile will have their principal stored under an incorrect key.
+
+**Fix needed**: The profile API must detect Stacks principals (starts with `SP` or `ST`) and preserve their case, while still normalising EVM addresses to lowercase.
+
+**Status**: ❌ Unfixed
+
+---
+
+### W-021 · Move Relay Has No Stacks Route
+
+**File**: `src/app/api/games/[chain]/[id]/moves/route.ts`
+
+All relay storage uses key prefix `chess:moves:celo:{id}`. When `chain === 'stacks'` the key becomes `chess:moves:stacks:{id}` but no code validates or separates this — both chains write to the same key namespace with no collision guard. More critically, `useGameMoves` passes `chain: activeChain` but the relay API likely uses `celo` as the canonical key regardless.
+
+**Fix needed**: Verify the relay route correctly keys on `[chain]` and test that two simultaneous games with the same ID on different chains don't collide in Redis.
+
+**Status**: ❌ Needs verification
+
+---
+
+### W-022 · 1-Indexed Game Scan in Lobby and Leaderboard (Both Chains)
+
+**Files**: `src/hooks/useLobby.ts`, `src/hooks/useStacksLeaderboard.ts`
+
+Inherited from playchessify. Game IDs are 0-indexed on both chains (`gameNonce` / `game-nonce` starts at 0). Lobby and leaderboard scans were generating `[1..nonce]`, skipping game 0 and fetching a nonexistent game at index `nonce`.
+
+**Fix**: Changed to `[0..nonce-1]` in all three scan loops.
+
+**Status**: ✅ Fixed
+
+---
+
 ## ISSUE STATUS SUMMARY
 
 | ID | Severity | Area | Status |
 |---|---|---|---|
-| W-001 | BLOCKER | Stacks contract | ❌ Unfixed — requires redeploy |
-| W-002 | BLOCKER | Stacks hook | ❌ Unfixed |
-| W-003 | BLOCKER | Stacks hook | ❌ Unfixed |
-| W-004 | HIGH | Both hooks | ❌ Unfixed — 4 functions missing |
+| W-001 | BLOCKER | Stacks contract | ✅ Fixed locally — **needs mainnet redeploy** |
+| W-002 | BLOCKER | Stacks hook | ✅ Fixed |
+| W-003 | BLOCKER | Stacks leaderboard | ✅ Fixed |
+| W-004 | HIGH | Both hooks + GameClient | ✅ Fixed — all 4 functions added + wired to UI |
 | W-005 | HIGH | Both contracts | ⚠️ Design decision — no Elo on draw |
-| W-006 | HIGH | Wallet provider | ❌ Unfixed |
-| W-007 | HIGH | Wallet provider | ❌ Unfixed |
+| W-006 | HIGH | Wallet provider | ✅ Fixed |
+| W-007 | HIGH | Wallet provider | ✅ Fixed |
 | W-008 | MODERATE | Stacks contract | ❌ Requires redeploy |
 | W-009 | MODERATE | Tests | ❌ All stubs |
 | W-010 | MODERATE | Stacks hook | ❌ Unfixed |
-| W-011 | MODERATE | NPM lib | ❌ Unfixed |
+| W-011 | MODERATE | NPM lib | ✅ Fixed |
 | W-012 | MODERATE | Stacks contract | ⚠️ Functional but wasteful |
 | W-013 | MODERATE | Wallet provider | ❌ Unfixed |
-| W-014 | MODERATE | Stacks hook | ❌ Unfixed |
+| W-014 | MODERATE | Stacks hook | ✅ Fixed |
 | W-015 | LOW | Docs | ❌ Stale |
 | W-016 | LOW | Config | ❌ Cosmetic |
 | W-017 | LOW | Contract comment | ❌ Cosmetic |
+| W-018 | HIGH | GameClient | ✅ Fixed |
+| W-019 | HIGH | GameClient | ✅ Fixed |
+| W-020 | HIGH | Profile API | ❌ Unfixed |
+| W-021 | MODERATE | Move relay | ❌ Needs verification |
+| W-022 | BLOCKER | Lobby + Leaderboard | ✅ Fixed |
 
 ---
 
 > Last updated: 2026-05-31
-> Source: manual audit of all contracts, hooks, pages, and config
+> Source: manual audit + playchessify comparative analysis

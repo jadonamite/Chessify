@@ -397,18 +397,18 @@ Inherited from playchessify. Game IDs are 0-indexed on both chains (`gameNonce` 
 | W-007 | HIGH | Wallet provider | ✅ Fixed |
 | W-008 | MODERATE | Stacks contract | ❌ Requires redeploy |
 | W-009 | MODERATE | Tests | ❌ All stubs |
-| W-010 | MODERATE | Stacks hook | ❌ Unfixed |
+| W-010 | MODERATE | Stacks hook | ✅ Fixed |
 | W-011 | MODERATE | NPM lib | ✅ Fixed |
 | W-012 | MODERATE | Stacks contract | ⚠️ Functional but wasteful |
-| W-013 | MODERATE | Wallet provider | ❌ Unfixed |
+| W-013 | MODERATE | Wallet provider + Navbar | ✅ Fixed — wrong-network banner + switchToCelo |
 | W-014 | MODERATE | Stacks hook | ✅ Fixed |
 | W-015 | LOW | Docs | ❌ Stale |
-| W-016 | LOW | Config | ❌ Cosmetic |
+| W-016 | LOW | Config | ✅ Fixed |
 | W-017 | LOW | Contract comment | ❌ Cosmetic |
 | W-018 | HIGH | GameClient | ✅ Fixed |
 | W-019 | HIGH | GameClient | ✅ Fixed |
-| W-020 | HIGH | Profile API | ❌ Unfixed |
-| W-021 | MODERATE | Move relay | ❌ Needs verification |
+| W-020 | HIGH | Profile API | ✅ Already handled — `normalizeAddress` in `profile-address.ts` preserves Stacks principals |
+| W-021 | MODERATE | Move relay | ✅ Chain correctly namespaced in Redis key + game-0 validator fixed |
 | W-022 | BLOCKER | Lobby + Leaderboard | ✅ Fixed |
 
 ---

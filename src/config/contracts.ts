@@ -3,8 +3,7 @@
 
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
-// Stacks contracts configuration remain for multi-chain support
-// Stacks contracts configuration for consolidated system
+// Stacks contracts — consolidated 2-contract system (chess-token-v3 + chess-game)
 export const STACKS_CONTRACTS = {
   token: { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-token-v3' },
   game:  { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-game'     },

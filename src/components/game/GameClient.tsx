@@ -40,6 +40,7 @@ interface GameData {
   player2: string
   wager: string
   status: string
+  drawProposer?: string  // address(0) / '' means no pending draw proposal
 }
 
 interface PlayerStats {
@@ -57,7 +58,7 @@ export default function GameClient() {
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet, setActiveChain } = useWallet()
-  const { submitMove: submitStacksMove, joinGame: joinStacks, resign: resignStacks, reportWin: reportStacksWin } = useStacksChess()
+  const { submitMove: submitStacksMove, joinGame: joinStacks, resign: resignStacks, reportWin: reportStacksWin, claimTimeout: claimStacksTimeout, proposeDraw: proposeStacksDraw, acceptDraw: acceptStacksDraw, cancelGame: cancelStacksGame } = useStacksChess()
   // @ts-ignore - intentional
   const { getGame: getStacksGame, getPlayerStats: getStacksStats } = useStacksRead()
 
@@ -65,7 +66,11 @@ export default function GameClient() {
     submitMove: submitCeloMove,
     joinGame: joinCelo,
     resign: resignCelo,
-    reportWin: reportCeloWin
+    reportWin: reportCeloWin,
+    claimTimeout: claimCeloTimeout,
+    proposeDraw: proposeCeloDraw,
+    acceptDraw: acceptCeloDraw,
+    cancelGame: cancelCeloGame,
   } = useCeloChess()
 
   const [game, setGame] = useState(() => new Chess())
@@ -123,6 +128,18 @@ export default function GameClient() {
     }
   })
 
+  // Poll canClaimTimeout on Celo — refetch every 30s (block-based, no need to spam)
+  const { data: celoCanTimeout } = useReadContract({
+    address: CELO_CONTRACTS.game as `0x${string}`,
+    abi: CHESS_GAME_ABI,
+    functionName: 'canClaimTimeout',
+    args: [BigInt(gameId)],
+    query: {
+      enabled: activeChain === 'celo' && !!gameId && gameData?.status === '1',
+      refetchInterval: 30_000,
+    }
+  })
+
   // ── FIX 1: Celo game data — use a dedicated effect so it re-runs
   // when celoGameData arrives asynchronously (instead of being blocked
   // by the old dataLoaded guard).
@@ -133,7 +150,8 @@ export default function GameClient() {
         player1: gd.white,
         player2: gd.black,
         wager: gd.wager.toString(),
-        status: gd.status.toString()
+        status: gd.status.toString(),
+        drawProposer: gd.drawProposer ?? '',
       })
     }
   }, [celoGameData, activeChain])
@@ -186,11 +204,23 @@ export default function GameClient() {
   const myAddress = normalize(activeChain === 'stacks' ? stacksAddress ?? '' : celoAddress ?? '')
 
   const gameIsWaiting = gameData?.status === '0'
+  const gameIsActive = gameData?.status === '1'
   const isCreator = !!gameData && normalize(gameData.player1) === myAddress && myAddress !== ''
   const isOpponent = !!gameData && normalize(gameData.player2) === myAddress && gameData.player2 !== '' && gameData.player2 !== ZERO_ADDR
   const isParticipant = isCreator || isOpponent
   // User navigated directly (e.g. via search) to a WAITING game they haven't joined
   const canJoinFromPage = gameIsWaiting && !isParticipant && !isBotGame && (isConnected || isStacksConnected)
+
+  // Draw state: opponent proposed a draw that I can accept
+  const drawProposer = normalize(gameData?.drawProposer ?? '')
+  const opponentProposedDraw = gameIsActive && isParticipant && drawProposer !== '' && drawProposer !== ZERO_ADDR.toLowerCase() && drawProposer !== myAddress
+  const iAlreadyProposedDraw = gameIsActive && isParticipant && drawProposer === myAddress
+
+  // Timeout: only show claim button when the contract confirms it's claimable
+  // On Stacks we don't have a live read yet — show the button when game is active and it's not my turn
+  const canClaimTimeoutCelo = !!celoCanTimeout && !isMyTurn && isParticipant
+  const canClaimTimeoutStacks = gameIsActive && isParticipant && !isMyTurn  // conservative; actual check is on-chain
+  const canClaimTimeoutNow = !isBotGame && (activeChain === 'celo' ? canClaimTimeoutCelo : canClaimTimeoutStacks)
 
   // Color assignment: creator (player1) is white, opponent (player2) is black.
   // Mirrors the contract's assignment in chess-game.clar / ChessGame.sol.
@@ -490,6 +520,34 @@ export default function GameClient() {
     })
   }
 
+  const handleClaimTimeout = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await claimStacksTimeout(gameId)
+      else await claimCeloTimeout(gameId)
+    })
+  }
+
+  const handleProposeDraw = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await proposeStacksDraw(gameId)
+      else await proposeCeloDraw(gameId)
+    })
+  }
+
+  const handleAcceptDraw = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await acceptStacksDraw(gameId)
+      else await acceptCeloDraw(gameId)
+    })
+  }
+
+  const handleCancelGame = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await cancelStacksGame(gameId)
+      else await cancelCeloGame(gameId)
+    })
+  }
+
   // ── game loading timeout ─────────────────────────────────────────────────
   // Stacks blocks take ~10 min, so the loading state stays until the user
   // cancels. We only show a "not found" hint after 30s to avoid false alarms
@@ -729,12 +787,22 @@ export default function GameClient() {
                       COPY
                     </button>
                   </div>
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center justify-center gap-2 mb-4">
                     <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
                     <span className="text-[10px] text-[var(--t3)] tracking-widest uppercase font-bold">
                       {activeChain === 'stacks' ? 'Confirming on Stacks...' : 'Watching for opponent...'}
                     </span>
                   </div>
+                  <GlowButton
+                    variant="ghost"
+                    fullWidth
+                    size="sm"
+                    loading={txPending}
+                    className="text-red-400 !border-red-500/20 hover:!bg-red-500/10"
+                    onClick={handleCancelGame}
+                  >
+                    CANCEL GAME
+                  </GlowButton>
                 </ClayCard>
               ) : (
                 // Normal in-game operations
@@ -773,6 +841,49 @@ export default function GameClient() {
                         RESIGN
                       </GlowButton>
                     </div>
+
+                    {/* Draw controls — only shown when game is active and not a bot game */}
+                    {!isBotGame && gameIsActive && isParticipant && (
+                      <div className="grid grid-cols-2 gap-3">
+                        {opponentProposedDraw ? (
+                          <GlowButton
+                            variant="ghost"
+                            size="sm"
+                            fullWidth
+                            loading={txPending}
+                            className="col-span-2 text-amber-400 !border-amber-500/20 hover:!bg-amber-500/10"
+                            onClick={handleAcceptDraw}
+                          >
+                            ACCEPT DRAW
+                          </GlowButton>
+                        ) : (
+                          <GlowButton
+                            variant="ghost"
+                            size="sm"
+                            disabled={iAlreadyProposedDraw || txPending}
+                            loading={txPending}
+                            className="col-span-2 text-[var(--t2)]"
+                            onClick={handleProposeDraw}
+                          >
+                            {iAlreadyProposedDraw ? 'DRAW PROPOSED…' : 'OFFER DRAW'}
+                          </GlowButton>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Timeout claim — only shown when contract confirms claimable */}
+                    {canClaimTimeoutNow && (
+                      <GlowButton
+                        variant="ghost"
+                        fullWidth
+                        size="sm"
+                        loading={txPending}
+                        className="text-yellow-400 !border-yellow-500/20 hover:!bg-yellow-500/10"
+                        onClick={handleClaimTimeout}
+                      >
+                        CLAIM TIMEOUT WIN
+                      </GlowButton>
+                    )}
                   </div>
                 </ClayCard>
               )}

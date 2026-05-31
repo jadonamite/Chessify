@@ -53,9 +53,10 @@ export function useStacksChess() {
     const predictedGameId = currentTotal  // game-nonce IS the next id; get-total-games returns game-nonce before increment
     console.info(`${LOG_PREFIX} createGame: predicted gameId = ${predictedGameId}`, { wager: wagerAmount })
 
-    const postCondition = Pc.principal(stacksAddress)
-      .willSendEq(microWager)
-      .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
+    // Only attach a post-condition when wagering; free games skip the FT transfer entirely
+    const postConditions = microWager > 0n
+      ? [Pc.principal(stacksAddress).willSendEq(microWager).ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')]
+      : []
 
     return new Promise((resolve, reject) => {
       openContractCall({
@@ -64,7 +65,7 @@ export function useStacksChess() {
         functionName: 'create-game',
         functionArgs: [uintCV(microWager)],
         anchorMode: AnchorMode.Any,
-        postConditions: [postCondition],
+        postConditions,
         postConditionMode: PostConditionMode.Deny,
         onFinish: (data) => {
           console.info(`${LOG_PREFIX} createGame: tx broadcast`, { txId: data.txId, gameId: predictedGameId })
@@ -90,9 +91,10 @@ export function useStacksChess() {
 
     console.info(`${LOG_PREFIX} joinGame: opening wallet popup`, { gameId, wager: wagerAmount })
 
-    const postCondition = Pc.principal(stacksAddress)
-      .willSendEq(microWager)
-      .ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')
+    // Only attach a post-condition when wagering; free games skip the FT transfer entirely
+    const postConditions = microWager > 0n
+      ? [Pc.principal(stacksAddress).willSendEq(microWager).ft(`${STACKS_CONTRACTS.token.address}.${STACKS_CONTRACTS.token.name}`, 'chess-token')]
+      : []
 
     return new Promise((resolve, reject) => {
       openContractCall({
@@ -101,7 +103,7 @@ export function useStacksChess() {
         functionName: 'join-game',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
-        postConditions: [postCondition],
+        postConditions,
         postConditionMode: PostConditionMode.Deny,
         onFinish: (data) => {
           console.info(`${LOG_PREFIX} joinGame: tx broadcast`, { txId: data.txId, gameId })

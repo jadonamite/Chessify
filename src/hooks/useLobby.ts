@@ -31,10 +31,10 @@ export function useLobby() {
       }) as bigint
       
       const celoGames: Game[] = []
-      // Iterate last 10 games for the lobby
-      const start = Number(nonce)
-      const end = Math.max(1, start - 10)
-      
+      // gameNonce is the NEXT id to assign; valid IDs are 0..nonce-1
+      const start = Number(nonce) - 1
+      const end = Math.max(0, start - 9)
+
       for (let i = start; i >= end; i--) {
         const g = await publicClient.readContract({
           address: CELO_CONTRACTS.game as `0x${string}`,
@@ -64,9 +64,10 @@ export function useLobby() {
     try {
       const total = await getStacksTotal()
       const stacksGames: Game[] = []
-      const start = total
-      const end = Math.max(1, start - 10)
-      
+      // get-total-games returns game-nonce (next id); valid IDs are 0..total-1
+      const start = total - 1
+      const end = Math.max(0, start - 9)
+
       for (let i = start; i >= end; i--) {
         const g = await getStacksGame(i) as any
         if (g && Number(g.status.value) === 0) { // Waiting

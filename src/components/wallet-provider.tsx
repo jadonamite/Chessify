@@ -79,8 +79,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const isConnected = ready && authenticated
   const isStacksConnected = !!stacksAddress
 
-  // 1. Initialize Stacks Session only on Client
+  // 1. Restore saved chain preference first, then initialize Stacks session.
+  //    Reading localStorage before Stacks init prevents the init effect from
+  //    being overwritten by the preference effect (React runs effects in order).
   useEffect(() => {
+    const saved = localStorage.getItem('chessify_active_chain') as 'celo' | 'stacks' | null
+    if (saved) setActiveChainState(saved)
+
     const initStacks = async () => {
       try {
         const { AppConfig, UserSession } = await import('@stacks/connect')
@@ -91,8 +96,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         if (session.isUserSignedIn()) {
           const userData = session.loadUserData()
           setStacksAddress(userData.profile.stxAddress.mainnet || userData.profile.stxAddress.testnet)
-          // Auto-set chain if Stacks session exists and no Celo connection
-          if (!authenticated) {
+          // Only auto-switch to Stacks if no saved preference and no Celo connection
+          if (!saved && !authenticated) {
             setActiveChainState('stacks')
           }
         }
@@ -102,12 +107,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
     initStacks()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // 2. Persistent chain preference
-  useEffect(() => {
-    const savedChain = localStorage.getItem('chessify_active_chain') as 'celo' | 'stacks'
-    if (savedChain) setActiveChainState(savedChain)
   }, [])
 
   const setActiveChain = useCallback((chain: 'celo' | 'stacks') => {
@@ -190,17 +189,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setShowChainSelect(true)
   }, [])
 
-  // ── Unified: Disconnect whichever is active ──
+  // ── Unified: Disconnect both chains if connected ──
   const disconnectAll = useCallback(() => {
-    if (activeChain === 'celo') {
-      disconnect()
-    } else {
-      disconnectStacks()
-    }
-    // Also disconnect the other if both happen to be connected
     if (isConnected) disconnect()
     if (isStacksConnected) disconnectStacks()
-  }, [activeChain, isConnected, isStacksConnected, disconnect, disconnectStacks])
+  }, [isConnected, isStacksConnected, disconnect, disconnectStacks])
 
   return (
     <WalletContext.Provider

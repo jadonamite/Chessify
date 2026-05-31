@@ -1,10 +1,7 @@
 /**
  * router.test.ts — chess-game.clar: full game lifecycle flows
- *
- * End-to-end paths: resign, report-win, draw proposal/acceptance,
- * cancel, and all associated error guards.
  */
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeAll } from "vitest"
 import { Cl } from "@stacks/transactions"
 
 const GAME = "chess-game"
@@ -22,137 +19,147 @@ const wallet1  = accounts.get("wallet_1")!
 const wallet2  = accounts.get("wallet_2")!
 const wallet3  = accounts.get("wallet_3")!
 
+beforeAll(() => { simnet.mineEmptyBlocks(144) })
+
+function nextId(): number {
+  const { result } = simnet.callReadOnlyFn(GAME, "get-total-games", [], wallet1)
+  return Number((result as any).value.value)
+}
+
 function newGame(): number {
-  const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-  const gameId = Number((result as any).value.value)
-  simnet.callPublicFn(GAME, "join-game", [Cl.uint(gameId)], wallet2)
-  return gameId
+  const id = nextId()
+  simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
+  simnet.callPublicFn(GAME, "join-game", [Cl.uint(id)], wallet2)
+  return id
 }
 
 // ── Resign ───────────────────────────────────────────────────────────────────
 describe("resign", () => {
-  it("caller concedes — opponent is returned as winner", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "resign", [Cl.uint(gameId)], wallet1)
+  it("caller concedes — winner principal is returned", () => {
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "resign", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.principal(wallet2))
   })
 
-  it("game status is FINISHED (2) after resign", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "resign", [Cl.uint(gameId)], wallet2)
-    const { result } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(gameId)], wallet1)
+  it("game is FINISHED (2) after resign", () => {
+    const id = newGame()
+    simnet.callPublicFn(GAME, "resign", [Cl.uint(id)], wallet2)
+    const { result } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.uint(2))
   })
 
-  it("third party cannot resign a game they're not in", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "resign", [Cl.uint(gameId)], wallet3)
+  it("third party not in game cannot resign", () => {
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "resign", [Cl.uint(id)], wallet3)
     expect(result).toStrictEqual(ERR_NOT_GAME)
   })
 
   it("cannot resign a finished game", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "resign", [Cl.uint(gameId)], wallet1)
-    const { result } = simnet.callPublicFn(GAME, "resign", [Cl.uint(gameId)], wallet2)
+    const id = newGame()
+    simnet.callPublicFn(GAME, "resign", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "resign", [Cl.uint(id)], wallet2)
     expect(result).toStrictEqual(ERR_NOT_ACTIVE)
   })
 })
 
 // ── Report-win ───────────────────────────────────────────────────────────────
 describe("report-win", () => {
-  it("caller claims checkmate and becomes winner", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "report-win", [Cl.uint(gameId)], wallet1)
+  it("caller claims checkmate and is returned as winner", () => {
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "report-win", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.principal(wallet1))
   })
 
   it("third party cannot report a win", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "report-win", [Cl.uint(gameId)], wallet3)
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "report-win", [Cl.uint(id)], wallet3)
     expect(result).toStrictEqual(ERR_NOT_GAME)
   })
 
   it("cannot report-win on a finished game", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "report-win", [Cl.uint(gameId)], wallet1)
-    const { result } = simnet.callPublicFn(GAME, "report-win", [Cl.uint(gameId)], wallet2)
+    const id = newGame()
+    simnet.callPublicFn(GAME, "report-win", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "report-win", [Cl.uint(id)], wallet2)
     expect(result).toStrictEqual(ERR_NOT_ACTIVE)
   })
 })
 
-// ── Draw proposal ────────────────────────────────────────────────────────────
+// ── Draw proposal ─────────────────────────────────────────────────────────────
 describe("propose-draw", () => {
-  it("any participant can propose a draw", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
+  it("either participant can propose a draw", () => {
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.bool(true))
   })
 
-  it("cannot propose draw twice from same player", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    const { result } = simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
+  it("proposer cannot propose draw a second time", () => {
+    const id = newGame()
+    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
     expect(result).toStrictEqual(ERR_ALREADY_DRAW)
   })
 
   it("third party cannot propose draw", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet3)
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet3)
     expect(result).toStrictEqual(ERR_NOT_GAME)
   })
 })
 
-// ── Accept-draw ──────────────────────────────────────────────────────────────
+// ── Accept-draw ───────────────────────────────────────────────────────────────
 describe("accept-draw", () => {
-  it("opponent can accept a pending draw proposal", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(gameId)], wallet2)
+  it("opponent accepts pending draw; game becomes DRAW (4)", () => {
+    const id = newGame()
+    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(id)], wallet2)
     expect(result).toBeOk(Cl.bool(true))
+    const { result: status } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(id)], wallet1)
+    expect(status).toBeOk(Cl.uint(4))
   })
 
   it("proposer cannot accept their own draw", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(gameId)], wallet1)
+    const id = newGame()
+    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(id)], wallet1)
     expect(result).toStrictEqual(ERR_CANT_OWN_DRAW)
   })
 
-  it("cannot accept draw when none is pending", () => {
-    const gameId = newGame()
-    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(gameId)], wallet2)
+  it("cannot accept when no draw is pending", () => {
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(id)], wallet2)
     expect(result).toStrictEqual(ERR_NO_DRAW)
   })
 
-  it("making a move clears the draw proposal", () => {
-    const gameId = newGame()
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(gameId)], wallet1)
-    // draw proposal is now gone; accept-draw should fail
-    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(gameId)], wallet2)
+  it("making a move clears draw proposal; accept then fails", () => {
+    const id = newGame()
+    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
+    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(id)], wallet2)
     expect(result).toStrictEqual(ERR_NO_DRAW)
   })
 })
 
-// ── Cancel-game ──────────────────────────────────────────────────────────────
+// ── Cancel-game ───────────────────────────────────────────────────────────────
 describe("cancel-game", () => {
-  it("creator can cancel a WAITING game", () => {
-    const { result: create } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-    const gameId = Number((create as any).value.value)
-    const { result } = simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(gameId)], wallet1)
+  it("creator cancels a WAITING game; status becomes CANCELLED (3)", () => {
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.bool(true))
+    const { result: status } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(id)], wallet1)
+    expect(status).toBeOk(Cl.uint(3))
   })
 
   it("non-creator cannot cancel", () => {
-    const { result: create } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-    const gameId = Number((create as any).value.value)
-    const { result } = simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(gameId)], wallet2)
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(id)], wallet2)
     expect(result).toStrictEqual(ERR_NOT_AUTH)
   })
 
-  it("cannot cancel an ACTIVE game", () => {
-    const gameId = newGame() // already active
-    const { result } = simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(gameId)], wallet1)
+  it("cannot cancel an already ACTIVE game", () => {
+    const id = newGame()
+    const { result } = simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(id)], wallet1)
     expect(result).toStrictEqual(ERR_NOT_WAITING)
   })
 })

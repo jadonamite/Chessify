@@ -1,10 +1,7 @@
 /**
  * logic.test.ts — chess-game.clar: submit-move
- *
- * Tests turn flipping, move-count increment, draw-proposal clearing,
- * and all guards that reject illegal calls.
  */
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeAll } from "vitest"
 import { Cl } from "@stacks/transactions"
 
 const GAME = "chess-game"
@@ -17,70 +14,71 @@ const wallet1  = accounts.get("wallet_1")!
 const wallet2  = accounts.get("wallet_2")!
 const wallet3  = accounts.get("wallet_3")!
 
-// ── Setup: create game 0 (wallet1 vs wallet2) and make it ACTIVE ─────────────
-function setupActiveGame(): number {
-  const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-  const gameId = Number((result as any).value.value)
-  simnet.callPublicFn(GAME, "join-game", [Cl.uint(gameId)], wallet2)
-  return gameId
+beforeAll(() => { simnet.mineEmptyBlocks(144) })
+
+function nextId(): number {
+  const { result } = simnet.callReadOnlyFn(GAME, "get-total-games", [], wallet1)
+  return Number((result as any).value.value)
+}
+
+function activeGame(): number {
+  const id = nextId()
+  simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
+  simnet.callPublicFn(GAME, "join-game", [Cl.uint(id)], wallet2)
+  return id
 }
 
 describe("submit-move", () => {
-  let gameId: number
-
-  it("cannot submit-move on a WAITING game", () => {
-    const { result: create } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-    const waitingId = Number((create as any).value.value)
-    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(waitingId)], wallet1)
+  it("fails on a WAITING game", () => {
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
+    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet1)
     expect(result).toStrictEqual(ERR_NOT_ACTIVE)
-    // Join to make it active for next tests
-    simnet.callPublicFn(GAME, "join-game", [Cl.uint(waitingId)], wallet2)
-    gameId = waitingId
   })
 
   it("white (creator) can submit the first move", () => {
-    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(gameId)], wallet1)
+    const id = activeGame()
+    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.bool(true))
   })
 
-  it("turn flipped to black after white's move", () => {
-    const { result } = simnet.callReadOnlyFn(GAME, "get-current-turn", [Cl.uint(gameId)], wallet1)
+  it("turn flips to black after white moves", () => {
+    const id = activeGame()
+    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet1)
+    const { result } = simnet.callReadOnlyFn(GAME, "get-current-turn", [Cl.uint(id)], wallet1)
     expect(result).toBeOk(Cl.principal(wallet2))
   })
 
-  it("move-count is 1 after one move", () => {
-    const { result } = simnet.callReadOnlyFn(GAME, "get-game", [Cl.uint(gameId)], wallet1)
-    const gameData = (result as any).value.value
-    expect(gameData.value["move-count"]).toStrictEqual(Cl.uint(1))
+  it("move-count increments on each submit", () => {
+    const id = activeGame()
+    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet1) // move 1
+    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet2) // move 2
+
+    const { result } = simnet.callReadOnlyFn(GAME, "get-game", [Cl.uint(id)], wallet1)
+    const moveCount = Number((result as any).value.value.value["move-count"].value)
+    expect(moveCount).toBe(2)
   })
 
-  it("white cannot move again — wrong turn", () => {
-    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(gameId)], wallet1)
+  it("rejects move from the wrong player", () => {
+    const id = activeGame()
+    // It's wallet1's turn — wallet2 cannot move
+    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet2)
     expect(result).toStrictEqual(ERR_NOT_TURN)
   })
 
-  it("third party cannot submit a move", () => {
-    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(gameId)], wallet3)
+  it("rejects move from a third party not in the game", () => {
+    const id = activeGame()
+    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet3)
     expect(result).toStrictEqual(ERR_NOT_TURN)
   })
 
-  it("black can submit after white", () => {
-    const { result } = simnet.callPublicFn(GAME, "submit-move", [Cl.uint(gameId)], wallet2)
-    expect(result).toBeOk(Cl.bool(true))
-  })
+  it("moving clears a pending draw proposal", () => {
+    const id = activeGame()
+    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
+    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(id)], wallet1)
 
-  it("move-count is 2 after two moves", () => {
-    const { result } = simnet.callReadOnlyFn(GAME, "get-game", [Cl.uint(gameId)], wallet1)
-    const gameData = (result as any).value.value
-    expect(gameData.value["move-count"]).toStrictEqual(Cl.uint(2))
-  })
-
-  it("submit-move clears a pending draw proposal", () => {
-    // Propose draw, then make a move — draw-proposer should reset to none
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    simnet.callPublicFn(GAME, "submit-move", [Cl.uint(gameId)], wallet1)
-    const { result } = simnet.callReadOnlyFn(GAME, "get-game", [Cl.uint(gameId)], wallet1)
-    const gameData = (result as any).value.value
-    expect(gameData.value["draw-proposer"]).toStrictEqual(Cl.none())
+    const { result } = simnet.callReadOnlyFn(GAME, "get-game", [Cl.uint(id)], wallet1)
+    const drawProposer = (result as any).value.value.value["draw-proposer"]
+    expect(drawProposer).toStrictEqual(Cl.none())
   })
 })

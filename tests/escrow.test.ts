@@ -1,24 +1,22 @@
 /**
  * escrow.test.ts — chess-game.clar: wager locking and payouts
- *
- * Tests that tokens are correctly deposited into the vault on game creation /
- * join, and released to the correct recipients on win, draw, cancel.
  */
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeAll } from "vitest"
 import { Cl } from "@stacks/transactions"
 
 const TOKEN = "chess-token-v3"
 const GAME  = "chess-game"
-const WAGER = 100_000_000n  // 100 CHESS
+const WAGER = 100_000_000n // 100 CHESS
 
-const accounts  = simnet.getAccounts()
-const wallet1   = accounts.get("wallet_1")!
-const wallet2   = accounts.get("wallet_2")!
+const accounts = simnet.getAccounts()
+const wallet1  = accounts.get("wallet_1")!
+const wallet2  = accounts.get("wallet_2")!
 
-function fund(addr: string) {
+beforeAll(() => {
   simnet.mineEmptyBlocks(144)
-  simnet.callPublicFn(TOKEN, "faucet-claim", [], addr)
-}
+  simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet1)
+  simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet2)
+})
 
 function balance(addr: string): bigint {
   const { result } = simnet.callReadOnlyFn(TOKEN, "get-balance", [Cl.principal(addr)], addr)
@@ -30,92 +28,106 @@ function vaultBalance(): bigint {
   return BigInt((result as any).value.value)
 }
 
-describe("wager locking — create-game", () => {
-  it("vault increases by wager after create-game", () => {
-    fund(wallet1)
-    const vaultBefore = vaultBalance()
+function nextId(): number {
+  const { result } = simnet.callReadOnlyFn(GAME, "get-total-games", [], wallet1)
+  return Number((result as any).value.value)
+}
+
+describe("create-game with wager", () => {
+  it("vault increases by wager; creator balance decreases by wager", () => {
+    const w1before  = balance(wallet1)
+    const vbefore   = vaultBalance()
+
+    const id = nextId()
     simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
-    expect(vaultBalance()).toBe(vaultBefore + WAGER)
-  })
 
-  it("creator balance decreases by wager", () => {
-    // wallet1 already claimed 1000 CHESS; after paying WAGER it should have 900
-    expect(balance(wallet1)).toBe(1_000_000_000n - WAGER)
-  })
-})
+    expect(vaultBalance()).toBe(vbefore + WAGER)
+    expect(balance(wallet1)).toBe(w1before - WAGER)
 
-describe("wager locking — join-game", () => {
-  it("vault doubles after opponent joins", () => {
-    fund(wallet2)
-    // Game 0 was created by wallet1 above
-    const vaultBefore = vaultBalance()
-    simnet.callPublicFn(GAME, "join-game", [Cl.uint(0)], wallet2)
-    expect(vaultBalance()).toBe(vaultBefore + WAGER)
+    // join to activate for next tests in file
+    simnet.callPublicFn(GAME, "join-game", [Cl.uint(id)], wallet2)
   })
 })
 
-describe("payout — report-win (checkmate)", () => {
-  it("winner receives total pot; vault empties", () => {
-    const w1before = balance(wallet1)
+describe("join-game with wager", () => {
+  it("vault doubles when opponent locks matching wager", () => {
+    // Both wallets need tokens — reclaim if needed
+    simnet.mineEmptyBlocks(144)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet1)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet2)
+
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
+    const vaultAfterCreate = vaultBalance()
+    const w2before = balance(wallet2)
+
+    simnet.callPublicFn(GAME, "join-game", [Cl.uint(id)], wallet2)
+
+    expect(vaultBalance()).toBe(vaultAfterCreate + WAGER)
+    expect(balance(wallet2)).toBe(w2before - WAGER)
+  })
+})
+
+describe("payout — report-win", () => {
+  it("winner gets total pot (2x wager); vault decreases by 2x wager", () => {
+    simnet.mineEmptyBlocks(144)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet1)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet2)
+
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
+    simnet.callPublicFn(GAME, "join-game", [Cl.uint(id)], wallet2)
+
+    const w1before    = balance(wallet1)
     const vaultBefore = vaultBalance()
 
-    simnet.callPublicFn(GAME, "report-win", [Cl.uint(0)], wallet1)
+    simnet.callPublicFn(GAME, "report-win", [Cl.uint(id)], wallet1)
 
-    // wallet1 should receive 2x wager
     expect(balance(wallet1)).toBe(w1before + WAGER * 2n)
     expect(vaultBalance()).toBe(vaultBefore - WAGER * 2n)
   })
 })
 
-describe("payout — cancel-game (before join)", () => {
-  it("creator is fully refunded on cancel", () => {
-    fund(wallet1)
-    const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
-    const gameId = Number((result as any).value.value)
-    const w1after_create = balance(wallet1)
+describe("payout — cancel-game", () => {
+  it("creator is fully refunded when they cancel before anyone joins", () => {
+    simnet.mineEmptyBlocks(144)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet1)
 
-    simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(gameId)], wallet1)
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
+    const w1afterCreate = balance(wallet1)
 
-    expect(balance(wallet1)).toBe(w1after_create + WAGER)
-  })
+    simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(id)], wallet1)
 
-  it("cancelled game has CANCELLED status (3)", () => {
-    const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-    const gameId = Number((result as any).value.value)
-    simnet.callPublicFn(GAME, "cancel-game", [Cl.uint(gameId)], wallet1)
-    const { result: status } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(gameId)], wallet1)
-    expect(status).toBeOk(Cl.uint(3))
+    expect(balance(wallet1)).toBe(w1afterCreate + WAGER)
+
+    const { result: status } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(id)], wallet1)
+    expect(status).toBeOk(Cl.uint(3)) // CANCELLED
   })
 })
 
 describe("payout — accept-draw", () => {
-  it("both players refunded; vault empties", () => {
-    fund(wallet1); fund(wallet2)
-    const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
-    const gameId = Number((result as any).value.value)
-    simnet.callPublicFn(GAME, "join-game", [Cl.uint(gameId)], wallet2)
+  it("both players are individually refunded; vault decreases by 2x wager", () => {
+    simnet.mineEmptyBlocks(144)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet1)
+    simnet.callPublicFn(TOKEN, "faucet-claim", [], wallet2)
 
-    const w1before = balance(wallet1)
-    const w2before = balance(wallet2)
+    const id = nextId()
+    simnet.callPublicFn(GAME, "create-game", [Cl.uint(WAGER)], wallet1)
+    simnet.callPublicFn(GAME, "join-game", [Cl.uint(id)], wallet2)
+
+    const w1before    = balance(wallet1)
+    const w2before    = balance(wallet2)
     const vaultBefore = vaultBalance()
 
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(gameId)], wallet2)
+    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(id)], wallet1)
+    simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(id)], wallet2)
 
     expect(balance(wallet1)).toBe(w1before + WAGER)
     expect(balance(wallet2)).toBe(w2before + WAGER)
     expect(vaultBalance()).toBe(vaultBefore - WAGER * 2n)
-  })
 
-  it("draw game has DRAW status (4)", () => {
-    fund(wallet1); fund(wallet2)
-    const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)
-    const gameId = Number((result as any).value.value)
-    simnet.callPublicFn(GAME, "join-game", [Cl.uint(gameId)], wallet2)
-    simnet.callPublicFn(GAME, "propose-draw", [Cl.uint(gameId)], wallet1)
-    simnet.callPublicFn(GAME, "accept-draw", [Cl.uint(gameId)], wallet2)
-
-    const { result: status } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(gameId)], wallet1)
-    expect(status).toBeOk(Cl.uint(4))
+    const { result: status } = simnet.callReadOnlyFn(GAME, "get-game-status", [Cl.uint(id)], wallet1)
+    expect(status).toBeOk(Cl.uint(4)) // DRAW
   })
 })

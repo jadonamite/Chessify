@@ -396,13 +396,13 @@ Inherited from playchessify. Game IDs are 0-indexed on both chains (`gameNonce` 
 | W-006 | HIGH | Wallet provider | ✅ Fixed |
 | W-007 | HIGH | Wallet provider | ✅ Fixed |
 | W-008 | MODERATE | Stacks contract | ❌ Requires redeploy |
-| W-009 | MODERATE | Tests | ❌ All stubs |
+| W-009 | MODERATE | Tests | ✅ Fixed — 75 tests across 7 files, all passing |
 | W-010 | MODERATE | Stacks hook | ✅ Fixed |
 | W-011 | MODERATE | NPM lib | ✅ Fixed |
 | W-012 | MODERATE | Stacks contract | ⚠️ Functional but wasteful |
 | W-013 | MODERATE | Wallet provider + Navbar | ✅ Fixed — wrong-network banner + switchToCelo |
 | W-014 | MODERATE | Stacks hook | ✅ Fixed |
-| W-015 | LOW | Docs | ❌ Stale |
+| W-015 | LOW | Docs | ✅ README already described 2-contract arch; added testing section |
 | W-016 | LOW | Config | ✅ Fixed |
 | W-017 | LOW | Contract comment | ❌ Cosmetic |
 | W-018 | HIGH | GameClient | ✅ Fixed |

@@ -73,4 +73,28 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 
 ---
 
-*“Play for the pride of the chain, stay for the thrill of the move.”*
+## 🧪 Testing
+
+Uses Clarinet SDK + Vitest against a local simnet. Each test file is self-contained (`initBeforeEach: true` resets simnet per test).
+
+```bash
+npm run test          # run all tests
+npm run test:report   # with coverage
+npm run test:watch    # watch mode
+```
+
+| File | Coverage |
+|---|---|
+| `chess-token.test.ts` | SIP-010 transfer, faucet, mint, gateway-release guard |
+| `registry.test.ts` | game creation, joining, player stat init |
+| `logic.test.ts` | submit-move turn-flip, move-count, draw-clear |
+| `escrow.test.ts` | wager locking, win payout, cancel refund, draw refund |
+| `ranking.test.ts` | Elo formula (K=32, diff cap 400, floor 100, draws) |
+| `timer.test.ts` | claim-timeout guards, can-claim, set-timeout-blocks |
+| `router.test.ts` | resign, report-win, propose/accept draw, cancel lifecycle |
+
+> **Note**: Legacy contract files (`router.clar`, `registry.clar`, etc.) remain in `contracts/` but are superseded. Only `chess-token-v3`, `chess-game`, and `automata-agent` are active on mainnet.
+
+---
+
+*”Play for the pride of the chain, stay for the thrill of the move.”*

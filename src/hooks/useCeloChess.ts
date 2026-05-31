@@ -271,5 +271,69 @@ export function useCeloChess() {
     }
   }, [writeContractAsync])
 
-  return { createGame, joinGame, submitMove, resign, reportWin, isPending }
+  // ── claimTimeout ────────────────────────────────────────────────────────────
+  const claimTimeout = useCallback(async (gameId: number) => {
+    console.info(`${LOG_PREFIX} claimTimeout`, { gameId })
+    try {
+      return await writeContractAsync({
+        address: CELO_CONTRACTS.game as `0x${string}`,
+        abi: CHESS_GAME_ABI,
+        functionName: 'claimTimeout',
+        args: [BigInt(gameId)],
+      })
+    } catch (err) {
+      console.error(`${LOG_PREFIX} claimTimeout failed:`, err)
+      throw err
+    }
+  }, [writeContractAsync])
+
+  // ── proposeDraw ─────────────────────────────────────────────────────────────
+  const proposeDraw = useCallback(async (gameId: number) => {
+    console.info(`${LOG_PREFIX} proposeDraw`, { gameId })
+    try {
+      return await writeContractAsync({
+        address: CELO_CONTRACTS.game as `0x${string}`,
+        abi: CHESS_GAME_ABI,
+        functionName: 'proposeDraw',
+        args: [BigInt(gameId)],
+      })
+    } catch (err) {
+      console.error(`${LOG_PREFIX} proposeDraw failed:`, err)
+      throw err
+    }
+  }, [writeContractAsync])
+
+  // ── acceptDraw ──────────────────────────────────────────────────────────────
+  const acceptDraw = useCallback(async (gameId: number) => {
+    console.info(`${LOG_PREFIX} acceptDraw`, { gameId })
+    try {
+      return await writeContractAsync({
+        address: CELO_CONTRACTS.game as `0x${string}`,
+        abi: CHESS_GAME_ABI,
+        functionName: 'acceptDraw',
+        args: [BigInt(gameId)],
+      })
+    } catch (err) {
+      console.error(`${LOG_PREFIX} acceptDraw failed:`, err)
+      throw err
+    }
+  }, [writeContractAsync])
+
+  // ── cancelGame ──────────────────────────────────────────────────────────────
+  const cancelGame = useCallback(async (gameId: number) => {
+    console.info(`${LOG_PREFIX} cancelGame`, { gameId })
+    try {
+      return await writeContractAsync({
+        address: CELO_CONTRACTS.game as `0x${string}`,
+        abi: CHESS_GAME_ABI,
+        functionName: 'cancelGame',
+        args: [BigInt(gameId)],
+      })
+    } catch (err) {
+      console.error(`${LOG_PREFIX} cancelGame failed:`, err)
+      throw err
+    }
+  }, [writeContractAsync])
+
+  return { createGame, joinGame, submitMove, resign, reportWin, claimTimeout, proposeDraw, acceptDraw, cancelGame, isPending }
 }

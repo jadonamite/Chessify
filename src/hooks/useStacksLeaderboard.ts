@@ -33,8 +33,8 @@ export function useStacksLeaderboard(enabled = true) {
         return
       }
 
-      // Collect unique player principals from every game (ids are 1-indexed).
-      const ids = Array.from({ length: total }, (_, i) => i + 1)
+      // Game IDs are 0-indexed: game-nonce starts at u0, get-total-games returns the NEXT id.
+      const ids = Array.from({ length: total }, (_, i) => i)
       const games = await Promise.all(ids.map((id) => getGame(id)))
 
       const addressSet = new Set<string>()

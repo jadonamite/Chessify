@@ -50,7 +50,7 @@ export function useStacksChess() {
     // Pre-fetch total games to predict the ID the contract will assign
     console.info(`${LOG_PREFIX} createGame: fetching current game count`)
     const currentTotal = await fetchTotalGames(stacksAddress)
-    const predictedGameId = currentTotal + 1
+    const predictedGameId = currentTotal  // game-nonce IS the next id; get-total-games returns game-nonce before increment
     console.info(`${LOG_PREFIX} createGame: predicted gameId = ${predictedGameId}`, { wager: wagerAmount })
 
     const postCondition = Pc.principal(stacksAddress)
@@ -194,5 +194,109 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  return { createGame, joinGame, submitMove, resign, reportWin }
+  // ── claimTimeout ────────────────────────────────────────────────────────────
+  const claimTimeout = useCallback(async (gameId: number) => {
+    if (!isStacksConnected || !userSession) {
+      throw new Error(`${LOG_PREFIX} claimTimeout: Stacks wallet not connected`)
+    }
+    const { openContractCall } = await import('@stacks/connect')
+    console.info(`${LOG_PREFIX} claimTimeout`, { gameId })
+
+    return new Promise((resolve, reject) => {
+      openContractCall({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'claim-timeout',
+        functionArgs: [uintCV(gameId)],
+        anchorMode: AnchorMode.Any,
+        postConditionMode: PostConditionMode.Allow,
+        onFinish: (data) => resolve(data),
+        onCancel: () => {
+          console.warn(`${LOG_PREFIX} claimTimeout: user cancelled`)
+          reject(new Error('Transaction cancelled'))
+        },
+        userSession,
+      })
+    })
+  }, [isStacksConnected, userSession])
+
+  // ── proposeDraw ─────────────────────────────────────────────────────────────
+  const proposeDraw = useCallback(async (gameId: number) => {
+    if (!isStacksConnected || !userSession) {
+      throw new Error(`${LOG_PREFIX} proposeDraw: Stacks wallet not connected`)
+    }
+    const { openContractCall } = await import('@stacks/connect')
+    console.info(`${LOG_PREFIX} proposeDraw`, { gameId })
+
+    return new Promise((resolve, reject) => {
+      openContractCall({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'propose-draw',
+        functionArgs: [uintCV(gameId)],
+        anchorMode: AnchorMode.Any,
+        postConditionMode: PostConditionMode.Allow,
+        onFinish: (data) => resolve(data),
+        onCancel: () => {
+          console.warn(`${LOG_PREFIX} proposeDraw: user cancelled`)
+          reject(new Error('Transaction cancelled'))
+        },
+        userSession,
+      })
+    })
+  }, [isStacksConnected, userSession])
+
+  // ── acceptDraw ──────────────────────────────────────────────────────────────
+  const acceptDraw = useCallback(async (gameId: number) => {
+    if (!isStacksConnected || !userSession) {
+      throw new Error(`${LOG_PREFIX} acceptDraw: Stacks wallet not connected`)
+    }
+    const { openContractCall } = await import('@stacks/connect')
+    console.info(`${LOG_PREFIX} acceptDraw`, { gameId })
+
+    return new Promise((resolve, reject) => {
+      openContractCall({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'accept-draw',
+        functionArgs: [uintCV(gameId)],
+        anchorMode: AnchorMode.Any,
+        postConditionMode: PostConditionMode.Allow,
+        onFinish: (data) => resolve(data),
+        onCancel: () => {
+          console.warn(`${LOG_PREFIX} acceptDraw: user cancelled`)
+          reject(new Error('Transaction cancelled'))
+        },
+        userSession,
+      })
+    })
+  }, [isStacksConnected, userSession])
+
+  // ── cancelGame ──────────────────────────────────────────────────────────────
+  const cancelGame = useCallback(async (gameId: number) => {
+    if (!isStacksConnected || !userSession) {
+      throw new Error(`${LOG_PREFIX} cancelGame: Stacks wallet not connected`)
+    }
+    const { openContractCall } = await import('@stacks/connect')
+    console.info(`${LOG_PREFIX} cancelGame`, { gameId })
+
+    return new Promise((resolve, reject) => {
+      openContractCall({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'cancel-game',
+        functionArgs: [uintCV(gameId)],
+        anchorMode: AnchorMode.Any,
+        postConditionMode: PostConditionMode.Allow,
+        onFinish: (data) => resolve(data),
+        onCancel: () => {
+          console.warn(`${LOG_PREFIX} cancelGame: user cancelled`)
+          reject(new Error('Transaction cancelled'))
+        },
+        userSession,
+      })
+    })
+  }, [isStacksConnected, userSession])
+
+  return { createGame, joinGame, submitMove, resign, reportWin, claimTimeout, proposeDraw, acceptDraw, cancelGame }
 }

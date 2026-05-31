@@ -118,7 +118,7 @@
 
 (define-public (gateway-release (amount uint) (recipient principal))
   (begin
-    (asserts! (is-eq contract-caller .chess-game-v3) ERR-NOT-AUTHORIZED)
+    (asserts! (is-eq contract-caller .chess-game) ERR-NOT-AUTHORIZED)
     (asserts! (> amount u0)                       ERR-INVALID-AMOUNT)
     (ft-transfer? chess-token amount .chess-token recipient)
   )

@@ -79,6 +79,8 @@ themechanic.cjs
 TheQueenGambit.cjs
 simulate-celo.cjs
 fix_env.js
+WARNING.md
+
 # large files
 *.deb
 *.crdownload

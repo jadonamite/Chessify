@@ -2,7 +2,8 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { usePrivy, useWallets, useCreateWallet } from '@privy-io/react-auth'
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
+import { CELO_CHAIN_ID } from '@/config/contracts'
 
 interface WalletContextType {
   // ── Addresses ──
@@ -14,6 +15,8 @@ interface WalletContextType {
   isStacksConnected: boolean
   isMiniPay: boolean
   activeChain: 'celo' | 'stacks'
+  isWrongChain: boolean       // EVM wallet connected but not on Celo
+  switchToCelo: () => void    // request chain switch to Celo
 
   // ── Unified Auth ──
   connectWallet: () => void       // Opens chain select modal
@@ -40,6 +43,8 @@ const WalletContext = createContext<WalletContextType>({
   isStacksConnected: false,
   isMiniPay: false,
   activeChain: 'celo',
+  isWrongChain: false,
+  switchToCelo: () => { },
   connectWallet: () => { },
   disconnectAll: () => { },
   showChainSelect: false,
@@ -62,6 +67,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const { wallets } = useWallets()
   const { createWallet } = useCreateWallet()
   const { disconnect: wagmiDisconnect } = useDisconnect()
+  const currentChainId = useChainId()
+  const { switchChain } = useSwitchChain()
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)
@@ -78,6 +85,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const isConnected = ready && authenticated
   const isStacksConnected = !!stacksAddress
+
+  // True when an EVM wallet is connected but the user is on the wrong network.
+  // Embedded Privy wallets auto-switch; this catches external wallets (MetaMask etc.).
+  const isWrongChain = isConnected && activeChain === 'celo' && !!currentChainId && currentChainId !== CELO_CHAIN_ID
+  const switchToCelo = useCallback(() => {
+    switchChain?.({ chainId: CELO_CHAIN_ID })
+  }, [switchChain])
 
   // 1. Restore saved chain preference first, then initialize Stacks session.
   //    Reading localStorage before Stacks init prevents the init effect from
@@ -204,6 +218,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         isStacksConnected,
         isMiniPay,
         activeChain,
+        isWrongChain,
+        switchToCelo,
         connectWallet,
         disconnectAll,
         showChainSelect,

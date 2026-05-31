@@ -37,6 +37,7 @@ export default function Navbar() {
     activeChain, connectWallet, disconnectAll,
     showChainSelect, setShowChainSelect,
     connect, connectStacks, connectSocial,
+    isWrongChain, switchToCelo,
   } = useWallet()
 
   const { soundEnabled, setSoundEnabled } = useSettingsStore()
@@ -458,6 +459,40 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </nav>
+
+      {/* Wrong-network banner — shown when EVM wallet is on a non-Celo chain */}
+      {isWrongChain && (
+        <div style={{
+          background: 'rgba(239,68,68,0.12)',
+          borderBottom: '1px solid rgba(239,68,68,0.25)',
+          padding: '8px 28px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 12,
+        }}>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', color: '#fca5a5', textTransform: 'uppercase' }}>
+            Wrong network — please switch to Celo
+          </span>
+          <button
+            onClick={switchToCelo}
+            style={{
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: '0.2em',
+              color: '#ef4444',
+              textTransform: 'uppercase',
+              background: 'rgba(239,68,68,0.15)',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: 6,
+              padding: '3px 10px',
+              cursor: 'pointer',
+            }}
+          >
+            Switch
+          </button>
+        </div>
+      )}
 
       {/* Chain Select Modal — lives with the nav so it's available app-wide */}
       <ChainSelectModal

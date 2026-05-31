@@ -65,9 +65,14 @@ export function useStacksRead() {
         functionArgs: [uintCV(gameId)],
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
-      
+
+      // get-game returns (ok (some { ... })) or (ok none)
+      // cvToJSON shape: { value: { value: { value: { ... } } | null } }
       const json = cvToJSON(result)
-      return json.value.value?.value || null // (ok (some { ... }))
+      const outer = json?.value         // unwrap (ok ...)
+      const inner = outer?.value        // unwrap (some ...)
+      if (!inner || inner.type === '(none)' || inner.value === null) return null
+      return inner.value ?? inner       // unwrap inner value if present
     } catch (err) {
       console.error('Failed to fetch game data:', err)
       return null

@@ -9,7 +9,7 @@ function parseChain(value: string): Chain | null {
 
 function parseGameId(value: string): number | null {
   const n = Number(value)
-  if (!Number.isInteger(n) || n <= 0) return null
+  if (!Number.isInteger(n) || n < 0) return null  // 0 is a valid game ID
   return n
 }
 

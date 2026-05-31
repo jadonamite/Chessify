@@ -120,7 +120,9 @@
   (begin
     (asserts! (is-eq contract-caller .chess-game) ERR-NOT-AUTHORIZED)
     (asserts! (> amount u0)                       ERR-INVALID-AMOUNT)
-    (ft-transfer? chess-token amount .chess-token recipient)
+    ;; as-contract sets tx-sender = .chess-token-v3 so ft-transfer? can spend
+    ;; tokens held in this contract's own vault balance (Clarity 2 requires tx-sender == from).
+    (as-contract (ft-transfer? chess-token amount tx-sender recipient))
   )
 )
 

@@ -18,6 +18,14 @@ export const CELO_CONTRACTS = {
 
 export const CELO_CHAIN_ID = 42220 // Celo Mainnet
 
+// Base contracts configuration
+export const BASE_CONTRACTS = {
+  token: process.env.NEXT_PUBLIC_BASE_TOKEN ?? '0x6aab785e1fa220eefe74d90a143e0a4a3c36e4e4',
+  game: process.env.NEXT_PUBLIC_BASE_GAME ?? '0x309fc0793350c694ae1de87719f2c9a413a25ac3',
+} as const
+
+export const BASE_CHAIN_ID = 8453 // Base Mainnet
+
 export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
 export const HIRO_API =

@@ -52,6 +52,7 @@ artist.js
 artist.cjs
 simulate.js
 simulate-celo.cjs
+simulate-base.cjs
 Stacks Repo.txt
 *.log
 fetch_celo_balances.js

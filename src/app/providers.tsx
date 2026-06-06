@@ -3,12 +3,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import { WagmiProvider } from '@privy-io/wagmi'
-import { PrivyProvider } from '@privy-io/react-auth'
+import { PrivyProvider, dataSuffix } from '@privy-io/react-auth'
 import dynamic from 'next/dynamic'
 import { celo } from 'viem/chains'
 import { wagmiConfig } from '@/config/wagmi'
 import { ThemeProvider } from 'next-themes'
 import CenterToast from '@/components/ui/CenterToast'
+import { BUILDER_CODE_SUFFIX } from '@/lib/builder-code'
 
 const WalletProvider = dynamic(
   () => import('@/components/wallet-provider').then(mod => mod.WalletProvider),
@@ -44,6 +45,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           embeddedWallets: {
             createOnLogin: 'users-without-wallets',
           },
+          plugins: BUILDER_CODE_SUFFIX ? [dataSuffix(BUILDER_CODE_SUFFIX)] : [],
         }}
       >
         <WagmiProvider config={wagmiConfig} reconnectOnMount>

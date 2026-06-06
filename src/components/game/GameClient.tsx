@@ -269,6 +269,21 @@ export default function GameClient() {
     const replayed = new Chess()
     const sanHistory: string[] = []
     for (const m of relayMoves) {
+      // Guard against relay injection: verify the move is attributed to the
+      // player whose turn the board says it is. An injected move with the
+      // wrong player address is rejected before chess.js ever sees it.
+      if (gameData) {
+        const expectedPlayer = replayed.turn() === 'w' ? gameData.player1 : gameData.player2
+        if (normalize(m.player) !== normalize(expectedPlayer)) {
+          console.error('[GameClient] relay player mismatch — aborting replay', {
+            expected: expectedPlayer,
+            got: m.player,
+            moveNumber: m.moveNumber,
+          })
+          return
+        }
+      }
+
       const result = replayed.move(m.san)
       if (!result) {
         console.error('[GameClient] relay move rejected by chess.js — aborting replay to avoid corrupted state', { move: m })

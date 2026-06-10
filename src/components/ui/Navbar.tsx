@@ -36,7 +36,7 @@ export default function Navbar() {
     isStacksConnected, stacksAddress,
     activeChain, connectWallet, disconnectAll,
     showChainSelect, setShowChainSelect,
-    connect, connectStacks, connectSocial,
+    connect, connectStacks, connectSocial, connectBase,
     isWrongChain, switchToCelo,
   } = useWallet()
 
@@ -52,9 +52,9 @@ export default function Navbar() {
   }, [])
 
   const connected = isConnected || isStacksConnected
-  const displayAddress = activeChain === 'celo' ? address : stacksAddress
-  const chainLabel = activeChain === 'celo' ? 'CELO' : 'STX'
-  const chainColor = activeChain === 'celo' ? '#35ee66' : '#ff9900'
+  const displayAddress = activeChain === 'stacks' ? stacksAddress : address
+  const chainLabel = activeChain === 'stacks' ? 'STX' : activeChain === 'base' ? 'BASE' : 'CELO'
+  const chainColor = activeChain === 'stacks' ? '#ff9900' : activeChain === 'base' ? '#0052ff' : '#35ee66'
   const showWallet = mounted && connected && !!displayAddress
 
   return (
@@ -500,6 +500,7 @@ export default function Navbar() {
         onClose={() => setShowChainSelect(false)}
         onSelectCelo={connect}
         onSelectStacks={connectStacks}
+        onSelectBase={connectBase}
         onSelectSocial={connectSocial}
       />
     </>

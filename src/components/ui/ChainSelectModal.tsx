@@ -158,6 +158,7 @@ interface ChainSelectModalProps {
   onClose: () => void
   onSelectCelo: () => void
   onSelectStacks: () => void
+  onSelectBase: () => void
   onSelectSocial: () => void
 }
 
@@ -173,6 +174,7 @@ export default function ChainSelectModal({
   onClose,
   onSelectCelo,
   onSelectStacks,
+  onSelectBase,
   onSelectSocial,
 }: ChainSelectModalProps) {
   return (
@@ -246,6 +248,20 @@ export default function ChainSelectModal({
                 delay={0.3}
               >
                 <ChainPiece modelPath="/models/QueenChess.glb" color="#ff9900" emissive="#ff9900" scale={1.5} />
+              </ChainCard>
+
+              {/* Base Card */}
+              <ChainCard
+                name="Base"
+                ecosystem="EVM • Coinbase L2"
+                description="Connect with any EVM wallet. Low fees on Coinbase's Ethereum L2. Builder Code attributed."
+                accentColor="#0052ff"
+                accentGlow="rgba(0, 82, 255, 0.08)"
+                iconUrl="/base-logo.svg"
+                onClick={onSelectBase}
+                delay={0.35}
+              >
+                <ChainPiece modelPath="/models/King.glb" color="#0052ff" emissive="#0052ff" scale={1.8} />
               </ChainCard>
 
             </div>

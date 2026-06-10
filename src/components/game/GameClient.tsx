@@ -262,7 +262,9 @@ export default function GameClient() {
   // On Stacks we don't have a live read yet — show the button when game is active and it's not my turn
   const canClaimTimeoutCelo = !!celoCanTimeout && !isMyTurn && isParticipant
   const canClaimTimeoutStacks = gameIsActive && isParticipant && !isMyTurn  // conservative; actual check is on-chain
-  const canClaimTimeoutNow = !isBotGame && (activeChain === 'celo' ? canClaimTimeoutCelo : canClaimTimeoutStacks)
+  // Base contract has no claimTimeout — never show the claim control there.
+  const canClaimTimeoutNow = !isBotGame && activeChain !== 'base'
+    && (activeChain === 'celo' ? canClaimTimeoutCelo : canClaimTimeoutStacks)
 
   // Color assignment: creator (player1) is white, opponent (player2) is black.
   // Mirrors the contract's assignment in chess-game.clar / ChessGame.sol.
@@ -546,6 +548,8 @@ export default function GameClient() {
 
   const handleMoveSubmit = async () => {
     await withTx(async () => {
+      // Base has no on-chain submitMove (no move clock) — moves are relay-only.
+      if (activeChain === 'base') return
       if (activeChain === 'stacks') await submitStacksMove(gameId)
       else await submitCeloMove(gameId)
     })
@@ -554,6 +558,7 @@ export default function GameClient() {
   const handleResign = async () => {
     await withTx(async () => {
       if (activeChain === 'stacks') await resignStacks(gameId)
+      else if (activeChain === 'base') await resignBase(gameId)
       else await resignCelo(gameId)
     })
   }
@@ -561,6 +566,7 @@ export default function GameClient() {
   const handleReportWin = async () => {
     await withTx(async () => {
       if (activeChain === 'stacks') await reportStacksWin(gameId)
+      else if (activeChain === 'base') await reportBaseWin(gameId)
       else await reportCeloWin(gameId)
     })
   }
@@ -574,6 +580,9 @@ export default function GameClient() {
         await joinStacks(gameId, wagerInChess)
         // Reset loaded flag to re-fetch Stacks game data after the tx is broadcast
         setStacksDataLoaded(false)
+      } else if (activeChain === 'base') {
+        await joinBase(gameId, wagerInChess)
+        // Base: refetchInterval on useReadContract picks up ACTIVE within 5s
       } else {
         await joinCelo(gameId, wagerInChess)
         // Celo: refetchInterval on useReadContract will pick up the ACTIVE state within 5s
@@ -591,6 +600,7 @@ export default function GameClient() {
   const handleProposeDraw = async () => {
     await withTx(async () => {
       if (activeChain === 'stacks') await proposeStacksDraw(gameId)
+      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 1: propose
       else await proposeCeloDraw(gameId)
     })
   }
@@ -598,13 +608,16 @@ export default function GameClient() {
   const handleAcceptDraw = async () => {
     await withTx(async () => {
       if (activeChain === 'stacks') await acceptStacksDraw(gameId)
+      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 2: accept
       else await acceptCeloDraw(gameId)
     })
   }
 
   const handleCancelGame = async () => {
     await withTx(async () => {
+      // Base contract has no cancelGame; the cancel control is hidden for Base.
       if (activeChain === 'stacks') await cancelStacksGame(gameId)
+      else if (activeChain === 'base') return
       else await cancelCeloGame(gameId)
     })
   }

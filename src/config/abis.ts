@@ -30,3 +30,37 @@ export const CHESS_GAME_ABI = [
   { "type": "event", "name": "GameJoined", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "black", "type": "address", "indexed": true }] },
   { "type": "event", "name": "MoveMade", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "player", "type": "address", "indexed": true }, { "name": "moveCount", "type": "uint256", "indexed": false }] }
 ] as const
+
+// Base ChessGame is a leaner contract than Celo's: a 5-field getGame tuple,
+// a single two-step `settleDraw` (instead of propose/accept), a `drawProposal`
+// view, and no submitMove/claimTimeout/cancelGame. Kept separate so Celo's
+// 10-field tuple decode is never broken.
+export const BASE_CHESS_GAME_ABI = [
+  { "type": "function", "name": "createGame", "stateMutability": "nonpayable", "inputs": [{ "name": "wager", "type": "uint256" }], "outputs": [{ "name": "gameId", "type": "uint256" }] },
+  { "type": "function", "name": "joinGame", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "resign", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "reportWin", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "settleDraw", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  { "type": "function", "name": "getGame", "stateMutability": "view", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [{ "type": "tuple", "components": [
+    { "name": "white", "type": "address" },
+    { "name": "black", "type": "address" },
+    { "name": "wager", "type": "uint256" },
+    { "name": "status", "type": "uint8" },
+    { "name": "result", "type": "uint8" }
+  ]}] },
+  { "type": "function", "name": "getPlayerStats", "stateMutability": "view", "inputs": [{ "name": "player", "type": "address" }], "outputs": [{ "type": "tuple", "components": [
+    { "name": "wins", "type": "uint256" },
+    { "name": "losses", "type": "uint256" },
+    { "name": "draws", "type": "uint256" },
+    { "name": "rating", "type": "uint256" },
+    { "name": "gamesPlayed", "type": "uint256" }
+  ]}] },
+  { "type": "function", "name": "totalGames", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "uint256" }] },
+  { "type": "function", "name": "drawProposal", "stateMutability": "view", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [{ "type": "address" }] },
+  { "type": "event", "name": "GameCreated", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "white", "type": "address", "indexed": true }, { "name": "wager", "type": "uint256", "indexed": false }] },
+  { "type": "event", "name": "GameJoined", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "black", "type": "address", "indexed": true }] },
+  { "type": "event", "name": "GameResigned", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "loser", "type": "address", "indexed": true }, { "name": "winner", "type": "address", "indexed": true }] },
+  { "type": "event", "name": "CheckmateReported", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "winner", "type": "address", "indexed": true }, { "name": "loser", "type": "address", "indexed": true }] },
+  { "type": "event", "name": "DrawProposed", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }, { "name": "proposer", "type": "address", "indexed": true }] },
+  { "type": "event", "name": "DrawSettled", "inputs": [{ "name": "gameId", "type": "uint256", "indexed": true }] }
+] as const

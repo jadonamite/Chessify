@@ -3,7 +3,11 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { usePrivy, useWallets, useCreateWallet } from '@privy-io/react-auth'
 import { useAccount, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
-import { CELO_CHAIN_ID } from '@/config/contracts'
+import { CELO_CHAIN_ID, BASE_CHAIN_ID } from '@/config/contracts'
+
+// Active chain. Celo and Base share the same Privy EVM wallet/address; Stacks is
+// a separate session.
+export type ActiveChain = 'celo' | 'stacks' | 'base'
 
 interface WalletContextType {
   // ── Addresses ──
@@ -14,8 +18,8 @@ interface WalletContextType {
   isConnected: boolean
   isStacksConnected: boolean
   isMiniPay: boolean
-  activeChain: 'celo' | 'stacks'
-  isWrongChain: boolean       // EVM wallet connected but not on Celo
+  activeChain: ActiveChain
+  isWrongChain: boolean       // EVM wallet connected but not on the active EVM chain
   switchToCelo: () => void    // request chain switch to Celo
 
   // ── Unified Auth ──
@@ -26,11 +30,12 @@ interface WalletContextType {
 
   // ── Internal (used by ChainSelectModal) ──
   connect: () => Promise<void>
+  connectBase: () => Promise<void>
   connectStacks: () => Promise<void>
   connectSocial: () => Promise<void>
   disconnect: () => void
   disconnectStacks: () => void
-  setActiveChain: (chain: 'celo' | 'stacks') => void
+  setActiveChain: (chain: ActiveChain) => void
 
   // ── Session ──
   userSession: any | null
@@ -50,6 +55,7 @@ const WalletContext = createContext<WalletContextType>({
   showChainSelect: false,
   setShowChainSelect: () => { },
   connect: async () => { },
+  connectBase: async () => { },
   disconnect: () => { },
   connectStacks: async () => { },
   connectSocial: async () => { },
@@ -76,7 +82,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // --- Common State ---
   const [isMiniPay, setIsMiniPay] = useState(false)
-  const [activeChain, setActiveChainState] = useState<'celo' | 'stacks'>('celo')
+  const [activeChain, setActiveChainState] = useState<ActiveChain>('celo')
   const [showChainSelect, setShowChainSelect] = useState(false)
 
   // Prefer wagmi (external wallet), fall back to Privy embedded wallet
@@ -86,18 +92,20 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const isConnected = ready && authenticated
   const isStacksConnected = !!stacksAddress
 
-  // True when an EVM wallet is connected but the user is on the wrong network.
-  // Embedded Privy wallets auto-switch; this catches external wallets (MetaMask etc.).
-  const isWrongChain = isConnected && activeChain === 'celo' && !!currentChainId && currentChainId !== CELO_CHAIN_ID
+  // True when an EVM wallet is connected but on the wrong network for the active
+  // EVM chain. Embedded Privy wallets auto-switch; this catches external wallets.
+  const expectedEvmChainId = activeChain === 'base' ? BASE_CHAIN_ID : CELO_CHAIN_ID
+  const isWrongChain = isConnected && (activeChain === 'celo' || activeChain === 'base')
+    && !!currentChainId && currentChainId !== expectedEvmChainId
   const switchToCelo = useCallback(() => {
-    switchChain?.({ chainId: CELO_CHAIN_ID })
-  }, [switchChain])
+    switchChain?.({ chainId: expectedEvmChainId })
+  }, [switchChain, expectedEvmChainId])
 
   // 1. Restore saved chain preference first, then initialize Stacks session.
   //    Reading localStorage before Stacks init prevents the init effect from
   //    being overwritten by the preference effect (React runs effects in order).
   useEffect(() => {
-    const saved = localStorage.getItem('chessify_active_chain') as 'celo' | 'stacks' | null
+    const saved = localStorage.getItem('chessify_active_chain') as ActiveChain | null
     if (saved) setActiveChainState(saved)
 
     const initStacks = async () => {
@@ -123,7 +131,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const setActiveChain = useCallback((chain: 'celo' | 'stacks') => {
+  const setActiveChain = useCallback((chain: ActiveChain) => {
     setActiveChainState(chain)
     localStorage.setItem('chessify_active_chain', chain)
   }, [])
@@ -149,6 +157,16 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setActiveChain('celo')
     setShowChainSelect(false)
   }, [login, authenticated, setActiveChain])
+
+  // ── Connect Base (same Privy EVM wallet as Celo, different active chain) ──
+  const connectBase = useCallback(async () => {
+    if (!authenticated) login()
+    setActiveChain('base')
+    setShowChainSelect(false)
+    // Best-effort network switch for external wallets; embedded wallets follow
+    // the chainId passed on each write.
+    try { switchChain?.({ chainId: BASE_CHAIN_ID }) } catch { /* ignore */ }
+  }, [login, authenticated, setActiveChain, switchChain])
 
   // ── Connect via social login (Privy unified modal) ──
   const connectSocial = useCallback(async () => {

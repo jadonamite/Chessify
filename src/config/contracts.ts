@@ -36,5 +36,14 @@ export const HIRO_API =
 // Token constants
 export const TOKEN_DECIMALS  = 6
 export const FAUCET_AMOUNT   = 1_000_000_000n  // 1000 CHESS
-export const FAUCET_COOLDOWN = 144             // ~1 day in blocks
-export const BLOCK_TIME_SECS = 600             // ~10 min per block
+export const FAUCET_COOLDOWN = 144             // ~1 day in blocks (Stacks/Celo display)
+export const BLOCK_TIME_SECS = 600             // ~10 min per block (Stacks)
+
+// Per-chain block time (seconds) for timeout/age display. Base ~2s, Celo ~5s,
+// Stacks ~10min. Use this instead of the single BLOCK_TIME_SECS where the chain
+// is known.
+export const BLOCK_TIME_SECS_BY_CHAIN: Record<string, number> = {
+  celo: 5,
+  base: 2,
+  stacks: 600,
+}

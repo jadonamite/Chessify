@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { WagmiProvider } from '@privy-io/wagmi'
 import { PrivyProvider, dataSuffix } from '@privy-io/react-auth'
 import dynamic from 'next/dynamic'
-import { celo } from 'viem/chains'
+import { celo, base } from 'viem/chains'
 import { wagmiConfig } from '@/config/wagmi'
 import { ThemeProvider } from 'next-themes'
 import CenterToast from '@/components/ui/CenterToast'
@@ -34,7 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? 'placeholder-set-env-var'}
         config={{
           defaultChain: celo,
-          supportedChains: [celo],
+          supportedChains: [celo, base],
           appearance: {
             theme: 'dark',
             accentColor: '#00ccff',

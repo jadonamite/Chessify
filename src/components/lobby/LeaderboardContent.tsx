@@ -7,6 +7,7 @@ import LoadingState from '@/components/ui/LoadingState'
 import { Navbar } from '@/components/landing/Hero'
 import { useWallet } from '@/components/wallet-provider'
 import { useLeaderboard, type LeaderboardEntry } from '@/hooks/useLeaderboard'
+import { useBaseLeaderboard } from '@/hooks/useBaseLeaderboard'
 import { useStacksLeaderboard } from '@/hooks/useStacksLeaderboard'
 import { useBatchProfiles } from '@/hooks/useBatchProfiles'
 import { normalizeAddress } from '@/lib/profile-address'
@@ -309,21 +310,24 @@ export default function LeaderboardContent() {
   const router = useRouter()
   const { activeChain, address, stacksAddress } = useWallet()
   const isCelo = activeChain === 'celo'
+  const isBase = activeChain === 'base'
+  const isStacks = activeChain === 'stacks'
 
-  // Both hooks run unconditionally (rules of hooks); each only fetches when it's
+  // All hooks run unconditionally (rules of hooks); each only fetches when it's
   // the active chain. Show whichever matches the active chain.
   const celo = useLeaderboard(isCelo)
-  const stacks = useStacksLeaderboard(!isCelo)
-  const { entries, isLoading, myRank, refresh } = isCelo ? celo : stacks
+  const base = useBaseLeaderboard(isBase)
+  const stacks = useStacksLeaderboard(isStacks)
+  const { entries, isLoading, myRank, refresh } = isStacks ? stacks : isBase ? base : celo
 
   const { data: profileMap = {} } = useBatchProfiles(entries.map((e) => e.address))
 
-  const activeAddress = isCelo ? address : stacksAddress
+  const activeAddress = isStacks ? stacksAddress : address  // EVM (celo/base) share the address
   const myAddress = activeAddress ? normalizeAddress(activeAddress) : undefined
   const isMine = (addr: string) => !!myAddress && normalizeAddress(addr) === myAddress
 
-  const chainLabel = isCelo ? 'CELO' : 'STX'
-  const chainColor = isCelo ? '#35ee66' : '#ff9900'
+  const chainLabel = isStacks ? 'STX' : isBase ? 'BASE' : 'CELO'
+  const chainColor = isStacks ? '#ff9900' : isBase ? '#0052ff' : '#35ee66'
 
   const top3 = entries.slice(0, 3)
   const rest = entries.slice(3)

@@ -243,6 +243,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         showChainSelect,
         setShowChainSelect,
         connect,
+        connectBase,
         disconnect,
         connectStacks,
         connectSocial,

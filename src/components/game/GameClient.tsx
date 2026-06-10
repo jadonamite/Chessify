@@ -10,10 +10,11 @@ import { useWallet } from '@/components/wallet-provider'
 import { useStacksChess } from '@/hooks/useStacksChess'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import { useCeloChess } from '@/hooks/useCeloChess'
+import { useBaseChess } from '@/hooks/useBaseChess'
 // @ts-ignore - intentional unused variable
 import { useAccount, useReadContract } from 'wagmi'
-import { CHESS_GAME_ABI } from '@/config/abis'
-import { CELO_CONTRACTS } from '@/config/contracts'
+import { CHESS_GAME_ABI, BASE_CHESS_GAME_ABI } from '@/config/abis'
+import { CELO_CONTRACTS, BASE_CONTRACTS, BASE_CHAIN_ID } from '@/config/contracts'
 import ClayCard from '@/components/ui/ClayCard'
 import GlowButton from '@/components/ui/GlowButton'
 import StatBadge from '@/components/ui/StatBadge'
@@ -73,6 +74,13 @@ export default function GameClient() {
     acceptDraw: acceptCeloDraw,
     cancelGame: cancelCeloGame,
   } = useCeloChess()
+
+  const {
+    joinGame: joinBase,
+    resign: resignBase,
+    reportWin: reportBaseWin,
+    settleDraw: settleBaseDraw,
+  } = useBaseChess()
 
   const [game, setGame] = useState(() => new Chess())
   const [gameData, setGameData] = useState<GameData | null>(null)
@@ -156,6 +164,39 @@ export default function GameClient() {
       })
     }
   }, [celoGameData, activeChain])
+
+  // Base game state (5-field tuple) — poll every 5s for WAITING → ACTIVE.
+  const { data: baseGameData } = useReadContract({
+    address: BASE_CONTRACTS.game as `0x${string}`,
+    abi: BASE_CHESS_GAME_ABI,
+    functionName: 'getGame',
+    chainId: BASE_CHAIN_ID,
+    args: [BigInt(gameId)],
+    query: { enabled: activeChain === 'base' && !!gameId, refetchInterval: 5_000 },
+  })
+
+  // Base draw proposer lives in a separate mapping, not the game struct — poll it.
+  const { data: baseDrawProposal } = useReadContract({
+    address: BASE_CONTRACTS.game as `0x${string}`,
+    abi: BASE_CHESS_GAME_ABI,
+    functionName: 'drawProposal',
+    chainId: BASE_CHAIN_ID,
+    args: [BigInt(gameId)],
+    query: { enabled: activeChain === 'base' && !!gameId && gameData?.status === '1', refetchInterval: 4_000 },
+  })
+
+  useEffect(() => {
+    if (activeChain === 'base' && baseGameData) {
+      const gd = baseGameData as any
+      setGameData({
+        player1: gd.white,
+        player2: gd.black,
+        wager: gd.wager.toString(),
+        status: gd.status.toString(),
+        drawProposer: (baseDrawProposal as string) ?? '',
+      })
+    }
+  }, [baseGameData, baseDrawProposal, activeChain])
 
   // ── Stacks data — poll every 15s to catch WAITING → ACTIVE transitions.
   // Stacks blocks take ~10 min, so 15s is a reasonable balance.

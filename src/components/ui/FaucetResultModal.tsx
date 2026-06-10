@@ -100,7 +100,7 @@ interface FaucetResultModalProps {
   amount?: string
   errorMessage?: string
   cooldownRemaining?: string
-  chain?: 'celo' | 'stacks'
+  chain?: 'celo' | 'stacks' | 'base'
 }
 
 /* ── RESULT CONFIGS ── */
@@ -305,14 +305,16 @@ export default function FaucetResultModal({
                     href={
                       chain === 'celo'
                         ? `https://celoscan.io/tx/${txHash}`
-                        : `https://explorer.hiro.so/txid/${txHash}`
+                        : chain === 'base'
+                          ? `https://basescan.org/tx/${txHash}`
+                          : `https://explorer.hiro.so/txid/${txHash}`
                     }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[10px] font-bold tracking-[0.15em] text-[var(--c)] hover:text-white transition-colors underline underline-offset-4 decoration-white/20"
                     style={{ fontFamily: 'var(--fd)' }}
                   >
-                    VIEW ON {chain === 'celo' ? 'CELOSCAN' : 'HIRO EXPLORER'} →
+                    VIEW ON {chain === 'celo' ? 'CELOSCAN' : chain === 'base' ? 'BASESCAN' : 'HIRO EXPLORER'} →
                   </motion.a>
                 )}
 

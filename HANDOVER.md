@@ -2,7 +2,60 @@
 
 **Goal:** bring the original multi-chain **Chessify** (Stacks + Celo + Stellar) up to date with all the UI/UX, features, and architecture introduced in **playchessify** (the Celo-only redesign) — **with Stacks as the first-class chain** in every chain-aware decision.
 
-**Last updated:** 2026-05-27 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
+**Last updated:** 2026-06-10 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
+
+---
+
+## ⚡ 2026-06-10 — Relay hardening + Base completion (build-clean, uncommitted)
+
+Two tracks landed bringing Chessify toward playchessify's newer backend:
+
+**Relay hardening + signed moves (chain-agnostic).** The move relay used to only
+race-guard `moveNumber`; it now validates server-side.
+- `src/lib/settlement.ts` (NEW, client-safe): `canonicalMoveMessage`, `deriveResult`,
+  `sideToMoveAddress`, `RESULT`, chain-aware `addrEq` (never lowercases Stacks).
+- `src/lib/onchain-read.ts` (NEW, server-only, read-only): `getOnchainGame(chain,id)`
+  dispatch — viem for celo/base (per-chain getGame ABI), Hiro read for stacks.
+- `src/app/api/games/[chain]/[id]/moves/route.ts`: POST now enforces **legality**
+  (chess.js replay) + **turn order** + **game-active** + **signature** (when present).
+  Slow-finality chains (stacks) degrade to legality/sig when the game isn't confirmed yet.
+- `MoveRecord` gained `sig?`/`signer?` (moves-store + useGameMoves). `chess:active:{chain}`
+  set + register/unregister/getActiveGameIds added (sweep list for a future settle worker).
+- `src/hooks/useMoveSigner.ts` (NEW): EVM signs each move silently (Privy); Stacks stays
+  unsigned (avoids per-move wallet popups). `useGameMoves.submitMove` takes an optional
+  signCtx and posts `sig`(+`publicKey` for stacks). Wired into `GameClient`.
+
+**Base — frontend completion** (contracts already live on Base mainnet, see `deploy.log`:
+token `0x6aab…e4e4`, game `0x309f…5ac3`). All frontend:
+- `config/wagmi.ts` + `app/providers.tsx` add Base; `config/abis.ts` adds `BASE_CHESS_GAME_ABI`
+  (5-field getGame tuple, `settleDraw` two-step, `drawProposal` view, draw events).
+- `hooks/useBaseChess.ts` (NEW): create/join/resign/reportWin/settleDraw; `chainId` on every
+  write. Builder-Code (ERC-8021) attribution stays global via the Privy `dataSuffix` plugin —
+  do NOT re-append in the hook (double-suffix).
+- Base wired through: `wallet-provider` (`activeChain` gains `'base'`, `connectBase`,
+  EVM address shared with Celo), `GameClient` (base branch + `drawProposal` poll, no
+  claimTimeout/submitMove/cancel — Base contract lacks them), `useLobby`, `LobbyContent`
+  (create/join/balance/stats), `FaucetContent` (+claimBase), `useBaseLeaderboard` +
+  `LeaderboardContent`, `useHistory`, `ChainSelectModal` (Base card), `Navbar` badge,
+  `FaucetResultModal` (BaseScan link). `public/base-logo.svg` added.
+- TODO before live: set real `NEXT_PUBLIC_BASE_BUILDER_CODE` (still `bc_placeholder`) in
+  `.env` + Vercel.
+
+`npm run build` clean (Turbopack) after clearing `.next`. Still needs a human browser pass
+per chain (Privy + wallet popups can't be automated): connect Base via ChainSelect → faucet →
+create/join → relay move sync → out-of-turn/illegal POST rejected (403/422) → reportWin/draw.
+
+**Known minor gap (not fixed):** `app/profile/[identifier]/page.tsx` reads Celo `playerStats`
+regardless of chain. For a Base/EVM address it shows Celo stats. Left as-is — which chain's
+stats to show on a chain-agnostic `.chess` identity is a design decision, not a quick swap.
+
+**Deferred (explicit, by Jadon):**
+- **Stellar** — Soroban contract written (`stellar-contracts/.../lib.rs`, self-report +
+  timeout) but NOT deployed and zero frontend. From-scratch: deploy (funded keys) + Freighter
+  wallet dep + full frontend wiring. Tracked follow-up.
+- **Oracle settlement + cron worker + gas sponsorship + `reclaimExpired`** — the rest of
+  playchessify's backend. Needs contract redeploys on all chains (incl. live Base) and an
+  EVM token minter role that doesn't exist. The Phase-1 signed-move relay is the prerequisite.
 
 ---
 

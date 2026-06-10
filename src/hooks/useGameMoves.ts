@@ -1,17 +1,30 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { canonicalMoveMessage } from '@/lib/settlement'
 
 const LOG_PREFIX = '[useGameMoves]'
 const POLL_INTERVAL_MS = 2_000
 
-export type Chain = 'celo' | 'stacks'
+export type Chain = 'celo' | 'stacks' | 'base'
 
 export interface MoveRecord {
   san: string
   player: string
   moveNumber: number
   ts: number
+  sig?: string
+  signer?: string
+}
+
+// Optional per-move signing. `fen` is the position AFTER the move; `sign`
+// produces a signature over the canonical message (or null if the wallet can't
+// sign — the move still relays, turn-bound only). `publicKey` is required for
+// Stacks signature verification on the server.
+export interface SignContext {
+  fen: string
+  sign?: (message: string) => Promise<string | null>
+  publicKey?: string
 }
 
 interface UseGameMovesOptions {
@@ -24,7 +37,7 @@ interface UseGameMovesResult {
   moves: MoveRecord[]
   isLoading: boolean
   error: string | null
-  submitMove: (san: string, player: string) => Promise<boolean>
+  submitMove: (san: string, player: string, signCtx?: SignContext) => Promise<boolean>
   refresh: () => Promise<void>
 }
 
@@ -75,15 +88,35 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
     return () => clearInterval(interval)
   }, [enabled, chain, gameId, refresh])
 
-  const submitMove = useCallback(async (san: string, player: string): Promise<boolean> => {
+  const submitMove = useCallback(async (san: string, player: string, signCtx?: SignContext): Promise<boolean> => {
     if (!chain || !gameId) return false
 
     const moveNumber = movesRef.current.length + 1
+
+    // Sign the move when the wallet supports it. A null/failed signature falls
+    // back to an unsigned (turn-bound) submission rather than blocking play.
+    let sig: string | null = null
+    if (signCtx?.sign) {
+      try {
+        const message = canonicalMoveMessage({ chain, gameId, moveNumber, san, fen: signCtx.fen })
+        sig = await signCtx.sign(message)
+      } catch (err) {
+        console.warn(`${LOG_PREFIX} sign failed — submitting unsigned`, err)
+        sig = null
+      }
+    }
+
     try {
       const res = await fetch(`/api/games/${chain}/${gameId}/moves`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ san, player, moveNumber }),
+        body: JSON.stringify({
+          san,
+          player,
+          moveNumber,
+          ...(sig ? { sig } : {}),
+          ...(sig && signCtx?.publicKey ? { publicKey: signCtx.publicKey } : {}),
+        }),
       })
       const body = await res.json().catch(() => ({}))
 

@@ -24,6 +24,7 @@ import { Navbar } from '@/components/landing/Hero'
 import { getBestMove, getHintMove } from '@/lib/chess-engine'
 import { TOKEN_DECIMALS } from '@/config/contracts'
 import { useGameMoves } from '@/hooks/useGameMoves'
+import { useMoveSigner } from '@/hooks/useMoveSigner'
 import { useSettingsStore, BOARD_THEMES, AI_DEPTH } from '@/hooks/useSettingsStore'
 import { buildPieces } from '@/lib/chessPieces'
 import { playMoveChime } from '@/lib/audio'
@@ -256,6 +257,9 @@ export default function GameClient() {
     gameId,
     enabled: !isBotGame && !!gameId && !!gameData,
   })
+
+  // Per-move signing (EVM silent-signs; Stacks relays unsigned — see useMoveSigner).
+  const moveSigner = useMoveSigner()
 
   // ── board interaction ────────────────────────────────────────────────────
 

@@ -380,7 +380,8 @@ export default function GameClient() {
       // authoritative state if the POST is rejected (409 conflict).
       if (!isBotGame) {
         const player = activeChain === 'stacks' ? (stacksAddress ?? '') : (celoAddress ?? '')
-        void relaySubmitMove(move.san, player).then((ok) => {
+        const signCtx = { fen: next.fen(), sign: moveSigner.sign, publicKey: moveSigner.publicKey }
+        void relaySubmitMove(move.san, player, signCtx).then((ok) => {
           if (!ok) {
             console.warn('[GameClient] relay rejected move — resyncing from authoritative state', { san: move.san })
             setStatusModalType('invalid_move')
@@ -414,7 +415,7 @@ export default function GameClient() {
       }
       return false
     }
-  }, [game, isBotGame, activeChain, stacksAddress, celoAddress, relaySubmitMove])
+  }, [game, isBotGame, activeChain, stacksAddress, celoAddress, relaySubmitMove, moveSigner])
 
   // ── v5 onPieceDrop: receives an object { piece, sourceSquare, targetSquare }
   const handlePieceDrop = useCallback(

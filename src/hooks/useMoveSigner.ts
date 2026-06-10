@@ -35,9 +35,10 @@ export function useMoveSigner(): MoveSigner {
     }
   }, [signMessageAsync])
 
-  // Only EVM chains sign per-move (silent via Privy). Stacks stays unsigned.
-  if (activeChain === 'celo' || activeChain === 'base') {
-    return { sign, publicKey: undefined, canSign: true }
+  // Stacks would pop a wallet dialog per move → relay unsigned. Every other
+  // (EVM) chain signs silently via Privy.
+  if (activeChain === 'stacks') {
+    return { sign: undefined, publicKey: undefined, canSign: false }
   }
-  return { sign: undefined, publicKey: undefined, canSign: false }
+  return { sign, publicKey: undefined, canSign: true }
 }

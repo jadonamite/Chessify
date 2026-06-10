@@ -6,7 +6,7 @@ import { Canvas } from '@react-three/fiber'
 import { Float, Environment, Text } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
 import { useWallet } from '@/components/wallet-provider'
-import { useWriteContract } from 'wagmi'
+import { useWriteContract, useReadContract } from 'wagmi'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import GlowButton from '@/components/ui/GlowButton'
 import LoadingState from '@/components/ui/LoadingState'
@@ -14,7 +14,7 @@ import FaucetResultModal, { type FaucetResultType } from '@/components/ui/Faucet
 import { Navbar } from '@/components/landing/Hero'
 import { King, Pawn, Bishop, Knight } from '@/components/ui/ChessModels'
 import { CHESS_TOKEN_ABI } from '@/config/abis'
-import { CELO_CONTRACTS, STACKS_CONTRACTS, TOKEN_DECIMALS, FAUCET_AMOUNT } from '@/config/contracts'
+import { CELO_CONTRACTS, BASE_CONTRACTS, BASE_CHAIN_ID, STACKS_CONTRACTS, TOKEN_DECIMALS, FAUCET_AMOUNT } from '@/config/contracts'
 import { formatUnits } from 'viem'
 
 /* ── KEYFRAMES ── */
@@ -123,17 +123,29 @@ export default function FaucetContent() {
   const [txHash, setTxHash] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const connected = activeChain === 'celo' ? isConnected : isStacksConnected
-  const userAddress = activeChain === 'celo' ? celoAddress : stacksAddress
+  const connected = activeChain === 'stacks' ? isStacksConnected : isConnected
+  const userAddress = activeChain === 'stacks' ? stacksAddress : celoAddress
+
+  // Base CHESS balance (EVM). Celo balance is read elsewhere; Stacks below.
+  const { data: baseBalance } = useReadContract({
+    address: BASE_CONTRACTS.token as `0x${string}`,
+    abi: CHESS_TOKEN_ABI,
+    functionName: 'balanceOf',
+    chainId: BASE_CHAIN_ID,
+    args: [celoAddress as `0x${string}`],
+    query: { enabled: activeChain === 'base' && !!celoAddress },
+  })
 
   /* ── Fetch Balance ── */
   const refreshBalance = useCallback(async () => {
     if (activeChain === 'stacks' && stacksAddress) {
       const b = await getStacksBalance()
       setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2))
+    } else if (activeChain === 'base' && baseBalance !== undefined) {
+      setBalance(formatUnits(baseBalance as bigint, TOKEN_DECIMALS))
     }
     // Celo balance is handled via wagmi hooks in the parent or read on mount
-  }, [activeChain, stacksAddress, getStacksBalance])
+  }, [activeChain, stacksAddress, getStacksBalance, baseBalance])
 
   useEffect(() => { refreshBalance() }, [refreshBalance])
 
@@ -152,6 +164,22 @@ export default function FaucetContent() {
       setTimeout(() => reject(new Error('TIMEOUT')), TIMEOUT_MS)
     )
 
+    const hash = await Promise.race([txPromise, timeoutPromise])
+    return hash as string
+  }
+
+  /* ── Claim Handler: Base ── */
+  const claimBase = async () => {
+    const txPromise = writeContractAsync({
+      chainId: BASE_CHAIN_ID,
+      address: BASE_CONTRACTS.token as `0x${string}`,
+      abi: CHESS_TOKEN_ABI,
+      functionName: 'faucetClaim',
+      args: [],
+    })
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('TIMEOUT')), 60_000)
+    )
     const hash = await Promise.race([txPromise, timeoutPromise])
     return hash as string
   }
@@ -198,7 +226,7 @@ export default function FaucetContent() {
     setErrorMessage('')
 
     try {
-      const hash = activeChain === 'celo' ? await claimCelo() : await claimStacks()
+      const hash = activeChain === 'stacks' ? await claimStacks() : activeChain === 'base' ? await claimBase() : await claimCelo()
       setTxHash(hash || '')
       setResultType('success')
       // Refresh balance after short delay
@@ -330,7 +358,7 @@ export default function FaucetContent() {
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-bold text-white/60 uppercase tracking-widest mb-1">Wallet Required</p>
-                    <p className="text-xs text-white/30">Connect your {activeChain === 'celo' ? 'Celo' : 'Stacks'} wallet to claim tokens</p>
+                    <p className="text-xs text-white/30">Connect your {activeChain === 'stacks' ? 'Stacks' : activeChain === 'base' ? 'Base' : 'Celo'} wallet to claim tokens</p>
                   </div>
                   <GlowButton variant="brand" size="lg" parallelogram onClick={connectWallet}>
                     CONNECT WALLET
@@ -367,7 +395,7 @@ export default function FaucetContent() {
                   {/* </div> */}
 
                   <span className="text-[9px] font-bold tracking-[0.2em] text-white/25 uppercase">
-                    One claim per day • {activeChain === 'celo' ? 'Celo Network' : 'Stacks Network'}
+                    One claim per day • {activeChain === 'stacks' ? 'Stacks Network' : activeChain === 'base' ? 'Base Network' : 'Celo Network'}
                   </span>
                 </div>
               )}

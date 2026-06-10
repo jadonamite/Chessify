@@ -14,13 +14,14 @@ import ChessAvatar from '@/components/ui/ChessAvatar'
 import ClaimModal from '@/components/ui/ClaimModal'
 import { useRouter } from 'next/navigation'
 import { Navbar } from '@/components/landing/Hero'
-import { CELO_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
+import { CELO_CONTRACTS, BASE_CONTRACTS, BASE_CHAIN_ID, TOKEN_DECIMALS } from '@/config/contracts'
 import { useCeloChess } from '@/hooks/useCeloChess'
+import { useBaseChess } from '@/hooks/useBaseChess'
 import { useLobby } from '@/hooks/useLobby'
 import LoadingState from '@/components/ui/LoadingState'
 // @ts-expect-error - intentional unused variable
 import { useReadContract, useAccount } from 'wagmi'
-import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { CHESS_GAME_ABI, BASE_CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
@@ -49,6 +50,7 @@ export default function LobbyContent() {
   const { createGame: createStacksGame, joinGame: joinStacksGame } = useStacksChess()
   // @ts-expect-error - intentional unused isCeloPending
   const { createGame: createCeloGame, joinGame: joinCeloGame, isPending: isCeloPending } = useCeloChess()
+  const { createGame: createBaseGame, joinGame: joinBaseGame } = useBaseChess()
   const { getTokenBalance: getStacksBalance, getPlayerStats: getStacksStats } = useStacksRead()
   const router = useRouter()
 
@@ -84,6 +86,24 @@ export default function LobbyContent() {
     query: { enabled: activeChain === 'celo' && !!celoAddress }
   })
 
+  const { data: baseBalance } = useReadContract({
+    address: BASE_CONTRACTS.token as `0x${string}`,
+    abi: CHESS_TOKEN_ABI,
+    functionName: 'balanceOf',
+    chainId: BASE_CHAIN_ID,
+    args: [celoAddress as `0x${string}`],
+    query: { enabled: activeChain === 'base' && !!celoAddress }
+  })
+
+  const { data: baseStats } = useReadContract({
+    address: BASE_CONTRACTS.game as `0x${string}`,
+    abi: BASE_CHESS_GAME_ABI,
+    functionName: 'getPlayerStats',
+    chainId: BASE_CHAIN_ID,
+    args: [celoAddress as `0x${string}`],
+    query: { enabled: activeChain === 'base' && !!celoAddress }
+  })
+
   useEffect(() => {
     if (activeChain === 'stacks' && stacksAddress) {
       getStacksBalance().then(b => setBalance((Number(b) / Math.pow(10, TOKEN_DECIMALS)).toFixed(2)))
@@ -102,8 +122,16 @@ export default function LobbyContent() {
         setWins(Number(s[0]))
         setLosses(Number(s[1]))
       }
+    } else if (activeChain === 'base' && celoAddress) {
+      if (baseBalance !== undefined) setBalance(formatUnits(baseBalance as bigint, TOKEN_DECIMALS))
+      if (baseStats) {
+        const s = baseStats as any // tuple { wins, losses, draws, rating, gamesPlayed }
+        setRating(Number(s.rating))
+        setWins(Number(s.wins))
+        setLosses(Number(s.losses))
+      }
     }
-  }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats])
+  }, [activeChain, stacksAddress, celoAddress, getStacksBalance, getStacksStats, celoBalance, celoStats, baseBalance, baseStats])
 
   const { games: openGames, isLoading: isLobbyLoading, refresh: refreshLobby } = useLobby()
 
@@ -117,6 +145,8 @@ export default function LobbyContent() {
       if (activeChain === 'stacks') {
         const result = await createStacksGame(wager)
         gameId = result.gameId
+      } else if (activeChain === 'base') {
+        gameId = await createBaseGame(wager)
       } else {
         gameId = await createCeloGame(wager)
       }
@@ -147,6 +177,8 @@ export default function LobbyContent() {
     try {
       if (activeChain === 'stacks') {
         await joinStacksGame(gameId, matchWager)
+      } else if (activeChain === 'base') {
+        await joinBaseGame(gameId, matchWager)
       } else {
         await joinCeloGame(gameId, matchWager)
       }

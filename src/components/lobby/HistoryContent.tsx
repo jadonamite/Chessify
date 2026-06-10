@@ -117,7 +117,7 @@ export function HistoryContent() {
                             <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
                               <PieceView
                                 type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
-                                color={item.chain === 'celo' ? '#35ee66' : '#ff9900'}
+                                color={item.chain === 'stacks' ? '#ff9900' : item.chain === 'base' ? '#0052ff' : '#35ee66'}
                                 className="w-full h-full"
                               />
                             </div>

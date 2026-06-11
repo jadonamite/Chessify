@@ -22,7 +22,7 @@ export const CHESS_GAME_ABI = [
     { "name": "moveCount", "type": "uint256" },
     { "name": "createdAt", "type": "uint256" },
     { "name": "lastMoveBlock", "type": "uint256" },
-    { "name": "drawProposer", "type": "address" }
+    { 'name': 'drawProposer', 'type': 'address' }
   ]}] },
   { "type": "function", "name": "playerStats", "stateMutability": "view", "inputs": [{ "name": "player", "type": "address" }], "outputs": [{ "type": "uint256", "name": "wins" }, { "type": "uint256", "name": "losses" }, { "type": "uint256", "name": "draws" }, { "type": "uint256", "name": "rating" }, { "type": "uint256", "name": "gamesPlayed" }] },
   { "type": "function", "name": "gameNonce", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "uint256" }] },

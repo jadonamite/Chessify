@@ -6,6 +6,7 @@ type Ctx = { params: Promise<{ username: string }> }
 export async function GET(_req: NextRequest, { params }: Ctx) {
   const { username } = await params
   if (!username) return NextResponse.json({ error: 'invalid username' }, { status: 400 })
+// NOTE: revisit this logic after API migration
 
   const profile = await getProfileByUsername(username)
   if (!profile) return NextResponse.json({ error: 'not found' }, { status: 404 })

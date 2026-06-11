@@ -67,9 +67,9 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditions,
         postConditionMode: PostConditionMode.Deny,
-        onFinish: (data) => {
-          console.info(`${LOG_PREFIX} createGame: tx broadcast`, { txId: data.txId, gameId: predictedGameId })
-          resolve({ txId: data.txId, gameId: predictedGameId })
+        onFinish: (payload) => {
+          console.info(`${LOG_PREFIX} createGame: tx broadcast`, { txId: payload.txId, gameId: predictedGameId })
+          resolve({ txId: payload.txId, gameId: predictedGameId })
         },
         onCancel: () => {
           console.warn(`${LOG_PREFIX} createGame: user cancelled wallet popup`)
@@ -105,9 +105,9 @@ export function useStacksChess() {
         anchorMode: AnchorMode.Any,
         postConditions,
         postConditionMode: PostConditionMode.Deny,
-        onFinish: (data) => {
-          console.info(`${LOG_PREFIX} joinGame: tx broadcast`, { txId: data.txId, gameId })
-          resolve({ txId: data.txId })
+        onFinish: (payload) => {
+          console.info(`${LOG_PREFIX} joinGame: tx broadcast`, { txId: payload.txId, gameId })
+          resolve({ txId: payload.txId })
         },
         onCancel: () => {
           console.warn(`${LOG_PREFIX} joinGame: user cancelled wallet popup`)
@@ -134,7 +134,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} submitMove: user cancelled`)
           reject(new Error('Transaction cancelled'))
@@ -160,7 +160,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} resign: user cancelled`)
           reject(new Error('Transaction cancelled'))
@@ -186,7 +186,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} reportWin: user cancelled`)
           reject(new Error('Transaction cancelled'))
@@ -212,7 +212,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} claimTimeout: user cancelled`)
           reject(new Error('Transaction cancelled'))
@@ -238,7 +238,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} proposeDraw: user cancelled`)
           reject(new Error('Transaction cancelled'))
@@ -264,7 +264,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} acceptDraw: user cancelled`)
           reject(new Error('Transaction cancelled'))
@@ -290,7 +290,7 @@ export function useStacksChess() {
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
+        onFinish: (payload) => resolve(payload),
         onCancel: () => {
           console.warn(`${LOG_PREFIX} cancelGame: user cancelled`)
           reject(new Error('Transaction cancelled'))

@@ -100,7 +100,6 @@ export function useStacksRead() {
   return {
     getPlayerStats,
     getTokenBalance,
-    // NOTE: revisit this logic after API migration
     getGame,
     getTotalGames,
   }

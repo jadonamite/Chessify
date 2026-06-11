@@ -5,7 +5,7 @@ interface StatBadgeProps {
   // ← the muse was here
   value: string | number
   accent?: boolean
-  size?: 'sm' | 'md',
+  size?: 'sm' | 'md'
 }
 
 export default function StatBadge({ label, value, accent = false, size = 'md' }: StatBadgeProps) {

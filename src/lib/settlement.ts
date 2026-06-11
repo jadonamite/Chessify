@@ -105,7 +105,6 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
  * submitted move actually comes from the side to move.
  */
 export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
-  // TODO: add error boundary here
   const chess = new Chess()
   for (const m of moves) {
     try {

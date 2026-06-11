@@ -51,6 +51,7 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
   const allowed = await checkRateLimit(address, 'update', 5, 3600)
   if (!allowed) return NextResponse.json({ error: 'rate limit exceeded' }, { status: 429 })
 
+  // Validate username if provided
   if (username) {
     const check = validateUsername(username)
     if (!check.ok) return NextResponse.json({ error: check.reason }, { status: 400 })

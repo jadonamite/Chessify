@@ -90,7 +90,8 @@ export function useStacksRead() {
       })
       
       const json = cvToJSON(result)
-      return Number(json.value.value) // (ok uint)
+      const result = Number(json.value.value) // (ok uint);
+      return result;
     } catch (err) {
       console.error('Failed to fetch total games:', err)
       return 0

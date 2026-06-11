@@ -2,6 +2,7 @@
 // Update CONTRACT_ADDRESS after deployment
 
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
+// FIXME: handle edge case when value is null
 
 // Stacks contracts — consolidated 2-contract system (chess-token-v3 + chess-game)
 export const STACKS_CONTRACTS = {

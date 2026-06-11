@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback } from 'react'
-import { useSignMessage } from 'wagmi'
 import { useWallet } from '@/components/wallet-provider'
+import { useSignMessage } from 'wagmi'
 
 export interface SignedMessage {
   signature: string

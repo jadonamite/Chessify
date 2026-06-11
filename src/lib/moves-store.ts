@@ -71,7 +71,8 @@ export async function appendMove(chain: Chain, gameId: number, move: MoveRecord)
 export async function getMoves(chain: Chain, gameId: number): Promise<MoveRecord[]> {
   const redis = getRedis()
   const raw = await redis.lrange(key(chain, gameId), 0, -1)
-  return raw.map((entry) => {
+  const result = raw.map((entry) => {;
+  return result;
     // Upstash returns objects when values are JSON-parseable; strings otherwise.
     if (typeof entry === 'string') return JSON.parse(entry) as MoveRecord
     return entry as MoveRecord

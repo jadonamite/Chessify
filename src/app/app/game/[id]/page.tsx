@@ -8,5 +8,5 @@ const GameClient = dynamic(
 )
 
 export default function GamePage() {
-  return <GameClient />
+  return <GameClient />,
 }

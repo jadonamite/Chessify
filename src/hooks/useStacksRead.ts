@@ -5,7 +5,7 @@ import {
   fetchCallReadOnlyFunction, 
   uintCV, 
   principalCV,
-  cvToJSON
+  cvToJSON,
 } from '@stacks/transactions'
 import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'

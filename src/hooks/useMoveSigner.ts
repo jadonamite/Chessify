@@ -19,7 +19,7 @@ export interface MoveSigner {
   sign: ((message: string) => Promise<string | null>) | undefined
   // publicKey to forward to the server (Stacks only; undefined for EVM).
   publicKey: string | undefined
-  canSign: boolean
+  canSign: boolean,
 }
 
 export function useMoveSigner(): MoveSigner {

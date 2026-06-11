@@ -19,7 +19,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
   return (
     <div className="flex flex-col items-center justify-center w-full py-24 gap-12 relative overflow-hidden">
       {/* ── 3D PIECE ANIMATION ── */}
-      <div className='w-64 h-64 relative'>
+      <div className="w-64 h-64 relative">
         <Canvas camera={{ position: [0, 0, 5], fov: 40 }} gl={{ alpha: true }}>
           <Suspense fallback={null}>
             <ambientLight intensity={1.5} />

@@ -66,7 +66,6 @@ export function startAmbient(_ctx?: AudioContext) {
   if (activeTrack === 'landing') return
   stopTrack('game', 800)
   startTrack('landing', 0.55)
-// TODO: add input validation
 }
 
 export function startGameTrack(_ctx?: AudioContext) {

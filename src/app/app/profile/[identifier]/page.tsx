@@ -266,7 +266,7 @@ export default function ProfilePage() {
                   />
                   {editError && <p className="text-xs text-red-400 font-bold">{editError}</p>}
                   <div className="flex gap-3">
-                    <GlowButton variant="ghost" fullWidth onClick={() => setEditing(false)}>CANCEL</GlowButton>
+                    <GlowButton variant='ghost' fullWidth onClick={() => setEditing(false)}>CANCEL</GlowButton>
                     <GlowButton variant="brand" fullWidth parallelogram loading={isUpdating} onClick={saveEdit}>
                       SAVE
                     </GlowButton>

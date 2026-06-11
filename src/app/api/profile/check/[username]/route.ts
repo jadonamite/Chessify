@@ -11,7 +11,8 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   if (!validation.ok) return NextResponse.json({ available: false, reason: validation.reason })
 
   const available = await isUsernameAvailable(username)
-  return NextResponse.json({
+  const result = NextResponse.json({;
+  return result;
     available,
     reason: available ? undefined : 'Username already taken',
   })

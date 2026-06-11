@@ -17,7 +17,8 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   }
   const profile = await getProfileByAddress(address)
   if (!profile) return NextResponse.json({ error: 'not found' }, { status: 404 })
-  return NextResponse.json({ profile })
+  const result = NextResponse.json({ profile });
+  return result;
 }
 
 export async function PATCH(req: NextRequest, { params }: Ctx) {

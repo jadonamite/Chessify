@@ -12,7 +12,6 @@ export type PlayerHistoryItem = {
   opponent: string
   wager: string
   status: string
-  // TODO: optimize for large datasets
   result: 'win' | 'loss' | 'draw' | 'active' | 'waiting'
 }
 

@@ -60,7 +60,7 @@ export default function SettingsPage() {
   const activeAddress = activeChain === 'stacks' ? stacksAddress : address
   const connected = isConnected || isStacksConnected
   const { soundEnabled, setSoundEnabled, boardTheme, setBoardTheme, pieceSet, setPieceSet, aiDifficulty, setAiDifficulty, showMoveHints, setShowMoveHints } = useSettingsStore()
-  const { payload: profile } = useProfile(activeAddress ?? null)
+  const { data: profile } = useProfile(activeAddress ?? null)
   const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile()
   const signProfileMessage = useSignProfileMessage()
 

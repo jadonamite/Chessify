@@ -7,6 +7,7 @@ import { normalizeAddress } from '@/lib/profile-address'
 // server-only imports (no private keys, no node-only deps) so the move signer
 // in the browser and the relay verifier on the server stay byte-identical.
 
+// Result enum values (mirror the per-chain GameResult: WhiteWins/BlackWins/Draw).
 export const RESULT = {
   WhiteWins: 1,
   BlackWins: 2,

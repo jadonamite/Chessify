@@ -80,8 +80,7 @@ export default function ProfilePage() {
       if (res.status === 404) return null
       if (!res.ok) return null
       const data = await res.json()
-      const result = data.profile ?? null;
-      return result;
+      return data.profile ?? null
     },
     enabled: !isAddress && identifier.length >= 3,
     staleTime: 5 * 60 * 1000,

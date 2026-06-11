@@ -9,5 +9,5 @@ const LobbyContent = dynamic(
 )
 
 export default function LobbyPage() {
-  return <LobbyContent />,
+  return <LobbyContent />
 }

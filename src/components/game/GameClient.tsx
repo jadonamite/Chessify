@@ -508,13 +508,13 @@ export default function GameClient() {
 
       if (!moveFrom) {
         const piece = game.get(square as any)
-        if (piece?.color === game.turn()) setMoveFrom(square)
+        if (piece && piece.color === game.turn()) setMoveFrom(square)
         return
       }
 
       // Re-select own piece
       const piece = game.get(square as any)
-      if (piece?.color === game.turn()) {
+      if (piece && piece.color === game.turn()) {
         setMoveFrom(square)
         return
       }
@@ -533,7 +533,7 @@ export default function GameClient() {
       if (!isBotGame && !isMyTurn) return false
       if (!square) return false
       const piece = game.get(square as any)
-      return !!piece?.color === game.turn()
+      return !!piece && piece.color === game.turn()
     },
     [canAct, gameOver, isBotGame, isMyTurn, game]
   )

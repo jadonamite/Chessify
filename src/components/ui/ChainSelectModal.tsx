@@ -12,6 +12,33 @@ import GlowButton from './GlowButton'
 useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 
+/* ── 3D Pieces ── */
+function ChainPiece({ modelPath, color, emissive, scale = 1.5 }: { modelPath: string; color: string; emissive: string; scale?: number }) {
+  const { scene } = useGLTF(modelPath)
+
+  const material = useMemo(() => new THREE.MeshStandardMaterial({
+    color,
+    emissive,
+    emissiveIntensity: 0.5,
+    roughness: 0.2,
+    metalness: 0.8,
+  }), [color, emissive])
+
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone()
+    clone.traverse((child: any) => {
+      if (child.isMesh) child.material = material
+    })
+    return clone
+  }, [scene, material])
+
+  return (
+    <Float speed={2} rotationIntensity={0.8} floatIntensity={1.2}>
+      <primitive object={clonedScene} scale={scale} />
+    </Float>
+  )
+}
+
 /* ── Chain Card ── */
 function ChainCard({
   name,
@@ -54,57 +81,6 @@ function ChainCard({
           background: `radial-gradient(ellipse at 50% 80%, ${accentGlow}, transparent 70%)`,
         }}
       />
-
-  const material = useMemo(() => new THREE.MeshStandardMaterial({
-    color,
-    emissive,
-    emissiveIntensity: 0.5,
-    roughness: 0.2,
-    metalness: 0.8,
-  }), [color, emissive])
-
-  const clonedScene = useMemo(() => {
-    const clone = scene.clone()
-    clone.traverse((child: any) => {
-      if (child.isMesh) child.material = material
-    })
-    return clone
-  }, [scene, material])
-
-  return (
-    <Float speed={2} rotationIntensity={0.8} floatIntensity={1.2}>
-      <primitive object={clonedScene} scale={scale} />
-    </Float>
-  )
-}
-
-export default function ChainSelectModal({
-  isOpen,
-  onClose,
-  onSelectCelo,
-  onSelectStacks,
-  onSelectBase,
-  onSelectSocial,
-}: ChainSelectModalProps) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 box-border"
-          style={{ background: 'rgba(5, 5, 15, 0.92)', backdropFilter: 'blur(20px)' }}
-        >
-          {/* Grid Background */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)',
-            backgroundSize: '52px 52px', pointerEvents: 'none',
-            WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
-            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
-            opacity: 0.3,
-          }} />
 
       {/* 3D Scene */}
       <div className="w-full h-40 md:h-48 relative">
@@ -193,9 +169,33 @@ const SOCIAL_PROVIDERS = [
   { name: 'Apple',   icon: 'https://www.svgrepo.com/show/452188/apple.svg' },
 ]
 
-/* ── 3D Pieces ── */
-function ChainPiece({ modelPath, color, emissive, scale = 1.5 }: { modelPath: string; color: string; emissive: string; scale?: number }) {
-  const { scene } = useGLTF(modelPath)
+export default function ChainSelectModal({
+  isOpen,
+  onClose,
+  onSelectCelo,
+  onSelectStacks,
+  onSelectBase,
+  onSelectSocial,
+}: ChainSelectModalProps) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 box-border"
+          style={{ background: 'rgba(5, 5, 15, 0.92)', backdropFilter: 'blur(20px)' }}
+        >
+          {/* Grid Background */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: 'linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px)',
+            backgroundSize: '52px 52px', pointerEvents: 'none',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
+            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)',
+            opacity: 0.3,
+          }} />
 
           {/* Content */}
           <div className="relative z-10 w-full max-w-3xl flex flex-col items-center gap-8">

@@ -8,6 +8,26 @@ import { useSignProfileMessage } from '@/hooks/useSignProfileMessage'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 import GlowButton from '@/components/ui/GlowButton'
 
+function useProfileTotal() {
+  return useQuery<number | null>({
+    queryKey: ['profile-total'],
+    queryFn: async () => {
+      const res = await fetch('/api/profile/total')
+      if (!res.ok) return null
+      const data = await res.json() as { total: number }
+      return data.total
+    },
+    staleTime: 60_000,
+  })
+}
+
+interface ClaimModalProps {
+  open: boolean
+  address: string
+  onClose: () => void
+  onSuccess?: () => void
+}
+
 function Field({
   label,
   value,
@@ -40,32 +60,13 @@ function Field({
   )
 }
 
-interface ClaimModalProps {
-  open: boolean
-  address: string
-  onClose: () => void
-  onSuccess?: () => void
-}
-
-  const usernameStatus = (() => {
-    if (debouncedUsername.length < 3) return null
-    if (isChecking) return 'checking'
-    if (!checkResult) return null
-    return checkResult.available ? 'available' : checkResult.reason ?? 'taken'
-  })()
-
-function useProfileTotal() {
-  return useQuery<number | null>({
-    queryKey: ['profile-total'],
-    queryFn: async () => {
-      const res = await fetch('/api/profile/total')
-      if (!res.ok) return null
-      const data = await res.json() as { total: number }
-      return data.total
-    },
-    staleTime: 60_000,
-  })
-}
+export default function ClaimModal({ open, address, onClose, onSuccess }: ClaimModalProps) {
+  const [step, setStep] = useState<'form' | 'success'>('form')
+  const [username, setUsername] = useState('')
+  const [displayName, setDisplayName] = useState('')
+  const [bio, setBio] = useState('')
+  const [error, setError] = useState('')
+  const { data: total } = useProfileTotal()
 
   const debouncedUsername = username.trim().toLowerCase()
   const { data: checkResult, isLoading: isChecking } = useCheckUsername(debouncedUsername)
@@ -81,6 +82,19 @@ function useProfileTotal() {
       setError('')
     }
   }, [open])
+
+  const usernameStatus = (() => {
+    if (debouncedUsername.length < 3) return null
+    if (isChecking) return 'checking'
+    if (!checkResult) return null
+    return checkResult.available ? 'available' : checkResult.reason ?? 'taken'
+  })()
+
+  const canSubmit =
+    debouncedUsername.length >= 3 &&
+    displayName.trim().length >= 1 &&
+    usernameStatus === 'available' &&
+    !isPending
 
   const handleClaim = async () => {
     if (!canSubmit) return
@@ -104,20 +118,6 @@ function useProfileTotal() {
       setError(e?.message ?? 'Something went wrong. Try again.')
     }
   }
-
-  const canSubmit =
-    debouncedUsername.length >= 3 &&
-    displayName.trim().length >= 1 &&
-    usernameStatus === 'available' &&
-    !isPending
-
-export default function ClaimModal({ open, address, onClose, onSuccess }: ClaimModalProps) {
-  const [step, setStep] = useState<'form' | 'success'>('form')
-  const [username, setUsername] = useState('')
-  const [displayName, setDisplayName] = useState('')
-  const [bio, setBio] = useState('')
-  const [error, setError] = useState('')
-  const { data: total } = useProfileTotal()
 
   return (
     <AnimatePresence>

@@ -1,4 +1,5 @@
 export interface ChessProfile {
+  // NOTE: revisit this logic after API migration
   address: string           // 0x… (lowercased) for Celo, SP…/ST… (verbatim) for Stacks
   username: string          // "jadon" — displayed as "jadon.chess"
   displayName: string       // freeform, max 30 chars

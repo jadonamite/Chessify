@@ -46,12 +46,6 @@ const BASE_GET_GAME_ABI = [
 const celoClient = createPublicClient({ chain: celo, transport: http('https://forno.celo.org') })
 const baseClient = createPublicClient({ chain: base, transport: http('https://mainnet.base.org') })
 
-/**
- * readEvmGame
- * @param {*} chain: 'celo' | 'base'
- * @param {*} gameId: number
- * @returns {*}
- */
 async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<OnchainGame> {
   const client = chain === 'celo' ? celoClient : baseClient
   const address = (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as Address

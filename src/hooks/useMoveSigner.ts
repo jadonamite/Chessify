@@ -29,8 +29,8 @@ export function useMoveSigner(): MoveSigner {
   const sign = useCallback(async (message: string): Promise<string | null> => {
     try {
       return await signMessageAsync({ message })
-    } catch (err) {
-      console.warn('[useMoveSigner] sign failed — relaying unsigned', err)
+    } catch (error) {
+      console.warn('[useMoveSigner] sign failed — relaying unsigned', error)
       return null
     }
   }, [signMessageAsync])

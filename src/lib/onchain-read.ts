@@ -56,11 +56,6 @@ async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<Onch
   return { white: g.white, black: g.black, status: Number(g.status) }
 }
 
-/**
- * readStacksGame
- * @param {*} gameId: number
- * @returns {*}
- */
 async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const result = await fetchCallReadOnlyFunction({
     contractAddress: STACKS_CONTRACTS.game.address,

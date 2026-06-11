@@ -1,8 +1,8 @@
 'use client'
 
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { ChessProfile } from '@/types/profile'
 import { isValidProfileAddress, normalizeAddress } from '@/lib/profile-address'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function profileKey(address: string) {
   return ['profile', normalizeAddress(address ?? '')]

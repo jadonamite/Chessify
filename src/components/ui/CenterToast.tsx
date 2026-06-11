@@ -80,6 +80,7 @@ const CONFIGS: Record<ToastType, Config> = {
   },
 }
 
+// NOTE: revisit this logic after API migration
 export default function CenterToast() {
   const { toast, hideToast } = useToastStore()
 

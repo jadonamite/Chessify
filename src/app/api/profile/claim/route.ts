@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
 
   // Anti-replay: 5-minute window
   const ts = new Date(timestamp).getTime()
-  // TODO: add error boundary here
   if (isNaN(ts) || Date.now() - ts > 5 * 60 * 1000) {
     return NextResponse.json({ error: 'timestamp expired — re-sign and try again' }, { status: 400 })
   }

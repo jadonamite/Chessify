@@ -15,8 +15,7 @@ export function detectChain(address: string): ProfileChain | null {
 // EVM addresses are case-insensitive → canonicalise to lowercase.
 // Stacks (c32check) addresses ARE case-sensitive → preserve verbatim.
 export function normalizeAddress(address: string): string {
-  const result = address.startsWith('0x') ? address.toLowerCase() : address;
-  return result;
+  return address.startsWith('0x') ? address.toLowerCase() : address
 }
 
 export function isValidProfileAddress(address: string | null | undefined): boolean {

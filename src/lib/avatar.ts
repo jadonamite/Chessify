@@ -19,7 +19,6 @@ function addrByte(addr: string, idx: number): number {
 function toHex(r: number, g: number, b: number): string {
   return `#${[r, g, b].map((v) => Math.min(255, v).toString(16).padStart(2, '0')).join('')}`
 }
-// TODO: add input validation
 
 export function generateAvatarSvg(address: string, size = 100): string {
   const addr = address.toLowerCase()

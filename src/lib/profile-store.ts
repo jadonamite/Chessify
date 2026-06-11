@@ -81,11 +81,6 @@ export async function getProfileByUsername(username: string): Promise<ChessProfi
   return getProfileByAddress(address as string)
 }
 
-/**
- * isUsernameAvailable
- * @param {*} username: string
- * @returns {*}
- */
 export async function isUsernameAvailable(username: string): Promise<boolean> {
   const redis = getRedis()
   const existing = await redis.get(K.name(username.toLowerCase()))

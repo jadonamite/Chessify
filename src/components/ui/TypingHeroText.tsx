@@ -24,7 +24,7 @@ export default function TypingHeroText({
 
   const [displayText, setDisplayText] = useState("")
 
-  useMotionValueEvent(displayContext, "change", (latest) => {
+  useMotionValueEvent(displayContext, 'change', (latest) => {
     setDisplayText(latest)
   })
 

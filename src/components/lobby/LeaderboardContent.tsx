@@ -313,6 +313,7 @@ export default function LeaderboardContent() {
   const isBase = activeChain === 'base'
   const isStacks = activeChain === 'stacks'
 
+  // All hooks run unconditionally (rules of hooks); each only fetches when it's
   // the active chain. Show whichever matches the active chain.
   const celo = useLeaderboard(isCelo)
   const base = useBaseLeaderboard(isBase)

@@ -15,7 +15,7 @@ const DEFAULT_DURATION: Record<ToastType, number> = {
 interface Toast {
   message: string
   type: ToastType
-  duration?: number
+  duration?: number,
 }
 
 interface ToastState {

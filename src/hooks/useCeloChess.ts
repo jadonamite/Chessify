@@ -1,12 +1,12 @@
 'use client'
 
-import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
-import { decodeEventLog } from 'viem'
-import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, TOKEN_DECIMALS, CELO_CHAIN_ID } from '@/config/contracts'
+import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { decodeEventLog } from 'viem'
 import { parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
 import { useToastStore } from '@/hooks/useToastStore'
+import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
 
 const LOG_PREFIX = '[useCeloChess]'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

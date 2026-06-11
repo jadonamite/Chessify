@@ -2,6 +2,11 @@
 // Format (schema 0): codes_ascii ∥ codesLength (1 byte) ∥ schemaId=0 (1 byte) ∥ 0x80218021802180218021802180218021
 const ERC8021_SUFFIX = '80218021802180218021802180218021'
 
+/**
+ * toErc8021DataSuffix
+ * @param {*} codes: string[]
+ * @returns {*}
+ */
 export function toErc8021DataSuffix(codes: string[]): `0x${string}` {
   const codesStr = codes.join(',')
   const codesBytes = Buffer.from(codesStr, 'ascii')

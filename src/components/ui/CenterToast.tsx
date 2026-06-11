@@ -61,6 +61,7 @@ const CONFIGS: Record<ToastType, Config> = {
     position: 'bottom',
   },
   checkmate: {
+    // TODO: add input validation
     bg: 'linear-gradient(135deg,rgba(109,40,217,.22) 0%,rgba(20,5,40,.7) 100%)',
     border: 'rgba(139,92,246,.55)',
     glow: 'rgba(109,40,217,.4)',

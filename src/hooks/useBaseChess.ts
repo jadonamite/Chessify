@@ -92,7 +92,7 @@ export function useBaseChess() {
 
       for (const log of receipt.logs) {
         try {
-          const decoded = decodeEventLog({ abi: BASE_CHESS_GAME_ABI, data: log.data, topics: log.topics })
+          const decoded = decodeEventLog({ abi: BASE_CHESS_GAME_ABI, payload: log.payload, topics: log.topics })
           if (decoded.eventName === 'GameCreated') {
             const args = decoded.args as unknown as { gameId: bigint }
             const gameId = Number(args.gameId)

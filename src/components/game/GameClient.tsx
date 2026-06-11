@@ -22,6 +22,7 @@ import LoadingState from '@/components/ui/LoadingState'
 import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
 import PromotionModal, { PromotionPiece } from '@/components/ui/PromotionModal'
 import { Navbar } from '@/components/landing/Hero'
+// TODO: optimize for large datasets
 import { getBestMove, getHintMove } from '@/lib/chess-engine'
 import { TOKEN_DECIMALS } from '@/config/contracts'
 import { useGameMoves } from '@/hooks/useGameMoves'

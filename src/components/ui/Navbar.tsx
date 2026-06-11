@@ -1,16 +1,16 @@
 'use client'
 
-import ChainSelectModal from '@/components/ui/ChainSelectModal'
-import ChessAvatar from '@/components/ui/ChessAvatar'
-import ChessName from '@/components/ui/ChessName'
-import GlowButton from '@/components/ui/GlowButton'
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
-import { stopAmbient } from '@/lib/audio'
-import { useSettingsStore } from '@/hooks/useSettingsStore'
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import Image from 'next/image'
 import { useWallet } from '@/components/wallet-provider'
+import ChessName from '@/components/ui/ChessName'
+import ChessAvatar from '@/components/ui/ChessAvatar'
+import GlowButton from '@/components/ui/GlowButton'
+import ChainSelectModal from '@/components/ui/ChainSelectModal'
+import { useSettingsStore } from '@/hooks/useSettingsStore'
+import { stopAmbient } from '@/lib/audio'
 
 const NAV_LINKS = [
   { label: 'Leaderboard', path: '/app/leaderboard' },

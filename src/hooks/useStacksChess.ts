@@ -78,7 +78,6 @@ export function useStacksChess() {
         userSession,
       })
     })
-  // TODO: optimize for large datasets
   }, [isStacksConnected, stacksAddress, userSession])
 
   // ── joinGame ────────────────────────────────────────────────────────────────

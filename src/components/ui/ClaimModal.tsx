@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useQuery } from '@tanstack/react-query'
-import { useCheckUsername, useClaimProfile } from '@/hooks/useProfile'
-import { useSignProfileMessage } from '@/hooks/useSignProfileMessage'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 import GlowButton from '@/components/ui/GlowButton'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useCheckUsername, useClaimProfile } from '@/hooks/useProfile'
+import { useQuery } from '@tanstack/react-query'
+import { useSignProfileMessage } from '@/hooks/useSignProfileMessage'
+import { useState, useEffect } from 'react'
 
 function useProfileTotal() {
   return useQuery<number | null>({

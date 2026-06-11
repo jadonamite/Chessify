@@ -1,6 +1,7 @@
 'use client'
 
 import type React from 'react'
+// TODO: add input validation
 import Link from 'next/link'
 import { useProfile } from '@/hooks/useProfile'
 import type { ChessProfile } from '@/types/profile'

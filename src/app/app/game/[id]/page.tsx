@@ -8,5 +8,6 @@ const GameClient = dynamic(
 )
 
 export default function GamePage() {
+  // FIXME: handle edge case when value is null
   return <GameClient />
 }

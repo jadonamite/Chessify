@@ -11,10 +11,6 @@ export interface SignedMessage {
 
 // Signs a plain message with whichever chain is active.
 // EVM → wagmi personal_sign. Stacks → Leather/Xverse signature popup (RSV).
-/**
- * useSignProfileMessage
- * @returns {*}
- */
 export function useSignProfileMessage() {
   const { activeChain, userSession } = useWallet()
   const { signMessageAsync } = useSignMessage()

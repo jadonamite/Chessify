@@ -89,15 +89,17 @@ const TABLES: Record<string, number[][]> = {
   k: KING_TABLE,
 }
 
-// Best move for whichever side is to move — used for the GET HINT feature
-// (getBestMove assumes the bot is Black, so it can't suggest for White).
-export function getHintMove(game: Chess, depth = 3): Move | null {
-  const moves = orderMoves(game.moves({ verbose: true }))
-  if (game.isGameOver() || moves.length === 0) return null
+function squareValue(type: string, color: 'w' | 'b', row: number, col: number): number {
+  const table = TABLES[type]
+  if (!table) return 0
+  // White uses the table as-is (row 0 is Black's back rank). For Black, mirror vertically.
+  return color === 'w' ? table[row][col] : table[7 - row][col]
+}
 
-export function getBestMove(game: Chess, depth: number = 3): Move | null {
-  const possibleMoves = orderMoves(game.moves({ verbose: true }))
-  if (game.isGameOver() || possibleMoves.length === 0) return null
+function evaluateBoard(game: Chess): number {
+  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
+  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
+  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
 
   let totalEvaluation = 0
   const board = game.board()
@@ -113,6 +115,14 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
   return totalEvaluation
 }
 
+// MVV-LVA-style move ordering — captures of high-value victims by low-value
+// attackers come first, then other captures, promotions, checks, then quiet
+// moves. Better ordering = better alpha-beta pruning = a stronger bot at the
+// same depth.
+function orderMoves(moves: Move[]): Move[] {
+  return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
+}
+
 function scoreMove(m: Move): number {
   let score = 0
   if (m.captured) {
@@ -125,18 +135,9 @@ function scoreMove(m: Move): number {
   return score
 }
 
-function evaluateBoard(game: Chess): number {
-  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
-  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
-  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
-
-// MVV-LVA-style move ordering — captures of high-value victims by low-value
-// attackers come first, then other captures, promotions, checks, then quiet
-// moves. Better ordering = better alpha-beta pruning = a stronger bot at the
-// same depth.
-function orderMoves(moves: Move[]): Move[] {
-  return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
-}
+export function getBestMove(game: Chess, depth: number = 3): Move | null {
+  const possibleMoves = orderMoves(game.moves({ verbose: true }))
+  if (game.isGameOver() || possibleMoves.length === 0) return null
 
   // The bot always plays Black (enforced by GameClient): Black minimizes.
   let bestMove: Move | null = null
@@ -156,12 +157,11 @@ function orderMoves(moves: Move[]): Move[] {
   return bestMove
 }
 
-function squareValue(type: string, color: 'w' | 'b', row: number, col: number): number {
-  const table = TABLES[type]
-  if (!table) return 0
-  // White uses the table as-is (row 0 is Black's back rank). For Black, mirror vertically.
-  return color === 'w' ? table[row][col] : table[7 - row][col]
-}
+// Best move for whichever side is to move — used for the GET HINT feature
+// (getBestMove assumes the bot is Black, so it can't suggest for White).
+export function getHintMove(game: Chess, depth = 3): Move | null {
+  const moves = orderMoves(game.moves({ verbose: true }))
+  if (game.isGameOver() || moves.length === 0) return null
 
   const isWhite = game.turn() === 'w'
   let best: Move | null = null

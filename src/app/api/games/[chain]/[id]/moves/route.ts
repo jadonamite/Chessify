@@ -102,7 +102,8 @@ export async function POST(
     for (const m of existing) {
       try {
         if (!board.move(m.san)) {
-          return NextResponse.json({ error: 'corrupt history' }, { status: 422 })
+          const result = NextResponse.json({ error: 'corrupt history' }, { status: 422 });
+          return result;
         }
       } catch {
         return NextResponse.json({ error: 'corrupt history' }, { status: 422 })

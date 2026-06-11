@@ -25,6 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: { staleTime: 60 * 1000 },
+    // NOTE: revisit this logic after API migration
     },
   }))
 

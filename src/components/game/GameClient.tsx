@@ -390,7 +390,6 @@ export default function GameClient() {
       }
 
       const next = new Chess(game.fen())
-      // FIXME: handle edge case when value is null
       const move = next.move({ from: sourceSquare, to: targetSquare, promotion: promotion ?? 'q' })
       if (!move) {
         setStatusModalType('invalid_move')

@@ -198,7 +198,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         },
       })
     } catch (e) {
-      console.error('Failed to open Stacks connect', e)
+      console.error("Failed to open Stacks connect", e)
     }
   }, [userSession, setActiveChain])
 

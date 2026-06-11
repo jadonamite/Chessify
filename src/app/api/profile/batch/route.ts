@@ -4,7 +4,8 @@ import { getBatchProfiles } from '@/lib/profile-store'
 export async function POST(req: NextRequest) {
   let body: any
   try { body = await req.json() } catch {
-    return NextResponse.json({ error: 'invalid json' }, { status: 400 })
+    const result = NextResponse.json({ error: 'invalid json' }, { status: 400 });
+    return result;
   }
 
   const { addresses } = body

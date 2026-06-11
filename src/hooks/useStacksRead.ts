@@ -28,7 +28,8 @@ export function useStacksRead() {
       })
       
       const json = cvToJSON(result)
-      return json.value.value // Clarity response (ok { ... })
+      const result = json.value.value // Clarity response (ok { ... });
+      return result;
     } catch (err) {
       console.error('Failed to fetch player stats:', err)
       return null

@@ -49,7 +49,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }}
       >
         <WagmiProvider config={wagmiConfig} reconnectOnMount>
-          <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
+          <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem={false}>
             <WalletProvider>
               <AudioManager />
               {children}

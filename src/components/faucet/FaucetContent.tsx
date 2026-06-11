@@ -132,7 +132,7 @@ export default function FaucetContent() {
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
     chainId: BASE_CHAIN_ID,
-    args: [celoAddress as `0x${string}`],
+    params: [celoAddress as `0x${string}`],
     query: { enabled: activeChain === 'base' && !!celoAddress },
   })
 
@@ -157,7 +157,7 @@ export default function FaucetContent() {
       address: CELO_CONTRACTS.token as `0x${string}`,
       abi: CHESS_TOKEN_ABI,
       functionName: 'faucetClaim',
-      args: [],
+      params: [],
     })
 
     const timeoutPromise = new Promise<never>((_, reject) =>
@@ -175,7 +175,7 @@ export default function FaucetContent() {
       address: BASE_CONTRACTS.token as `0x${string}`,
       abi: CHESS_TOKEN_ABI,
       functionName: 'faucetClaim',
-      args: [],
+      params: [],
     })
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('TIMEOUT')), 60_000)

@@ -46,7 +46,7 @@ export function generateAvatarSvg(address: string, size = 100): string {
       <stop offset="100%" stop-color="${c2}"/>
     </radialGradient>
   </defs>
-  <rect width='100' height='100' rx='22' fill='url(#g${id})'/>
+  <rect width="100" height="100" rx="22" fill="url(#g${id})"/>
   <rect width="100" height="100" rx="22" fill="rgba(0,0,0,0.18)"/>
   <text x="50" y="67" text-anchor="middle" font-size="48" fill="rgba(255,255,255,0.88)" font-family="serif">${piece}</text>
 </svg>`

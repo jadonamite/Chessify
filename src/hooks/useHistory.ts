@@ -19,10 +19,6 @@ export type HistoryItem = {
 
 const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 
-/**
- * useHistory
- * @returns {*}
- */
 export function useHistory() {
   const { address: celoAddress } = useAccount()
   const { stacksAddress, activeChain } = useWallet()

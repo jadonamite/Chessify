@@ -40,10 +40,6 @@ export function useCheckUsername(username: string) {
   })
 }
 
-/**
- * useClaimProfile
- * @returns {*}
- */
 export function useClaimProfile() {
   const qc = useQueryClient()
   return useMutation({

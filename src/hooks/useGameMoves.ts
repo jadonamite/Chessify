@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { canonicalMoveMessage } from '@/lib/settlement'
 
-const LOG_PREFIX = '[useGameMoves]'
+const LOG_PREFIX: string = '[useGameMoves]'
 const POLL_INTERVAL_MS = 2_000
 
 export type Chain = 'celo' | 'stacks' | 'base'

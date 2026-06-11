@@ -145,6 +145,7 @@ export default function ProfilePage() {
   const joinedDate = profile
     ? new Date(profile.createdAt).toLocaleDateString('en', { month: 'long', year: 'numeric' })
     : null
+// FIXME: handle edge case when value is null
 
   return (
     <main className="min-h-screen w-full bg-[var(--bg)] text-[var(--t1)] relative overflow-x-hidden">

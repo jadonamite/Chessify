@@ -88,6 +88,15 @@ export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/White
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 
+/**
+ * PieceView
+ * @param {*} { type
+ * @param {*} color
+ * @param {*} className
+ * @param {*} color?: string
+ * @param {*} className?: string }
+ * @returns {*}
+ */
 export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string, className?: string }) {
   return (
     <div className={className}>

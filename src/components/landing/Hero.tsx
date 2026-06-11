@@ -18,7 +18,7 @@ const KEYFRAMES = `
 @keyframes fadeUp      { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 
 @media (max-width: 768px) {
-  .hero-pieces { opacity: 0.55 !important; transform: none !important; },
+  .hero-pieces { opacity: 0.55 !important; transform: none !important; }
 }
 
 @media (max-width: 1024px) {

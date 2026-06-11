@@ -8,7 +8,7 @@ import { parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
 import { useToastStore } from '@/hooks/useToastStore'
 
-const LOG_PREFIX = '[useCeloChess]'
+const LOG_PREFIX: string = '[useCeloChess]'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export function useCeloChess() {

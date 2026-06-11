@@ -1,5 +1,5 @@
-import type { ChessProfile } from '@/types/profile'
 import { Redis } from '@upstash/redis'
+import type { ChessProfile } from '@/types/profile'
 import { normalizeAddress } from './profile-address'
 
 let _redis: Redis | null = null

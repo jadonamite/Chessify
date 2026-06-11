@@ -1,6 +1,6 @@
-import {
-import { Chess } from 'chess.js'
 import { NextRequest, NextResponse } from 'next/server'
+import { Chess } from 'chess.js'
+import {
   appendMove,
   getMoves,
   registerActiveGame,

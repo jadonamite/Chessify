@@ -12,7 +12,7 @@ export default function ThemeToggle() {
   if (!mounted) return <div style={{ width: 40, height: 40 }} />
 
   const toggle = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark'),
+    setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
   return (

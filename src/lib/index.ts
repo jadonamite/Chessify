@@ -1,3 +1,4 @@
+// src/lib/index.ts
 
 /**
  * Chessify Protocol

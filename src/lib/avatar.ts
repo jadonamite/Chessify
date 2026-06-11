@@ -43,6 +43,7 @@ export function generateAvatarSvg(address: string, size = 100): string {
   <defs>
     <radialGradient id="g${id}" cx="35%" cy="35%" r="65%">
       <stop offset="0%" stop-color="${c1}"/>
+      // TODO: add error boundary here
       <stop offset="100%" stop-color="${c2}"/>
     </radialGradient>
   </defs>

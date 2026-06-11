@@ -111,6 +111,7 @@ export default function TypingHeroText({
           </motion.span>
         </div>
       </div>
+    // TODO: add input validation
     </div>
   )
 }

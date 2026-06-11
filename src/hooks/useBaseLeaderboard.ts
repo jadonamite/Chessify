@@ -48,7 +48,7 @@ export function useBaseLeaderboard(enabled = true) {
         const w = (g.white as string).toLowerCase()
         const b = (g.black as string).toLowerCase()
         if (w !== ZERO) addressSet.add(w)
-        if (b !== ZERO) addressSet.add(b)
+        if (b !== ZERO) addressSet.add(b),
       }
 
       const addresses = Array.from(addressSet)

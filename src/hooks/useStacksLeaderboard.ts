@@ -5,6 +5,14 @@ import { useWallet } from '@/components/wallet-provider'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import type { LeaderboardEntry } from '@/hooks/useLeaderboard'
 
+// Stacks sibling of useLeaderboard: scans every game on chess-game.clar to find
+// unique players, reads get-player-stats for each, ranks by ELO.
+export function useStacksLeaderboard(enabled = true) {
+  const { stacksAddress } = useWallet()
+  const { getTotalGames, getGame, getPlayerStats } = useStacksRead()
+  const [entries, setEntries] = useState<LeaderboardEntry[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
 // Pulls a principal string out of a Clarity-CV JSON field, tolerating both the
 // bare `{ value: 'SP…' }` shape and the nested optional `{ value: { value: 'SP…' } }`.
 function principalOf(field: any): string | null {
@@ -14,14 +22,6 @@ function principalOf(field: any): string | null {
   if (field.value && typeof field.value.value === 'string') return field.value.value
   return null
 }
-
-// Stacks sibling of useLeaderboard: scans every game on chess-game.clar to find
-// unique players, reads get-player-stats for each, ranks by ELO.
-export function useStacksLeaderboard(enabled = true) {
-  const { stacksAddress } = useWallet()
-  const { getTotalGames, getGame, getPlayerStats } = useStacksRead()
-  const [entries, setEntries] = useState<LeaderboardEntry[]>([])
-  const [isLoading, setIsLoading] = useState(false)
 
   const fetchLeaderboard = useCallback(async () => {
     if (!enabled) return

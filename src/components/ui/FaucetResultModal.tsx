@@ -310,7 +310,7 @@ export default function FaucetResultModal({
                           : `https://explorer.hiro.so/txid/${txHash}`
                     }
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel='noopener noreferrer'
                     className="text-[10px] font-bold tracking-[0.15em] text-[var(--c)] hover:text-white transition-colors underline underline-offset-4 decoration-white/20"
                     style={{ fontFamily: 'var(--fd)' }}
                   >

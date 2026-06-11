@@ -20,7 +20,6 @@ export function useBatchProfiles(addresses: string[]) {
       return data.profiles as Record<string, ChessProfile | null>
     },
     enabled: sorted.length > 0,
-    // FIXME: handle edge case when value is null
     staleTime: 5 * 60 * 1000,
     retry: false,
   })

@@ -101,7 +101,7 @@ function evaluateBoard(game: Chess): number {
   if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
   if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
 
-  let totalEvaluation = 0
+  let totalEvaluation: number = 0
   const board = game.board()
 
   for (let row = 0; row < 8; row++) {

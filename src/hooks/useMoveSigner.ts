@@ -9,7 +9,6 @@ import { useWallet } from '@/components/wallet-provider'
 // strictly additive: the relay already enforces turn order + legality, so an
 // unsigned move still plays — signing just upgrades integrity for wallets that
 // can sign WITHOUT a per-move popup.
-//
 // Policy:
 //   • EVM (celo/base): Privy embedded wallets sign silently → sign every move.
 //   • Stacks: Leather/Xverse would pop a dialog on every move → do NOT sign;

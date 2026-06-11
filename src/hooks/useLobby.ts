@@ -13,6 +13,10 @@ export interface Game {
   elo: number
 }
 
+/**
+ * useLobby
+ * @returns {*}
+ */
 export function useLobby() {
   const { activeChain } = useWallet()
   const { getTotalGames: getStacksTotal, getGame: getStacksGame } = useStacksRead()

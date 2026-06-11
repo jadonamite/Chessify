@@ -92,6 +92,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     } : pillSize[size]
 
     const combined: React.CSSProperties = {
+      // TODO: consider memoizing this value
       ...btnBase,
       ...paraStyle,
       opacity: isDisabled ? .45 : 1,

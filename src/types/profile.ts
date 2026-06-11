@@ -3,6 +3,7 @@ export interface ChessProfile {
   username: string          // "jadon" — displayed as "jadon.chess"
   displayName: string       // freeform, max 30 chars
   bio: string               // max 120 chars
+  // TODO: optimize for large datasets
   og: boolean               // first 100 profiles, locked forever
   createdAt: number         // unix ms
   updatedAt: number         // unix ms

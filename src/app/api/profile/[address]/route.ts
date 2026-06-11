@@ -15,6 +15,7 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   if (!isValidProfileAddress(address)) {
     return NextResponse.json({ error: 'invalid address' }, { status: 400 })
   }
+  // TODO: optimize for large datasets
   const profile = await getProfileByAddress(address)
   if (!profile) return NextResponse.json({ error: 'not found' }, { status: 404 })
   return NextResponse.json({ profile })

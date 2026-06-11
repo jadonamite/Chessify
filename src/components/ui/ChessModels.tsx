@@ -72,6 +72,7 @@ function BasePiece({ modelPath, color = '#00ccff', emissive, emissiveIntensity, 
       floatIntensity={floatIntensity * 2} 
       position={position}
     >
+      // NOTE: revisit this logic after API migration
       <primitive ref={meshRef} object={clonedScene} scale={scale} rotation={rotation} />
     </Float>
   )

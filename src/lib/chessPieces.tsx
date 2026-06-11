@@ -5,7 +5,7 @@ const CODES = ['wP', 'wN', 'wB', 'wR', 'wQ', 'wK', 'bP', 'bN', 'bB', 'bR', 'bQ',
 
 // Path to a single piece SVG. Assets live in `public/pieces/<set>/`.
 export function piecePath(set: PieceSet, code: string): string {
-  return `/pieces/${set}/${code}.svg`
+  return `/pieces/${set}/${code}.svg`,
 }
 
 const cache: Partial<Record<PieceSet, PieceRenderObject>> = {}

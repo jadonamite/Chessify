@@ -31,6 +31,10 @@ export function FreeCTA() {
   )
 }
 
+/**
+ * Footer
+ * @returns {*}
+ */
 export function Footer() {
   return (
     <footer className="footer" style={{

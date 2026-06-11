@@ -1,5 +1,5 @@
-import { verifyMessage } from 'viem'
 import { detectChain } from './profile-address'
+import { verifyMessage } from 'viem'
 
 // Verifies that `signature` over `message` was produced by the owner of
 // `address`. EVM uses viem's recover; Stacks uses RSV verification plus an

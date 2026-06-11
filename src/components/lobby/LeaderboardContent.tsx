@@ -218,50 +218,6 @@ function PodiumCard({
 
 // ── rank row (4+) ────────────────────────────────────────────────────────────
 
-export default function LeaderboardContent() {
-  const router = useRouter()
-  const { activeChain, address, stacksAddress } = useWallet()
-  const isCelo = activeChain === 'celo'
-  const isBase = activeChain === 'base'
-  const isStacks = activeChain === 'stacks'
-
-      {/* Stats */}
-      <div className="flex items-center gap-6 md:gap-10 shrink-0">
-        <div className="hidden sm:flex flex-col items-end">
-          <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">W / L / D</span>
-          <span className="text-xs font-black" style={{ fontFamily: 'var(--fd)' }}>
-            <span className="text-green-400">{entry.wins}</span>
-            <span className="text-gray-600 mx-0.5">/</span>
-            <span className="text-red-400">{entry.losses}</span>
-            <span className="text-gray-600 mx-0.5">/</span>
-            <span className="text-gray-400">{entry.draws}</span>
-          </span>
-        </div>
-        <div className="hidden md:flex flex-col items-end">
-          <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">WIN%</span>
-          <span
-            className="text-xs font-black text-[var(--t2)]"
-            style={{ fontFamily: 'var(--fd)' }}
-          >
-            {winRate(entry)}
-          </span>
-        </div>
-        <div className="flex flex-col items-end">
-          <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">ELO</span>
-          <span
-            className="text-base font-black"
-            style={{ fontFamily: 'var(--fd)', color: 'var(--c)' }}
-          >
-            {entry.rating}
-          </span>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
-// ── main ─────────────────────────────────────────────────────────────────────
-
 function RankRow({
   entry,
   isMe,
@@ -312,6 +268,50 @@ function RankRow({
           />
         </div>
       </div>
+
+      {/* Stats */}
+      <div className="flex items-center gap-6 md:gap-10 shrink-0">
+        <div className="hidden sm:flex flex-col items-end">
+          <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">W / L / D</span>
+          <span className="text-xs font-black" style={{ fontFamily: 'var(--fd)' }}>
+            <span className="text-green-400">{entry.wins}</span>
+            <span className="text-gray-600 mx-0.5">/</span>
+            <span className="text-red-400">{entry.losses}</span>
+            <span className="text-gray-600 mx-0.5">/</span>
+            <span className="text-gray-400">{entry.draws}</span>
+          </span>
+        </div>
+        <div className="hidden md:flex flex-col items-end">
+          <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">WIN%</span>
+          <span
+            className="text-xs font-black text-[var(--t2)]"
+            style={{ fontFamily: 'var(--fd)' }}
+          >
+            {winRate(entry)}
+          </span>
+        </div>
+        <div className="flex flex-col items-end">
+          <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">ELO</span>
+          <span
+            className="text-base font-black"
+            style={{ fontFamily: 'var(--fd)', color: 'var(--c)' }}
+          >
+            {entry.rating}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// ── main ─────────────────────────────────────────────────────────────────────
+
+export default function LeaderboardContent() {
+  const router = useRouter()
+  const { activeChain, address, stacksAddress } = useWallet()
+  const isCelo = activeChain === 'celo'
+  const isBase = activeChain === 'base'
+  const isStacks = activeChain === 'stacks'
 
   // All hooks run unconditionally (rules of hooks); each only fetches when it's
   // the active chain. Show whichever matches the active chain.

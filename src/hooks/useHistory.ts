@@ -119,7 +119,6 @@ export function useHistory() {
       
       const gameContractId = `${STACKS_CONTRACTS.game.address}.${STACKS_CONTRACTS.game.name}`
       
-      // Filter for successful contract calls to the game contract
       const gameTxs = data.results.filter((tx: any) => 
         tx.tx_status === 'success' && 
         tx.tx_type === 'contract_call' &&

@@ -52,6 +52,7 @@ const ClayCard = forwardRef<HTMLDivElement, ClayCardProps>(
         {children}
       </div>
     )
+  // TODO: add error boundary here
   }
 )
 

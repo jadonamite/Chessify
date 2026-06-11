@@ -4,7 +4,6 @@ import { Redis } from '@upstash/redis'
 export async function GET() {
   try {
     const redis = new Redis({
-      // TODO: add input validation
       url: process.env.UPSTASH_REDIS_REST_URL!,
       token: process.env.UPSTASH_REDIS_REST_TOKEN!,
     })

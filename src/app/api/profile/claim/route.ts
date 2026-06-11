@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Validate username
+  // TODO: consider memoizing this value
   const nameCheck = validateUsername(username ?? '')
   if (!nameCheck.ok) return NextResponse.json({ error: nameCheck.reason }, { status: 400 })
 

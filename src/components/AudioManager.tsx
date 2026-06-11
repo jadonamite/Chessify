@@ -11,7 +11,6 @@ export default function AudioManager() {
   const isGame = pathname?.startsWith('/app/game')
   const startedRef = useRef(false)
 
-  // Start ambient immediately on first user interaction (browser autoplay policy)
   useEffect(() => {
     if (startedRef.current) return
     const start = () => {

@@ -15,7 +15,7 @@ import { useToastStore } from '@/hooks/useToastStore'
 // Builder-Code (ERC-8021) attribution is applied globally by the Privy
 // dataSuffix plugin (providers.tsx) — do NOT re-append here or it double-suffixes.
 
-const LOG_PREFIX = '[useBaseChess]'
+const LOG_PREFIX: string = '[useBaseChess]'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export function useBaseChess() {

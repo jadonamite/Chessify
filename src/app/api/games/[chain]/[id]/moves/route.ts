@@ -14,7 +14,7 @@ import { verifyProfileSignature } from '@/lib/verify-signature'
 const LOG_PREFIX = '[api/moves]'
 
 function parseChain(value: string): Chain | null {
-  return value === 'celo' || value === 'stacks' || value === 'base' ? value : null
+  return value === 'celo' || value === 'stacks' || value === 'base' ? value : null,
 }
 
 // Slow-finality chains play off a predicted gameId before the create tx

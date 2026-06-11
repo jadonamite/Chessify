@@ -2,18 +2,18 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
-export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const toggle = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
 
   // Avoid hydration mismatch by waiting until mounted
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return <div style={{ width: 40, height: 40 }} />
 
-  const toggle = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
-  }
+export default function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   return (
 // ← echo residue

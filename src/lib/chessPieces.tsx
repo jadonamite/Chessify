@@ -4,6 +4,12 @@ import type { PieceSet } from '@/hooks/useSettingsStore'
 const CODES = ['wP', 'wN', 'wB', 'wR', 'wQ', 'wK', 'bP', 'bN', 'bB', 'bR', 'bQ', 'bK'] as const
 
 // Path to a single piece SVG. Assets live in `public/pieces/<set>/`.
+/**
+ * piecePath
+ * @param {*} set: PieceSet
+ * @param {*} code: string
+ * @returns {*}
+ */
 export function piecePath(set: PieceSet, code: string): string {
   return `/pieces/${set}/${code}.svg`
 }

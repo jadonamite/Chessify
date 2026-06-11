@@ -28,12 +28,6 @@ export interface MoveRecord {
 
 const TTL_SECONDS = 60 * 60 * 24 * 30 // 30 days — long enough for any reasonable game
 
-/**
- * key
- * @param {*} chain: Chain
- * @param {*} gameId: number
- * @returns {*}
- */
 function key(chain: Chain, gameId: number): string {
   return `chess:moves:${chain}:${gameId}`
 }

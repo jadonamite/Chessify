@@ -14,9 +14,6 @@ import { STACKS_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 
 const LOG_PREFIX = '[useStacksChess]'
 
-export function useStacksChess() {
-  const { stacksAddress, isStacksConnected, userSession } = useWallet()
-
 // Read get-total-games directly — used to predict the next game ID before the
 // wallet popup fires, since openContractCall doesn't return contract output.
 async function fetchTotalGames(senderAddress: string): Promise<number> {
@@ -35,6 +32,9 @@ async function fetchTotalGames(senderAddress: string): Promise<number> {
     return 0
   }
 }
+
+export function useStacksChess() {
+  const { stacksAddress, isStacksConnected, userSession } = useWallet()
 
   // ── createGame ──────────────────────────────────────────────────────────────
   // Predicts the new game ID via get-total-games before opening the wallet popup,

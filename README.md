@@ -2,7 +2,9 @@
 
 A **live, mainnet, free-to-play, multi-chain chess protocol** deployed on **Stacks (Bitcoin L2)**, **Celo (EVM)**, and **Base (EVM)**. 
 
-Chessify allows players to wager free-to-mint CHESS tokens on fully on-chain chess matches, utilizing a premium "Cyber-Industrial" design system.
+Chessify lets players wager free-to-mint CHESS tokens on real chess matches: rules are validated **off-chain** (chess.js over a signed Redis move relay) while wagers, payouts, and Elo are **settled on-chain**, all behind a premium "Cyber-Industrial" design system.
+
+> **Chessify vs. [playchessify](https://github.com/jadonamite/playchessify)**: Chessify is the complete multi-chain protocol (Stacks + Celo + Base); playchessify is the Celo-only deployment of the same engine.
 
 ---
 
@@ -22,6 +24,13 @@ The protocol has been consolidated from a legacy modular system into a streamlin
 ### Base (Solidity)
 - **`ChessToken.sol`**: ERC-20 token with faucet and batch-minting.
 - **`ChessGame.sol`**: Game engine mirroring the Stacks logic (Elo, lifecycle, escrow).
+
+### Off-chain Services
+Chess itself is never validated on-chain — the contracts only escrow and settle.
+
+- **Move relay** — Upstash Redis. Moves are turn-bound; capable wallets **cryptographically sign** each move (`canonicalMoveMessage` binds chain + game + ply + SAN + resulting position, so a signature can't be replayed onto another move).
+- **Server verification** — the relay confirms the game is `Active` and enforces turn order via read-only chain calls (`onchain-read.ts`) before accepting a move.
+- **Settlement** — replayed off-chain with chess.js (`settlement.ts`) and submitted on-chain by the players (`reportWin` / `settleDraw` / resign / timeout). Trust model: CHESS is free, so a false claim costs nothing. A **trusted-oracle** settlement path is architected but deferred.
 
 ---
 
@@ -51,11 +60,28 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 
 ## 🎮 Lifecycle Flow
 
-1. **Initialization**: Player A creates a match with a CHESS wager. Tokens are locked in the contract vault.
-2. **Matching**: Player B joins the match, locking an equal CHESS amount.
-3. **Gameplay**: Players alternate moves. Turn order and timeouts are enforced on-chain.
-4. **Resolution**: Match ends via Checkmate (`report-win`), Resignation, Draw, or Timeout. 
-5. **Payout**: The contract automatically releases the total pot to the winner (or refunds on draw) and updates Elo ratings.
+1. **Connect**: Privy wallet (injected, embedded, or social) on Celo/Base, or Stacks Connect. Pick a chain via the chain-select modal.
+2. **Initialization**: Player A picks a wager and creates a match (`createGame`). Tokens are escrowed in the contract.
+3. **Matching**: Player B joins the match, locking an equal CHESS amount.
+4. **Gameplay**: Moves go to the **relay** (not on-chain) — turn-bound and signed. The opponent's board syncs by polling. A side that doesn't move within the clock window forfeits on time.
+5. **Resolution**: Checkmate/draw/timeout is replayed off-chain with chess.js, then **settled on-chain by the players** (`reportWin` / `settleDraw` / resign / timeout).
+6. **Payout**: The contract releases the pot to the winner (or refunds both on a draw) and updates Elo ratings.
+
+---
+
+## 🗂️ Pages
+
+| Route | Page |
+|---|---|
+| `/` | Landing |
+| `/app` | App entry |
+| `/app/lobby` | Open challenges, create/join, profile stats |
+| `/app/game/[id]` | Live board (`id`, or `bot` for offline AI) |
+| `/app/faucet` | CHESS faucet |
+| `/app/history` | Your on-chain games |
+| `/app/leaderboard` | On-chain Elo rankings |
+| `/app/profile/[identifier]` | `.chess` profile (address or username) |
+| `/app/settings` | Sound, board theme, piece set, AI difficulty, hints, profile |
 
 ---
 
@@ -64,8 +90,10 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 - **Contracts**: Clarity (Stacks), Solidity (Celo & Base)
 - **Frontend**: Next.js 16, TypeScript, Tailwind CSS 4.x
 - **Animation**: Framer Motion, Three.js (R3F)
-- **Providers**: Wagmi, Viem (EVM), Stacks Connect
-- **Validation**: Chess.js, React-Chessboard
+- **Wallets**: Privy (embedded + social), Wagmi, Viem (EVM), Stacks Connect
+- **Off-chain**: Upstash Redis (signed move relay + profiles)
+- **Chess**: chess.js (rules + replay), react-chessboard (UI)
+- **State**: Zustand, TanStack Query
 
 ---
 

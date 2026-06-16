@@ -1,6 +1,6 @@
 # ♟️ Chessify Protocol
 
-A **live, mainnet, free-to-play, multi-chain chess protocol** deployed on **Stacks (Bitcoin L2)** and **Celo (EVM)**. 
+A **live, mainnet, free-to-play, multi-chain chess protocol** deployed on **Stacks (Bitcoin L2)**, **Celo (EVM)**, and **Base (EVM)**. 
 
 Chessify allows players to wager free-to-mint CHESS tokens on fully on-chain chess matches, utilizing a premium "Cyber-Industrial" design system.
 
@@ -19,16 +19,20 @@ The protocol has been consolidated from a legacy modular system into a streamlin
 - **`ChessToken.sol`**: ERC-20 token with faucet and batch-minting.
 - **`ChessGame.sol`**: Game engine mirroring the Stacks logic (Elo, lifecycle, escrow).
 
+### Base (Solidity)
+- **`ChessToken.sol`**: ERC-20 token with faucet and batch-minting.
+- **`ChessGame.sol`**: Game engine mirroring the Stacks logic (Elo, lifecycle, escrow).
+
 ---
 
 ## 🚀 Protocol Status
 
 | Layer | Component | Status |
 | :--- | :--- | :--- |
-| **Blockchain** | Smart Contracts (Stacks & Celo) | ✅ **DONE** |
-| **Network** | Mainnet Deployment (Stacks & Celo) | ✅ **DONE** |
-| **Frontend** | UI/UX & Landing Pages | 🏗️ **IN PROGRESS** |
-| **Integration** | Wallet Handlers & Chain Hooks | 🏗️ **IN PROGRESS** |
+| **Blockchain** | Smart Contracts (Stacks, Celo & Base) | ✅ **DONE** |
+| **Network** | Mainnet Deployment (Stacks, Celo & Base) | ✅ **DONE** |
+| **Frontend** | UI/UX & Landing Pages | ✅ **LIVE** |
+| **Integration** | Wallet Handlers & Chain Hooks (Stacks, Celo, Base) | ✅ **LIVE** |
 
 ---
 
@@ -57,7 +61,7 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 
 ## 🛠️ Tech Stack
 
-- **Contracts**: Clarity (Stacks), Solidity (Celo)
+- **Contracts**: Clarity (Stacks), Solidity (Celo & Base)
 - **Frontend**: Next.js 16, TypeScript, Tailwind CSS 4.x
 - **Animation**: Framer Motion, Three.js (R3F)
 - **Providers**: Wagmi, Viem (EVM), Stacks Connect
@@ -69,7 +73,9 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 
 **Stacks Deployer**: `SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39`  
 **Celo Token**: `0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197`  
-**Celo Game**: `0xf85f00D39A84b5180390548Ea9f76B0458607E78`
+**Celo Game**: `0xf85f00D39A84b5180390548Ea9f76B0458607E78`  
+**Base Token**: `0x6aab785e1fa220eefe74d90a143e0a4a3c36e4e4`  
+**Base Game**: `0x309fc0793350c694ae1de87719f2c9a413a25ac3`
 
 ---
 

@@ -1,5 +1,4 @@
 'use client'
-
 import { useCallback } from 'react'
 import { useSignMessage } from 'wagmi'
 import { useWallet } from '@/components/wallet-provider'
@@ -16,24 +15,27 @@ export function useSignProfileMessage() {
   const { signMessageAsync } = useSignMessage()
 
   return useCallback(async (message: string): Promise<SignedMessage> => {
-    if (activeChain === 'stacks') {
-      if (!userSession) throw new Error('Stacks session not ready — reconnect your wallet')
-      const { openSignatureRequestPopup } = await import('@stacks/connect')
-      return new Promise<SignedMessage>((resolve, reject) => {
-        openSignatureRequestPopup({
-          message,
-          userSession,
-          appDetails: {
-            name: 'Chessify Protocol',
-            icon: window.location.origin + '/Piece.svg',
-          },
-          onFinish: (data: any) => resolve({ signature: data.signature, publicKey: data.publicKey }),
-          onCancel: () => reject(new Error('Signature request cancelled')),
-        } as any)
-      })
+    if (activeChain !== 'stacks') {
+      const signature = await signMessageAsync({ message })
+      return { signature }
     }
 
-    const signature = await signMessageAsync({ message })
-    return { signature }
+    if (!userSession) {
+      throw new Error('Stacks session not ready — reconnect your wallet')
+    }
+
+    const { openSignatureRequestPopup } = await import('@stacks/connect')
+    return new Promise<SignedMessage>((resolve, reject) => {
+      openSignatureRequestPopup({
+        message,
+        userSession,
+        appDetails: {
+          name: 'Chessify Protocol',
+          icon: window.location.origin + '/Piece.svg',
+        },
+        onFinish: (data: any) => resolve({ signature: data.signature, publicKey: data.publicKey }),
+        onCancel: () => reject(new Error('Signature request cancelled')),
+      } as any)
+    })
   }, [activeChain, userSession, signMessageAsync])
 }

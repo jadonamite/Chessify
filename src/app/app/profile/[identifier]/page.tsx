@@ -115,6 +115,7 @@ export default function ProfilePage() {
   )
 
   const startEdit = () => {
+    // TODO: add error boundary here
     setEditDisplayName(profile?.displayName ?? '')
     setEditBio(profile?.bio ?? '')
     setEditError('')

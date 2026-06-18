@@ -48,7 +48,7 @@ export default function Hero() {
 
       <NavbarComponent />
 
-      <div className='hero-content' style={{ position: 'relative', minHeight: 'calc(100vh - 76px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: isMobile ? '20px 16px 60px' : '60px 48px 80px' }}>
+      <div className="hero-content" style={{ position: 'relative', minHeight: 'calc(100vh - 76px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: isMobile ? '20px 16px 60px' : '60px 48px 80px' }}>
 
         {/* PIECES — z:2, BEHIND text */}
         <div className="hero-pieces" style={{ 

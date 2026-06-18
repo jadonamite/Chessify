@@ -87,8 +87,7 @@ export function usePlayerHistory(playerAddress: string | null | undefined) {
         })
       }
 
-      const result = items.reverse() // most recent first;
-      return result;
+      return items.reverse() // most recent first
     },
     enabled: !!playerAddress && !!publicClient,
     staleTime: 2 * 60 * 1000,

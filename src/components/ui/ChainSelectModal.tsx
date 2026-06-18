@@ -102,7 +102,7 @@ function ChainCard({
         {/* Ecosystem Badge */}
         <div className="flex items-center gap-2 mb-3">
           <div className="w-6 h-6 flex items-center justify-center relative bg-white/5 rounded-lg border border-white/10 p-1">
-            <img src={iconUrl} alt='chain' className='w-full h-full object-contain' />
+            <img src={iconUrl} alt="chain" className="w-full h-full object-contain" />
           </div>
           <span
             className="text-[9px] font-black tracking-[0.3em] uppercase"

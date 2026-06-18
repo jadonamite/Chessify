@@ -1,4 +1,4 @@
-import { Chess } from 'chess.js'
+import { Chess } from 'chess.js' 
 import type { MoveRecord } from '@/lib/moves-store'
 import { normalizeAddress } from '@/lib/profile-address'
 
@@ -6,7 +6,6 @@ import { normalizeAddress } from '@/lib/profile-address'
 // moves) and the server (to verify + replay). Keep this file free of any
 // server-only imports (no private keys, no node-only deps) so the move signer
 // in the browser and the relay verifier on the server stay byte-identical.
-
 // Result enum values (mirror the per-chain GameResult: WhiteWins/BlackWins/Draw).
 export const RESULT = {
   WhiteWins: 1,
@@ -50,11 +49,17 @@ export function canonicalMoveMessage(p: {
     `fen:${p.fen}`,
   ].join('\n')
 }
-
 export type Terminal =
-  | { kind: 'result'; result: ResultValue }
-  | { kind: 'not-terminal' }
-  | { kind: 'illegal' }
+  | {
+      kind: 'result'
+      result: ResultValue
+    }
+  | {
+      kind: 'not-terminal'
+    }
+  | {
+      kind: 'illegal'
+    }
 
 /**
  * Replay the authoritative move list and decide the result. NEVER trusts the
@@ -72,27 +77,24 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
     }
   }
 
-  // Checkmate: the side to move is mated → opponent wins.
   if (chess.isCheckmate()) {
     const loserIsWhite = chess.turn() === 'w'
     return { kind: 'result', result: loserIsWhite ? RESULT.BlackWins : RESULT.WhiteWins }
   }
 
-  // Any drawn terminal position (stalemate, insufficient material, 3-fold, 50-move).
   if (chess.isStalemate() || chess.isInsufficientMaterial() || chess.isDraw()) {
     return { kind: 'result', result: RESULT.Draw }
   }
 
-  // Not terminal by board — check the move clock for a timeout forfeit.
-  if (moves.length > 0) {
-    const last = moves[moves.length - 1]
-    if (Date.now() - last.ts > MOVE_TIMEOUT_MS) {
-      // Side to move has run out of time → the player who made the last move wins.
-      const winnerIsWhite = chess.turn() !== 'w'
-      const winnerAddr = winnerIsWhite ? white : black
-      if (addrEq(last.player, winnerAddr)) {
-        return { kind: 'result', result: winnerIsWhite ? RESULT.WhiteWins : RESULT.BlackWins }
-      }
+  if (moves.length === 0) return { kind: 'not-terminal' }
+
+  const last = moves[moves.length - 1]
+  if (Date.now() - last.ts > MOVE_TIMEOUT_MS) {
+    // Side to move has run out of time → the player who made the last move wins.
+    const winnerIsWhite = chess.turn() !== 'w'
+    const winnerAddr = winnerIsWhite ? white : black
+    if (addrEq(last.player, winnerAddr)) {
+      return { kind: 'result', result: winnerIsWhite ? RESULT.WhiteWins : RESULT.BlackWins }
     }
   }
 

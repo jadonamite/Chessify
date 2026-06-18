@@ -1,36 +1,36 @@
 'use client'
 
-import ChessAvatar from '@/components/ui/ChessAvatar'
-import ChessName from '@/components/ui/ChessName'
-import ClayCard from '@/components/ui/ClayCard'
-import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
-import GlowButton from '@/components/ui/GlowButton'
-import Link from 'next/link'
-import LoadingState from '@/components/ui/LoadingState'
-import PromotionModal, { PromotionPiece } from '@/components/ui/PromotionModal'
-import StatBadge from '@/components/ui/StatBadge'
-import dynamic from 'next/dynamic'
-import { CELO_CONTRACTS, BASE_CONTRACTS, BASE_CHAIN_ID } from '@/config/contracts'
-// @ts-ignore - intentional unused variable
-import { CHESS_GAME_ABI, BASE_CHESS_GAME_ABI } from '@/config/abis'
-import { Chess } from 'chess.js'
-import { Navbar } from '@/components/landing/Hero'
-import { TOKEN_DECIMALS } from '@/config/contracts'
-import { buildPieces } from '@/lib/chessPieces'
-import { getBestMove, getHintMove } from '@/lib/chess-engine'
-import { motion } from 'framer-motion'
-import { playMoveChime } from '@/lib/audio'
-import { useAccount, useReadContract } from 'wagmi'
-import { useBaseChess } from '@/hooks/useBaseChess'
-import { useCeloChess } from '@/hooks/useCeloChess'
-import { useGameMoves } from '@/hooks/useGameMoves'
-import { useMoveSigner } from '@/hooks/useMoveSigner'
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useParams } from 'next/navigation'
-import { useSettingsStore, BOARD_THEMES, AI_DEPTH } from '@/hooks/useSettingsStore'
+import { Chess } from 'chess.js'
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { useWallet } from '@/components/wallet-provider'
 import { useStacksChess } from '@/hooks/useStacksChess'
 import { useStacksRead } from '@/hooks/useStacksRead'
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
-import { useWallet } from '@/components/wallet-provider'
+import { useCeloChess } from '@/hooks/useCeloChess'
+import { useBaseChess } from '@/hooks/useBaseChess'
+// @ts-ignore - intentional unused variable
+import { useAccount, useReadContract } from 'wagmi'
+import { CHESS_GAME_ABI, BASE_CHESS_GAME_ABI } from '@/config/abis'
+import { CELO_CONTRACTS, BASE_CONTRACTS, BASE_CHAIN_ID } from '@/config/contracts'
+import ClayCard from '@/components/ui/ClayCard'
+import GlowButton from '@/components/ui/GlowButton'
+import StatBadge from '@/components/ui/StatBadge'
+import LoadingState from '@/components/ui/LoadingState'
+import GameStatusModal, { GameStatusType } from '@/components/ui/GameStatusModal'
+import PromotionModal, { PromotionPiece } from '@/components/ui/PromotionModal'
+import { Navbar } from '@/components/landing/Hero'
+import { getBestMove, getHintMove } from '@/lib/chess-engine'
+import { TOKEN_DECIMALS } from '@/config/contracts'
+import { useGameMoves } from '@/hooks/useGameMoves'
+import { useMoveSigner } from '@/hooks/useMoveSigner'
+import { useSettingsStore, BOARD_THEMES, AI_DEPTH } from '@/hooks/useSettingsStore'
+import { buildPieces } from '@/lib/chessPieces'
+import { playMoveChime } from '@/lib/audio'
+import ChessName from '@/components/ui/ChessName'
+import ChessAvatar from '@/components/ui/ChessAvatar'
 
 // Dynamically import Chessboard to avoid SSR issues
 const Chessboard = dynamic(() => import('react-chessboard').then(mod => mod.Chessboard), { ssr: false })
@@ -53,10 +53,13 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
-export default function GameClient() {
-  const params = useParams()
-  const isBotGame = params?.id === 'bot'
-  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
+  const handleReportWin = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await reportStacksWin(gameId)
+      else if (activeChain === 'base') await reportBaseWin(gameId)
+      else await reportCeloWin(gameId)
+    })
+  }
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet, setActiveChain } = useWallet()
@@ -203,25 +206,10 @@ export default function GameClient() {
   useEffect(() => {
     if (activeChain !== 'stacks') return
 
-    const load = () => {
-      if (gameId) {
-        void getStacksGame(gameId).then((d: any) => {
-          if (!d) return
-          // Map raw Clarity CV structure to the typed GameData shape
-          setGameData({
-            player1: d.white?.value ?? '',
-            player2: d.black?.value ?? '',
-            wager: d.wager?.value ?? '0',
-            status: d.status?.value ?? '0',
-          })
-        })
-      }
-      if (stacksAddress) {
-        void getStacksStats(stacksAddress).then((s: any) => {
-          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
-        })
-      }
-    }
+export default function GameClient() {
+  const params = useParams()
+  const isBotGame = params?.id === 'bot'
+  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
     if (!stacksDataLoaded) {
       setStacksDataLoaded(true)
@@ -546,12 +534,44 @@ export default function GameClient() {
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
 
+  const handleAcceptDraw = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await acceptStacksDraw(gameId)
+      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 2: accept
+      else await acceptCeloDraw(gameId)
+    })
+  }
+
   const handleMoveSubmit = async () => {
     await withTx(async () => {
       // Base has no on-chain submitMove (no move clock) — moves are relay-only.
       if (activeChain === 'base') return
       if (activeChain === 'stacks') await submitStacksMove(gameId)
       else await submitCeloMove(gameId)
+    })
+  }
+
+  const handleProposeDraw = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await proposeStacksDraw(gameId)
+      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 1: propose
+      else await proposeCeloDraw(gameId)
+    })
+  }
+
+  const handleClaimTimeout = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await claimStacksTimeout(gameId)
+      else await claimCeloTimeout(gameId)
+    })
+  }
+
+  const handleCancelGame = async () => {
+    await withTx(async () => {
+      // Base contract has no cancelGame; the cancel control is hidden for Base.
+      if (activeChain === 'stacks') await cancelStacksGame(gameId)
+      else if (activeChain === 'base') return
+      else await cancelCeloGame(gameId)
     })
   }
 
@@ -563,13 +583,25 @@ export default function GameClient() {
     })
   }
 
-  const handleReportWin = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await reportStacksWin(gameId)
-      else if (activeChain === 'base') await reportBaseWin(gameId)
-      else await reportCeloWin(gameId)
-    })
-  }
+    const load = () => {
+      if (gameId) {
+        void getStacksGame(gameId).then((d: any) => {
+          if (!d) return
+          // Map raw Clarity CV structure to the typed GameData shape
+          setGameData({
+            player1: d.white?.value ?? '',
+            player2: d.black?.value ?? '',
+            wager: d.wager?.value ?? '0',
+            status: d.status?.value ?? '0',
+          })
+        })
+      }
+      if (stacksAddress) {
+        void getStacksStats(stacksAddress).then((s: any) => {
+          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
+        })
+      }
+    }
 
   const handleJoinMatch = async () => {
     if (!gameData) return
@@ -587,38 +619,6 @@ export default function GameClient() {
         await joinCelo(gameId, wagerInChess)
         // Celo: refetchInterval on useReadContract will pick up the ACTIVE state within 5s
       }
-    })
-  }
-
-  const handleClaimTimeout = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await claimStacksTimeout(gameId)
-      else await claimCeloTimeout(gameId)
-    })
-  }
-
-  const handleProposeDraw = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await proposeStacksDraw(gameId)
-      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 1: propose
-      else await proposeCeloDraw(gameId)
-    })
-  }
-
-  const handleAcceptDraw = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await acceptStacksDraw(gameId)
-      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 2: accept
-      else await acceptCeloDraw(gameId)
-    })
-  }
-
-  const handleCancelGame = async () => {
-    await withTx(async () => {
-      // Base contract has no cancelGame; the cancel control is hidden for Base.
-      if (activeChain === 'stacks') await cancelStacksGame(gameId)
-      else if (activeChain === 'base') return
-      else await cancelCeloGame(gameId)
     })
   }
 

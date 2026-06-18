@@ -12,7 +12,7 @@ import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 //
 // EVM-only: Stacks history/leaderboard read via @stacks read-only fns elsewhere.
 
-const ZERO = '0x0000000000000000000000000000000000000000'
+const ZERO: string = '0x0000000000000000000000000000000000000000'
 const SCAN_CHUNK = 200
 
 function gameAddress(chain: EvmChain): `0x${string}` {

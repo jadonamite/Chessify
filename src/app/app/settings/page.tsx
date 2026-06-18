@@ -14,21 +14,15 @@ import ClayCard from '@/components/ui/ClayCard'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 import ClaimModal from '@/components/ui/ClaimModal'
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col gap-3"
-    >
-      <h2
-        className="text-[10px] font-black tracking-[0.3em] uppercase"
-        style={{ color: 'var(--t3)', fontFamily: 'var(--fd)' }}
-      >{title}</h2>
-      {children}
-    </motion.div>
-  )
-}
+export default function SettingsPage() {
+  const router = useRouter()
+  const { address, stacksAddress, isConnected, isStacksConnected, activeChain } = useWallet()
+  const activeAddress = activeChain === 'stacks' ? stacksAddress : address
+  const connected = isConnected || isStacksConnected
+  const { soundEnabled, setSoundEnabled, boardTheme, setBoardTheme, pieceSet, setPieceSet, aiDifficulty, setAiDifficulty, showMoveHints, setShowMoveHints } = useSettingsStore()
+  const { data: profile } = useProfile(activeAddress ?? null)
+  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile()
+  const signProfileMessage = useSignProfileMessage()
 
 function Toggle({ label, sub, checked, onChange }: { label: string; sub?: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
@@ -54,15 +48,21 @@ function Toggle({ label, sub, checked, onChange }: { label: string; sub?: string
   )
 }
 
-export default function SettingsPage() {
-  const router = useRouter()
-  const { address, stacksAddress, isConnected, isStacksConnected, activeChain } = useWallet()
-  const activeAddress = activeChain === 'stacks' ? stacksAddress : address
-  const connected = isConnected || isStacksConnected
-  const { soundEnabled, setSoundEnabled, boardTheme, setBoardTheme, pieceSet, setPieceSet, aiDifficulty, setAiDifficulty, showMoveHints, setShowMoveHints } = useSettingsStore()
-  const { data: profile } = useProfile(activeAddress ?? null)
-  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile()
-  const signProfileMessage = useSignProfileMessage()
+  const handleSaveProfile = async () => {
+    if (!activeAddress || !profile) return
+    setEditError('')
+    try {
+      const timestamp = new Date().toISOString()
+      const message = `Chessify Profile Update\n\nAddress: ${activeAddress}\nTimestamp: ${timestamp}`
+      const { signature, publicKey } = await signProfileMessage(message)
+      await updateProfile({ address: activeAddress, displayName: editDisplayName.trim(), bio: editBio.trim(), signature, timestamp, publicKey })
+      setEditDirty(false)
+      setEditSaved(true)
+      setTimeout(() => setEditSaved(false), 3000)
+    } catch (e: any) {
+      setEditError(e?.message ?? 'Update failed')
+    }
+  }
 
   const [claimOpen, setClaimOpen] = useState(false)
   const [editDisplayName, setEditDisplayName] = useState('')
@@ -79,21 +79,21 @@ export default function SettingsPage() {
     }
   }, [profile, editDirty])
 
-  const handleSaveProfile = async () => {
-    if (!activeAddress || !profile) return
-    setEditError('')
-    try {
-      const timestamp = new Date().toISOString()
-      const message = `Chessify Profile Update\n\nAddress: ${activeAddress}\nTimestamp: ${timestamp}`
-      const { signature, publicKey } = await signProfileMessage(message)
-      await updateProfile({ address: activeAddress, displayName: editDisplayName.trim(), bio: editBio.trim(), signature, timestamp, publicKey })
-      setEditDirty(false)
-      setEditSaved(true)
-      setTimeout(() => setEditSaved(false), 3000)
-    } catch (e: any) {
-      setEditError(e?.message ?? 'Update failed')
-    }
-  }
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col gap-3"
+    >
+      <h2
+        className="text-[10px] font-black tracking-[0.3em] uppercase"
+        style={{ color: 'var(--t3)', fontFamily: 'var(--fd)' }}
+      >{title}</h2>
+      {children}
+    </motion.div>
+  )
+}
 
   const BOARD_THEME_KEYS = Object.keys(BOARD_THEMES) as BoardTheme[]
   const AI_DIFFICULTIES: AiDifficulty[] = ['easy', 'medium', 'hard']

@@ -1,4 +1,5 @@
 'use client'
+
 import type React from 'react'
 import Link from 'next/link'
 import { useProfile } from '@/hooks/useProfile'
@@ -11,7 +12,7 @@ interface ChessNameProps {
   short?: boolean
   className?: string
   style?: React.CSSProperties
-  asLink?: boolean // wraps in Link → /app/profile/{address}
+  asLink?: boolean   // wraps in Link → /app/profile/{address}
 }
 
 function fmtAddr(addr: string) {
@@ -29,34 +30,38 @@ export default function ChessName({
 }: ChessNameProps) {
   const skip = preloaded !== undefined
   const { data: fetched, isLoading } = useProfile(skip ? null : address)
+
   const profile = skip ? preloaded : fetched
 
-  if (isLoading) {
+  const inner = (() => {
+    if (isLoading) {
+      return (
+        <span className={className} style={{ ...style, opacity: 0.5 }}>
+          {fmtAddr(address)}
+        </span>
+      )
+    }
+
+    if (!profile) {
+      return <span className={className} style={style}>{fmtAddr(address)}</span>
+    }
+
+    const display = short ? profile.username : `${profile.username}.chess`
+
     return (
-      <span className={className} style={{ ...style, opacity: 0.5 }}>
-        {fmtAddr(address)}
+      <span className={className} style={style}>
+        {display}
+        {badge && profile.og && (
+          <span
+            title="OG — first 100 players"
+            style={{ marginLeft: '4px', color: '#fbbf24', fontSize: '0.75em' }}
+          >
+            ✦
+          </span>
+        )}
       </span>
     )
-  }
-
-  if (!profile) {
-    return <span className={className} style={style}>{fmtAddr(address)}</span>
-  }
-
-  const display = short ? profile.username : `${profile.username}.chess`
-  const inner = (
-    <span className={className} style={style}>
-      {display}
-      {badge && profile.og && (
-        <span
-          title="OG — first 100 players"
-          style={{ marginLeft: '4px', color: '#fbbf24', fontSize: '0.75em' }}
-        >
-          ✦
-        </span>
-      )}
-    </span>
-  )
+  })()
 
   if (asLink) {
     return (

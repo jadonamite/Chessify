@@ -339,7 +339,7 @@ export default function FaucetContent() {
 
                 {/* Info Badge */}
                 <div className="flex items-center gap-3 py-3 px-5 rounded-2xl border border-white/5 bg-black/20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] shrink-0" />
+                  <div className='w-1.5 h-1.5 rounded-full bg-[var(--c)] shrink-0' />
                   <span className="text-[10px] font-medium text-white/40 leading-relaxed">
                     The faucet dispenses <span className="text-white/70 font-bold">{faucetAmountFormatted} CHESS</span> per claim.
                     Cooldown resets approximately every <span className="text-white/70 font-bold">24 hours</span>.

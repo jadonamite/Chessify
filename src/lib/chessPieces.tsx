@@ -11,6 +11,11 @@ export function piecePath(set: PieceSet, code: string): string {
 const cache: Partial<Record<PieceSet, PieceRenderObject>> = {}
 
 // Build the react-chessboard piece renderer for a given set (memoized per set).
+/**
+ * buildPieces
+ * @param {*} set: PieceSet
+ * @returns {*}
+ */
 export function buildPieces(set: PieceSet): PieceRenderObject {
   const cached = cache[set]
   if (cached) return cached

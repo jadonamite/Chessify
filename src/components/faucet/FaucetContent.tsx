@@ -21,7 +21,7 @@ import { formatUnits } from 'viem'
 const KEYFRAMES = `
 @keyframes drip-pulse {
   0%, 100% { box-shadow: 0 0 20px rgba(0,204,255,0.3), inset 0 0 20px rgba(0,204,255,0.05); }
-  50%      { box-shadow: 0 0 40px rgba(0,204,255,0.6), inset 0 0 30px rgba(0,204,255,0.1); }
+  50%      { box-shadow: 0 0 40px rgba(0,204,255,0.6), inset 0 0 30px rgba(0,204,255,0.1); },
 }
 @keyframes token-float {
   0%, 100% { transform: translateY(0px); }

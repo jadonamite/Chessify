@@ -24,6 +24,11 @@ export interface MoveSigner {
 export function useMoveSigner(): MoveSigner {
   const { activeChain } = useWallet()
   const { signMessageAsync } = useSignMessage()
+
+  if (activeChain === 'stacks') {
+    return { sign: undefined, publicKey: undefined, canSign: false }
+  }
+
   const sign = useCallback(async (message: string): Promise<string | null> => {
     try {
       return await signMessageAsync({ message })
@@ -32,10 +37,6 @@ export function useMoveSigner(): MoveSigner {
       return null
     }
   }, [signMessageAsync])
-
-  if (activeChain === 'stacks') {
-    return { sign: undefined, publicKey: undefined, canSign: false }
-  }
 
   return { sign, publicKey: undefined, canSign: true }
 }

@@ -11,10 +11,11 @@ import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 // sync only scans the delta (cursor+1 .. current gameNonce).
 //
 // EVM-only: Stacks history/leaderboard read via @stacks read-only fns elsewhere.
+
 const ZERO = '0x0000000000000000000000000000000000000000'
 const SCAN_CHUNK = 200
 
-const getGameAddress = (chain: EvmChain): `0x${string}` => {
+function gameAddress(chain: EvmChain): `0x${string}` {
   return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
 }
 
@@ -25,7 +26,6 @@ const K = (chain: EvmChain) => ({
 })
 
 let _redis: Redis | null = null
-
 function getRedis(): Redis {
   if (_redis) return _redis
   const url = process.env.UPSTASH_REDIS_REST_URL
@@ -37,32 +37,11 @@ function getRedis(): Redis {
 
 async function gameNonce(chain: EvmChain): Promise<number> {
   const n = (await getPublicClient(chain).readContract({
-    address: getGameAddress(chain),
+    address: gameAddress(chain),
     abi: EVM_CHESS_ORACLE_ABI as Abi,
     functionName: 'gameNonce',
   })) as bigint
   return Number(n)
-}
-
-const handleMulticallResults = (
-  results: any[],
-  ids: bigint[],
-  pipe: Redis,
-  k: ReturnType<typeof K>,
-  queued: boolean[]
-) => {
-  results.forEach((r, i) => {
-    if (r.status !== 'success') return
-    const g = r.result as { white: string; black: string }
-    const id = Number(ids[i])
-    for (const raw of [g.white, g.black]) {
-      const addr = (raw ?? '').toLowerCase()
-      if (!addr || addr === ZERO || !addr.startsWith('0x')) continue
-      pipe.sadd(k.players, addr)
-      pipe.sadd(k.playerGames(addr), id)
-      queued[i] = true
-    }
-  })
 }
 
 /**
@@ -77,7 +56,7 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
   if (nonce <= cursor) return nonce
 
   const pub = getPublicClient(chain)
-  const game = getGameAddress(chain)
+  const game = gameAddress(chain)
   for (let start = cursor + 1; start <= nonce; start += SCAN_CHUNK) {
     const end = Math.min(start + SCAN_CHUNK - 1, nonce)
     const ids = Array.from({ length: end - start + 1 }, (_, i) => BigInt(start + i))
@@ -90,13 +69,26 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
       })),
       allowFailure: true,
     })
+
     const pipe = redis.pipeline()
-    const queued: boolean[] = []
-    handleMulticallResults(results, ids, pipe, k, queued)
-    if (queued.some((q) => q)) await pipe.exec()
+    let queued = false
+    results.forEach((r, i) => {
+      if (r.status !== 'success') return
+      const g = r.result as { white: string; black: string }
+      const id = Number(ids[i])
+      for (const raw of [g.white, g.black]) {
+        const addr = (raw ?? '').toLowerCase()
+        if (!addr || addr === ZERO || !addr.startsWith('0x')) continue
+        pipe.sadd(k.players, addr)
+        pipe.sadd(k.playerGames(addr), id)
+        queued = true
+      }
+    })
+    if (queued) await pipe.exec()
     // Advance the cursor per chunk so a mid-scan failure resumes, not restarts.
     await redis.set(k.cursor, end)
   }
+
   return nonce
 }
 

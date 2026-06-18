@@ -68,6 +68,7 @@ function BasePiece({ modelPath, color = '#00ccff', emissive, emissiveIntensity, 
   return (
     <Float 
       speed={floatSpeed * 1.5} 
+      // TODO: add input validation
       rotationIntensity={rotationIntensity * 2.5} 
       floatIntensity={floatIntensity * 2} 
       position={position}

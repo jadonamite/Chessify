@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useEffect, useCallback } from 'react'
 import { usePublicClient, useAccount } from 'wagmi'
 import type { Abi } from 'viem'
@@ -17,75 +18,6 @@ export interface LeaderboardEntry {
 
 const ZERO = '0x0000000000000000000000000000000000000000'
 
-const processGameResults = async (
-  publicClient: any,
-  gameNonce: bigint,
-  enabled: boolean
-) => {
-  if (gameNonce === 0n) return []
-
-  const ids = Array.from({ length: Number(gameNonce) }, (_, i) => BigInt(i + 1))
-  const gameResults = await publicClient.multicall({
-    contracts: ids.map((id) => ({
-      address: CELO_CONTRACTS.game as `0x${string}`,
-      abi: CHESS_GAME_ABI as Abi,
-      functionName: 'getGame',
-      args: [id],
-    })),
-    allowFailure: true,
-  })
-
-  const addressSet = new Set<string>()
-  for (const r of gameResults) {
-    if (r.status !== 'success') continue
-    const g = r.result as any
-    const w = (g.white as string).toLowerCase()
-    const b = (g.black as string).toLowerCase()
-    if (w !== ZERO) addressSet.add(w)
-    if (b !== ZERO) addressSet.add(b)
-  }
-
-  const addresses = Array.from(addressSet)
-  if (addresses.length === 0) return []
-
-  const statsResults = await publicClient.multicall({
-    contracts: addresses.map((addr) => ({
-      address: CELO_CONTRACTS.game as `0x${string}`,
-      abi: CHESS_GAME_ABI as Abi,
-      functionName: 'playerStats',
-      args: [addr as `0x${string}`],
-    })),
-    allowFailure: true,
-  })
-
-  const leaderboard: LeaderboardEntry[] = []
-  for (let i = 0; i < addresses.length; i++) {
-    const result = statsResults[i]
-    if (result.status !== 'success') continue
-    // viem returns multiple outputs as a positional readonly tuple
-    const r = result.result as readonly [bigint, bigint, bigint, bigint, bigint]
-    // order: wins, losses, draws, rating, gamesPlayed
-    const gamesPlayed = Number(r[4])
-    if (gamesPlayed === 0) continue
-    leaderboard.push({
-      address: addresses[i],
-      wins: Number(r[0]),
-      losses: Number(r[1]),
-      draws: Number(r[2]),
-      rating: Number(r[3]),
-      gamesPlayed,
-      rank: 0,
-    })
-  }
-
-  leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
-  leaderboard.forEach((e, i) => {
-    e.rank = i + 1
-  })
-
-  return leaderboard
-}
-
 export function useLeaderboard(enabled = true) {
   const publicClient = usePublicClient({ chainId: CELO_CHAIN_ID })
   const { address: myAddress } = useAccount()
@@ -101,7 +33,73 @@ export function useLeaderboard(enabled = true) {
         abi: CHESS_GAME_ABI as Abi,
         functionName: 'gameNonce',
       }) as bigint
-      const leaderboard = await processGameResults(publicClient, gameNonce, enabled)
+
+      const total = Number(gameNonce)
+      if (total === 0) {
+        setEntries([])
+        return
+      }
+
+      // Collect unique player addresses from all games
+      const ids = Array.from({ length: total }, (_, i) => BigInt(i + 1))
+      const gameResults = await publicClient.multicall({
+        contracts: ids.map((id) => ({
+          address: CELO_CONTRACTS.game as `0x${string}`,
+          abi: CHESS_GAME_ABI as Abi,
+          functionName: 'getGame',
+          args: [id],
+        })),
+        allowFailure: true,
+      })
+
+      const addressSet = new Set<string>()
+      for (const r of gameResults) {
+        if (r.status !== 'success') continue
+        const g = r.result as any
+        const w = (g.white as string).toLowerCase()
+        const b = (g.black as string).toLowerCase()
+        if (w !== ZERO) addressSet.add(w)
+        if (b !== ZERO) addressSet.add(b)
+      }
+
+      const addresses = Array.from(addressSet)
+      if (addresses.length === 0) {
+        setEntries([])
+        return
+      }
+
+      const statsResults = await publicClient.multicall({
+        contracts: addresses.map((addr) => ({
+          address: CELO_CONTRACTS.game as `0x${string}`,
+          abi: CHESS_GAME_ABI as Abi,
+          functionName: 'playerStats',
+          args: [addr as `0x${string}`],
+        })),
+        allowFailure: true,
+      })
+
+      const leaderboard: LeaderboardEntry[] = []
+      for (let i = 0; i < addresses.length; i++) {
+        const result = statsResults[i]
+        if (result.status !== 'success') continue
+        // viem returns multiple outputs as a positional readonly tuple
+        const r = result.result as readonly [bigint, bigint, bigint, bigint, bigint]
+        // order: wins, losses, draws, rating, gamesPlayed
+        const gamesPlayed = Number(r[4])
+        if (gamesPlayed === 0) continue
+        leaderboard.push({
+          address: addresses[i],
+          wins: Number(r[0]),
+          losses: Number(r[1]),
+          draws: Number(r[2]),
+          rating: Number(r[3]),
+          gamesPlayed,
+          rank: 0,
+        })
+      }
+
+      leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
+      leaderboard.forEach((e, i) => { e.rank = i + 1 })
       setEntries(leaderboard)
     } catch (err) {
       console.error('[useLeaderboard] fetch failed:', err)

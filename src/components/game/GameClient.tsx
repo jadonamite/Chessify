@@ -53,13 +53,10 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
-  const handleReportWin = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await reportStacksWin(gameId)
-      else if (activeChain === 'base') await reportBaseWin(gameId)
-      else await reportCeloWin(gameId)
-    })
-  }
+export default function GameClient() {
+  const params = useParams()
+  const isBotGame = params?.id === 'bot'
+  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet, setActiveChain } = useWallet()
@@ -206,10 +203,25 @@ interface PlayerStats {
   useEffect(() => {
     if (activeChain !== 'stacks') return
 
-export default function GameClient() {
-  const params = useParams()
-  const isBotGame = params?.id === 'bot'
-  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
+    const load = () => {
+      if (gameId) {
+        void getStacksGame(gameId).then((d: any) => {
+          if (!d) return
+          // Map raw Clarity CV structure to the typed GameData shape
+          setGameData({
+            player1: d.white?.value ?? '',
+            player2: d.black?.value ?? '',
+            wager: d.wager?.value ?? '0',
+            status: d.status?.value ?? '0',
+          })
+        })
+      }
+      if (stacksAddress) {
+        void getStacksStats(stacksAddress).then((s: any) => {
+          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
+        })
+      }
+    }
 
     if (!stacksDataLoaded) {
       setStacksDataLoaded(true)
@@ -534,44 +546,12 @@ export default function GameClient() {
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
 
-  const handleAcceptDraw = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await acceptStacksDraw(gameId)
-      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 2: accept
-      else await acceptCeloDraw(gameId)
-    })
-  }
-
   const handleMoveSubmit = async () => {
     await withTx(async () => {
       // Base has no on-chain submitMove (no move clock) — moves are relay-only.
       if (activeChain === 'base') return
       if (activeChain === 'stacks') await submitStacksMove(gameId)
       else await submitCeloMove(gameId)
-    })
-  }
-
-  const handleProposeDraw = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await proposeStacksDraw(gameId)
-      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 1: propose
-      else await proposeCeloDraw(gameId)
-    })
-  }
-
-  const handleClaimTimeout = async () => {
-    await withTx(async () => {
-      if (activeChain === 'stacks') await claimStacksTimeout(gameId)
-      else await claimCeloTimeout(gameId)
-    })
-  }
-
-  const handleCancelGame = async () => {
-    await withTx(async () => {
-      // Base contract has no cancelGame; the cancel control is hidden for Base.
-      if (activeChain === 'stacks') await cancelStacksGame(gameId)
-      else if (activeChain === 'base') return
-      else await cancelCeloGame(gameId)
     })
   }
 
@@ -583,25 +563,13 @@ export default function GameClient() {
     })
   }
 
-    const load = () => {
-      if (gameId) {
-        void getStacksGame(gameId).then((d: any) => {
-          if (!d) return
-          // Map raw Clarity CV structure to the typed GameData shape
-          setGameData({
-            player1: d.white?.value ?? '',
-            player2: d.black?.value ?? '',
-            wager: d.wager?.value ?? '0',
-            status: d.status?.value ?? '0',
-          })
-        })
-      }
-      if (stacksAddress) {
-        void getStacksStats(stacksAddress).then((s: any) => {
-          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
-        })
-      }
-    }
+  const handleReportWin = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await reportStacksWin(gameId)
+      else if (activeChain === 'base') await reportBaseWin(gameId)
+      else await reportCeloWin(gameId)
+    })
+  }
 
   const handleJoinMatch = async () => {
     if (!gameData) return
@@ -619,6 +587,38 @@ export default function GameClient() {
         await joinCelo(gameId, wagerInChess)
         // Celo: refetchInterval on useReadContract will pick up the ACTIVE state within 5s
       }
+    })
+  }
+
+  const handleClaimTimeout = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await claimStacksTimeout(gameId)
+      else await claimCeloTimeout(gameId)
+    })
+  }
+
+  const handleProposeDraw = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await proposeStacksDraw(gameId)
+      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 1: propose
+      else await proposeCeloDraw(gameId)
+    })
+  }
+
+  const handleAcceptDraw = async () => {
+    await withTx(async () => {
+      if (activeChain === 'stacks') await acceptStacksDraw(gameId)
+      else if (activeChain === 'base') await settleBaseDraw(gameId)  // step 2: accept
+      else await acceptCeloDraw(gameId)
+    })
+  }
+
+  const handleCancelGame = async () => {
+    await withTx(async () => {
+      // Base contract has no cancelGame; the cancel control is hidden for Base.
+      if (activeChain === 'stacks') await cancelStacksGame(gameId)
+      else if (activeChain === 'base') return
+      else await cancelCeloGame(gameId)
     })
   }
 

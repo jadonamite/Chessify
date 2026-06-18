@@ -1,20 +1,15 @@
 'use client'
+
 import { useCallback } from 'react'
-import { fetchCallReadOnlyFunction, uintCV, principalCV, cvToJSON } from '@stacks/transactions'
+import { 
+  fetchCallReadOnlyFunction, 
+  uintCV, 
+  principalCV,
+  cvToJSON
+} from '@stacks/transactions'
 import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'
 
-const handleClarityResponse = (response, unwrap = false) => {
-  if (!response) return null
-  const json = cvToJSON(response)
-  if (unwrap) {
-    const outer = json?.value
-    const inner = outer?.value
-    if (!inner || inner.type === '(none)' || inner.value === null) return null
-    return inner.value ?? inner
-  }
-  return json.value.value
-}
 
 export function useStacksRead() {
   const { stacksAddress } = useWallet()
@@ -22,6 +17,7 @@ export function useStacksRead() {
   const getPlayerStats = useCallback(async (address?: string) => {
     const target = address || stacksAddress
     if (!target) return null
+
     try {
       const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.game.address,
@@ -30,7 +26,9 @@ export function useStacksRead() {
         functionArgs: [principalCV(target)],
         senderAddress: target,
       })
-      return handleClarityResponse(result)
+      
+      const json = cvToJSON(result)
+      return json.value.value // Clarity response (ok { ... })
     } catch (err) {
       console.error('Failed to fetch player stats:', err)
       return null
@@ -40,6 +38,7 @@ export function useStacksRead() {
   const getTokenBalance = useCallback(async (address?: string) => {
     const target = address || stacksAddress
     if (!target) return 0n
+
     try {
       const result = await fetchCallReadOnlyFunction({
         contractAddress: STACKS_CONTRACTS.token.address,
@@ -48,7 +47,9 @@ export function useStacksRead() {
         functionArgs: [principalCV(target)],
         senderAddress: target,
       })
-      return BigInt(handleClarityResponse(result))
+      
+      const json = cvToJSON(result)
+      return BigInt(json.value.value) // Clarity response (ok uint)
     } catch (err) {
       console.error('Failed to fetch token balance:', err)
       return 0n
@@ -64,7 +65,14 @@ export function useStacksRead() {
         functionArgs: [uintCV(gameId)],
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
-      return handleClarityResponse(result, true)
+
+      // get-game returns (ok (some { ... })) or (ok none)
+      // cvToJSON shape: { value: { value: { value: { ... } } | null } }
+      const json = cvToJSON(result)
+      const outer = json?.value         // unwrap (ok ...)
+      const inner = outer?.value        // unwrap (some ...)
+      if (!inner || inner.type === '(none)' || inner.value === null) return null
+      return inner.value ?? inner       // unwrap inner value if present
     } catch (err) {
       console.error('Failed to fetch game data:', err)
       return null
@@ -80,7 +88,9 @@ export function useStacksRead() {
         functionArgs: [],
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
-      return Number(handleClarityResponse(result))
+      
+      const json = cvToJSON(result)
+      return Number(json.value.value) // (ok uint)
     } catch (err) {
       console.error('Failed to fetch total games:', err)
       return 0

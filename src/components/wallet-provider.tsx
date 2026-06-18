@@ -1,9 +1,9 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { usePrivy, useWallets, useCreateWallet } from '@privy-io/react-auth'
-import { useAccount, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
 import { CELO_CHAIN_ID, BASE_CHAIN_ID } from '@/config/contracts'
+import { useAccount, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
+import { usePrivy, useWallets, useCreateWallet } from '@privy-io/react-auth'
 
 // Active chain. Celo and Base share the same Privy EVM wallet/address; Stacks is
 // a separate session.

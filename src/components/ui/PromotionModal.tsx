@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PieceView } from './ChessModels'
@@ -19,27 +18,54 @@ const OPTIONS: Array<{
   view: 'queen' | 'rook' | 'bishop' | 'knight'
   hint: string
 }> = [
-  { piece: 'q', label: 'QUEEN',  view: 'queen',  hint: 'MAX POWER' },
-  { piece: 'r', label: 'ROOK',   view: 'rook',   hint: 'LINE LOCK' },
+  { piece: 'q', label: 'QUEEN', view: 'queen', hint: 'MAX POWER' },
+  { piece: 'r', label: 'ROOK', view: 'rook', hint: 'LINE LOCK' },
   { piece: 'b', label: 'BISHOP', view: 'bishop', hint: 'DIAGONAL' },
   { piece: 'n', label: 'KNIGHT', view: 'knight', hint: 'FORK TACTIC' },
 ]
 
-export default function PromotionModal({ open, color, onSelect, onCancel }: PromotionModalProps) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
+const handleKeyboardEvent = (
+  event: KeyboardEvent,
+  onSelect: (piece: PromotionPiece) => void,
+  onCancel: () => void
+) => {
+  const k = event.key.toLowerCase()
+  switch (k) {
+    case 'q':
+      onSelect('q')
+      break
+    case 'r':
+      onSelect('r')
+      break
+    case 'b':
+      onSelect('b')
+      break
+    case 'n':
+      onSelect('n')
+      break
+    case 'escape':
+      onCancel()
+      break
+    default:
+      break
+  }
+}
 
-  // Keyboard shortcuts: Q/R/B/N pick; Escape cancels
+export default function PromotionModal({
+  open,
+  color,
+  onSelect,
+  onCancel,
+}: PromotionModalProps) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   useEffect(() => {
     if (!open) return
-    const handler = (e: KeyboardEvent) => {
-      const k = e.key.toLowerCase()
-      if (k === 'q') onSelect('q')
-      else if (k === 'r') onSelect('r')
-      else if (k === 'b') onSelect('b')
-      else if (k === 'n') onSelect('n')
-      else if (e.key === 'Escape') onCancel()
-    }
+    const handler = (event: KeyboardEvent) => handleKeyboardEvent(event, onSelect, onCancel)
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [open, onSelect, onCancel])
@@ -60,7 +86,7 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
         >
           <motion.div
             initial={{ opacity: 0, y: 24, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0,  scale: 1 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             className="w-full max-w-2xl rounded-3xl border border-white/10 bg-slate-950/95 shadow-[0_30px_120px_rgba(0,0,0,0.9)] overflow-hidden"
@@ -81,7 +107,6 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
                 Your pawn has reached the final rank. Select the piece it ascends to.
               </p>
             </div>
-
             {/* Options grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-6">
               {OPTIONS.map(({ piece, label, view, hint }) => (
@@ -92,14 +117,13 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
                   aria-label={`Promote to ${label}`}
                 >
                   {/* Hover glow */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                  <div
+                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                     style={{ boxShadow: '0 0 30px rgba(0, 204, 255, 0.25) inset' }}
                   />
-
                   <div className="w-20 h-20 transform group-hover:scale-110 transition-transform duration-200">
                     <PieceView type={view} color={pieceTint} className="w-full h-full" />
                   </div>
-
                   <div className="flex flex-col items-center gap-0.5">
                     <span className="text-[11px] font-black tracking-widest text-white uppercase">
                       {label}
@@ -108,7 +132,6 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
                       {hint}
                     </span>
                   </div>
-
                   {/* Keyboard hint */}
                   <span className="absolute top-2 right-2 text-[9px] font-black text-[var(--t3)] bg-white/5 border border-white/10 rounded px-1.5 py-0.5 tracking-widest">
                     {piece.toUpperCase()}
@@ -116,7 +139,6 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
                 </button>
               ))}
             </div>
-
             {/* Footer */}
             <div className="px-6 pb-6 flex items-center justify-between">
               <span className="text-[10px] text-[var(--t3)] tracking-widest uppercase font-bold">
@@ -133,5 +155,5 @@ export default function PromotionModal({ open, color, onSelect, onCancel }: Prom
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  )}
 }

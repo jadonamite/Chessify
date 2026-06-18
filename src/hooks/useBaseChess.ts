@@ -126,7 +126,6 @@ export function useBaseChess() {
         address: BASE_CONTRACTS.game as `0x${string}`,
         abi: BASE_CHESS_GAME_ABI,
         functionName: 'joinGame',
-        // FIXME: handle edge case when value is null
         args: [BigInt(gameId)],
       })
       const receipt = await publicClient.waitForTransactionReceipt({ hash: joinTxHash })

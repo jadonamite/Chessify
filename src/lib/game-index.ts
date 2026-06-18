@@ -11,10 +11,11 @@ import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 // sync only scans the delta (cursor+1 .. current gameNonce).
 //
 // EVM-only: Stacks history/leaderboard read via @stacks read-only fns elsewhere.
+
 const ZERO = '0x0000000000000000000000000000000000000000'
 const SCAN_CHUNK = 200
 
-function getContractAddress(chain: EvmChain): `0x${string}` {
+function gameAddress(chain: EvmChain): `0x${string}` {
   return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
 }
 
@@ -34,17 +35,13 @@ function getRedis(): Redis {
   return _redis
 }
 
-async function getGameNonce(chain: EvmChain): Promise<number> {
+async function gameNonce(chain: EvmChain): Promise<number> {
   const n = (await getPublicClient(chain).readContract({
-    address: getContractAddress(chain),
+    address: gameAddress(chain),
     abi: EVM_CHESS_ORACLE_ABI as Abi,
     functionName: 'gameNonce',
   })) as bigint
   return Number(n)
-}
-
-async function getPlayerGameIdsFromRedis(chain: EvmChain, address: string): Promise<string[]> {
-  return (await getRedis().smembers(K(chain).playerGames(address))) as string[]
 }
 
 /**
@@ -55,11 +52,11 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
   const redis = getRedis()
   const k = K(chain)
   const cursor = Number((await redis.get<number>(k.cursor)) ?? 0)
-  const nonce = await getGameNonce(chain)
+  const nonce = await gameNonce(chain)
   if (nonce <= cursor) return nonce
 
   const pub = getPublicClient(chain)
-  const game = getContractAddress(chain)
+  const game = gameAddress(chain)
   for (let start = cursor + 1; start <= nonce; start += SCAN_CHUNK) {
     const end = Math.min(start + SCAN_CHUNK - 1, nonce)
     const ids = Array.from({ length: end - start + 1 }, (_, i) => BigInt(start + i))
@@ -72,6 +69,7 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
       })),
       allowFailure: true,
     })
+
     const pipe = redis.pipeline()
     let queued = false
     results.forEach((r, i) => {
@@ -90,6 +88,7 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
     // Advance the cursor per chunk so a mid-scan failure resumes, not restarts.
     await redis.set(k.cursor, end)
   }
+
   return nonce
 }
 
@@ -100,6 +99,6 @@ export async function getIndexedPlayers(chain: EvmChain): Promise<string[]> {
 
 /** gameIds a given address has participated in on `chain`, newest-id first. */
 export async function getPlayerGameIds(chain: EvmChain, address: string): Promise<number[]> {
-  const ids = await getPlayerGameIdsFromRedis(chain, address)
+  const ids = (await getRedis().smembers(K(chain).playerGames(address))) as Array<string | number>
   return ids.map(Number).sort((a, b) => b - a)
 }

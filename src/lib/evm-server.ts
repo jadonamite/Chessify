@@ -52,7 +52,7 @@ interface ChainCfg {
   chain: typeof celo | typeof base
   rpc: string
   game: Address
-  token: Address,
+  token: Address
 }
 
 const CONFIG: Record<EvmChain, ChainCfg> = {

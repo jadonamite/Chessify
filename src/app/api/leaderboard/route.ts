@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server' 
 import { Redis } from '@upstash/redis'
 import type { Abi } from 'viem'
 import { getPublicClient, type EvmChain } from '@/lib/evm-server'
@@ -36,24 +36,46 @@ function gameAddress(chain: EvmChain): `0x${string}` {
   return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
 }
 
+// Helper function to process player stats and create leaderboard entries
+function createLeaderboardEntries(addresses: string[], statsResults: any[]): LeaderboardEntry[] {
+  const entries: LeaderboardEntry[] = []
+  for (let i = 0; i < addresses.length; i++) {
+    const result = statsResults[i]
+    if (result.status !== 'success') continue
+    const r = result.result as readonly [bigint, bigint, bigint, bigint, bigint]
+    const gamesPlayed = Number(r[4])
+    if (gamesPlayed === 0) continue
+    entries.push({
+      address: addresses[i],
+      wins: Number(r[0]),
+      losses: Number(r[1]),
+      draws: Number(r[2]),
+      rating: Number(r[3]),
+      gamesPlayed,
+      rank: 0,
+    })
+  }
+  entries.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
+  entries.forEach((e, i) => {
+    e.rank = i + 1
+  })
+  return entries
+}
+
 // GET /api/leaderboard?chain=celo|base — Redis-indexed leaderboard for an EVM
 // chain. Scans only games created since the last index sync, then reads
 // playerStats for known players. (Stacks leaderboard reads via @stacks elsewhere.)
 export async function GET(req: NextRequest) {
   const chain = parseEvmChain(req.nextUrl.searchParams.get('chain') ?? 'celo')
   if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })
-
   const cacheKey = `chess:idx:${chain}:leaderboard`
   try {
     const redis = getRedis()
-
     const cached = await redis.get<LeaderboardEntry[]>(cacheKey)
     if (cached) return NextResponse.json({ entries: cached, cached: true })
-
     await syncGameIndex(chain)
     const addresses = await getIndexedPlayers(chain)
     if (addresses.length === 0) return NextResponse.json({ entries: [] })
-
     const statsResults = await getPublicClient(chain).multicall({
       contracts: addresses.map((addr) => ({
         address: gameAddress(chain),
@@ -63,28 +85,7 @@ export async function GET(req: NextRequest) {
       })),
       allowFailure: true,
     })
-
-    const entries: LeaderboardEntry[] = []
-    for (let i = 0; i < addresses.length; i++) {
-      const result = statsResults[i]
-      if (result.status !== 'success') continue
-      const r = result.result as readonly [bigint, bigint, bigint, bigint, bigint]
-      const gamesPlayed = Number(r[4])
-      if (gamesPlayed === 0) continue
-      entries.push({
-        address: addresses[i],
-        wins: Number(r[0]),
-        losses: Number(r[1]),
-        draws: Number(r[2]),
-        rating: Number(r[3]),
-        gamesPlayed,
-        rank: 0,
-      })
-    }
-
-    entries.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
-    entries.forEach((e, i) => { e.rank = i + 1 })
-
+    const entries = createLeaderboardEntries(addresses, statsResults)
     await redis.set(cacheKey, entries, { ex: CACHE_TTL })
     return NextResponse.json({ entries })
   } catch (err) {

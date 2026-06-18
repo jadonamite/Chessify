@@ -126,6 +126,7 @@ export async function POST(
     try {
       const game = await getOnchainGame(chain, gameId)
       const terminal = game.status > STATUS_ACTIVE // Finished/Cancelled/Draw
+      // TODO: consider memoizing this value
       if (terminal) {
         return NextResponse.json({ error: 'game not active' }, { status: 409 })
       }

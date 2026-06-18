@@ -211,7 +211,6 @@ export default function SettingsPage() {
                         ))}
                       </div>
                       <span
-                        // TODO: add input validation
                         className="text-[10px] font-black tracking-wide"
                         style={{ color: isActive ? 'var(--c)' : 'var(--t2)' }}
                       >{theme.name}</span>

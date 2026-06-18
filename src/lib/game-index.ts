@@ -11,7 +11,6 @@ import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 // sync only scans the delta (cursor+1 .. current gameNonce).
 //
 // EVM-only: Stacks history/leaderboard read via @stacks read-only fns elsewhere.
-
 const ZERO = '0x0000000000000000000000000000000000000000'
 const SCAN_CHUNK = 200
 
@@ -26,6 +25,7 @@ const K = (chain: EvmChain) => ({
 })
 
 let _redis: Redis | null = null
+
 function getRedis(): Redis {
   if (_redis) return _redis
   const url = process.env.UPSTASH_REDIS_REST_URL
@@ -45,6 +45,31 @@ async function gameNonce(chain: EvmChain): Promise<number> {
 }
 
 /**
+ * Process game results and update the Redis index.
+ * @param redis Redis client
+ * @param k Key generator
+ * @param results Game results
+ * @param ids Game IDs
+ */
+async function processGameResults(redis: Redis, k: ReturnType<typeof K>, results: any[], ids: bigint[]) {
+  const pipe = redis.pipeline()
+  let queued = false
+  results.forEach((r, i) => {
+    if (r.status !== 'success') return
+    const g = r.result as { white: string; black: string }
+    const id = Number(ids[i])
+    for (const raw of [g.white, g.black]) {
+      const addr = (raw ?? '').toLowerCase()
+      if (!addr || addr === ZERO || !addr.startsWith('0x')) continue
+      pipe.sadd(k.players, addr)
+      pipe.sadd(k.playerGames(addr), id)
+      queued = true
+    }
+  })
+  if (queued) await pipe.exec()
+}
+
+/**
  * Fold any games created since the last sync into the index. Bounded by the
  * number of *new* games, not the total. Returns the current gameNonce.
  */
@@ -54,7 +79,6 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
   const cursor = Number((await redis.get<number>(k.cursor)) ?? 0)
   const nonce = await gameNonce(chain)
   if (nonce <= cursor) return nonce
-
   const pub = getPublicClient(chain)
   const game = gameAddress(chain)
   for (let start = cursor + 1; start <= nonce; start += SCAN_CHUNK) {
@@ -69,26 +93,10 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
       })),
       allowFailure: true,
     })
-
-    const pipe = redis.pipeline()
-    let queued = false
-    results.forEach((r, i) => {
-      if (r.status !== 'success') return
-      const g = r.result as { white: string; black: string }
-      const id = Number(ids[i])
-      for (const raw of [g.white, g.black]) {
-        const addr = (raw ?? '').toLowerCase()
-        if (!addr || addr === ZERO || !addr.startsWith('0x')) continue
-        pipe.sadd(k.players, addr)
-        pipe.sadd(k.playerGames(addr), id)
-        queued = true
-      }
-    })
-    if (queued) await pipe.exec()
+    await processGameResults(redis, k, results, ids)
     // Advance the cursor per chunk so a mid-scan failure resumes, not restarts.
     await redis.set(k.cursor, end)
   }
-
   return nonce
 }
 

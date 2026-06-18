@@ -26,8 +26,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:coverage": "vitest run -- --coverage --costs",
-    "test:watch": "npm run test -- --watch"
+    "test:report": "vitest run -- --coverage --costs",
+    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
   },
   "keywords": [
     "stacks",

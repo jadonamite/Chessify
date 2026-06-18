@@ -19,13 +19,17 @@ const CHAINS: Chain[] = ['celo', 'base']
 // must include `Authorization: Bearer $CRON_SECRET`.
 export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET
-  if (secret && req.headers.get('authorization') !== `Bearer ${secret}`) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  if (secret) {
+    const auth = req.headers.get('authorization')
+    if (auth !== `Bearer ${secret}`) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+    }
   }
 
   const settled: { chain: Chain; gameId: number }[] = []
   const skipped: { chain: Chain; gameId: number; reason: string }[] = []
   let scanned = 0
+
   try {
     for (const chain of CHAINS) {
       const ids = await getActiveGameIds(chain)

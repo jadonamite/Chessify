@@ -39,7 +39,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'balanceOf',
-        params: [address as `0x${string}`],
+        args: [address as `0x${string}`],
       }) as bigint
 
       if (balance < amount) {
@@ -53,7 +53,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'allowance',
-        params: [address as `0x${string}`, CELO_CONTRACTS.game as `0x${string}`],
+        args: [address as `0x${string}`, CELO_CONTRACTS.game as `0x${string}`],
       }) as bigint
 
       if (allowance < amount) {
@@ -64,7 +64,7 @@ export function useCeloChess() {
           address: CELO_CONTRACTS.token as `0x${string}`,
           abi: CHESS_TOKEN_ABI,
           functionName: 'approve',
-          params: [CELO_CONTRACTS.game as `0x${string}`, amount],
+          args: [CELO_CONTRACTS.game as `0x${string}`, amount],
         })
 
         const approveReceipt = await publicClient.waitForTransactionReceipt({ hash: approveTxHash })
@@ -88,7 +88,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'createGame',
-        params: [amount],
+        args: [amount],
       })
 
       const createReceipt = await publicClient.waitForTransactionReceipt({ hash: createTxHash })
@@ -102,8 +102,8 @@ export function useCeloChess() {
         try {
           const decoded = decodeEventLog({ abi: CHESS_GAME_ABI, data: log.data, topics: log.topics })
           if (decoded.eventName === 'GameCreated') {
-            const params = decoded.params as unknown as { gameId: bigint }
-            const gameId = Number(params.gameId)
+            const args = decoded.args as unknown as { gameId: bigint }
+            const gameId = Number(args.gameId)
             console.info(`${LOG_PREFIX} createGame: success`, { gameId, hash: createTxHash })
             showToast('Match initialized successfully!', 'success')
             return gameId
@@ -149,7 +149,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'balanceOf',
-        params: [address as `0x${string}`],
+        args: [address as `0x${string}`],
       }) as bigint
 
       if (balance < amount) {
@@ -163,7 +163,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'allowance',
-        params: [address as `0x${string}`, CELO_CONTRACTS.game as `0x${string}`],
+        args: [address as `0x${string}`, CELO_CONTRACTS.game as `0x${string}`],
       }) as bigint
 
       if (allowance < amount) {
@@ -174,7 +174,7 @@ export function useCeloChess() {
           address: CELO_CONTRACTS.token as `0x${string}`,
           abi: CHESS_TOKEN_ABI,
           functionName: 'approve',
-          params: [CELO_CONTRACTS.game as `0x${string}`, amount],
+          args: [CELO_CONTRACTS.game as `0x${string}`, amount],
         })
 
         const approveReceipt = await publicClient.waitForTransactionReceipt({ hash: approveTxHash })
@@ -198,7 +198,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'joinGame',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
 
       const joinReceipt = await publicClient.waitForTransactionReceipt({ hash: joinTxHash })
@@ -231,7 +231,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'submitMove',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} submitMove failed:`, err)
@@ -247,7 +247,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'resign',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} resign failed:`, err)
@@ -263,7 +263,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'reportWin',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} reportWin failed:`, err)
@@ -279,7 +279,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'claimTimeout',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} claimTimeout failed:`, err)
@@ -295,7 +295,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'proposeDraw',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} proposeDraw failed:`, err)
@@ -311,7 +311,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'acceptDraw',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} acceptDraw failed:`, err)
@@ -327,7 +327,7 @@ export function useCeloChess() {
         address: CELO_CONTRACTS.game as `0x${string}`,
         abi: CHESS_GAME_ABI,
         functionName: 'cancelGame',
-        params: [BigInt(gameId)],
+        args: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} cancelGame failed:`, err)

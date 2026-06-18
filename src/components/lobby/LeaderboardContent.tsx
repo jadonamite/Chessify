@@ -492,7 +492,7 @@ export default function LeaderboardContent() {
               </p>
               <GlowButton
                 variant="brand"
-                size='sm'
+                size="sm"
                 parallelogram
                 onClick={() => router.push('/app/lobby')}
               >

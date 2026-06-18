@@ -68,7 +68,7 @@ export default function LoadingState({ message = 'SCANNING BLOCKCHAIN', progress
         </div>
 
         {/* ── STATUS TEXT ── */}
-        <div className='flex flex-col items-center gap-1'>
+        <div className="flex flex-col items-center gap-1">
           <motion.span
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 2, repeat: Infinity }}

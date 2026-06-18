@@ -2,17 +2,11 @@
 // Shared by client hooks and server routes — keep it dependency-free.
 export type ProfileChain = 'celo' | 'stacks'
 
-// Stacks c32check addresses: SP/SM (mainnet), ST/SN (testnet), then c32 body.
+const CELLO_RE = /^0x[a-fA-F0-9]{40}$/
 const STACKS_RE = /^S[PTMN][0-9A-Z]{37,42}$/
-const CELO_RE = /^0x[a-fA-F0-9]{40}$/
 
-function isCeloAddress(address: string): boolean {
-  return CELO_RE.test(address)
-}
-
-function isStacksAddress(address: string): boolean {
-  return STACKS_RE.test(address)
-}
+const isCeloAddress = (address: string): boolean => CELLO_RE.test(address)
+const isStacksAddress = (address: string): boolean => STACKS_RE.test(address)
 
 export function detectChain(address: string): ProfileChain | null {
   if (isCeloAddress(address)) return 'celo'

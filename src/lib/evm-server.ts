@@ -264,6 +264,7 @@ export async function chessBalanceOf(chain: EvmChain, addr: Address): Promise<bi
     abi: EVM_CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [addr],
+  // FIXME: handle edge case when value is null
   })) as bigint
 }
 

@@ -48,12 +48,8 @@ const MEDAL = {
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
-export default function LeaderboardContent() {
-  const router = useRouter()
-  const { activeChain, address, stacksAddress } = useWallet()
-  const isCelo = activeChain === 'celo'
-  const isBase = activeChain === 'base'
-  const isStacks = activeChain === 'stacks'
+const winRate = (e: LeaderboardEntry) =>
+  e.gamesPlayed === 0 ? '—' : `${Math.round((e.wins / e.gamesPlayed) * 100)}%`
 
 // ── podium card (rank 1–3) ───────────────────────────────────────────────────
 
@@ -310,8 +306,12 @@ function RankRow({
 
 // ── main ─────────────────────────────────────────────────────────────────────
 
-const winRate = (e: LeaderboardEntry) =>
-  e.gamesPlayed === 0 ? '—' : `${Math.round((e.wins / e.gamesPlayed) * 100)}%`
+export default function LeaderboardContent() {
+  const router = useRouter()
+  const { activeChain, address, stacksAddress } = useWallet()
+  const isCelo = activeChain === 'celo'
+  const isBase = activeChain === 'base'
+  const isStacks = activeChain === 'stacks'
 
   // All hooks run unconditionally (rules of hooks); each only fetches when it's
   // the active chain. Show whichever matches the active chain.

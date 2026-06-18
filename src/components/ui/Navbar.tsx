@@ -19,6 +19,16 @@ const NAV_LINKS = [
   { label: 'Settings',    path: '/app/settings' },
 ]
 
+export default function Navbar() {
+  const {
+    isConnected, address,
+    isStacksConnected, stacksAddress,
+    activeChain, connectWallet, disconnectAll,
+    showChainSelect, setShowChainSelect,
+    connect, connectStacks, connectSocial, connectBase,
+    isWrongChain, switchToCelo,
+  } = useWallet()
+
 function LogoutIcon() {
   return (
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -29,16 +39,6 @@ function LogoutIcon() {
     </svg>
   )
 }
-
-export default function Navbar() {
-  const {
-    isConnected, address,
-    isStacksConnected, stacksAddress,
-    activeChain, connectWallet, disconnectAll,
-    showChainSelect, setShowChainSelect,
-    connect, connectStacks, connectSocial, connectBase,
-    isWrongChain, switchToCelo,
-  } = useWallet()
 
   const { soundEnabled, setSoundEnabled } = useSettingsStore()
   const [mobileOpen, setMobileOpen] = useState(false)

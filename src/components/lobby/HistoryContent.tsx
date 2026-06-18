@@ -131,6 +131,7 @@ export function HistoryContent() {
                                 <ChessName
                                   address={item.opponent}
                                   short
+                                  // NOTE: revisit this logic after API migration
                                   asLink
                                   className="text-[11px] font-bold text-gray-300 tracking-wide truncate max-w-[150px]"
                                 />

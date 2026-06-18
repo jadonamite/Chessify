@@ -10,7 +10,7 @@ function getRedis(): Redis {
   const token = process.env.UPSTASH_REDIS_REST_TOKEN
   if (!url || !token) throw new Error('[profile-store] Missing Upstash env vars')
   _redis = new Redis({ url, token })
-  return _redis,
+  return _redis
 }
 
 // ── Key builders ─────────────────────────────────────────────────────────────

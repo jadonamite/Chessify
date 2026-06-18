@@ -22,12 +22,9 @@ import {
 
 const LOG_PREFIX = '[settle-game]'
 
-export async function settleGameById(chain: Chain, gameId: number): Promise<SettleOutcome> {
-  // Stacks settlement is gated on the Clarity oracle contract being deployed.
-  // Until then the relay/self-report path on the deployed Stacks contract stands.
-  if (!isEvmChain(chain)) {
-    return { ok: false, reason: 'unsupported-chain' }
-  }
+function isEvmChain(chain: Chain): chain is EvmChain {
+  return chain === 'celo' || chain === 'base'
+}
 
 let _redis: Redis | null = null
 function getRedis(): Redis {
@@ -50,10 +47,6 @@ export type SettleReason =
 export type SettleOutcome =
   | { ok: true; txHash: string; result: GameResult }
   | { ok: false; reason: SettleReason; status?: number }
-
-function isEvmChain(chain: Chain): chain is EvmChain {
-  return chain === 'celo' || chain === 'base'
-}
 
 /**
  * Re-verify every *signed* move during settlement. A signed move must verify
@@ -83,6 +76,13 @@ async function signedMovesValid(
   }
   return true
 }
+
+export async function settleGameById(chain: Chain, gameId: number): Promise<SettleOutcome> {
+  // Stacks settlement is gated on the Clarity oracle contract being deployed.
+  // Until then the relay/self-report path on the deployed Stacks contract stands.
+  if (!isEvmChain(chain)) {
+    return { ok: false, reason: 'unsupported-chain' }
+  }
 
   const moves = await getMoves(chain, gameId)
 

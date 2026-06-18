@@ -37,7 +37,7 @@ export function useBaseChess() {
     }) as bigint
     if (balance < amount) {
       showToast(`Insufficient CHESS balance. You need ${wagerAmount} CHESS.`, 'error')
-      throw new Error(`${LOG_PREFIX} Insufficient balance`),
+      throw new Error(`${LOG_PREFIX} Insufficient balance`)
     }
 
     const allowance = await publicClient.readContract({

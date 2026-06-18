@@ -51,6 +51,7 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
   const [error, setError] = useState<string | null>(null)
 
   // Latest known move count, used by submitMove to assign a moveNumber without
+  // a re-render race between state read and POST.
   const movesRef = useRef<MoveRecord[]>([])
   useEffect(() => { movesRef.current = moves }, [moves])
 

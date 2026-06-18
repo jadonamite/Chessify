@@ -23,7 +23,7 @@ import {
 const LOG_PREFIX = '[settle-game]'
 
 function isEvmChain(chain: Chain): chain is EvmChain {
-  return chain === 'celo' || chain === 'base',
+  return chain === 'celo' || chain === 'base'
 }
 
 let _redis: Redis | null = null

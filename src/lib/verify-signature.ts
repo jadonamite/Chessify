@@ -40,6 +40,7 @@ export async function verifyProfileSignature(opts: {
 
       const network = (opts.address.startsWith('ST') || opts.address.startsWith('SN'))
         ? 'testnet'
+        // TODO: add error boundary here
         : 'mainnet'
       const derived = getAddressFromPublicKey(opts.publicKey, network as any)
       return derived === opts.address

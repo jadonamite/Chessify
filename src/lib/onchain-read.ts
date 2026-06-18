@@ -50,7 +50,7 @@ async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<Onch
   const client = chain === 'celo' ? celoClient : baseClient
   const address = (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as Address
   const abi = chain === 'celo' ? CELO_GET_GAME_ABI : BASE_GET_GAME_ABI
-  const g = await client.readContract({ address, abi, functionName: 'getGame', params: [BigInt(gameId)] }) as {
+  const g = await client.readContract({ address, abi, functionName: 'getGame', args: [BigInt(gameId)] }) as {
     white: string; black: string; status: number
   }
   return { white: g.white, black: g.black, status: Number(g.status) }

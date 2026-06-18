@@ -38,6 +38,7 @@ function gameAddress(chain: EvmChain): `0x${string}` {
 
 // GET /api/leaderboard?chain=celo|base — Redis-indexed leaderboard for an EVM
 // chain. Scans only games created since the last index sync, then reads
+// playerStats for known players. (Stacks leaderboard reads via @stacks elsewhere.)
 export async function GET(req: NextRequest) {
   const chain = parseEvmChain(req.nextUrl.searchParams.get('chain') ?? 'celo')
   if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })

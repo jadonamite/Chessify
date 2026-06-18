@@ -17,7 +17,6 @@ function parseGameId(value: string): number | null {
   return n
 }
 
-// POST /api/games/:chain/:id/settle — replay the game and settle it on-chain via
 // the oracle. Client-triggered fast path; the cron worker is the guaranteed
 // fallback. Idempotent.
 export async function POST(

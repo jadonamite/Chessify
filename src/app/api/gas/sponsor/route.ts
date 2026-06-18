@@ -64,10 +64,10 @@ function parseEvmChain(value: unknown): EvmChain | null {
 // tier 'minipay' (Celo only): provisions CHESS + drips USDm gas to a fresh MiniPay EOA.
 // tier 'eoa' (any EVM chain): drips native gas so an empty external wallet can transact.
 // Degrades to self-pay (degraded:true) when the sponsor wallet can't cover a drip.
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
   try {
-    body = await request.json()
+    body = await req.json()
   } catch {
     return NextResponse.json({ error: 'invalid json body' }, { status: 400 })
   }

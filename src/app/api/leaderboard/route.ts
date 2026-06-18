@@ -1,10 +1,10 @@
-import type { Abi } from 'viem'
-import { CELO_CONTRACTS, BASE_CONTRACTS } from '@/config/contracts'
-import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 import { NextRequest, NextResponse } from 'next/server'
 import { Redis } from '@upstash/redis'
+import type { Abi } from 'viem'
 import { getPublicClient, type EvmChain } from '@/lib/evm-server'
 import { syncGameIndex, getIndexedPlayers } from '@/lib/game-index'
+import { CELO_CONTRACTS, BASE_CONTRACTS } from '@/config/contracts'
+import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

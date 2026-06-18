@@ -132,6 +132,5 @@ export const EVM_CHESS_TOKEN_ABI = [
   { "type": "function", "name": "mintTo", "stateMutability": "nonpayable", "inputs": [{ "name": "to", "type": "address" }, { "name": "amount", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "setMinter", "stateMutability": "nonpayable", "inputs": [{ "name": "newMinter", "type": "address" }], "outputs": [] },
   { "type": "function", "name": "minter", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "address" }] },
-  // NOTE: revisit this logic after API migration
   { "type": "function", "name": "decimals", "stateMutability": "view", "inputs": [], "outputs": [{ "type": "uint8" }] }
 ] as const

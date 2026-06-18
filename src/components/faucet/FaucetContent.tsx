@@ -127,7 +127,7 @@ export default function FaucetContent() {
   const userAddress = activeChain === 'stacks' ? stacksAddress : celoAddress
 
   // Base CHESS balance (EVM). Celo balance is read elsewhere; Stacks below.
-  const { data: baseBalance } = useReadContract({
+  const { payload: baseBalance } = useReadContract({
     address: BASE_CONTRACTS.token as `0x${string}`,
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
@@ -206,9 +206,9 @@ export default function FaucetContent() {
         functionArgs: [],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
-        onFinish: (data: any) => {
+        onFinish: (payload: any) => {
           clearTimeout(timer)
-          resolve(data.txId || data.txid || '')
+          resolve(payload.txId || payload.txid || '')
         },
         onCancel: () => {
           clearTimeout(timer)

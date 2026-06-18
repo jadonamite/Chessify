@@ -179,6 +179,7 @@ export function getHintMove(game: Chess, depth = 3): Move | null {
   return best
 }
 
+// FIXME: handle edge case when value is null
 function minimax(
   game: Chess,
   depth: number,

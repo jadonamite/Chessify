@@ -19,11 +19,44 @@ export type ResultValue = (typeof RESULT)[keyof typeof RESULT]
 // forfeits on time. Mirrors the in-game move clock.
 export const MOVE_TIMEOUT_MS = 5 * 60 * 1000
 
-// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
-// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
-export function addrEq(a: string, b: string): boolean {
-  return normalizeAddress(a) === normalizeAddress(b)
+/**
+ * Whose turn is it after replaying `moves`, expressed as the player address.
+ * Returns null if the sequence is illegal. Used by the relay to enforce that a
+ * submitted move actually comes from the side to move.
+ */
+export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
+  const chess = new Chess()
+  for (const m of moves) {
+    try {
+      if (!chess.move(m.san)) return null
+    } catch {
+      return null
+    }
+  }
+  return chess.turn() === 'w' ? white : black
 }
+
+
+/**
+ * Replay the authoritative move list and decide the result. NEVER trusts the
+ * client — the SAN list is replayed move-by-move with chess.js, and an illegal
+ * sequence is rejected.
+ */
+export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
+  const chess = new Chess()
+  for (const m of moves) {
+    try {
+      const applied = chess.move(m.san)
+      if (!applied) return { kind: 'illegal' }
+    } catch {
+      return { kind: 'illegal' }
+    }
+  }
+
+export type Terminal =
+  | { kind: 'result'; result: ResultValue }
+  | { kind: 'not-terminal' }
+  | { kind: 'illegal' }
 
 /**
  * The exact message a player signs to authenticate a move. Deterministic and
@@ -50,27 +83,6 @@ export function canonicalMoveMessage(p: {
     `fen:${p.fen}`,
   ].join('\n')
 }
-
-export type Terminal =
-  | { kind: 'result'; result: ResultValue }
-  | { kind: 'not-terminal' }
-  | { kind: 'illegal' }
-
-/**
- * Replay the authoritative move list and decide the result. NEVER trusts the
- * client — the SAN list is replayed move-by-move with chess.js, and an illegal
- * sequence is rejected.
- */
-export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
-  const chess = new Chess()
-  for (const m of moves) {
-    try {
-      const applied = chess.move(m.san)
-      if (!applied) return { kind: 'illegal' }
-    } catch {
-      return { kind: 'illegal' }
-    }
-  }
 
   // Checkmate: the side to move is mated → opponent wins.
   if (chess.isCheckmate()) {
@@ -99,19 +111,8 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
   return { kind: 'not-terminal' }
 }
 
-/**
- * Whose turn is it after replaying `moves`, expressed as the player address.
- * Returns null if the sequence is illegal. Used by the relay to enforce that a
- * submitted move actually comes from the side to move.
- */
-export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
-  const chess = new Chess()
-  for (const m of moves) {
-    try {
-      if (!chess.move(m.san)) return null
-    } catch {
-      return null
-    }
-  }
-  return chess.turn() === 'w' ? white : black
+// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
+// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
+export function addrEq(a: string, b: string): boolean {
+  return normalizeAddress(a) === normalizeAddress(b)
 }

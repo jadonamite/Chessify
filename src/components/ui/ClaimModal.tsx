@@ -15,7 +15,8 @@ function useProfileTotal() {
       const res = await fetch('/api/profile/total')
       if (!res.ok) return null
       const data = await res.json() as { total: number }
-      return data.total
+      const result = data.total;
+      return result;
     },
     staleTime: 60_000,
   })

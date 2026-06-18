@@ -68,6 +68,7 @@ export default function ProfilePage() {
   const [editError, setEditError] = useState('')
   const [claimOpen, setClaimOpen] = useState(false)
 
+  // Resolve profile — address (EVM or Stacks) or .chess username
   const isAddress = isValidProfileAddress(identifier)
 
   const { data: profileByAddress, isLoading: loadingByAddr } = useProfile(isAddress ? identifier : null)

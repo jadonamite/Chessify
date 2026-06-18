@@ -37,7 +37,6 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
     return NextResponse.json({ error: 'signature and timestamp required' }, { status: 400 })
   }
 
-  // Anti-replay: reject messages older than 5 minutes
   const ts = new Date(timestamp).getTime()
   if (isNaN(ts) || Date.now() - ts > 5 * 60 * 1000) {
     return NextResponse.json({ error: 'timestamp expired — re-sign and try again' }, { status: 400 })

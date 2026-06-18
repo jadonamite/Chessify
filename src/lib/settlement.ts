@@ -52,35 +52,9 @@ export function canonicalMoveMessage(p: {
 }
 
 export type Terminal =
-  | {
-      kind: 'result'
-      result: ResultValue
-    }
-  | {
-      kind: 'not-terminal'
-    }
-  | {
-      kind: 'illegal'
-    }
-
-function isCheckmate(chess: Chess): boolean {
-  return chess.isCheckmate()
-}
-
-function isDraw(chess: Chess): boolean {
-  return chess.isStalemate() || chess.isInsufficientMaterial() || chess.isDraw()
-}
-
-function isTimeoutForfeit(moves: MoveRecord[], white: string, black: string, chess: Chess): boolean {
-  if (moves.length === 0) return false
-  const last = moves[moves.length - 1]
-  if (Date.now() - last.ts > MOVE_TIMEOUT_MS) {
-    const winnerIsWhite = chess.turn() !== 'w'
-    const winnerAddr = winnerIsWhite ? white : black
-    return addrEq(last.player, winnerAddr)
-  }
-  return false
-}
+  | { kind: 'result'; result: ResultValue }
+  | { kind: 'not-terminal' }
+  | { kind: 'illegal' }
 
 /**
  * Replay the authoritative move list and decide the result. NEVER trusts the
@@ -98,23 +72,27 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
     }
   }
 
-  if (isCheckmate(chess)) {
+  // Checkmate: the side to move is mated → opponent wins.
+  if (chess.isCheckmate()) {
     const loserIsWhite = chess.turn() === 'w'
-    return {
-      kind: 'result',
-      result: loserIsWhite ? RESULT.BlackWins : RESULT.WhiteWins,
-    }
+    return { kind: 'result', result: loserIsWhite ? RESULT.BlackWins : RESULT.WhiteWins }
   }
 
-  if (isDraw(chess)) {
+  // Any drawn terminal position (stalemate, insufficient material, 3-fold, 50-move).
+  if (chess.isStalemate() || chess.isInsufficientMaterial() || chess.isDraw()) {
     return { kind: 'result', result: RESULT.Draw }
   }
 
-  if (isTimeoutForfeit(moves, white, black, chess)) {
-    const winnerIsWhite = chess.turn() !== 'w'
-    return {
-      kind: 'result',
-      result: winnerIsWhite ? RESULT.WhiteWins : RESULT.BlackWins,
+  // Not terminal by board — check the move clock for a timeout forfeit.
+  if (moves.length > 0) {
+    const last = moves[moves.length - 1]
+    if (Date.now() - last.ts > MOVE_TIMEOUT_MS) {
+      // Side to move has run out of time → the player who made the last move wins.
+      const winnerIsWhite = chess.turn() !== 'w'
+      const winnerAddr = winnerIsWhite ? white : black
+      if (addrEq(last.player, winnerAddr)) {
+        return { kind: 'result', result: winnerIsWhite ? RESULT.WhiteWins : RESULT.BlackWins }
+      }
     }
   }
 

@@ -41,6 +41,7 @@ export const BASE_CHESS_GAME_ABI = [
   { "type": "function", "name": "resign", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "reportWin", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
   { "type": "function", "name": "settleDraw", "stateMutability": "nonpayable", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [] },
+  // TODO: optimize for large datasets
   { "type": "function", "name": "getGame", "stateMutability": "view", "inputs": [{ "name": "gameId", "type": "uint256" }], "outputs": [{ "type": "tuple", "components": [
     { "name": "white", "type": "address" },
     { "name": "black", "type": "address" },

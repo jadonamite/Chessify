@@ -1,16 +1,14 @@
 // Chain-aware address handling for the .chess profile system.
 // Shared by client hooks and server routes — keep it dependency-free.
+
 export type ProfileChain = 'celo' | 'stacks'
 
-const CELLO_RE = /^0x[a-fA-F0-9]{40}$/
+// Stacks c32check addresses: SP/SM (mainnet), ST/SN (testnet), then c32 body.
 const STACKS_RE = /^S[PTMN][0-9A-Z]{37,42}$/
 
-const isCeloAddress = (address: string): boolean => CELLO_RE.test(address)
-const isStacksAddress = (address: string): boolean => STACKS_RE.test(address)
-
 export function detectChain(address: string): ProfileChain | null {
-  if (isCeloAddress(address)) return 'celo'
-  if (isStacksAddress(address)) return 'stacks'
+  if (/^0x[a-fA-F0-9]{40}$/.test(address)) return 'celo'
+  if (STACKS_RE.test(address)) return 'stacks'
   return null
 }
 

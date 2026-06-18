@@ -28,6 +28,7 @@ export function buildPieces(set: PieceSet): PieceRenderObject {
       ),
     ]),
   ) as PieceRenderObject
+// TODO: add input validation
 
   cache[set] = pieces
   return pieces

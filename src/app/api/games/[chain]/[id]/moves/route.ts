@@ -13,8 +13,10 @@ import { verifyProfileSignature } from '@/lib/verify-signature'
 
 const LOG_PREFIX = '[api/moves]'
 
-function parseChain(value: string): Chain | null {
-  return value === 'celo' || value === 'stacks' || value === 'base' ? value : null
+function parseGameId(value: string): number | null {
+  const n = Number(value)
+  if (!Number.isInteger(n) || n < 0) return null  // 0 is a valid game ID
+  return n
 }
 
 // Slow-finality chains play off a predicted gameId before the create tx
@@ -24,11 +26,14 @@ function isFastFinality(chain: Chain): boolean {
   return chain === 'celo' || chain === 'base'
 }
 
-function parseGameId(value: string): number | null {
-  const n = Number(value)
-  if (!Number.isInteger(n) || n < 0) return null  // 0 is a valid game ID
-  return n
-}
+// POST /api/games/:chain/:id/moves — append a move (authenticated)
+export async function POST(
+  req: NextRequest,
+  { params }: { params: Promise<{ chain: string; id: string }> }
+) {
+  const { chain: chainRaw, id: idRaw } = await params
+  const chain = parseChain(chainRaw)
+  const gameId = parseGameId(idRaw)
 
 // GET /api/games/:chain/:id/moves — fetch the full move history
 export async function GET(
@@ -51,14 +56,9 @@ export async function GET(
   }
 }
 
-// POST /api/games/:chain/:id/moves — append a move (authenticated)
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ chain: string; id: string }> }
-) {
-  const { chain: chainRaw, id: idRaw } = await params
-  const chain = parseChain(chainRaw)
-  const gameId = parseGameId(idRaw)
+function parseChain(value: string): Chain | null {
+  return value === 'celo' || value === 'stacks' || value === 'base' ? value : null
+}
 
   if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })
   if (gameId === null) return NextResponse.json({ error: 'invalid gameId' }, { status: 400 })

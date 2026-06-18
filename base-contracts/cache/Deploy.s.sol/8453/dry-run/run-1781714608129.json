@@ -1,0 +1,16 @@
+{
+  "transactions": [
+    {
+      "rpc": "https://base-rpc.publicnode.com"
+    },
+    {
+      "rpc": "https://base-rpc.publicnode.com"
+    },
+    {
+      "rpc": "https://base-rpc.publicnode.com"
+    },
+    {
+      "rpc": "https://base-rpc.publicnode.com"
+    }
+  ]
+}

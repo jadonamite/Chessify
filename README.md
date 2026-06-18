@@ -30,7 +30,7 @@ Chess itself is never validated on-chain — the contracts only escrow and settl
 
 - **Move relay** — Upstash Redis. Moves are turn-bound; capable wallets **cryptographically sign** each move (`canonicalMoveMessage` binds chain + game + ply + SAN + resulting position, so a signature can't be replayed onto another move).
 - **Server verification** — the relay confirms the game is `Active` and enforces turn order via read-only chain calls (`onchain-read.ts`) before accepting a move.
-- **Settlement** — replayed off-chain with chess.js (`settlement.ts`) and submitted on-chain by the players (`reportWin` / `settleDraw` / resign / timeout). Trust model: CHESS is free, so a false claim costs nothing. A **trusted-oracle** settlement path is architected but deferred.
+- **Settlement (oracle)** — the server **oracle** replays the authoritative move list off-chain with chess.js (`settlement.ts`) and is the **only** address allowed to declare a winner/draw (`settleGame`, `onlyOracle`). It holds the same trust the relay already holds, is a rotatable low-value hot key (`setOracle`), and can only ever route funds to white / black / split. `reclaimExpired` is an oracle-independent backstop so escrow can never lock permanently.
 
 ---
 
@@ -64,7 +64,7 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 2. **Initialization**: Player A picks a wager and creates a match (`createGame`). Tokens are escrowed in the contract.
 3. **Matching**: Player B joins the match, locking an equal CHESS amount.
 4. **Gameplay**: Moves go to the **relay** (not on-chain) — turn-bound and signed. The opponent's board syncs by polling. A side that doesn't move within the clock window forfeits on time.
-5. **Resolution**: Checkmate/draw/timeout is replayed off-chain with chess.js, then **settled on-chain by the players** (`reportWin` / `settleDraw` / resign / timeout).
+5. **Resolution**: Checkmate/draw/timeout is replayed off-chain with chess.js, then **settled on-chain by the oracle** (`settleGame`); resign and accepted draws settle directly. `reclaimExpired` is the backstop if the oracle is down.
 6. **Payout**: The contract releases the pot to the winner (or refunds both on a draw) and updates Elo ratings.
 
 ---
@@ -99,11 +99,27 @@ A free-to-access in-game currency used for wagers, rewards, and ranking.
 
 ## 📖 Deployed Details
 
+Currently-wired (legacy player-model) addresses:
+
 **Stacks Deployer**: `SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39`  
 **Celo Token**: `0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197`  
 **Celo Game**: `0xf85f00D39A84b5180390548Ea9f76B0458607E78`  
 **Base Token**: `0x6aab785e1fa220eefe74d90a143e0a4a3c36e4e4`  
 **Base Game**: `0x309fc0793350c694ae1de87719f2c9a413a25ac3`
+
+---
+
+## 🔀 Migration Status — oracle settlement
+
+The contract sources in `celo-contracts/` and `base-contracts/` have been upgraded to the **oracle model** (already live on the Celo-only [playchessify](https://github.com/jadonamite/playchessify) deployment: game `0xb378…`, minter token `0x3f7e…`). The EVM source mirrors that; the live Chessify deployments above still run the legacy `reportWin` player-model.
+
+**Remaining to complete the multi-chain oracle migration (gated — touches live mainnet escrow):**
+
+1. **Deploy** the new oracle `ChessGame` + minter `ChessToken` on Celo and Base; call `setOracle` / `setMinter`.
+2. **Stacks**: author the Clarity equivalent of the oracle/minter model (the deployed Clarity contracts are still player-model — no Solidity port applies).
+3. **Backend**: port `lib/celo-server.ts` → a per-chain server signer, plus the `api/games/[chain]/[id]/settle`, `api/cron/settle`, and `api/gas/sponsor` routes (gas sponsorship is Celo/MiniPay-specific and degrades to self-pay elsewhere).
+4. **Frontend**: repoint `config/contracts.ts` + `config/abis.ts` at the new addresses/ABIs and switch resolution from `reportWin` to oracle-triggered `settleGame`.
+5. **Operators**: fund + register the oracle, minter, and gas-sponsor keys per chain.
 
 ---
 

@@ -32,6 +32,11 @@ path = 'contracts/chess-game-v2.clar'
 clarity_version = 2
 epoch = 'latest'
 
+[contracts.chess-game-oracle]
+path = 'contracts/chess-game-oracle.clar'
+clarity_version = 2
+epoch = 'latest'
+
 [contracts.logic-v2]
 path = 'contracts/logic-v2.clar'
 clarity_version = 2

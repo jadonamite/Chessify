@@ -83,6 +83,11 @@ plan:
       path: contracts/chess-token-v4.clar
       clarity-version: 2
     - transaction-type: emulated-contract-publish
+      contract-name: chess-game-oracle
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/chess-game-oracle.clar
+      clarity-version: 2
+    - transaction-type: emulated-contract-publish
       contract-name: chess-game-v2
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       path: contracts/chess-game-v2.clar

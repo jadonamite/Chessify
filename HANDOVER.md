@@ -2,7 +2,126 @@
 
 **Goal:** bring the original multi-chain **Chessify** (Stacks + Celo + Stellar) up to date with all the UI/UX, features, and architecture introduced in **playchessify** (the Celo-only redesign) — **with Stacks as the first-class chain** in every chain-aware decision.
 
-**Last updated:** 2026-06-10 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
+**Last updated:** 2026-06-17 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
+
+---
+
+## ⚡ 2026-06-17 (cont.) — Oracle settlement BACKEND ported (dormant, build-clean, uncommitted)
+
+Read the full playchessify settlement stack one file at a time and ported it into
+Chessify as **multi-chain, server-only, DORMANT** infrastructure. Nothing here runs
+against the live (legacy) contracts and the frontend resolution path was **not**
+touched, so live games are unaffected. `npm run build` clean (Turbopack, fresh
+`.next`); `clarinet check` clean (7 contracts).
+
+**Key structural finding driving the port:** the 2026-06-17 contract port *converged*
+`celo-contracts/` and `base-contracts/` ChessGame.sol into ONE shape (byte-identical
+except `EXPIRY_BLOCKS`). So the EVM surface collapses from two ABIs/hooks to one.
+
+**New files (all additive — legacy ABIs/hooks/contracts untouched):**
+- `src/config/abis.ts` → added `EVM_CHESS_ORACLE_ABI` (single converged 7-field
+  getGame + settleGame/setOracle/oracle/reclaimExpired/canReclaim/proposeDraw/
+  acceptDraw/events) and `EVM_CHESS_TOKEN_ABI` (adds `mintTo`/`setMinter`/`minter`).
+  Legacy `CHESS_GAME_ABI` / `BASE_CHESS_GAME_ABI` left in place for the live frontend.
+- `src/lib/evm-server.ts` (SERVER-ONLY) → playchessify `celo-server.ts` generalized to
+  chain-parameterized (`celo`|`base`) oracle/minter/gas-sponsor signers + reads. Shared
+  operator keys across both EVM chains. Lazy key loading (import is build-safe). Gas
+  sponsorship: Celo USDm drip + native CELO; Base native ETH drip.
+- `src/lib/settle-game.ts` (SERVER-ONLY) → `settleGameById(chain,gameId)`: replay +
+  signed-move re-verification + Redis lock + oracle settle. EVM only; Stacks returns
+  `unsupported-chain` until the Clarity oracle deploys. Reuses Chessify's already-superior
+  `settlement.ts` (`addrEq`, Stacks-safe) and `moves-store.ts` (multi-chain active set).
+- `src/lib/game-index.ts` (SERVER-ONLY) → per-chain Upstash index (cursor + players +
+  player-games) for leaderboard/history; delta-scan via converged ABI multicall.
+- Routes: `api/games/[chain]/[id]/settle` (celo|base|stacks→501), `api/cron/settle`
+  (sweeps celo+base, CRON_SECRET-gated), `api/gas/sponsor` (MiniPay USDm + native EOA
+  drip, Sybil guards), `api/history?address&chain`, `api/leaderboard?chain`.
+- `contracts/chess-game-oracle.clar` → Stacks oracle model: `oracle` var + `set-oracle`
+  (owner), `settle-game` (oracle-only, result 1/2/3), `reclaim-expired` backstop
+  (EXPIRY-BLOCKS u144 ≈ 1 day). Drops submit-move/report-win/claim-timeout and the
+  turn/move-count/last-move-block struct fields (mirrors EVM convergence). Keeps
+  create/join/resign/propose-draw/accept-draw/cancel + Elo. Added to `Clarinet.toml`,
+  passes `clarinet check`. Uses `.chess-token-v4 gateway-release` like v2.
+
+**NOT done (still gated — irreversible / live-mainnet / needs Jadon):**
+- **No deploys.** EVM oracle contracts + minter token, and `chess-game-oracle.clar`,
+  are all undeployed. `evm-server`/`settle-game` target `settleGame`/`mintTo`, which
+  the deployed legacy contracts don't expose → all settlement code is inert until deploy.
+- **No frontend flip.** `config/contracts.ts` addresses, `useCeloChess`/`useBaseChess`,
+  `GameClient`, and the live `CHESS_GAME_ABI`/`BASE_CHESS_GAME_ABI` are unchanged. The
+  EVM-path unification (fold `useBaseChess` into one oracle hook, drop dead
+  submitMove/claimTimeout/reportWin writes, repoint to `EVM_CHESS_ORACLE_ABI`) happens
+  *with* the deploy, atomically — see drift notes below.
+- **No Vercel Cron wired.** `api/cron/settle` exists but `vercel.json` has no schedule —
+  adding it is the activation switch (do it post-deploy).
+
+**Env to add at activation (server-side; NOT committed):**
+`ORACLE_PRIVATE_KEY`, `MINTER_PRIVATE_KEY`, `GAS_SPONSOR_PRIVATE_KEY` (operators per
+memory: oracle `0x4d68`, minter `0x4548`, gas-sponsor `0xc26f` — must be set as
+oracle/minter on each redeployed contract + funded with native gas per chain),
+`CRON_SECRET`, optional `CELO_RPC_URL`/`BASE_RPC_URL`/`NEXT_PUBLIC_FEE_CURRENCY`.
+`UPSTASH_REDIS_REST_URL`/`_TOKEN` already used by the relay.
+
+**⚠️ Frontend↔contract drift to fix at the flip (verified, file:line):** deployed Celo
+`getGame` is a 10-field tuple in `CHESS_GAME_ABI` (turn/moveCount/lastMoveBlock at
+abis.ts:21-24) — the oracle struct is 7-field, so positional decode breaks; Base's
+`settleDraw`+`drawProposal` (abis.ts:43,59; `useBaseChess.settleDraw`; GameClient:182
+poll) is replaced by propose/accept; `submitMove`/`claimTimeout`/`reportWin` are gone.
+These only bite once the new contracts are live and reads/writes repoint to the oracle ABI.
+
+---
+
+## ⚡ 2026-06-17 — Oracle settlement port: EVM contracts done, rewire gated (uncommitted)
+
+Full read of the **playchessify** source tree + its live env confirmed playchessify is now
+**ahead on settlement architecture** (and Celo-only), while Chessify is ahead on multi-chain.
+playchessify runs a **live oracle settlement system** that Chessify lacked:
+
+- Live playchessify Celo deploy (from `.env.production`): **game `0xb378…`**, **minter token `0x3f7e…`**,
+  plus `ORACLE_PRIVATE_KEY`, `MINTER_PRIVATE_KEY`, `GAS_SPONSOR_PRIVATE_KEY` hot keys. The
+  playchessify README's "old / pre-oracle" addresses are **stale** — oracle is live there.
+- Chessify's deployed contracts (all chains) still run the **legacy player-submitted `reportWin`**.
+
+**Done this session (source only — reversible, NO deploys, NO commits):**
+- `celo-contracts/ChessGame.sol` → **oracle model**: `settleGame(gameId,result)` + `onlyOracle`,
+  `setOracle`, `reclaimExpired` backstop, `GameSettled`/`OracleUpdated` events. EXPIRY_BLOCKS 17_280.
+  Dropped legacy `reportWin`/`claimTimeout`/`submitMove`/`timeoutBlocks`. Verbatim port of
+  playchessify's compiling source, Celo-titled.
+- `base-contracts/ChessGame.sol` → same, EXPIRY_BLOCKS **43_200** (Base ~2s blocks), Base-titled.
+- `celo-contracts/ChessToken.sol` + `base-contracts/ChessToken.sol` → added the **minter role**:
+  `minter`, `setMinter`, `mintTo` (`onlyMinter`), `NotMinter`/`MinterUpdated`. Faucet cooldowns
+  preserved (Celo 17_280 / Base 43_200).
+- Each `ChessGame` carries a `⚠️ UPGRADE TARGET` header: deployed bytecode still runs the old
+  model — do NOT point the frontend at this source until redeployed + `setOracle` called.
+- `README.md` → settlement section rewritten to the oracle model; new **"🔀 Migration Status"**
+  section enumerates the gated remainder; deployed addresses relabelled "legacy player-model".
+
+**Verification:** `reportWin` now appears only in a comment in both ChessGame files; both expose
+`settleGame/onlyOracle/setOracle/reclaimExpired`, both tokens expose `mintTo/onlyMinter`. `forge`
+is available locally; full compile happens in the deploy env (Chessify `*-contracts/` are loose
+`.sol`, not a Foundry project — playchessify's `celo-contracts/` is the Foundry reference).
+
+**GATED — remaining oracle migration (irreversible / live-mainnet escrow; needs Jadon):**
+1. **Deploy** new oracle `ChessGame` + minter `ChessToken` on Celo + Base; `setOracle` / `setMinter`
+   (needs operator keys + real gas — do not auto-run mainnet broadcasts).
+2. **Stacks**: author the **Clarity** oracle/minter equivalent from scratch — no Solidity port
+   applies; deployed Clarity is still player-model.
+3. **Backend port** from playchessify (Celo-only → per-chain): `lib/celo-server.ts` (oracle/minter/
+   sponsor signers), `lib/settle-game.ts`, `lib/game-index.ts`, and routes
+   `api/games/[chain]/[id]/settle`, `api/cron/settle` (Vercel Cron, every min), `api/gas/sponsor`.
+   Gas sponsorship is **Celo/MiniPay-specific** (USDm drip + ERC-4337 Pimlico) — degrade to self-pay
+   on Base/Stacks.
+4. **Frontend rewire**: repoint `config/contracts.ts` + `config/abis.ts` at new addresses/ABIs;
+   switch resolution from player `reportWin` → oracle-triggered `settleGame`. **Flipping before
+   redeploy breaks live games on the old contracts.**
+5. **Operators**: fund + register oracle / minter / gas-sponsor keys per chain (cf. memory:
+   playchessify operators oracle `0x4d68`, minter `0x4548`, gas-sponsor `0xc26f`).
+
+**Also still un-ported from playchessify (safe/additive, gated on a build-verify pass):**
+mobile UI — `ui/icons/index.tsx` (Solar duotone set), `ui/BottomNav.tsx`, `app/app/layout.tsx`;
+decomposed game components (`game/BoardPanel|CapturedTray|GameActionBar|GameHeader|
+GameResultOverlay|GameSidebar|MoveLog|AmbientBackground|types.ts` — Chessify's `GameClient` is
+still monolithic); `api/history` + `api/leaderboard` routes; `hooks/useGameData.ts`.
 
 ---
 
@@ -56,6 +175,9 @@ stats to show on a chain-agnostic `.chess` identity is a design decision, not a 
 - **Oracle settlement + cron worker + gas sponsorship + `reclaimExpired`** — the rest of
   playchessify's backend. Needs contract redeploys on all chains (incl. live Base) and an
   EVM token minter role that doesn't exist. The Phase-1 signed-move relay is the prerequisite.
+  **→ UPDATE 2026-06-17:** the EVM contract half is now ported (oracle `ChessGame` + minter
+  `ChessToken` on both `celo-contracts/` and `base-contracts/`) — see the 2026-06-17 section
+  at the top for what's done and the gated deploy/backend/frontend/Stacks remainder.
 
 ---
 

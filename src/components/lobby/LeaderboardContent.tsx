@@ -1,18 +1,18 @@
 'use client'
 
-import ChessAvatar from '@/components/ui/ChessAvatar'
-import ChessName from '@/components/ui/ChessName'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import GlowButton from '@/components/ui/GlowButton'
 import LoadingState from '@/components/ui/LoadingState'
 import { Navbar } from '@/components/landing/Hero'
-import { motion, AnimatePresence } from 'framer-motion'
-import { normalizeAddress } from '@/lib/profile-address'
-import { useBaseLeaderboard } from '@/hooks/useBaseLeaderboard'
-import { useBatchProfiles } from '@/hooks/useBatchProfiles'
-import { useLeaderboard, type LeaderboardEntry } from '@/hooks/useLeaderboard'
-import { useRouter } from 'next/navigation'
-import { useStacksLeaderboard } from '@/hooks/useStacksLeaderboard'
 import { useWallet } from '@/components/wallet-provider'
+import { useLeaderboard, type LeaderboardEntry } from '@/hooks/useLeaderboard'
+import { useBaseLeaderboard } from '@/hooks/useBaseLeaderboard'
+import { useStacksLeaderboard } from '@/hooks/useStacksLeaderboard'
+import { useBatchProfiles } from '@/hooks/useBatchProfiles'
+import { normalizeAddress } from '@/lib/profile-address'
+import ChessName from '@/components/ui/ChessName'
+import ChessAvatar from '@/components/ui/ChessAvatar'
 
 // ── constants ───────────────────────────────────────────────────────────────
 

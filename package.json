@@ -20,14 +20,16 @@
     "contracts"
   ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "npm run dev:next",
+    "build": "npm run build:lib && npm run build:next",
     "build:lib": "tsup src/lib/index.ts --format esm --dts --clean --tsconfig tsconfig.lib.json",
+    "build:next": "next build",
+    "dev:next": "next dev",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
-    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
+    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"
   },
   "keywords": [
     "stacks",

@@ -4,7 +4,7 @@ import { Redis } from '@upstash/redis'
 // client will throw on first use, which is the correct fail-loud behaviour.
 let _redis: Redis | null = null
 
-function initializeRedis(): Redis {
+function getRedis(): Redis {
   if (_redis) return _redis
   const url = process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.UPSTASH_REDIS_REST_TOKEN
@@ -15,19 +15,15 @@ function initializeRedis(): Redis {
   return _redis
 }
 
-function getRedis(): Redis {
-  return initializeRedis()
-}
-
 export type Chain = 'celo' | 'stacks' | 'base'
 
 export interface MoveRecord {
-  san: string // standard algebraic notation, e.g. "e4", "Nxe5", "O-O"
-  player: string // player wallet address (creator or opponent)
-  moveNumber: number // 1-indexed, monotonically increasing
-  ts: number // unix ms when the relay accepted it
-  sig?: string // 0x-prefixed signature over canonicalMoveMessage (optional)
-  signer?: string // address that produced sig — must equal player (optional)
+  san: string         // standard algebraic notation, e.g. "e4", "Nxe5", "O-O"
+  player: string      // player wallet address (creator or opponent)
+  moveNumber: number  // 1-indexed, monotonically increasing
+  ts: number          // unix ms when the relay accepted it
+  sig?: string        // 0x-prefixed signature over canonicalMoveMessage (optional)
+  signer?: string     // address that produced sig — must equal player (optional)
 }
 
 const TTL_SECONDS = 60 * 60 * 24 * 30 // 30 days — long enough for any reasonable game

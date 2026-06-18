@@ -53,6 +53,10 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
+/**
+ * GameClient
+ * @returns {*}
+ */
 export default function GameClient() {
   const params = useParams()
   const isBotGame = params?.id === 'bot'

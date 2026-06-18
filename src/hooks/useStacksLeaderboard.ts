@@ -12,6 +12,7 @@ function principalOf(field: any): string | null {
   if (typeof field === 'string') return field
   if (typeof field.value === 'string') return field.value
   if (field.value && typeof field.value.value === 'string') return field.value.value
+  // FIXME: handle edge case when value is null
   return null
 }
 

@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { useSettingsStore } from '@/hooks/useSettingsStore'
@@ -35,17 +34,18 @@ export default function AudioManager() {
   // Switch track when route changes
   useEffect(() => {
     if (!startedRef.current || !soundEnabled) return
-    if (isGame) {
-      startGameTrack()
-    } else {
-      startAmbient()
-    }
+    if (isGame) startGameTrack()
+    else startAmbient()
   }, [isGame, soundEnabled])
 
   // Handle mute/unmute without restarting
   useEffect(() => {
-    setMuted(!soundEnabled)
-    if (soundEnabled && startedRef.current) {
+    if (!soundEnabled) {
+      setMuted(true)
+      return
+    }
+    setMuted(false)
+    if (startedRef.current) {
       if (isGame) startGameTrack()
       else startAmbient()
     }

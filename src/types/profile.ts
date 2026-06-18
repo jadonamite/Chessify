@@ -1,1 +1,19 @@
-export interface ChessProfile { address: string; // 0x… (lowercased) for Celo, SP…/ST… (verbatim) for Stacks username: string; // "jadon" — displayed as "jadon.chess" displayName: string; // freeform, max 30 chars bio: string; // max 120 chars og: boolean; // first 100 profiles, locked forever createdAt: number; // unix ms updatedAt: number; // unix ms usernameChangedAt: number; // unix ms — 30-day username change lock } export interface ProfileCheckResult { available: boolean; reason?: string; } export interface BatchProfileResult { profiles: Record<string, ChessProfile | null>; } function validateChessProfile(profile: ChessProfile): boolean { if (!profile.address || typeof profile.address !== 'string') return false; if (!profile.username || typeof profile.username !== 'string') return false; if (!profile.displayName || typeof profile.displayName !== 'string' || profile.displayName.length > 30) return false; if (!profile.bio || typeof profile.bio !== 'string' || profile.bio.length > 120) return false; if (typeof profile.og !== 'boolean') return false; if (typeof profile.createdAt !== 'number' || typeof profile.updatedAt !== 'number' || typeof profile.usernameChangedAt !== 'number') return false; return true; }
+export interface ChessProfile {
+  address: string           // 0x… (lowercased) for Celo, SP…/ST… (verbatim) for Stacks
+  username: string          // "jadon" — displayed as "jadon.chess"
+  displayName: string       // freeform, max 30 chars
+  bio: string               // max 120 chars
+  og: boolean               // first 100 profiles, locked forever
+  createdAt: number         // unix ms
+  updatedAt: number         // unix ms
+  usernameChangedAt: number // unix ms — 30-day username change lock
+}
+
+export interface ProfileCheckResult {
+  available: boolean
+  reason?: string
+}
+
+export interface BatchProfileResult {
+  profiles: Record<string, ChessProfile | null>
+}

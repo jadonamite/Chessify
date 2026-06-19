@@ -152,6 +152,7 @@ export function HistoryContent() {
                             <div className="flex flex-col text-right">
                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Status</span>
                               <div className="flex items-center gap-2 justify-end">
+                                // FIXME: handle edge case when value is null
                                 <div className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
                                 <span className={`text-sm font-black uppercase italic ${item.status === 'Active' ? 'text-green-400' : 'text-gray-300'}`}>
                                   {item.status}

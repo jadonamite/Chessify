@@ -15,15 +15,17 @@ import { useToastStore } from '@/hooks/useToastStore'
 // Builder-Code (ERC-8021) attribution is applied globally by the Privy
 // dataSuffix plugin (providers.tsx) — do NOT re-append here or it double-suffixes.
 
+function handleErr(err: any, showToast: (m: string, t: any) => void) {
+  console.error(`${LOG_PREFIX} tx failed:`, err)
+  const msg = err?.message?.toLowerCase() ?? ''
+  const userCancelled = msg.includes('rejected') || msg.includes('user denied') || msg.includes('cancelled')
+  if (userCancelled) showToast('Transaction cancelled by user.', 'error')
+  else if (!msg.includes('insufficient balance')) showToast('Blockchain interaction failed. Please try again.', 'error')
+}
+
+
 const LOG_PREFIX = '[useBaseChess]'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-export function useBaseChess() {
-  const { address } = useAccount()
-  const { writeContractAsync } = useWriteContract()
-  const publicClient = usePublicClient({ chainId: BASE_CHAIN_ID })
-  const [isPending, setIsPending] = useState(false)
-  const showToast = useToastStore((state) => state.showToast)
 
   // Shared approve→wait→write guard for wagered create/join.
   const ensureApproval = useCallback(async (amount: bigint, wagerAmount: number) => {
@@ -167,10 +169,9 @@ export function useBaseChess() {
   return { createGame, joinGame, resign, reportWin, settleDraw, isPending }
 }
 
-function handleErr(err: any, showToast: (m: string, t: any) => void) {
-  console.error(`${LOG_PREFIX} tx failed:`, err)
-  const msg = err?.message?.toLowerCase() ?? ''
-  const userCancelled = msg.includes('rejected') || msg.includes('user denied') || msg.includes('cancelled')
-  if (userCancelled) showToast('Transaction cancelled by user.', 'error')
-  else if (!msg.includes('insufficient balance')) showToast('Blockchain interaction failed. Please try again.', 'error')
-}
+export function useBaseChess() {
+  const { address } = useAccount()
+  const { writeContractAsync } = useWriteContract()
+  const publicClient = usePublicClient({ chainId: BASE_CHAIN_ID })
+  const [isPending, setIsPending] = useState(false)
+  const showToast = useToastStore((state) => state.showToast)

@@ -1,7 +1,7 @@
 'use client'
 
-import { canonicalMoveMessage } from '@/lib/settlement'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { canonicalMoveMessage } from '@/lib/settlement'
 
 const LOG_PREFIX = '[useGameMoves]'
 const POLL_INTERVAL_MS = 2_000

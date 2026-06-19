@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect, useCallback } from 'react'
 import { useWallet } from '@/components/wallet-provider'
 import { useStacksRead } from '@/hooks/useStacksRead'
@@ -23,6 +22,32 @@ export function useStacksLeaderboard(enabled = true) {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
+  const processGame = (game: any): [string | null, string | null] => {
+    const white = principalOf(game.white)
+    const black = principalOf(game.black)
+    return [white, black]
+  }
+
+  const calculateLeaderboard = (games: any[], statsResults: any[]): LeaderboardEntry[] => {
+    const leaderboard: LeaderboardEntry[] = []
+    for (let i = 0; i < games.length; i++) {
+      const s = statsResults[i]
+      if (!s) continue
+      const gamesPlayed = Number(s['games-played']?.value ?? 0)
+      if (gamesPlayed === 0) continue
+      leaderboard.push({
+        address: games[i],
+        wins: Number(s.wins?.value ?? 0),
+        losses: Number(s.losses?.value ?? 0),
+        draws: Number(s.draws?.value ?? 0),
+        rating: Number(s.rating?.value ?? 0),
+        gamesPlayed,
+        rank: 0,
+      })
+    }
+    return leaderboard
+  }
+
   const fetchLeaderboard = useCallback(async () => {
     if (!enabled) return
     setIsLoading(true)
@@ -32,47 +57,27 @@ export function useStacksLeaderboard(enabled = true) {
         setEntries([])
         return
       }
-
       // Game IDs are 0-indexed: game-nonce starts at u0, get-total-games returns the NEXT id.
       const ids = Array.from({ length: total }, (_, i) => i)
       const games = await Promise.all(ids.map((id) => getGame(id)))
-
       const addressSet = new Set<string>()
       for (const g of games) {
         if (!g) continue
-        const white = principalOf(g.white)
-        const black = principalOf(g.black)
+        const [white, black] = processGame(g)
         if (white) addressSet.add(white)
         if (black) addressSet.add(black)
       }
-
       const addresses = Array.from(addressSet)
       if (addresses.length === 0) {
         setEntries([])
         return
       }
-
       const statsResults = await Promise.all(addresses.map((a) => getPlayerStats(a)))
-
-      const leaderboard: LeaderboardEntry[] = []
-      for (let i = 0; i < addresses.length; i++) {
-        const s = statsResults[i]
-        if (!s) continue
-        const gamesPlayed = Number(s['games-played']?.value ?? 0)
-        if (gamesPlayed === 0) continue
-        leaderboard.push({
-          address: addresses[i],
-          wins: Number(s.wins?.value ?? 0),
-          losses: Number(s.losses?.value ?? 0),
-          draws: Number(s.draws?.value ?? 0),
-          rating: Number(s.rating?.value ?? 0),
-          gamesPlayed,
-          rank: 0,
-        })
-      }
-
+      const leaderboard = calculateLeaderboard(addresses, statsResults)
       leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
-      leaderboard.forEach((e, i) => { e.rank = i + 1 })
+      leaderboard.forEach((e, i) => {
+        e.rank = i + 1
+      })
       setEntries(leaderboard)
     } catch (err) {
       console.error('[useStacksLeaderboard] fetch failed:', err)
@@ -86,9 +91,6 @@ export function useStacksLeaderboard(enabled = true) {
   }, [fetchLeaderboard])
 
   // Stacks addresses are case-sensitive — never lowercase them.
-  const myRank = stacksAddress
-    ? (entries.find((e) => e.address === stacksAddress)?.rank ?? null)
-    : null
-
+  const myRank = stacksAddress ? (entries.find((e) => e.address === stacksAddress)?.rank ?? null) : null
   return { entries, isLoading, myRank, refresh: fetchLeaderboard }
 }

@@ -62,7 +62,7 @@ function PodiumCard({
   entry: LeaderboardEntry
   isMe: boolean
   delay: number
-  profileMap: Record<string, import('@/types/profile').ChessProfile | null>
+  profileMap: Record<string, import('@/types/profile').ChessProfile | null>,
 }) {
   const rank = entry.rank as 1 | 2 | 3
   const m = MEDAL[rank]

@@ -42,6 +42,7 @@ export default function TypingHeroText({
             duration: 0.5,
             ease: "easeInOut",
             onComplete: () => {
+              // TODO: optimize for large datasets
               setIndex((prev) => (prev + 1) % words.length)
             }
           })

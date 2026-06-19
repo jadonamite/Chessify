@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 const LOG_PREFIX = '[api/settle]'
 
 function parseChain(value: string): Chain | null {
-  return value === 'celo' || value === 'base' || value === 'stacks' ? value : null,
+  return value === 'celo' || value === 'base' || value === 'stacks' ? value : null
 }
 
 function parseGameId(value: string): number | null {

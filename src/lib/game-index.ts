@@ -15,6 +15,16 @@ import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 const ZERO = '0x0000000000000000000000000000000000000000'
 const SCAN_CHUNK = 200
 
+function gameAddress(chain: EvmChain): `0x${string}` {
+  return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
+}
+
+const K = (chain: EvmChain) => ({
+  cursor: `chess:idx:${chain}:cursor`,
+  players: `chess:idx:${chain}:players`,
+  playerGames: (a: string) => `chess:idx:${chain}:player:${a.toLowerCase()}`,
+})
+
 let _redis: Redis | null = null
 function getRedis(): Redis {
   if (_redis) return _redis
@@ -44,18 +54,6 @@ export async function syncGameIndex(chain: EvmChain): Promise<number> {
   const cursor = Number((await redis.get<number>(k.cursor)) ?? 0)
   const nonce = await gameNonce(chain)
   if (nonce <= cursor) return nonce
-
-/** gameIds a given address has participated in on `chain`, newest-id first. */
-export async function getPlayerGameIds(chain: EvmChain, address: string): Promise<number[]> {
-  const ids = (await getRedis().smembers(K(chain).playerGames(address))) as Array<string | number>
-  return ids.map(Number).sort((a, b) => b - a)
-}
-
-
-/** All addresses that have ever appeared in a game on `chain` (lowercased). */
-export async function getIndexedPlayers(chain: EvmChain): Promise<string[]> {
-  return (await getRedis().smembers(K(chain).players)) as string[]
-}
 
   const pub = getPublicClient(chain)
   const game = gameAddress(chain)
@@ -94,12 +92,13 @@ export async function getIndexedPlayers(chain: EvmChain): Promise<string[]> {
   return nonce
 }
 
-function gameAddress(chain: EvmChain): `0x${string}` {
-  return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
+/** All addresses that have ever appeared in a game on `chain` (lowercased). */
+export async function getIndexedPlayers(chain: EvmChain): Promise<string[]> {
+  return (await getRedis().smembers(K(chain).players)) as string[]
 }
 
-const K = (chain: EvmChain) => ({
-  cursor: `chess:idx:${chain}:cursor`,
-  players: `chess:idx:${chain}:players`,
-  playerGames: (a: string) => `chess:idx:${chain}:player:${a.toLowerCase()}`,
-})
+/** gameIds a given address has participated in on `chain`, newest-id first. */
+export async function getPlayerGameIds(chain: EvmChain, address: string): Promise<number[]> {
+  const ids = (await getRedis().smembers(K(chain).playerGames(address))) as Array<string | number>
+  return ids.map(Number).sort((a, b) => b - a)
+}

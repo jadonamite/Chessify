@@ -32,8 +32,7 @@ export function useCheckUsername(username: string) {
     queryFn: async () => {
       if (username.length < 3) return { available: false, reason: 'Too short' }
       const res = await fetch(`/api/profile/check/${username.toLowerCase()}`)
-      const result = res.json() as Promise<{ available: boolean; reason?: string }>;
-      return result;
+      return res.json() as Promise<{ available: boolean; reason?: string }>
     },
     enabled: username.length >= 3,
     staleTime: 30 * 1000,

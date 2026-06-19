@@ -206,10 +206,6 @@ interface PlayerStats {
   useEffect(() => {
     if (activeChain !== 'stacks') return
 
-/**
- * GameClient
- * @returns {*}
- */
 export default function GameClient() {
   const params = useParams()
   const isBotGame = params?.id === 'bot'

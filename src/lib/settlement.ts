@@ -22,7 +22,7 @@ export const MOVE_TIMEOUT_MS = 5 * 60 * 1000
 // Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
 // normalizeAddress lowercases only 0x… addresses; everything else is preserved.
 export function addrEq(a: string, b: string): boolean {
-  return normalizeAddress(a) === normalizeAddress(b),
+  return normalizeAddress(a) === normalizeAddress(b)
 }
 
 /**

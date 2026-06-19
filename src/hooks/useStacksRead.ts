@@ -66,7 +66,6 @@ export function useStacksRead() {
         senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
       })
 
-      // get-game returns (ok (some { ... })) or (ok none)
       // cvToJSON shape: { value: { value: { value: { ... } } | null } }
       const json = cvToJSON(result)
       const outer = json?.value         // unwrap (ok ...)

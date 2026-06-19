@@ -69,7 +69,6 @@ async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const tuple = json?.value?.value?.value
   if (!tuple) throw new Error('game not found')
   const white = tuple.white?.value ?? ''
-  // black is (optional principal): unwrap (some …) → value.value, (none) → ''
   const black = tuple.black?.value?.value ?? tuple.black?.value ?? ''
   const status = Number(tuple.status?.value ?? -1)
   return { white, black, status }

@@ -1,10 +1,10 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { usePublicClient } from 'wagmi'
 import { CELO_CONTRACTS, CELO_CHAIN_ID, TOKEN_DECIMALS } from '@/config/contracts'
 import { CHESS_GAME_ABI } from '@/config/abis'
 import { formatUnits, type Abi } from 'viem'
-import { usePublicClient } from 'wagmi'
-import { useQuery } from '@tanstack/react-query'
 
 export type PlayerHistoryItem = {
   id: string

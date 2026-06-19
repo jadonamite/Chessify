@@ -98,7 +98,7 @@ export default function TypingHeroText({
             {displayText}
             <motion.span
               animate={{ opacity: [1, 0] }}
-              transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
               style={{
                 display: 'inline-block',
                 width: '2px',

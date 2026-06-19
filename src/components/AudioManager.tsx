@@ -1,31 +1,9 @@
 'use client'
+
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { useSettingsStore } from '@/hooks/useSettingsStore'
 import { startAmbient, startGameTrack, setMuted } from '@/lib/audio'
-
-const handleAudioPlayback = (isGame: boolean, soundEnabled: boolean, startedRef: React.RefObject<boolean>) => {
-  if (!startedRef.current || !soundEnabled) return
-  if (isGame) {
-    startGameTrack()
-  } else {
-    startAmbient()
-  }
-}
-
-const handleMuteUnmute = (soundEnabled: boolean, isGame: boolean, startedRef: React.RefObject<boolean>) => {
-  setMuted(!soundEnabled)
-  if (soundEnabled && startedRef.current) {
-    if (isGame) startGameTrack()
-    else startAmbient()
-  }
-}
-
-const handleInitialPlayback = (soundEnabled: boolean, startedRef: React.RefObject<boolean>) => {
-  if (startedRef.current) return
-  startedRef.current = true
-  if (soundEnabled) startAmbient()
-}
 
 export default function AudioManager() {
   const pathname = usePathname()
@@ -33,9 +11,13 @@ export default function AudioManager() {
   const isGame = pathname?.startsWith('/app/game')
   const startedRef = useRef(false)
 
+  // Start ambient immediately on first user interaction (browser autoplay policy)
   useEffect(() => {
+    if (startedRef.current) return
     const start = () => {
-      handleInitialPlayback(soundEnabled, startedRef)
+      if (startedRef.current) return
+      startedRef.current = true
+      if (soundEnabled) startAmbient()
       document.removeEventListener('click', start)
       document.removeEventListener('keydown', start)
       document.removeEventListener('touchstart', start)
@@ -48,14 +30,25 @@ export default function AudioManager() {
       document.removeEventListener('keydown', start)
       document.removeEventListener('touchstart', start)
     }
-  }, [soundEnabled])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Switch track when route changes
   useEffect(() => {
-    handleAudioPlayback(isGame, soundEnabled, startedRef)
+    if (!startedRef.current || !soundEnabled) return
+    if (isGame) {
+      startGameTrack()
+    } else {
+      startAmbient()
+    }
   }, [isGame, soundEnabled])
 
+  // Handle mute/unmute without restarting
   useEffect(() => {
-    handleMuteUnmute(soundEnabled, isGame, startedRef)
+    setMuted(!soundEnabled)
+    if (soundEnabled && startedRef.current) {
+      if (isGame) startGameTrack()
+      else startAmbient()
+    }
   }, [soundEnabled, isGame])
 
   return null

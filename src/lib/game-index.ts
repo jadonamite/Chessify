@@ -20,9 +20,9 @@ function gameAddress(chain: EvmChain): `0x${string}` {
 }
 
 const K = (chain: EvmChain) => ({
-  cursor: `chess:index:${chain}:cursor`,
-  players: `chess:index:${chain}:players`,
-  playerGames: (a: string) => `chess:index:${chain}:player:${a.toLowerCase()}`,
+  cursor: `chess:idx:${chain}:cursor`,
+  players: `chess:idx:${chain}:players`,
+  playerGames: (a: string) => `chess:idx:${chain}:player:${a.toLowerCase()}`,
 })
 
 let _redis: Redis | null = null

@@ -1,7 +1,6 @@
 import { Redis } from '@upstash/redis'
 
 // Shared Redis client. Reads env vars at module load — if they're missing the
-// client will throw on first use, which is the correct fail-loud behaviour.
 let _redis: Redis | null = null
 
 function getRedis(): Redis {

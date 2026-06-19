@@ -6,6 +6,7 @@ const PIECES = ['♟', '♞', '♝', '♜', '♛', '♚']
 // characters don't yield NaN.
 function addrByte(addr: string, idx: number): number {
   if (addr.startsWith('0x')) {
+    // TODO: consider memoizing this value
     const hex = addr.slice(2).toLowerCase()
     return parseInt(hex.slice(idx * 2, idx * 2 + 2) || '00', 16)
   }

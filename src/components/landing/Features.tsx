@@ -111,7 +111,6 @@ export default function Features() {
                   <div key={m.l}>
                     <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 28, color: '#c090ff' }}>{m.v}</div>
                     <div style={{ fontFamily: 'var(--fd)', fontSize: 8, color: 'var(--t3)', letterSpacing: '.13em', marginTop: 3 }}>{m.l}</div>
-                  // TODO: add error boundary here
                   </div>
                 ))}
               </div>

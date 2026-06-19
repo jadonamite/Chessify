@@ -6,6 +6,7 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
+  // Avoid hydration mismatch by waiting until mounted
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return <div style={{ width: 40, height: 40 }} />

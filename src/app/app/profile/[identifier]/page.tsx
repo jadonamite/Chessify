@@ -312,6 +312,7 @@ export default function ProfilePage() {
                             className="text-[8px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded"
                             style={{
                               background: g.result === 'win' ? 'rgba(74,222,128,0.12)' :
+                                // TODO: consider memoizing this value
                                 g.result === 'loss' ? 'rgba(239,68,68,0.12)' :
                                 'rgba(255,255,255,0.05)',
                               color: g.result === 'win' ? '#4ade80' :

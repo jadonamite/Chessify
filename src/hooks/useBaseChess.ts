@@ -33,7 +33,7 @@ export function useBaseChess() {
       address: BASE_CONTRACTS.token as `0x${string}`,
       abi: CHESS_TOKEN_ABI,
       functionName: 'balanceOf',
-      args: [address as `0x${string}`],
+      params: [address as `0x${string}`],
     }) as bigint
     if (balance < amount) {
       showToast(`Insufficient CHESS balance. You need ${wagerAmount} CHESS.`, 'error')
@@ -44,7 +44,7 @@ export function useBaseChess() {
       address: BASE_CONTRACTS.token as `0x${string}`,
       abi: CHESS_TOKEN_ABI,
       functionName: 'allowance',
-      args: [address as `0x${string}`, BASE_CONTRACTS.game as `0x${string}`],
+      params: [address as `0x${string}`, BASE_CONTRACTS.game as `0x${string}`],
     }) as bigint
 
     if (allowance < amount) {
@@ -54,7 +54,7 @@ export function useBaseChess() {
         address: BASE_CONTRACTS.token as `0x${string}`,
         abi: CHESS_TOKEN_ABI,
         functionName: 'approve',
-        args: [BASE_CONTRACTS.game as `0x${string}`, amount],
+        params: [BASE_CONTRACTS.game as `0x${string}`, amount],
       })
       const receipt = await publicClient.waitForTransactionReceipt({ hash: approveTxHash })
       if (receipt.status !== 'success') {
@@ -82,7 +82,7 @@ export function useBaseChess() {
         address: BASE_CONTRACTS.game as `0x${string}`,
         abi: BASE_CHESS_GAME_ABI,
         functionName: 'createGame',
-        args: [amount],
+        params: [amount],
       })
       const receipt = await publicClient.waitForTransactionReceipt({ hash: createTxHash })
       if (receipt.status !== 'success') {
@@ -94,8 +94,8 @@ export function useBaseChess() {
         try {
           const decoded = decodeEventLog({ abi: BASE_CHESS_GAME_ABI, data: log.data, topics: log.topics })
           if (decoded.eventName === 'GameCreated') {
-            const args = decoded.args as unknown as { gameId: bigint }
-            const gameId = Number(args.gameId)
+            const params = decoded.params as unknown as { gameId: bigint }
+            const gameId = Number(params.gameId)
             showToast('Match initialized successfully!', 'success')
             return gameId
           }
@@ -126,7 +126,7 @@ export function useBaseChess() {
         address: BASE_CONTRACTS.game as `0x${string}`,
         abi: BASE_CHESS_GAME_ABI,
         functionName: 'joinGame',
-        args: [BigInt(gameId)],
+        params: [BigInt(gameId)],
       })
       const receipt = await publicClient.waitForTransactionReceipt({ hash: joinTxHash })
       if (receipt.status !== 'success') {
@@ -150,7 +150,7 @@ export function useBaseChess() {
         address: BASE_CONTRACTS.game as `0x${string}`,
         abi: BASE_CHESS_GAME_ABI,
         functionName,
-        args: [BigInt(gameId)],
+        params: [BigInt(gameId)],
       })
     } catch (err) {
       console.error(`${LOG_PREFIX} ${functionName} failed:`, err)

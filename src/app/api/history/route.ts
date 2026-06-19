@@ -22,12 +22,12 @@ export type HistoryItem = {
   timestamp: number
 }
 
-function gameAddress(chain: EvmChain): `0x${string}` {
-  return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
-}
-
 function parseEvmChain(value: string | null): EvmChain | null {
   return value === 'celo' || value === 'base' ? value : null
+}
+
+function gameAddress(chain: EvmChain): `0x${string}` {
+  return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
 }
 
 // GET /api/history?address=0x…&chain=celo|base — a player's games on an EVM

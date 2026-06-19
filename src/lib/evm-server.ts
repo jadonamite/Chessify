@@ -70,7 +70,7 @@ const CONFIG: Record<EvmChain, ChainCfg> = {
   },
 }
 
-function config(chain: EvmChain): ChainCfg {
+function cfg(chain: EvmChain): ChainCfg {
   const c = CONFIG[chain]
   if (!c) throw new Error(`[evm-server] unsupported chain: ${chain}`)
   return c
@@ -80,7 +80,7 @@ function config(chain: EvmChain): ChainCfg {
 const _publicClients: Partial<Record<EvmChain, ReturnType<typeof createPublicClient>>> = {}
 export function getPublicClient(chain: EvmChain) {
   if (!_publicClients[chain]) {
-    const c = config(chain)
+    const c = cfg(chain)
     _publicClients[chain] = createPublicClient({ chain: c.chain, transport: http(c.rpc) })
   }
   return _publicClients[chain]!
@@ -94,7 +94,7 @@ function requireKey(name: string): `0x${string}` {
 }
 
 function walletFor(chain: EvmChain, envName: string) {
-  const c = config(chain)
+  const c = cfg(chain)
   const account = privateKeyToAccount(requireKey(envName))
   const client = createWalletClient({ account, chain: c.chain, transport: http(c.rpc) })
   return { account, client, c }
@@ -112,7 +112,7 @@ export interface OnchainGame {
 }
 
 export async function getOnchainGame(chain: EvmChain, gameId: number): Promise<OnchainGame> {
-  const c = config(chain)
+  const c = cfg(chain)
   const g = (await getPublicClient(chain).readContract({
     address: c.game,
     abi: EVM_CHESS_ORACLE_ABI,
@@ -260,7 +260,7 @@ export async function nativeBalanceOf(chain: EvmChain, addr: Address): Promise<b
 
 export async function chessBalanceOf(chain: EvmChain, addr: Address): Promise<bigint> {
   return (await getPublicClient(chain).readContract({
-    address: config(chain).token,
+    address: cfg(chain).token,
     abi: EVM_CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [addr],

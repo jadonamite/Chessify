@@ -9,9 +9,9 @@ import { isValidProfileAddress, normalizeAddress } from '@/lib/profile-address'
 import { verifyProfileSignature } from '@/lib/verify-signature'
 import type { ChessProfile } from '@/types/profile'
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   let body: any
-  try { body = await request.json() } catch {
+  try { body = await req.json() } catch {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 })
   }
 

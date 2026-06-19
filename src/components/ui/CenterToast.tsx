@@ -1,8 +1,8 @@
 'use client'
 
+import { useToastStore, type ToastType } from '@/hooks/useToastStore'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
-import { useToastStore, type ToastType } from '@/hooks/useToastStore'
 
 type Config = {
   bg: string

@@ -9,6 +9,7 @@ import { useGLTF, Float, Environment } from '@react-three/drei'
 
 // PRELOAD
 useGLTF.preload('/models/King.glb')
+// FIXME: handle edge case when value is null
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')
 

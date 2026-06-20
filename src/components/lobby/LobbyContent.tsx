@@ -410,7 +410,7 @@ export default function LobbyContent() {
                     <LoadingState message="SCANNING LOBBY" />
                   ) : openGames.length === 0 ? (
                     <div className="py-20 text-center flex flex-col items-center gap-4 border border-white/5 bg-white/[0.02] rounded-3xl">
-                      <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center opacity-40">
+                      <div className='w-12 h-12 rounded-full border border-white/10 flex items-center justify-center opacity-40'>
                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                            <path d="M12 8V12L15 15" />
                            <circle cx="12" cy="12" r="9" />

@@ -153,8 +153,7 @@ async function handleNativeDrip(chain: EvmChain, address: Address, redis: Redis)
     }
 
     if (await redis.get(K.cooldown(scope, address))) {
-      const result = NextResponse.json({ ok: true, skipped: true, reason: 'cooldown' });
-      return result;
+      return NextResponse.json({ ok: true, skipped: true, reason: 'cooldown' })
     }
     const lock = await redis.set(K.lock(scope, address), '1', { nx: true, ex: LOCK_SECONDS })
     if (lock !== 'OK') return NextResponse.json({ error: 'drip in progress' }, { status: 409 })

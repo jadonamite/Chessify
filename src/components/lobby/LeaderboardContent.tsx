@@ -195,7 +195,7 @@ function PodiumCard({
           <div className="w-px bg-white/5" />
           <div className="flex-1 text-center">
             <div
-              className="text-base font-black text-gray-400"
+              className='text-base font-black text-gray-400'
               style={{ fontFamily: 'var(--fd)' }}
             >
               {entry.draws}

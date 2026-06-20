@@ -1,15 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server' 
 import { getActiveGameIds, type Chain } from '@/lib/moves-store'
 import { settleGameById } from '@/lib/settle-game'
-
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
-
 const LOG_PREFIX = '[api/cron/settle]'
-
 // EVM chains the oracle settles. Stacks is gated on the Clarity oracle deploy.
 const CHAINS: Chain[] = ['celo', 'base']
-
 // GET /api/cron/settle — server-side settlement worker. Sweeps every live game on
 // each EVM chain and settles the terminal ones, so a finished game is always
 // settled even if both players closed their tabs (the client POST is the fast
@@ -19,17 +15,12 @@ const CHAINS: Chain[] = ['celo', 'base']
 // must include `Authorization: Bearer $CRON_SECRET`.
 export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET
-  if (secret) {
-    const auth = req.headers.get('authorization')
-    if (auth !== `Bearer ${secret}`) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-    }
+  if (secret && req.headers.get('authorization') !== `Bearer ${secret}`) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
-
   const settled: { chain: Chain; gameId: number }[] = []
   const skipped: { chain: Chain; gameId: number; reason: string }[] = []
   let scanned = 0
-
   try {
     for (const chain of CHAINS) {
       const ids = await getActiveGameIds(chain)

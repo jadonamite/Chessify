@@ -1,12 +1,7 @@
-import { NextResponse } from 'next/server';
-import { getRecentProfiles } from '@/lib/profile-store';
+import { NextResponse } from 'next/server'
+import { getRecentProfiles } from '@/lib/profile-store'
 
 export async function GET() {
-  try {
-    const profiles = await getRecentProfiles(10);
-    return NextResponse.json({ profiles });
-  } catch (error) {
-    console.error('Error fetching recent profiles:', error);
-    return NextResponse.json({ error: 'Failed to fetch recent profiles' }, { status: 500 });
-  }
+  const profiles = await getRecentProfiles(10)
+  return NextResponse.json({ profiles })
 }

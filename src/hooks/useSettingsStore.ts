@@ -28,6 +28,7 @@ export type AiDifficulty = 'easy' | 'medium' | 'hard'
 // Difficulty maps to minimax search depth. Capped at 3 — deeper search
 // gets sluggish in-browser.
 export const AI_DEPTH: Record<AiDifficulty, number> = {
+  // TODO: add error boundary here
   easy: 1,
   medium: 2,
   hard: 3,

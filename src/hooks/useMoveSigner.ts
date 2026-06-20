@@ -1,4 +1,5 @@
 'use client'
+
 import { useCallback } from 'react'
 import { useSignMessage } from 'wagmi'
 import { useWallet } from '@/components/wallet-provider'
@@ -10,9 +11,9 @@ import { useWallet } from '@/components/wallet-provider'
 // can sign WITHOUT a per-move popup.
 //
 // Policy:
-// • EVM (celo/base): Privy embedded wallets sign silently → sign every move.
-// • Stacks: Leather/Xverse would pop a dialog on every move → do NOT sign;
-// rely on the server's turn-order + legality checks instead.
+//   • EVM (celo/base): Privy embedded wallets sign silently → sign every move.
+//   • Stacks: Leather/Xverse would pop a dialog on every move → do NOT sign;
+//     rely on the server's turn-order + legality checks instead.
 export interface MoveSigner {
   // Returns a 0x signature, or null if this wallet/chain doesn't sign moves.
   sign: ((message: string) => Promise<string | null>) | undefined
@@ -25,10 +26,6 @@ export function useMoveSigner(): MoveSigner {
   const { activeChain } = useWallet()
   const { signMessageAsync } = useSignMessage()
 
-  if (activeChain === 'stacks') {
-    return { sign: undefined, publicKey: undefined, canSign: false }
-  }
-
   const sign = useCallback(async (message: string): Promise<string | null> => {
     try {
       return await signMessageAsync({ message })
@@ -38,5 +35,10 @@ export function useMoveSigner(): MoveSigner {
     }
   }, [signMessageAsync])
 
+  // Stacks would pop a wallet dialog per move → relay unsigned. Every other
+  // (EVM) chain signs silently via Privy.
+  if (activeChain === 'stacks') {
+    return { sign: undefined, publicKey: undefined, canSign: false }
+  }
   return { sign, publicKey: undefined, canSign: true }
 }

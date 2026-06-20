@@ -16,6 +16,7 @@ function principalOf(field: any): string | null {
 }
 
 // Stacks sibling of useLeaderboard: scans every game on chess-game.clar to find
+// unique players, reads get-player-stats for each, ranks by ELO.
 export function useStacksLeaderboard(enabled = true) {
   const { stacksAddress } = useWallet()
   const { getTotalGames, getGame, getPlayerStats } = useStacksRead()

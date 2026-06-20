@@ -34,29 +34,17 @@ export async function GET(req: NextRequest) {
     for (const chain of CHAINS) {
       const ids = await getActiveGameIds(chain)
       scanned += ids.length
-
-      // Settle games in batches to avoid hammering the RPC
-      const batchSize = 10
-      for (let i = 0; i < ids.length; i += batchSize) {
-        const batch = ids.slice(i, i + batchSize)
-        const outcomes = await Promise.all(batch.map(async (gameId) => {
-          try {
-            return await settleGameById(chain, gameId)
-          } catch (err) {
-            return { ok: false, reason: (err as Error)?.message ?? 'error' }
-          }
-        }))
-
-        for (const outcome of outcomes) {
-          if (outcome.ok) {
-            settled.push({ chain, gameId: ids[i + outcomes.indexOf(outcome)] })
-          } else {
-            skipped.push({ chain, gameId: ids[i + outcomes.indexOf(outcome)], reason: outcome.reason })
-          }
+      // Sequential to keep oracle nonces ordered and avoid hammering the RPC.
+      for (const gameId of ids) {
+        try {
+          const outcome = await settleGameById(chain, gameId)
+          if (outcome.ok) settled.push({ chain, gameId })
+          else skipped.push({ chain, gameId, reason: outcome.reason })
+        } catch (err) {
+          skipped.push({ chain, gameId, reason: (err as Error)?.message ?? 'error' })
         }
       }
     }
-
     return NextResponse.json({ ok: true, scanned, settled, skipped })
   } catch (err) {
     console.error(`${LOG_PREFIX} sweep failed`, { err: (err as Error)?.message })

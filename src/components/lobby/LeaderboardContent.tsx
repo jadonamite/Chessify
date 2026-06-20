@@ -304,6 +304,7 @@ function RankRow({
   )
 }
 
+// ── main ─────────────────────────────────────────────────────────────────────
 
 export default function LeaderboardContent() {
   const router = useRouter()

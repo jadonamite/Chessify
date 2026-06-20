@@ -1,8 +1,10 @@
 'use client'
+
 import { useMemo, useRef } from 'react'
 import { useGLTF, Float } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+
 /* ── PRELOADS ── */
 useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
@@ -23,19 +25,9 @@ interface PieceProps {
   rotationIntensity?: number
 }
 
-function BasePiece({
-  modelPath,
-  color = '#00ccff',
-  emissive,
-  emissiveIntensity,
-  scale = 1,
-  position = [0, 0, 0],
-  rotation = [0, 0, 0],
-  floatSpeed = 1,
-  floatIntensity = 0.5,
-  rotationIntensity = 0.3
-}: PieceProps & { modelPath: string }) {
+function BasePiece({ modelPath, color = '#00ccff', emissive, emissiveIntensity, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {
   const { scene } = useGLTF(modelPath)
+
   const material = useMemo(() => {
     // Default emissive is a soft self-tint so the piece reads in low light;
     // callers can override with a stronger glow (e.g. modal accents).
@@ -51,6 +43,7 @@ function BasePiece({
   }, [color, emissive, emissiveIntensity])
 
   const meshRef = useRef<THREE.Group>(null)
+
   useFrame((state) => {
     if (!meshRef.current) return
     const t = state.clock.getElapsedTime()
@@ -73,10 +66,10 @@ function BasePiece({
   }, [scene, material])
 
   return (
-    <Float
-      speed={floatSpeed * 1.5}
-      rotationIntensity={rotationIntensity * 2.5}
-      floatIntensity={floatIntensity * 2}
+    <Float 
+      speed={floatSpeed * 1.5} 
+      rotationIntensity={rotationIntensity * 2.5} 
+      floatIntensity={floatIntensity * 2} 
       position={position}
     >
       <primitive ref={meshRef} object={clonedScene} scale={scale} rotation={rotation} />
@@ -84,35 +77,30 @@ function BasePiece({
   )
 }
 
-const pieceConfig = {
-  king: { modelPath: '/models/King.glb', scale: 1.87 },
-  queen: { modelPath: '/models/QueenChess.glb', scale: 1.62 },
-  rook: { modelPath: '/models/Rook.glb', scale: 1.37 },
-  pawn: { modelPath: '/models/pawn.glb', scale: 1.25 },
-  bishop: { modelPath: '/models/Bishop.glb', scale: 1.45 },
-  knight: { modelPath: '/models/WhiteKnight.glb', scale: 1.4 },
-}
-
-export const King = (props: PieceProps) => <BasePiece modelPath={pieceConfig.king.modelPath} scale={pieceConfig.king.scale} {...props} />
-export const Queen = (props: PieceProps) => <BasePiece modelPath={pieceConfig.queen.modelPath} scale={pieceConfig.queen.scale} {...props} />
-export const Rook = (props: PieceProps) => <BasePiece modelPath={pieceConfig.rook.modelPath} scale={pieceConfig.rook.scale} {...props} />
-export const Pawn = (props: PieceProps) => <BasePiece modelPath={pieceConfig.pawn.modelPath} scale={pieceConfig.pawn.scale} {...props} />
-export const Bishop = (props: PieceProps) => <BasePiece modelPath={pieceConfig.bishop.modelPath} scale={pieceConfig.bishop.scale} {...props} />
-export const Knight = (props: PieceProps) => <BasePiece modelPath={pieceConfig.knight.modelPath} scale={pieceConfig.knight.scale} {...props} />
+export const King = (props: PieceProps) => <BasePiece modelPath="/models/King.glb" scale={1.87} {...props} />
+export const Queen = (props: PieceProps) => <BasePiece modelPath="/models/QueenChess.glb" scale={1.62} {...props} />
+export const Rook = (props: PieceProps) => <BasePiece modelPath="/models/Rook.glb" scale={1.37} {...props} />
+export const Pawn = (props: PieceProps) => <BasePiece modelPath="/models/pawn.glb" scale={1.25} {...props} />
+export const Bishop = (props: PieceProps) => <BasePiece modelPath="/models/Bishop.glb" scale={1.45} {...props} />
+export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/WhiteKnight.glb" scale={1.4} {...props} />
 
 /* ── SMALL CANVAS COMPONENT FOR LISTS ── */
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 
 export function PieceView({ type, color, className = "w-12 h-12" }: { type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', color?: string, className?: string }) {
-  const piece = pieceConfig[type]
   return (
     <div className={className}>
       <Canvas camera={{ position: [0, 0, 4], fov: 45 }} gl={{ alpha: true }}>
         <ambientLight intensity={1.5} />
         <pointLight position={[5, 5, 5]} intensity={2} color={color || "#00ccff"} />
         <Environment files="/textures/environment/city.hdr" />
-        <BasePiece modelPath={piece.modelPath} scale={piece.scale} color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />
+        {type === 'king' && <King color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />}
+        {type === 'queen' && <Queen color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -1, 0]} />}
+        {type === 'rook' && <Rook color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.8, 0]} />}
+        {type === 'pawn' && <Pawn color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.8, 0]} />}
+        {type === 'bishop' && <Bishop color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.85, 0]} />}
+        {type === 'knight' && <Knight color={color} floatSpeed={2} floatIntensity={0.5} position={[0, -0.85, 0]} />}
       </Canvas>
     </div>
   )

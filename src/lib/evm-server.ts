@@ -7,10 +7,10 @@ import {
   type Address,
   type Hash,
 } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
-import { celo, base } from 'viem/chains'
-import { EVM_CHESS_ORACLE_ABI, EVM_CHESS_TOKEN_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, BASE_CONTRACTS } from '@/config/contracts'
+import { EVM_CHESS_ORACLE_ABI, EVM_CHESS_TOKEN_ABI } from '@/config/abis'
+import { celo, base } from 'viem/chains'
+import { privateKeyToAccount } from 'viem/accounts'
 
 // SERVER-ONLY viem clients + signing wallets for the Chessify oracle model on the
 // EVM chains (Celo + Base). NEVER import from a client component — it reads

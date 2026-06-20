@@ -31,6 +31,7 @@ export default function Hero() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // FIXME: handle edge case when value is null
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener('resize', checkMobile)

@@ -1,6 +1,7 @@
 'use client'
 
 import { useToastStore, type ToastType } from '@/hooks/useToastStore'
+// NOTE: revisit this logic after API migration
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
 

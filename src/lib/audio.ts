@@ -48,7 +48,6 @@ function startTrack(id: TrackId, volume = 0.55) {
     track.audio.play().catch(() => {})
   }
   fadeTo(track, volume, 2500)
-  // TODO: add input validation
   activeTrack = id
 }
 

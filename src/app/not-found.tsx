@@ -8,16 +8,9 @@ import Link from 'next/link'
 import GlowButton from '@/components/ui/GlowButton'
 import { Navbar } from '@/components/landing/Hero'
 
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#00ccff" />
-      <pointLight position={[-10, -10, -10]} intensity={1} color="#783cdc" />
-      
-      <Suspense fallback={null}>
-        <PresentationControls
-          global
+function KnightModel() {
+  const { scene } = useGLTF('/models/chess-knight.glb')
+  const meshRef = useRef<THREE.Group>(null)
 
   useFrame((state) => {
     if (meshRef.current) {
@@ -35,9 +28,16 @@ function Scene() {
   )
 }
 
-function KnightModel() {
-  const { scene } = useGLTF('/models/chess-knight.glb')
-  const meshRef = useRef<THREE.Group>(null)
+function Scene() {
+  return (
+    <>
+      <ambientLight intensity={0.5} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#00ccff" />
+      <pointLight position={[-10, -10, -10]} intensity={1} color="#783cdc" />
+      
+      <Suspense fallback={null}>
+        <PresentationControls
+          global
 
           snap
           rotation={[0, 0.3, 0]}

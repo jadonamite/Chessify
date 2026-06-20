@@ -99,7 +99,7 @@ export default function ProfilePage() {
     address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'playerStats',
-    args: profileAddress ? [profileAddress as `0x${string}`] : undefined,
+    params: profileAddress ? [profileAddress as `0x${string}`] : undefined,
     query: { enabled: isCeloProfile },
   })
 

@@ -6,6 +6,7 @@ import { normalizeAddress } from '@/lib/profile-address'
 // moves) and the server (to verify + replay). Keep this file free of any
 // server-only imports (no private keys, no node-only deps) so the move signer
 // in the browser and the relay verifier on the server stay byte-identical.
+
 // Result enum values (mirror the per-chain GameResult: WhiteWins/BlackWins/Draw).
 export const RESULT = {
   WhiteWins: 1,
@@ -55,19 +56,6 @@ export type Terminal =
   | { kind: 'not-terminal' }
   | { kind: 'illegal' }
 
-function getTerminalState(chess: Chess): Terminal {
-  // Checkmate: the side to move is mated → opponent wins.
-  if (chess.isCheckmate()) {
-    const loserIsWhite = chess.turn() === 'w'
-    return { kind: 'result', result: loserIsWhite ? RESULT.BlackWins : RESULT.WhiteWins }
-  }
-  // Any drawn terminal position (stalemate, insufficient material, 3-fold, 50-move).
-  if (chess.isStalemate() || chess.isInsufficientMaterial() || chess.isDraw()) {
-    return { kind: 'result', result: RESULT.Draw }
-  }
-  return { kind: 'not-terminal' }
-}
-
 /**
  * Replay the authoritative move list and decide the result. NEVER trusts the
  * client — the SAN list is replayed move-by-move with chess.js, and an illegal
@@ -83,8 +71,17 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
       return { kind: 'illegal' }
     }
   }
-  const terminalState = getTerminalState(chess)
-  if (terminalState.kind !== 'not-terminal') return terminalState
+
+  // Checkmate: the side to move is mated → opponent wins.
+  if (chess.isCheckmate()) {
+    const loserIsWhite = chess.turn() === 'w'
+    return { kind: 'result', result: loserIsWhite ? RESULT.BlackWins : RESULT.WhiteWins }
+  }
+
+  // Any drawn terminal position (stalemate, insufficient material, 3-fold, 50-move).
+  if (chess.isStalemate() || chess.isInsufficientMaterial() || chess.isDraw()) {
+    return { kind: 'result', result: RESULT.Draw }
+  }
 
   // Not terminal by board — check the move clock for a timeout forfeit.
   if (moves.length > 0) {
@@ -98,6 +95,7 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
       }
     }
   }
+
   return { kind: 'not-terminal' }
 }
 

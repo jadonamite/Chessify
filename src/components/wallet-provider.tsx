@@ -195,7 +195,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         onCancel: () => {
           console.log('Stacks connection cancelled')
           setShowChainSelect(false)
-        // TODO: add input validation
         },
       })
     } catch (e) {

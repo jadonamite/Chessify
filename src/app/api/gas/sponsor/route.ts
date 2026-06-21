@@ -16,7 +16,7 @@ import {
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const LOG_PREFIX: string = '[api/gas/sponsor]'
+const LOG_PREFIX = '[api/gas/sponsor]'
 
 // ── Drip economics ────────────────────────────────────────────────────────────
 // MiniPay (Celo) pays gas in USDm (18 decimals); CHESS has 6 decimals.

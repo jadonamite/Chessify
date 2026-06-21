@@ -1,14 +1,10 @@
 'use client'
-import { useMemo } from 'react';
 import dynamic from 'next/dynamic'
 
-const loadGameClient = () => dynamic(() => import('@/components/game/GameClient'), { ssr: false })
-
-const useGameClient = () => {
-  return useMemo(() => loadGameClient(), [])
-}
+const loadGameClient = () =>
+  dynamic(() => import('@/components/game/GameClient'), { ssr: false })
 
 export default function GamePage() {
-  const GameClient = useGameClient()
+  const GameClient = loadGameClient()
   return <GameClient />
 }

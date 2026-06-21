@@ -9,15 +9,26 @@ import { CELO_CHAIN_ID, BASE_CHAIN_ID } from '@/config/contracts'
 // a separate session.
 export type ActiveChain = 'celo' | 'stacks' | 'base'
 
+// Capability tier drives how EVM (Celo/Base) writes are sponsored:
+//   'minipay' → legacy tx + USDm gas-drip (MiniPay can't sign typed data)
+//   'smart'   → ERC-4337 userOp sponsored by a paymaster (dormant until a
+//               SmartWalletsProvider/Pimlico pass is added)
+//   'eoa'     → embedded Privy or external wallet; pays its own gas (native drip)
+export type WalletTier = 'minipay' | 'smart' | 'eoa'
+
 interface WalletContextType {
   // ── Addresses ──
   address: string | null
   stacksAddress: string | null
+  // On-chain EVM identity used as the game "player": the smart-account address
+  // for Tier A, otherwise the connected EOA. Equals `address` until Tier A lands.
+  playerAddress: string | null
 
   // ── Connection State ──
   isConnected: boolean
   isStacksConnected: boolean
   isMiniPay: boolean
+  walletTier: WalletTier      // EVM sponsorship capability tier
   activeChain: ActiveChain
   isWrongChain: boolean       // EVM wallet connected but not on the active EVM chain
   switchToCelo: () => void    // request chain switch to Celo
@@ -44,9 +55,11 @@ interface WalletContextType {
 const WalletContext = createContext<WalletContextType>({
   address: null,
   stacksAddress: null,
+  playerAddress: null,
   isConnected: false,
   isStacksConnected: false,
   isMiniPay: false,
+  walletTier: 'eoa',
   activeChain: 'celo',
   isWrongChain: false,
   switchToCelo: () => { },
@@ -91,6 +104,14 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const isConnected = ready && authenticated
   const isStacksConnected = !!stacksAddress
+
+  // Capability tier — MiniPay first (most constrained), otherwise a plain EOA
+  // (embedded Privy or external). The 'smart' tier is dormant until a
+  // SmartWalletsProvider/Pimlico pass is added.
+  const walletTier: WalletTier = isMiniPay ? 'minipay' : 'eoa'
+  // On-chain EVM identity = the connected/embedded EOA today; becomes the
+  // smart-account address once Tier A is wired.
+  const playerAddress = evmResolvedAddress
 
   // True when an EVM wallet is connected but on the wrong network for the active
   // EVM chain. Embedded Privy wallets auto-switch; this catches external wallets.
@@ -232,9 +253,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       value={{
         address: evmResolvedAddress,
         stacksAddress,
+        playerAddress,
         isConnected,
         isStacksConnected,
         isMiniPay,
+        walletTier,
         activeChain,
         isWrongChain,
         switchToCelo,

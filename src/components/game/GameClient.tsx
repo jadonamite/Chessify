@@ -333,6 +333,7 @@ export default function GameClient() {
       sanHistory.every((san, i) => san === moveHistory[i])
     if (same) return
 
+    // Opponent move arrived over the relay — chime once (skip bulk replay on load)
     if (soundOnRef.current && sanHistory.length === moveHistory.length + 1) {
       const ctx = getCtx()
       if (ctx) playMoveChime(ctx, true)

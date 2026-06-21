@@ -29,16 +29,37 @@ const KEYFRAMES = `
 }
 `
 
-
-
-/* ── 3D Background Scene ── */
-function FaucetScene() {
+/* ── TOKEN DISPLAY ── */
+function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
   return (
-    <>
-      <ambientLight intensity={1.5} />
-      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
-      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
-      <Environment files="/textures/environment/city.hdr" />
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      className="rounded-2xl border border-white/10 bg-black/30 backdrop-blur-sm p-5 flex items-center justify-between"
+    >
+      <div className="flex flex-col gap-1">
+        <span className="text-[9px] font-bold tracking-[0.3em] text-white/40 uppercase" style={{ fontFamily: 'var(--fd)' }}>
+          Current Balance
+        </span>
+        <div className="flex items-baseline gap-2">
+          <span className="text-3xl md:text-4xl font-black text-white tracking-tight" style={{ fontFamily: 'var(--fd)' }}>
+            {balance}
+          </span>
+          <span className="text-xs font-bold tracking-widest text-[var(--c)] uppercase">CHESS</span>
+        </div>
+      </div>
+      <div className="flex flex-col items-end gap-1">
+        <div className="flex items-center gap-2 bg-black/40 py-1.5 px-3 rounded-full border border-white/10 shadow-inner">
+          <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
+          <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
+            {chain.toUpperCase()}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
 
       {/* Large background king */}
       <King position={[0, -0.5, -2]} color="#0f172a" emissive="#00ccff" emissiveIntensity={0.15} floatSpeed={0.5} floatIntensity={0.3} rotationIntensity={0.1} scale={2.5} />
@@ -75,37 +96,14 @@ function FaucetScene() {
   )
 }
 
-/* ── TOKEN DISPLAY ── */
-function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
+/* ── 3D Background Scene ── */
+function FaucetScene() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      className="rounded-2xl border border-white/10 bg-black/30 backdrop-blur-sm p-5 flex items-center justify-between"
-    >
-      <div className="flex flex-col gap-1">
-        <span className="text-[9px] font-bold tracking-[0.3em] text-white/40 uppercase" style={{ fontFamily: 'var(--fd)' }}>
-          Current Balance
-        </span>
-        <div className="flex items-baseline gap-2">
-          <span className="text-3xl md:text-4xl font-black text-white tracking-tight" style={{ fontFamily: 'var(--fd)' }}>
-            {balance}
-          </span>
-          <span className="text-xs font-bold tracking-widest text-[var(--c)] uppercase">CHESS</span>
-        </div>
-      </div>
-      <div className="flex flex-col items-end gap-1">
-        <div className="flex items-center gap-2 bg-black/40 py-1.5 px-3 rounded-full border border-white/10 shadow-inner">
-          <div className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
-          <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
-            {chain.toUpperCase()}
-          </span>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
+    <>
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
+      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
+      <Environment files="/textures/environment/city.hdr" />
 
 /* ═══════════════════════════════════════════
    MAIN FAUCET CONTENT
@@ -115,7 +113,6 @@ export default function FaucetContent() {
   const { isConnected, activeChain, address: celoAddress, stacksAddress, isStacksConnected, connectWallet } = useWallet()
   const { getTokenBalance: getStacksBalance } = useStacksRead()
   const { writeContractAsync } = useWriteContract()
-
 
   const [isClaiming, setIsClaiming] = useState(false)
   const [balance, setBalance] = useState('0.00')

@@ -117,8 +117,7 @@ interface PlayerStats {
         audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
       }
       if (audioCtxRef.current.state === 'suspended') audioCtxRef.current.resume()
-      const result = audioCtxRef.current;
-      return result;
+      return audioCtxRef.current
     } catch { return null }
   }, [])
 

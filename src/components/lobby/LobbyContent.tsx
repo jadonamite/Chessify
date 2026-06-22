@@ -74,7 +74,7 @@ export default function LobbyContent() {
     address: CELO_CONTRACTS.token as `0x${string}`,
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
-    params: [celoAddress as `0x${string}`],
+    args: [celoAddress as `0x${string}`],
     query: { enabled: activeChain === 'celo' && !!celoAddress }
   })
 
@@ -82,7 +82,7 @@ export default function LobbyContent() {
     address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'playerStats',
-    params: [celoAddress as `0x${string}`],
+    args: [celoAddress as `0x${string}`],
     query: { enabled: activeChain === 'celo' && !!celoAddress }
   })
 
@@ -91,7 +91,7 @@ export default function LobbyContent() {
     abi: CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
     chainId: BASE_CHAIN_ID,
-    params: [celoAddress as `0x${string}`],
+    args: [celoAddress as `0x${string}`],
     query: { enabled: activeChain === 'base' && !!celoAddress }
   })
 
@@ -100,7 +100,7 @@ export default function LobbyContent() {
     abi: BASE_CHESS_GAME_ABI,
     functionName: 'getPlayerStats',
     chainId: BASE_CHAIN_ID,
-    params: [celoAddress as `0x${string}`],
+    args: [celoAddress as `0x${string}`],
     query: { enabled: activeChain === 'base' && !!celoAddress }
   })
 

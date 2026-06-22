@@ -77,6 +77,12 @@ async function signedMovesValid(
   return true
 }
 
+/**
+ * settleGameById
+ * @param {*} chain: Chain
+ * @param {*} gameId: number
+ * @returns {*}
+ */
 export async function settleGameById(chain: Chain, gameId: number): Promise<SettleOutcome> {
   // Stacks settlement is gated on the Clarity oracle contract being deployed.
   // Until then the relay/self-report path on the deployed Stacks contract stands.

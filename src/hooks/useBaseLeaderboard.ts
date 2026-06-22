@@ -1,11 +1,11 @@
 'use client'
 
-import type { Abi } from 'viem'
-import type { LeaderboardEntry } from '@/hooks/useLeaderboard'
-import { BASE_CHESS_GAME_ABI } from '@/config/abis'
-import { BASE_CONTRACTS, BASE_CHAIN_ID } from '@/config/contracts'
-import { usePublicClient, useAccount } from 'wagmi'
 import { useState, useEffect, useCallback } from 'react'
+import { usePublicClient, useAccount } from 'wagmi'
+import type { Abi } from 'viem'
+import { BASE_CONTRACTS, BASE_CHAIN_ID } from '@/config/contracts'
+import { BASE_CHESS_GAME_ABI } from '@/config/abis'
+import type { LeaderboardEntry } from '@/hooks/useLeaderboard'
 
 const ZERO = '0x0000000000000000000000000000000000000000'
 

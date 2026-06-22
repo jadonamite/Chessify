@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { useSettingsStore } from '@/hooks/useSettingsStore'
@@ -30,7 +29,7 @@ export default function AudioManager() {
       document.removeEventListener('keydown', start)
       document.removeEventListener('touchstart', start)
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   // Switch track when route changes
   useEffect(() => {
@@ -44,8 +43,12 @@ export default function AudioManager() {
 
   // Handle mute/unmute without restarting
   useEffect(() => {
-    setMuted(!soundEnabled)
-    if (soundEnabled && startedRef.current) {
+    if (!soundEnabled) {
+      setMuted(true)
+      return
+    }
+    setMuted(false)
+    if (startedRef.current) {
       if (isGame) startGameTrack()
       else startAmbient()
     }

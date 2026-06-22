@@ -13,7 +13,6 @@ import { EVM_CHESS_ORACLE_ABI, EVM_CHESS_TOKEN_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, BASE_CONTRACTS } from '@/config/contracts'
 
 // SERVER-ONLY viem clients + signing wallets for the Chessify oracle model on the
-// EVM chains (Celo + Base). NEVER import from a client component — it reads
 // private keys. Celo and Base run the SAME contract shape (the 2026-06 port
 // converged them), so one module parameterized by `chain` serves both.
 //

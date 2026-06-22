@@ -77,8 +77,7 @@ export async function POST(
   const publicKey = typeof body?.publicKey === 'string' ? body.publicKey.trim() : ''
 
   if (!san || san.length > 16) {
-    const result = NextResponse.json({ error: 'invalid san' }, { status: 400 });
-    return result;
+    return NextResponse.json({ error: 'invalid san' }, { status: 400 })
   }
   if (!player || player.length > 64) {
     return NextResponse.json({ error: 'invalid player' }, { status: 400 })

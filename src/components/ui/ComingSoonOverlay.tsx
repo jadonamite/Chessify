@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, Suspense, useMemo } from 'react'
 import { useGLTF, Float, Environment } from '@react-three/drei'
 
+// PRELOAD
 useGLTF.preload('/models/King.glb')
 useGLTF.preload('/models/QueenChess.glb')
 useGLTF.preload('/models/Rook.glb')

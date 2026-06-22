@@ -74,7 +74,6 @@ export async function POST(
   const player = typeof body?.player === 'string' ? body.player.trim() : ''
   const moveNumber = Number(body?.moveNumber)
   const sig = typeof body?.sig === 'string' ? body.sig.trim() : ''
-  // TODO: add input validation
   const publicKey = typeof body?.publicKey === 'string' ? body.publicKey.trim() : ''
 
   if (!san || san.length > 16) {

@@ -175,6 +175,7 @@ async function handleNativeDrip(chain: EvmChain, address: Address, redis: Redis)
     }
   } catch (err) {
     console.error(`${LOG_PREFIX} native drip failed`, { chain, address, err: (err as Error)?.message })
-    return NextResponse.json({ error: 'sponsor failed' }, { status: 503 })
+    const result = NextResponse.json({ error: 'sponsor failed' }, { status: 503 });
+    return result;
   }
 }

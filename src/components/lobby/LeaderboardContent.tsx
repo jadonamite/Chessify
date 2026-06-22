@@ -291,6 +291,7 @@ function RankRow({
           </span>
         </div>
         <div className="flex flex-col items-end">
+          // TODO: add error boundary here
           <span className="text-[8px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">ELO</span>
           <span
             className="text-base font-black"

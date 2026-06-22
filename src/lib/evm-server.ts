@@ -140,7 +140,7 @@ export async function getOnchainGame(chain: EvmChain, gameId: number): Promise<O
 
 // Short-lived cache to coalesce the per-move reads the relay does.
 const _gameCache = new Map<string, { at: number; game: OnchainGame }>()
-const GAME_CACHE_TTL_MS = 5_000
+const GAME_CACHE_TTL_MS: number = 5_000
 
 export async function getOnchainGameCached(chain: EvmChain, gameId: number): Promise<OnchainGame> {
   const k = `${chain}:${gameId}`

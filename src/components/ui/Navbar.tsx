@@ -338,7 +338,6 @@ export default function Navbar() {
                 background: 'rgba(8,8,20,0.98)',
                 display: 'flex',
                 flexDirection: 'column',
-                // TODO: optimize for large datasets
                 gap: 2,
               }}>
                 {/* Music toggle — mobile */}

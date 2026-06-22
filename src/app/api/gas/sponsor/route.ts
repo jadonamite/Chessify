@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
 
 // Celo MiniPay: top up CHESS + drip USDm gas.
 async function handleMiniPay(address: Address, redis: Redis) {
-  const scope: string = 'usdm'
+  const scope = 'usdm'
   try {
     const usdm = await usdmBalanceOf(address)
     if (usdm >= MIN_GAS_USDM) {

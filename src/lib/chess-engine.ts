@@ -119,11 +119,6 @@ function evaluateBoard(game: Chess): number {
 // attackers come first, then other captures, promotions, checks, then quiet
 // moves. Better ordering = better alpha-beta pruning = a stronger bot at the
 // same depth.
-/**
- * orderMoves
- * @param {*} moves: Move[]
- * @returns {*}
- */
 function orderMoves(moves: Move[]): Move[] {
   return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
 }

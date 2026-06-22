@@ -26,6 +26,10 @@ const KEYFRAMES = `
 }
 `
 
+/**
+ * Hero
+ * @returns {*}
+ */
 export default function Hero() {
   const { isConnected, isStacksConnected, connectWallet } = useWallet()
   const [isMobile, setIsMobile] = useState(false)

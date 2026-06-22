@@ -57,6 +57,11 @@ export function avatarDataUrl(address: string, size = 100): string {
   return `data:image/svg+xml;base64,${btoa(svg)}`
 }
 
+/**
+ * avatarSvgUrl
+ * @param {*} address: string
+ * @returns {*}
+ */
 export function avatarSvgUrl(address: string): string {
   const svg = generateAvatarSvg(address)
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`

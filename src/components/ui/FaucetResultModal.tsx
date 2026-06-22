@@ -325,7 +325,7 @@ export default function FaucetResultModal({
                 <GlowButton
                   parallelogram
                   variant={config.buttonVariant}
-                  size='lg'
+                  size="lg"
                   onClick={onClose}
                   className="min-w-full sm:min-w-[220px]"
                 >

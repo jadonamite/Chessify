@@ -10,12 +10,6 @@ import { verifyProfileSignature } from '@/lib/verify-signature'
 
 type Ctx = { params: Promise<{ address: string }> }
 
-export async function PATCH(req: NextRequest, { params }: Ctx) {
-  const { address } = await params
-  if (!isValidProfileAddress(address)) {
-    return NextResponse.json({ error: 'invalid address' }, { status: 400 })
-  }
-
 export async function GET(_req: NextRequest, { params }: Ctx) {
   const { address } = await params
   if (!isValidProfileAddress(address)) {
@@ -25,6 +19,12 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   if (!profile) return NextResponse.json({ error: 'not found' }, { status: 404 })
   return NextResponse.json({ profile })
 }
+
+export async function PATCH(req: NextRequest, { params }: Ctx) {
+  const { address } = await params
+  if (!isValidProfileAddress(address)) {
+    return NextResponse.json({ error: 'invalid address' }, { status: 400 })
+  }
 
   let body: any
   try { body = await req.json() } catch {

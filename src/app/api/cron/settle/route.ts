@@ -12,6 +12,7 @@ const CHAINS: Chain[] = ['celo', 'base']
 
 // GET /api/cron/settle — server-side settlement worker. Sweeps every live game on
 // each EVM chain and settles the terminal ones, so a finished game is always
+// settled even if both players closed their tabs (the client POST is the fast
 // path). Wire to a Vercel Cron once the oracle contracts are live (see HANDOVER).
 //
 // Protected by CRON_SECRET: Vercel Cron sends it as a Bearer token; a manual call

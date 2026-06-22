@@ -47,7 +47,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
         <label className="text-[10px] font-black tracking-[0.2em] uppercase text-[var(--t3)]">{label}</label>
-        <span className="text-[9px] text-[var(--t3)]">{value.length}/{maxLength}</span>
+        <span className='text-[9px] text-[var(--t3)]'>{value.length}/{maxLength}</span>
       </div>
       <input
         value={value}

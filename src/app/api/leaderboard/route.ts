@@ -21,17 +21,6 @@ export interface LeaderboardEntry {
   rank: number
 }
 
-function gameAddress(chain: EvmChain): `0x${string}` {
-  return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
-}
-
-// GET /api/leaderboard?chain=celo|base — Redis-indexed leaderboard for an EVM
-// chain. Scans only games created since the last index sync, then reads
-// playerStats for known players. (Stacks leaderboard reads via @stacks elsewhere.)
-export async function GET(req: NextRequest) {
-  const chain = parseEvmChain(req.nextUrl.searchParams.get('chain') ?? 'celo')
-  if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })
-
 function getRedis(): Redis {
   return new Redis({
     url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -42,6 +31,17 @@ function getRedis(): Redis {
 function parseEvmChain(value: string | null): EvmChain | null {
   return value === 'celo' || value === 'base' ? value : null
 }
+
+function gameAddress(chain: EvmChain): `0x${string}` {
+  return (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as `0x${string}`
+}
+
+// GET /api/leaderboard?chain=celo|base — Redis-indexed leaderboard for an EVM
+// chain. Scans only games created since the last index sync, then reads
+// playerStats for known players. (Stacks leaderboard reads via @stacks elsewhere.)
+export async function GET(req: NextRequest) {
+  const chain = parseEvmChain(req.nextUrl.searchParams.get('chain') ?? 'celo')
+  if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })
 
   const cacheKey = `chess:idx:${chain}:leaderboard`
   try {

@@ -1,10 +1,9 @@
 import { Redis } from '@upstash/redis'
-
 // Shared Redis client. Reads env vars at module load — if they're missing the
 // client will throw on first use, which is the correct fail-loud behaviour.
 let _redis: Redis | null = null
 
-function getRedis(): Redis {
+function initRedis(): Redis {
   if (_redis) return _redis
   const url = process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.UPSTASH_REDIS_REST_TOKEN
@@ -16,14 +15,13 @@ function getRedis(): Redis {
 }
 
 export type Chain = 'celo' | 'stacks' | 'base'
-
 export interface MoveRecord {
-  san: string         // standard algebraic notation, e.g. "e4", "Nxe5", "O-O"
-  player: string      // player wallet address (creator or opponent)
-  moveNumber: number  // 1-indexed, monotonically increasing
-  ts: number          // unix ms when the relay accepted it
-  sig?: string        // 0x-prefixed signature over canonicalMoveMessage (optional)
-  signer?: string     // address that produced sig — must equal player (optional)
+  san: string // standard algebraic notation, e.g. "e4", "Nxe5", "O-O"
+  player: string // player wallet address (creator or opponent)
+  moveNumber: number // 1-indexed, monotonically increasing
+  ts: number // unix ms when the relay accepted it
+  sig?: string // 0x-prefixed signature over canonicalMoveMessage (optional)
+  signer?: string // address that produced sig — must equal player (optional)
 }
 
 const TTL_SECONDS = 60 * 60 * 24 * 30 // 30 days — long enough for any reasonable game
@@ -41,17 +39,20 @@ function activeKey(chain: Chain): string {
 
 /** Mark a game as live so a settlement sweep can find it. Idempotent. */
 export async function registerActiveGame(chain: Chain, gameId: number): Promise<void> {
-  await getRedis().sadd(activeKey(chain), String(gameId))
+  const redis = initRedis()
+  await redis.sadd(activeKey(chain), String(gameId))
 }
 
 /** Remove a game from the live set (after it settles or goes terminal). */
 export async function unregisterActiveGame(chain: Chain, gameId: number): Promise<void> {
-  await getRedis().srem(activeKey(chain), String(gameId))
+  const redis = initRedis()
+  await redis.srem(activeKey(chain), String(gameId))
 }
 
 /** All live game IDs for a chain. Non-integer members are filtered out. */
 export async function getActiveGameIds(chain: Chain): Promise<number[]> {
-  const raw = await getRedis().smembers(activeKey(chain))
+  const redis = initRedis()
+  const raw = await redis.smembers(activeKey(chain))
   return raw
     .map((m) => Number(m))
     .filter((n) => Number.isInteger(n) && n >= 0)
@@ -59,7 +60,7 @@ export async function getActiveGameIds(chain: Chain): Promise<number[]> {
 
 /** Append a move to a game's history. Returns the new move count. */
 export async function appendMove(chain: Chain, gameId: number, move: MoveRecord): Promise<number> {
-  const redis = getRedis()
+  const redis = initRedis()
   const k = key(chain, gameId)
   const newLen = await redis.rpush(k, JSON.stringify(move))
   // Reset TTL on every write so an active game never expires mid-play
@@ -69,7 +70,7 @@ export async function appendMove(chain: Chain, gameId: number, move: MoveRecord)
 
 /** Fetch all moves for a game in submission order. */
 export async function getMoves(chain: Chain, gameId: number): Promise<MoveRecord[]> {
-  const redis = getRedis()
+  const redis = initRedis()
   const raw = await redis.lrange(key(chain, gameId), 0, -1)
   return raw.map((entry) => {
     // Upstash returns objects when values are JSON-parseable; strings otherwise.

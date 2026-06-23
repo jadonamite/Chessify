@@ -1,11 +1,11 @@
 'use client'
 
-import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
-import { decodeEventLog, parseUnits } from 'viem'
 import { BASE_CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { BASE_CONTRACTS, TOKEN_DECIMALS, BASE_CHAIN_ID } from '@/config/contracts'
+import { decodeEventLog, parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
 import { useToastStore } from '@/hooks/useToastStore'
+import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
 
 // Base mirror of useCeloChess. Differences vs Celo:
 //   • leaner contract → settleDraw (two-step) instead of proposeDraw/acceptDraw,

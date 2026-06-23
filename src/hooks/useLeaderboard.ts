@@ -1,4 +1,5 @@
-`use client`
+'use client'
+
 import { useState, useEffect, useCallback } from 'react'
 import { usePublicClient, useAccount } from 'wagmi'
 import type { Abi } from 'viem'
@@ -23,83 +24,34 @@ export function useLeaderboard(enabled = true) {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchGameNonce = useCallback(async () => {
-    if (!publicClient) return 0
-    const gameNonce = await publicClient.readContract({
-      address: CELO_CONTRACTS.game as `0x${string}`,
-      abi: CHESS_GAME_ABI as Abi,
-      functionName: 'gameNonce',
-    }) as bigint
-    return Number(gameNonce)
-  }, [publicClient])
-
-  const fetchGameResults = useCallback(async (ids: bigint[]) => {
-    if (!publicClient) return []
-    const gameResults = await publicClient.multicall({
-      contracts: ids.map((id) => ({
-        address: CELO_CONTRACTS.game as `0x${string}`,
-        abi: CHESS_GAME_ABI as Abi,
-        functionName: 'getGame',
-        args: [id],
-      })),
-      allowFailure: true,
-    })
-    return gameResults
-  }, [publicClient])
-
-  const fetchPlayerStats = useCallback(async (addresses: string[]) => {
-    if (!publicClient) return []
-    const statsResults = await publicClient.multicall({
-      contracts: addresses.map((addr) => ({
-        address: CELO_CONTRACTS.game as `0x${string}`,
-        abi: CHESS_GAME_ABI as Abi,
-        functionName: 'playerStats',
-        args: [addr as `0x${string}`],
-      })),
-      allowFailure: true,
-    })
-    return statsResults
-  }, [publicClient])
-
-  const calculateLeaderboard = useCallback((gameResults: any[], statsResults: any[], addresses: string[]) => {
-    const leaderboard: LeaderboardEntry[] = []
-    for (let i = 0; i < addresses.length; i++) {
-      const result = statsResults[i]
-      if (result.status !== 'success') continue
-      // viem returns multiple outputs as a positional readonly tuple
-      const r = result.result as readonly [bigint, bigint, bigint, bigint, bigint]
-      // order: wins, losses, draws, rating, gamesPlayed
-      const gamesPlayed = Number(r[4])
-      if (gamesPlayed === 0) continue
-      leaderboard.push({
-        address: addresses[i],
-        wins: Number(r[0]),
-        losses: Number(r[1]),
-        draws: Number(r[2]),
-        rating: Number(r[3]),
-        gamesPlayed,
-        rank: 0,
-      })
-    }
-    leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
-    leaderboard.forEach((e, i) => {
-      e.rank = i + 1
-    })
-    return leaderboard
-  }, [])
-
   const fetchLeaderboard = useCallback(async () => {
     if (!publicClient || !enabled) return
     setIsLoading(true)
     try {
-      const total = await fetchGameNonce()
+      const gameNonce = await publicClient.readContract({
+        address: CELO_CONTRACTS.game as `0x${string}`,
+        abi: CHESS_GAME_ABI as Abi,
+        functionName: 'gameNonce',
+      }) as bigint
+
+      const total = Number(gameNonce)
       if (total === 0) {
         setEntries([])
         return
       }
+
       // Collect unique player addresses from all games
       const ids = Array.from({ length: total }, (_, i) => BigInt(i + 1))
-      const gameResults = await fetchGameResults(ids)
+      const gameResults = await publicClient.multicall({
+        contracts: ids.map((id) => ({
+          address: CELO_CONTRACTS.game as `0x${string}`,
+          abi: CHESS_GAME_ABI as Abi,
+          functionName: 'getGame',
+          args: [id],
+        })),
+        allowFailure: true,
+      })
+
       const addressSet = new Set<string>()
       for (const r of gameResults) {
         if (r.status !== 'success') continue
@@ -109,30 +61,60 @@ export function useLeaderboard(enabled = true) {
         if (w !== ZERO) addressSet.add(w)
         if (b !== ZERO) addressSet.add(b)
       }
+
       const addresses = Array.from(addressSet)
       if (addresses.length === 0) {
         setEntries([])
         return
       }
-      const statsResults = await fetchPlayerStats(addresses)
-      const leaderboard = calculateLeaderboard(gameResults, statsResults, addresses)
+
+      const statsResults = await publicClient.multicall({
+        contracts: addresses.map((addr) => ({
+          address: CELO_CONTRACTS.game as `0x${string}`,
+          abi: CHESS_GAME_ABI as Abi,
+          functionName: 'playerStats',
+          args: [addr as `0x${string}`],
+        })),
+        allowFailure: true,
+      })
+
+      const leaderboard: LeaderboardEntry[] = []
+      for (let i = 0; i < addresses.length; i++) {
+        const result = statsResults[i]
+        if (result.status !== 'success') continue
+        // viem returns multiple outputs as a positional readonly tuple
+        const r = result.result as readonly [bigint, bigint, bigint, bigint, bigint]
+        // order: wins, losses, draws, rating, gamesPlayed
+        const gamesPlayed = Number(r[4])
+        if (gamesPlayed === 0) continue
+        leaderboard.push({
+          address: addresses[i],
+          wins: Number(r[0]),
+          losses: Number(r[1]),
+          draws: Number(r[2]),
+          rating: Number(r[3]),
+          gamesPlayed,
+          rank: 0,
+        })
+      }
+
+      leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
+      leaderboard.forEach((e, i) => { e.rank = i + 1 })
       setEntries(leaderboard)
     } catch (err) {
       console.error('[useLeaderboard] fetch failed:', err)
     } finally {
       setIsLoading(false)
     }
-  }, [publicClient, enabled, fetchGameNonce, fetchGameResults, fetchPlayerStats, calculateLeaderboard])
+  }, [publicClient, enabled])
 
   useEffect(() => {
     fetchLeaderboard()
   }, [fetchLeaderboard])
 
-  const myRank = myAddress ? (entries.find((e) => e.address === myAddress.toLowerCase())?.rank ?? null) : null
-  return {
-    entries,
-    isLoading,
-    myRank,
-    refresh: fetchLeaderboard
-  }
+  const myRank = myAddress
+    ? (entries.find((e) => e.address === myAddress.toLowerCase())?.rank ?? null)
+    : null
+
+  return { entries, isLoading, myRank, refresh: fetchLeaderboard }
 }

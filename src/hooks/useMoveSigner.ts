@@ -22,6 +22,10 @@ export interface MoveSigner {
   canSign: boolean
 }
 
+/**
+ * useMoveSigner
+ * @returns {*}
+ */
 export function useMoveSigner(): MoveSigner {
   const { activeChain } = useWallet()
   const { signMessageAsync } = useSignMessage()

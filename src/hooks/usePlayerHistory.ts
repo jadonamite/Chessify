@@ -46,7 +46,7 @@ export function usePlayerHistory(playerAddress: string | null | undefined) {
           address: CELO_CONTRACTS.game as `0x${string}`,
           abi: CHESS_GAME_ABI as Abi,
           functionName: 'getGame',
-          params: [id],
+          args: [id],
         })),
         allowFailure: true,
       })

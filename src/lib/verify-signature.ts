@@ -8,24 +8,21 @@ import { detectChain } from './profile-address';
 export async function verifyProfileSignature(opts: { address: string; message: string; signature: string; publicKey?: string }): Promise<boolean> {
   const chain = detectChain(opts.address);
   if (chain !== 'celo' && chain !== 'stacks') return false;
-  if (chain === 'celo') return await verifyCeloSignature(opts);
-  if (!opts.publicKey) return false;
-  return await verifyStacksSignature(opts);
-}
 
-async function verifyCeloSignature(opts: { address: string; message: string; signature: string; publicKey?: string }): Promise<boolean> {
-  try {
-    return await verifyMessage({
-      address: opts.address as `0x${string}`,
-      message: opts.message,
-      signature: opts.signature as `0x${string}`,
-    });
-  } catch {
-    return false;
+  if (chain === 'celo') {
+    try {
+      return await verifyMessage({
+        address: opts.address as `0x${string}`,
+        message: opts.message,
+        signature: opts.signature as `0x${string}`,
+      });
+    } catch {
+      return false;
+    }
   }
-}
 
-async function verifyStacksSignature(opts: { address: string; message: string; signature: string; publicKey: string }): Promise<boolean> {
+  if (chain === 'stacks' && !opts.publicKey) return false;
+
   try {
     const { verifyMessageSignatureRsv } = await import('@stacks/encryption');
     const { getAddressFromPublicKey } = await import('@stacks/transactions');

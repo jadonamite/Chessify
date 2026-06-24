@@ -11,12 +11,6 @@ function parseChain(value: string): Chain | null {
   return value === 'celo' || value === 'base' || value === 'stacks' ? value : null
 }
 
-function parseGameId(value: string): number | null {
-  const n = Number(value)
-  if (!Number.isInteger(n) || n < 0) return null
-  return n
-}
-
 // POST /api/games/:chain/:id/settle — replay the game and settle it on-chain via
 // the oracle. Client-triggered fast path; the cron worker is the guaranteed
 // fallback. Idempotent.
@@ -27,6 +21,12 @@ export async function POST(
   const { chain: chainRaw, id: idRaw } = await params
   const chain = parseChain(chainRaw)
   const gameId = parseGameId(idRaw)
+
+function parseGameId(value: string): number | null {
+  const n = Number(value)
+  if (!Number.isInteger(n) || n < 0) return null
+  return n
+}
 
   if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })
   if (gameId === null) return NextResponse.json({ error: 'invalid gameId' }, { status: 400 })

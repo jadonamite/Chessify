@@ -1,7 +1,1 @@
-import { NextResponse } from 'next/server'
-import { getRecentProfiles } from '@/lib/profile-store'
-
-export async function GET() {
-  const profiles = await getRecentProfiles(10)
-  return NextResponse.json({ profiles })
-}
+import { NextResponse } from 'next/server'; import { getRecentProfiles } from '@/lib/profile-store'; export async function GET() { try { const profiles = await getRecentProfiles(10); if (!profiles) { return new NextResponse('No profiles found', { status: 404 }); } return NextResponse.json({ profiles }); } catch (error) { console.error(error); return new NextResponse('Failed to retrieve profiles', { status: 500 }); }}

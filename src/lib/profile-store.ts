@@ -102,6 +102,7 @@ export async function claimProfile(profile: ChessProfile): Promise<{ ok: boolean
 
   await redis.set(K.addr(addr), JSON.stringify(finalProfile))
 
+  // Add to recent list (cap at 50)
   await redis.lpush(K.recent(), addr)
   await redis.ltrim(K.recent(), 0, 49)
 

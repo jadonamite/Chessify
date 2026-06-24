@@ -18,6 +18,10 @@ import { useToastStore } from '@/hooks/useToastStore'
 const LOG_PREFIX = '[useBaseChess]'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+/**
+ * useBaseChess
+ * @returns {*}
+ */
 export function useBaseChess() {
   const { address } = useAccount()
   const { writeContractAsync } = useWriteContract()

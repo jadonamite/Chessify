@@ -1,1 +1,19 @@
-export interface ChessProfile { address: string; username: string; displayName: string; bio: string; og: boolean; createdAt: number; updatedAt: number; usernameChangedAt: number; } export interface ProfileCheckResult { available: boolean; reason?: string; } export interface BatchProfileResult { profiles: Record<string, ChessProfile | null>; } export function validateChessProfile(profile: ChessProfile): ProfileCheckResult { if (typeof profile.address !== 'string' || profile.address.length === 0) { return { available: false, reason: 'Address must be a non-empty string' }; } if (typeof profile.username !== 'string' || profile.username.length === 0) { return { available: false, reason: 'Username must be a non-empty string' }; } if (typeof profile.displayName !== 'string' || profile.displayName.length > 30) { return { available: false, reason: 'Display name must be a string with a maximum length of 30 characters' }; } if (typeof profile.bio !== 'string' || profile.bio.length > 120) { return { available: false, reason: 'Bio must be a string with a maximum length of 120 characters' }; } if (typeof profile.createdAt !== 'number' || typeof profile.updatedAt !== 'number' || typeof profile.usernameChangedAt !== 'number') { return { available: false, reason: 'Created at, updated at, and username changed at must be numbers' }; } return { available: true }; }
+export interface ChessProfile {
+  address: string           // 0x… (lowercased) for Celo, SP…/ST… (verbatim) for Stacks
+  username: string          // "jadon" — displayed as "jadon.chess"
+  displayName: string       // freeform, max 30 chars
+  bio: string               // max 120 chars
+  og: boolean               // first 100 profiles, locked forever
+  createdAt: number         // unix ms
+  updatedAt: number         // unix ms
+  usernameChangedAt: number // unix ms — 30-day username change lock
+}
+
+export interface ProfileCheckResult {
+  available: boolean
+  reason?: string
+}
+
+export interface BatchProfileResult {
+  profiles: Record<string, ChessProfile | null>
+}

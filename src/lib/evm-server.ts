@@ -117,7 +117,7 @@ export async function getOnchainGame(chain: EvmChain, gameId: number): Promise<O
     address: c.game,
     abi: EVM_CHESS_ORACLE_ABI,
     functionName: 'getGame',
-    params: [BigInt(gameId)],
+    args: [BigInt(gameId)],
   })) as unknown as {
     white: Address
     black: Address
@@ -176,7 +176,7 @@ export async function settleOnChain(chain: EvmChain, gameId: number, result: Gam
     address: c.game,
     abi: EVM_CHESS_ORACLE_ABI,
     functionName: 'settleGame',
-    params: [BigInt(gameId), result],
+    args: [BigInt(gameId), result],
   })
   await getPublicClient(chain).waitForTransactionReceipt({ hash })
   return hash
@@ -191,7 +191,7 @@ export async function mintChessTo(chain: EvmChain, to: Address, amount: bigint):
     address: c.token,
     abi: EVM_CHESS_TOKEN_ABI,
     functionName: 'mintTo',
-    params: [to, amount],
+    args: [to, amount],
   })
   await getPublicClient(chain).waitForTransactionReceipt({ hash })
   return hash
@@ -211,7 +211,7 @@ export async function sponsorUsdm(to: Address, amountUsdm: bigint): Promise<Hash
     address: USDM_ADDRESS,
     abi: ERC20_MIN_ABI,
     functionName: 'transfer',
-    params: [to, amountUsdm],
+    args: [to, amountUsdm],
   })
   await getPublicClient('celo').waitForTransactionReceipt({ hash })
   return hash
@@ -233,7 +233,7 @@ export async function gasSponsorCanCoverUsdm(amountUsdm: bigint): Promise<boolea
     const { account } = walletFor('celo', 'GAS_SPONSOR_PRIVATE_KEY')
     const pub = getPublicClient('celo')
     const [usdm, native] = await Promise.all([
-      pub.readContract({ address: USDM_ADDRESS, abi: ERC20_MIN_ABI, functionName: 'balanceOf', params: [account.address] }) as Promise<bigint>,
+      pub.readContract({ address: USDM_ADDRESS, abi: ERC20_MIN_ABI, functionName: 'balanceOf', args: [account.address] }) as Promise<bigint>,
       pub.getBalance({ address: account.address }),
     ])
     return usdm >= amountUsdm && native > NATIVE_GAS_FLOOR
@@ -263,7 +263,7 @@ export async function chessBalanceOf(chain: EvmChain, addr: Address): Promise<bi
     address: cfg(chain).token,
     abi: EVM_CHESS_TOKEN_ABI,
     functionName: 'balanceOf',
-    params: [addr],
+    args: [addr],
   })) as bigint
 }
 
@@ -272,7 +272,7 @@ export async function usdmBalanceOf(addr: Address): Promise<bigint> {
     address: USDM_ADDRESS,
     abi: ERC20_MIN_ABI,
     functionName: 'balanceOf',
-    params: [addr],
+    args: [addr],
   })) as bigint
 }
 

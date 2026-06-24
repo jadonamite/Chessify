@@ -8,4 +8,3 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   if (!profile) return NextResponse.json({ error: 'not found' }, { status: 404 })
   return NextResponse.json({ profile })
 }
-// No changes were needed as the code already uses guard clauses. However, to further improve, we could extract the error handling into separate functions for better readability and maintainability. But since the code is already using guard clauses, we will keep it as is.

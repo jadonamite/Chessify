@@ -100,5 +100,6 @@ export async function getIndexedPlayers(chain: EvmChain): Promise<string[]> {
 /** gameIds a given address has participated in on `chain`, newest-id first. */
 export async function getPlayerGameIds(chain: EvmChain, address: string): Promise<number[]> {
   const ids = (await getRedis().smembers(K(chain).playerGames(address))) as Array<string | number>
-  return ids.map(Number).sort((a, b) => b - a)
+  const result = ids.map(Number).sort((a, b) => b - a);
+  return result;
 }

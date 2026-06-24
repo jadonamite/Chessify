@@ -26,8 +26,7 @@ async function fetchTotalGames(senderAddress: string): Promise<number> {
       senderAddress,
     })
     const json = cvToJSON(result)
-    const result = Number(json.value.value);
-    return result;
+    return Number(json.value.value)
   } catch (err) {
     console.error(`${LOG_PREFIX} fetchTotalGames failed:`, err)
     return 0

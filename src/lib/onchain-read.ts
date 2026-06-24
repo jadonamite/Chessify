@@ -46,6 +46,16 @@ const BASE_GET_GAME_ABI = [
 const celoClient = createPublicClient({ chain: celo, transport: http('https://forno.celo.org') })
 const baseClient = createPublicClient({ chain: base, transport: http('https://mainnet.base.org') })
 
+async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<OnchainGame> {
+  const client = chain === 'celo' ? celoClient : baseClient
+  const address = (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as Address
+  const abi = chain === 'celo' ? CELO_GET_GAME_ABI : BASE_GET_GAME_ABI
+  const g = await client.readContract({ address, abi, functionName: 'getGame', args: [BigInt(gameId)] }) as {
+    white: string; black: string; status: number
+  }
+  return { white: g.white, black: g.black, status: Number(g.status) }
+}
+
 async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const result = await fetchCallReadOnlyFunction({
     contractAddress: STACKS_CONTRACTS.game.address,
@@ -63,16 +73,6 @@ async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const black = tuple.black?.value?.value ?? tuple.black?.value ?? ''
   const status = Number(tuple.status?.value ?? -1)
   return { white, black, status }
-}
-
-async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<OnchainGame> {
-  const client = chain === 'celo' ? celoClient : baseClient
-  const address = (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as Address
-  const abi = chain === 'celo' ? CELO_GET_GAME_ABI : BASE_GET_GAME_ABI
-  const g = await client.readContract({ address, abi, functionName: 'getGame', args: [BigInt(gameId)] }) as {
-    white: string; black: string; status: number
-  }
-  return { white: g.white, black: g.black, status: Number(g.status) }
 }
 
 /** Read the minimal on-chain game state the relay needs, dispatched by chain. */

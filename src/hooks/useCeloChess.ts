@@ -8,15 +8,15 @@ import { parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
 import { useToastStore } from '@/hooks/useToastStore'
 
-const LOG_PREFIX = '[useCeloChess]'
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
 export function useCeloChess() {
   const { address } = useAccount()
   const { writeContractAsync } = useWriteContract()
   const publicClient = usePublicClient({ chainId: CELO_CHAIN_ID })
   const [isPending, setIsPending] = useState(false)
   const showToast = useToastStore((state) => state.showToast)
+
+const LOG_PREFIX = '[useCeloChess]'
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
   // ── createGame ──────────────────────────────────────────────────────────────
   const createGame = useCallback(async (wagerAmount: number): Promise<number | null> => {

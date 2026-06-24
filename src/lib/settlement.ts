@@ -16,7 +16,6 @@ export const RESULT = {
 export type ResultValue = (typeof RESULT)[keyof typeof RESULT]
 
 // A side that hasn't moved within this window after the opponent's last move
-// forfeits on time. Mirrors the in-game move clock.
 export const MOVE_TIMEOUT_MS = 5 * 60 * 1000
 
 // Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.

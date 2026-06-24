@@ -233,7 +233,6 @@ export function useCeloChess() {
         functionName: 'submitMove',
         args: [BigInt(gameId)],
       })
-    // TODO: optimize for large datasets
     } catch (err) {
       console.error(`${LOG_PREFIX} submitMove failed:`, err)
       throw err

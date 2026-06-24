@@ -1,1 +1,19 @@
-export interface ChessProfile { address: string; // 0x… (lowercased) for Celo, SP…/ST… (verbatim) for Stacks username: string; // "jadon" — displayed as "jadon.chess" displayName: string; // freeform, max 30 chars bio: string; // max 120 chars og: boolean; // first 100 profiles, locked forever createdAt: number; // unix ms updatedAt: number; // unix ms usernameChangedAt: number; // unix ms — 30-day username change lock } export interface ProfileCheckResult { available: boolean; reason?: string; } export interface BatchProfileResult { profiles: Record<string, ChessProfile | null>; } export function validateChessProfile(profile: ChessProfile): ProfileCheckResult { if (!profile.address || typeof profile.address !== 'string') return { available: false, reason: 'Address is required and must be a string' }; if (!profile.username || typeof profile.username !== 'string') return { available: false, reason: 'Username is required and must be a string' }; if (profile.displayName && typeof profile.displayName !== 'string') return { available: false, reason: 'Display name must be a string' }; if (profile.bio && typeof profile.bio !== 'string') return { available: false, reason: 'Bio must be a string' }; if (typeof profile.og !== 'boolean') return { available: false, reason: 'Og must be a boolean' }; if (typeof profile.createdAt !== 'number') return { available: false, reason: 'Created at must be a number' }; if (typeof profile.updatedAt !== 'number') return { available: false, reason: 'Updated at must be a number' }; if (typeof profile.usernameChangedAt !== 'number') return { available: false, reason: 'Username changed at must be a number' }; return { available: true }; }
+export interface ChessProfile {
+  address: string           // 0x… (lowercased) for Celo, SP…/ST… (verbatim) for Stacks
+  username: string          // "jadon" — displayed as "jadon.chess"
+  displayName: string       // freeform, max 30 chars
+  bio: string               // max 120 chars
+  og: boolean               // first 100 profiles, locked forever
+  createdAt: number         // unix ms
+  updatedAt: number         // unix ms
+  usernameChangedAt: number // unix ms — 30-day username change lock
+}
+
+export interface ProfileCheckResult {
+  available: boolean
+  reason?: string
+}
+
+export interface BatchProfileResult {
+  profiles: Record<string, ChessProfile | null>
+}

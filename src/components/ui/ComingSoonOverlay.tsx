@@ -120,6 +120,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
               <p className="text-xs sm:text-sm md:text-base text-gray-400 font-medium tracking-wide max-w-lg leading-relaxed px-2">
                 Our team is currently working to <span className="text-white">Checkmate this gambit</span>.
               </p>
+// FIXME: handle edge case when value is null
 
               <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2 md:my-4" />
 

@@ -46,14 +46,6 @@ const BASE_GET_GAME_ABI = [
 const celoClient = createPublicClient({ chain: celo, transport: http('https://forno.celo.org') })
 const baseClient = createPublicClient({ chain: base, transport: http('https://mainnet.base.org') })
 
-/** Read the minimal on-chain game state the relay needs, dispatched by chain. */
-export async function getOnchainGame(chain: Chain, gameId: number): Promise<OnchainGame> {
-  if (chain === 'celo' || chain === 'base') return readEvmGame(chain, gameId)
-  if (chain === 'stacks') return readStacksGame(gameId)
-  throw new Error(`unsupported chain: ${chain}`)
-}
-
-
 async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<OnchainGame> {
   const client = chain === 'celo' ? celoClient : baseClient
   const address = (chain === 'celo' ? CELO_CONTRACTS.game : BASE_CONTRACTS.game) as Address
@@ -81,4 +73,11 @@ async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const black = tuple.black?.value?.value ?? tuple.black?.value ?? ''
   const status = Number(tuple.status?.value ?? -1)
   return { white, black, status }
+}
+
+/** Read the minimal on-chain game state the relay needs, dispatched by chain. */
+export async function getOnchainGame(chain: Chain, gameId: number): Promise<OnchainGame> {
+  if (chain === 'celo' || chain === 'base') return readEvmGame(chain, gameId)
+  if (chain === 'stacks') return readStacksGame(gameId)
+  throw new Error(`unsupported chain: ${chain}`)
 }

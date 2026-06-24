@@ -1,4 +1,5 @@
 'use client'
+
 import { useQuery } from '@tanstack/react-query'
 import type { ChessProfile } from '@/types/profile'
 import { normalizeAddress } from '@/lib/profile-address'
@@ -9,21 +10,14 @@ export function useBatchProfiles(addresses: string[]) {
     queryKey: ['profiles-batch', sorted],
     queryFn: async (): Promise<Record<string, ChessProfile | null>> => {
       if (sorted.length === 0) return {}
-      try {
-        const res = await fetch('/api/profile/batch', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ addresses: sorted }),
-        })
-        if (!res.ok) return {}
-        const data = await res.json()
-        return data.profiles as Record<string, ChessProfile | null>
-      } catch (error) {
-        console.error(error)
-        return {}
-      }
+      const res = await fetch('/api/profile/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ addresses: sorted }),
+      })
+      if (!res.ok) return {}
+      const data = await res.json()
+      return data.profiles as Record<string, ChessProfile | null>
     },
     enabled: sorted.length > 0,
     staleTime: 5 * 60 * 1000,

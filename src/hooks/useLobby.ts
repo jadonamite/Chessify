@@ -41,7 +41,7 @@ export function useLobby() {
           address: CELO_CONTRACTS.game as `0x${string}`,
           abi: CHESS_GAME_ABI,
           functionName: 'getGame',
-          params: [BigInt(i)]
+          args: [BigInt(i)]
         }) as any
         
         if (g && Number(g.status) === 0) { // Waiting
@@ -107,7 +107,7 @@ export function useLobby() {
           address: BASE_CONTRACTS.game as `0x${string}`,
           abi: BASE_CHESS_GAME_ABI,
           functionName: 'getGame',
-          params: [BigInt(i)],
+          args: [BigInt(i)],
         }) as any
 
         if (g && Number(g.status) === 0) { // Waiting

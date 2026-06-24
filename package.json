@@ -27,7 +27,7 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
-    "test:watch": "run-tests"
+    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
   },
   "keywords": [
     "stacks",
@@ -109,9 +109,4 @@
   "bugs": {
     "url": "https://github.com/jadonamite/Chessify/issues"
   }
-}
-
-// scripts.js
-export function runTests() {
-  return `chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"`;
 }

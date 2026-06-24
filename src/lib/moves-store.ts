@@ -26,7 +26,7 @@ export interface MoveRecord {
   signer?: string     // address that produced sig — must equal player (optional)
 }
 
-const TTL_SECONDS = 60 * 60 * 24 * 30 // 30 days — long enough for any reasonable game
+const TTL_SECONDS: number = 60 * 60 * 24 * 30 // 30 days — long enough for any reasonable game
 
 function key(chain: Chain, gameId: number): string {
   return `chess:moves:${chain}:${gameId}`

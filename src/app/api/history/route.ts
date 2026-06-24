@@ -33,6 +33,11 @@ function gameAddress(chain: EvmChain): `0x${string}` {
 // GET /api/history?address=0x…&chain=celo|base — a player's games on an EVM
 // chain, resolved via the Redis index (only that player's gameIds are read
 // on-chain, not the whole game table).
+/**
+ * GET
+ * @param {*} req: NextRequest
+ * @returns {*}
+ */
 export async function GET(req: NextRequest) {
   const chain = parseEvmChain(req.nextUrl.searchParams.get('chain') ?? 'celo')
   if (!chain) return NextResponse.json({ error: 'invalid chain' }, { status: 400 })

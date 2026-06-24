@@ -162,7 +162,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== 'undefined' && (window as any).ethereum?.isMiniPay) {
       setIsMiniPay(true)
     }
-  // TODO: add input validation
   }, [])
 
   // 4. If authenticated but no wallet exists yet, create an embedded one

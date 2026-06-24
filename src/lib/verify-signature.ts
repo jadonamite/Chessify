@@ -8,7 +8,6 @@ import { detectChain } from './profile-address';
 export async function verifyProfileSignature(opts: { address: string; message: string; signature: string; publicKey?: string }): Promise<boolean> {
   const chain = detectChain(opts.address);
   if (chain !== 'celo' && chain !== 'stacks') return false;
-
   if (chain === 'celo') {
     try {
       return await verifyMessage({
@@ -20,9 +19,8 @@ export async function verifyProfileSignature(opts: { address: string; message: s
       return false;
     }
   }
-
-  if (chain === 'stacks' && !opts.publicKey) return false;
-
+  if (chain !== 'stacks') return false;
+  if (!opts.publicKey) return false;
   try {
     const { verifyMessageSignatureRsv } = await import('@stacks/encryption');
     const { getAddressFromPublicKey } = await import('@stacks/transactions');

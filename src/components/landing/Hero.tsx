@@ -134,6 +134,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
+// FIXME: handle edge case when value is null
 
       {/* Scroll */}
       {!isMobile && (

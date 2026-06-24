@@ -34,7 +34,7 @@ export default function TypingHeroText({
     const controls = animate(count, words[index].length, {
       type: "tween",
       duration: 1.4,
-      ease: "linear",
+      ease: 'linear',
       onComplete: () => {
         setTimeout(() => {
           animate(count, 0, {

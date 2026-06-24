@@ -25,6 +25,7 @@ function FloatingPieces() {
     color: '#0f172a', roughness: 0.4, metalness: 0.6
   }), [])
 
+  // TODO: consider memoizing this value
   const applyMaterial = (scene: THREE.Group, material: THREE.Material) => {
     const clone = scene.clone()
     clone.traverse((child: any) => {

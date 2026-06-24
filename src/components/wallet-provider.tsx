@@ -145,7 +145,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           }
         }
       } catch (e) {
-        console.error('Failed to init Stacks session', e)
+        console.error("Failed to init Stacks session", e)
       }
     }
     initStacks()

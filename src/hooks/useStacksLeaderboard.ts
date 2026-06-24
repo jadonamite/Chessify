@@ -1,9 +1,9 @@
 'use client'
 
+import type { LeaderboardEntry } from '@/hooks/useLeaderboard'
+import { useStacksRead } from '@/hooks/useStacksRead'
 import { useState, useEffect, useCallback } from 'react'
 import { useWallet } from '@/components/wallet-provider'
-import { useStacksRead } from '@/hooks/useStacksRead'
-import type { LeaderboardEntry } from '@/hooks/useLeaderboard'
 
 // Pulls a principal string out of a Clarity-CV JSON field, tolerating both the
 // bare `{ value: 'SP…' }` shape and the nested optional `{ value: { value: 'SP…' } }`.

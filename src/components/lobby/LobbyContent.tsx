@@ -278,7 +278,6 @@ export default function LobbyContent() {
 
             {/*
               FIX: Shell/content split.
-              // TODO: add input validation
               The outer div owns ALL visual properties that create a stacking context:
               backdrop-blur, background, border, border-radius, shadow.
               The inner div owns ALL spacing: padding.

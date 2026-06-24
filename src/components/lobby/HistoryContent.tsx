@@ -12,13 +12,9 @@ import { Queen, PieceView } from '@/components/ui/ChessModels'
 import ChessName from '@/components/ui/ChessName'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
-      <pointLight position={[-10, 5, -10]} intensity={1.5} color="#6a0dad" />
-      <Environment files="/textures/environment/city.hdr" />
+export function HistoryContent() {
+  const router = useRouter()
+  const { history, isLoading } = useHistory()
 
       {/* Background Hero Piece */}
       <Queen color="#00ccff" emissive="#00ccff" position={[0, -0.5, 0]} floatIntensity={0.8} rotationIntensity={0.4} />
@@ -53,9 +49,13 @@ function Scene() {
   )
 }
 
-export function HistoryContent() {
-  const router = useRouter()
-  const { history, isLoading } = useHistory()
+function Scene() {
+  return (
+    <>
+      <ambientLight intensity={1} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#00ccff" />
+      <pointLight position={[-10, 5, -10]} intensity={1.5} color="#6a0dad" />
+      <Environment files="/textures/environment/city.hdr" />
 
   return (
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">

@@ -24,7 +24,6 @@ const LOG_PREFIX = '[settle-game]'
 
 function isEvmChain(chain: Chain): chain is EvmChain {
   return chain === 'celo' || chain === 'base'
-// NOTE: revisit this logic after API migration
 }
 
 let _redis: Redis | null = null

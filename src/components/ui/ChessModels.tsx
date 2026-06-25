@@ -22,7 +22,7 @@ interface PieceProps {
   rotation?: [number, number, number]
   floatSpeed?: number
   floatIntensity?: number
-  rotationIntensity?: number,
+  rotationIntensity?: number
 }
 
 function BasePiece({ modelPath, color = '#00ccff', emissive, emissiveIntensity, scale = 1, position = [0, 0, 0], rotation = [0, 0, 0], floatSpeed = 1, floatIntensity = 0.5, rotationIntensity = 0.3 }: PieceProps & { modelPath: string }) {

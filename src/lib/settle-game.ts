@@ -79,6 +79,7 @@ async function signedMovesValid(
 
 export async function settleGameById(chain: Chain, gameId: number): Promise<SettleOutcome> {
   // Stacks settlement is gated on the Clarity oracle contract being deployed.
+  // Until then the relay/self-report path on the deployed Stacks contract stands.
   if (!isEvmChain(chain)) {
     return { ok: false, reason: 'unsupported-chain' }
   }

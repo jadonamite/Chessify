@@ -10,31 +10,25 @@ export function piecePath(set: PieceSet, code: string): string {
 
 const cache: Partial<Record<PieceSet, PieceRenderObject>> = {}
 
-// Helper function to create an img component for a piece.
-function createPieceImage(set: PieceSet, code: string) {
-  return (
-    <img
-      src={piecePath(set, code)}
-      alt={code}
-      draggable={false}
-      style={{
-        width: '100%',
-        height: '100%',
-        userSelect: 'none',
-        pointerEvents: 'none'
-      }}
-    />
-  )
-}
-
 // Build the react-chessboard piece renderer for a given set (memoized per set).
 export function buildPieces(set: PieceSet): PieceRenderObject {
   const cached = cache[set]
   if (cached) return cached
 
   const pieces = Object.fromEntries(
-    CODES.map((code) => [code, () => createPieceImage(set, code)]),
+    CODES.map((code) => [
+      code,
+      () => (
+        <img
+          src={piecePath(set, code)}
+          alt={code}
+          draggable={false}
+          style={{ width: '100%', height: '100%', userSelect: 'none', pointerEvents: 'none' }}
+        />
+      ),
+    ]),
   ) as PieceRenderObject
+
   cache[set] = pieces
   return pieces
 }

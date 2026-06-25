@@ -19,43 +19,6 @@ export type ResultValue = (typeof RESULT)[keyof typeof RESULT]
 // forfeits on time. Mirrors the in-game move clock.
 export const MOVE_TIMEOUT_MS = 5 * 60 * 1000
 
-// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
-// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
-export function addrEq(a: string, b: string): boolean {
-  return normalizeAddress(a) === normalizeAddress(b)
-}
-
-/**
- * The exact message a player signs to authenticate a move. Deterministic and
- * identical on client (signing) and server (verification): it binds the move to
- * this game, this ply, this SAN, and the resulting position, so a signature for
- * one move can never be replayed onto another.
- *
- * INVARIANT: must stay byte-identical to the message built in useMoveSigner /
- * useGameMoves on the client.
- */
-export function canonicalMoveMessage(p: {
-  chain: string
-  gameId: number
-  moveNumber: number
-  san: string
-  fen: string
-}): string {
-  return [
-    'chessify:move',
-    `chain:${p.chain}`,
-    `game:${p.gameId}`,
-    `n:${p.moveNumber}`,
-    `san:${p.san}`,
-    `fen:${p.fen}`,
-  ].join('\n')
-}
-
-export type Terminal =
-  | { kind: 'result'; result: ResultValue }
-  | { kind: 'not-terminal' }
-  | { kind: 'illegal' }
-
 /**
  * Replay the authoritative move list and decide the result. NEVER trusts the
  * client — the SAN list is replayed move-by-move with chess.js, and an illegal
@@ -71,6 +34,35 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
       return { kind: 'illegal' }
     }
   }
+
+/**
+ * Whose turn is it after replaying `moves`, expressed as the player address.
+ * Returns null if the sequence is illegal. Used by the relay to enforce that a
+ * submitted move actually comes from the side to move.
+ */
+export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
+  const chess = new Chess()
+  for (const m of moves) {
+    try {
+      if (!chess.move(m.san)) return null
+    } catch {
+      return null
+    }
+  }
+  return chess.turn() === 'w' ? white : black
+}
+
+
+export type Terminal =
+  | { kind: 'result'; result: ResultValue }
+  | { kind: 'not-terminal' }
+  | { kind: 'illegal' }
+
+// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
+// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
+export function addrEq(a: string, b: string): boolean {
+  return normalizeAddress(a) === normalizeAddress(b)
+}
 
   // Checkmate: the side to move is mated → opponent wins.
   if (chess.isCheckmate()) {
@@ -100,18 +92,27 @@ export function deriveResult(moves: MoveRecord[], white: string, black: string):
 }
 
 /**
- * Whose turn is it after replaying `moves`, expressed as the player address.
- * Returns null if the sequence is illegal. Used by the relay to enforce that a
- * submitted move actually comes from the side to move.
+ * The exact message a player signs to authenticate a move. Deterministic and
+ * identical on client (signing) and server (verification): it binds the move to
+ * this game, this ply, this SAN, and the resulting position, so a signature for
+ * one move can never be replayed onto another.
+ *
+ * INVARIANT: must stay byte-identical to the message built in useMoveSigner /
+ * useGameMoves on the client.
  */
-export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
-  const chess = new Chess()
-  for (const m of moves) {
-    try {
-      if (!chess.move(m.san)) return null
-    } catch {
-      return null
-    }
-  }
-  return chess.turn() === 'w' ? white : black
+export function canonicalMoveMessage(p: {
+  chain: string
+  gameId: number
+  moveNumber: number
+  san: string
+  fen: string
+}): string {
+  return [
+    'chessify:move',
+    `chain:${p.chain}`,
+    `game:${p.gameId}`,
+    `n:${p.moveNumber}`,
+    `san:${p.san}`,
+    `fen:${p.fen}`,
+  ].join('\n')
 }

@@ -10,7 +10,7 @@ import { CELO_CHAIN_ID, BASE_CHAIN_ID } from '@/config/contracts'
 export type ActiveChain = 'celo' | 'stacks' | 'base'
 
 // Capability tier drives how EVM (Celo/Base) writes are sponsored:
-//   'minipay' → legacy tx + USDm gas-drip (MiniPay can't sign typed payload)
+//   'minipay' → legacy tx + USDm gas-drip (MiniPay can't sign typed data)
 //   'smart'   → ERC-4337 userOp sponsored by a paymaster (dormant until a
 //               SmartWalletsProvider/Pimlico pass is added)
 //   'eoa'     → embedded Privy or external wallet; pays its own gas (native drip)

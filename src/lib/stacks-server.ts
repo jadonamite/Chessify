@@ -109,4 +109,47 @@ export async function settleOnChain(gameId: number, result: StacksGameResult): P
   return res.txid
 }
 
+// ── Gasless sponsorship (native Stacks sponsored transactions) ──────────────────
+// The player signs a `sponsored: true` contract-call (they stay tx-sender, pay no
+// fee); this co-signs with the gas-sponsor key and pays the STX fee. Only the
+// engine's own player actions are sponsored — never arbitrary transactions.
+
+function requireSponsorKey(): string {
+  const raw = process.env.STACKS_GAS_SPONSOR_PRIVATE_KEY
+  if (!raw) throw new Error(`${LOG_PREFIX} STACKS_GAS_SPONSOR_PRIVATE_KEY must be set`)
+  return raw
+}
+
+export interface SponsorResult {
+  ok: boolean
+  txid?: string
+  reason?: 'not-sponsorable' | 'broadcast-failed'
+}
+
+export async function sponsorAndBroadcast(txHex: string): Promise<SponsorResult> {
+  const transaction = deserializeTransaction(txHex)
+
+  // Guard: only sponsor whitelisted player actions on OUR engine contract.
+  const payload = transaction.payload as unknown as {
+    contractName?: { content?: string }
+    functionName?: { content?: string }
+  }
+  const contractName = payload?.contractName?.content
+  const functionName = payload?.functionName?.content
+  if (contractName !== STACKS_CONTRACTS.game.name || !functionName || !SPONSORABLE_FNS.has(functionName)) {
+    return { ok: false, reason: 'not-sponsorable' }
+  }
+
+  const sponsored = await sponsorTransaction({
+    transaction,
+    sponsorPrivateKey: requireSponsorKey(),
+    network: NETWORK,
+  })
+  const res = await broadcastTransaction({ transaction: sponsored, network: NETWORK })
+  if ('error' in res && res.error) {
+    return { ok: false, reason: 'broadcast-failed' }
+  }
+  return { ok: true, txid: res.txid }
+}
+
 export { HIRO_API }

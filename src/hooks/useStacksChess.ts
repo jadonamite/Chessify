@@ -118,32 +118,6 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, stacksAddress, userSession])
 
-  // ── submitMove ──────────────────────────────────────────────────────────────
-  const submitMove = useCallback(async (gameId: number) => {
-    if (!isStacksConnected || !userSession) {
-      throw new Error(`${LOG_PREFIX} submitMove: Stacks wallet not connected`)
-    }
-    const { openContractCall } = await import('@stacks/connect')
-    console.info(`${LOG_PREFIX} submitMove`, { gameId })
-
-    return new Promise((resolve, reject) => {
-      openContractCall({
-        contractAddress: STACKS_CONTRACTS.game.address,
-        contractName: STACKS_CONTRACTS.game.name,
-        functionName: 'submit-move',
-        functionArgs: [uintCV(gameId)],
-        anchorMode: AnchorMode.Any,
-        postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
-        onCancel: () => {
-          console.warn(`${LOG_PREFIX} submitMove: user cancelled`)
-          reject(new Error('Transaction cancelled'))
-        },
-        userSession,
-      })
-    })
-  }, [isStacksConnected, userSession])
-
   // ── resign ──────────────────────────────────────────────────────────────────
   const resign = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) {

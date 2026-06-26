@@ -11,6 +11,12 @@ import {
   type EvmChain,
   type Address,
 } from '@/lib/evm-server'
+import {
+  getOnchainGame as getStacksGame,
+  settleOnChain as settleStacksGame,
+  StacksGameStatus,
+  type StacksGameResult,
+} from '@/lib/stacks-server'
 
 // SERVER-ONLY. Replays a game's authoritative move list and settles it on-chain
 // via the oracle. Shared by the manual settle route (client-triggered fast path)
@@ -78,8 +84,7 @@ async function signedMovesValid(
 }
 
 export async function settleGameById(chain: Chain, gameId: number): Promise<SettleOutcome> {
-  // Stacks settlement is gated on the Clarity oracle contract being deployed.
-  // Until then the relay/self-report path on the deployed Stacks contract stands.
+  if (chain === 'stacks') return settleStacksGameById(gameId)
   if (!isEvmChain(chain)) {
     return { ok: false, reason: 'unsupported-chain' }
   }
@@ -107,6 +112,39 @@ export async function settleGameById(chain: Chain, gameId: number): Promise<Sett
   try {
     const txHash = await settleOnChain(chain, gameId, derived.result as GameResult)
     await unregisterActiveGame(chain, gameId)
+    return { ok: true, txHash, result: derived.result as GameResult }
+  } catch (err) {
+    await getRedis().del(lockKey)
+    throw err
+  }
+}
+
+/**
+ * Stacks settlement. Mirrors the EVM path but against playchessifyEngine via the
+ * oracle key. Stacks relay moves are unsigned (turn-bound by the relay on write),
+ * so there is no per-move signature to re-verify — the replay + terminal-position
+ * check is the authority, exactly as for MiniPay on EVM.
+ */
+async function settleStacksGameById(gameId: number): Promise<SettleOutcome> {
+  const moves = await getMoves('stacks', gameId)
+
+  const game = await getStacksGame(gameId)
+  if (game.status !== StacksGameStatus.Active || !game.black) {
+    await unregisterActiveGame('stacks', gameId)
+    return { ok: false, reason: 'not-active', status: game.status }
+  }
+
+  const derived = deriveResult(moves, game.white as Address, game.black as Address)
+  if (derived.kind === 'illegal') return { ok: false, reason: 'illegal' }
+  if (derived.kind === 'not-terminal') return { ok: false, reason: 'not-terminal' }
+
+  const lockKey = `chess:settle:stacks:${gameId}`
+  const acquired = await getRedis().set(lockKey, '1', { nx: true, ex: 120 })
+  if (acquired !== 'OK') return { ok: false, reason: 'in-progress' }
+
+  try {
+    const txHash = await settleStacksGame(gameId, derived.result as unknown as StacksGameResult)
+    await unregisterActiveGame('stacks', gameId)
     return { ok: true, txHash, result: derived.result as GameResult }
   } catch (err) {
     await getRedis().del(lockKey)

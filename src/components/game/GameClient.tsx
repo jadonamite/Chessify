@@ -53,6 +53,11 @@ interface PlayerStats {
 
 // ─── component ─────────────────────────────────────────────────────────────
 
+export default function GameClient() {
+  const params = useParams()
+  const isBotGame = params?.id === 'bot'
+  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
+
   const handleReportWin = async () => {
     await withTx(async () => {
       if (activeChain === 'stacks') await reportStacksWin(gameId)
@@ -206,10 +211,25 @@ interface PlayerStats {
   useEffect(() => {
     if (activeChain !== 'stacks') return
 
-export default function GameClient() {
-  const params = useParams()
-  const isBotGame = params?.id === 'bot'
-  const gameId = isBotGame ? 0 : Number(params?.id ?? 0)
+    const load = () => {
+      if (gameId) {
+        void getStacksGame(gameId).then((d: any) => {
+          if (!d) return
+          // Map raw Clarity CV structure to the typed GameData shape
+          setGameData({
+            player1: d.white?.value ?? '',
+            player2: d.black?.value ?? '',
+            wager: d.wager?.value ?? '0',
+            status: d.status?.value ?? '0',
+          })
+        })
+      }
+      if (stacksAddress) {
+        void getStacksStats(stacksAddress).then((s: any) => {
+          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
+        })
+      }
+    }
 
     if (!stacksDataLoaded) {
       setStacksDataLoaded(true)
@@ -582,26 +602,6 @@ export default function GameClient() {
       else await resignCelo(gameId)
     })
   }
-
-    const load = () => {
-      if (gameId) {
-        void getStacksGame(gameId).then((d: any) => {
-          if (!d) return
-          // Map raw Clarity CV structure to the typed GameData shape
-          setGameData({
-            player1: d.white?.value ?? '',
-            player2: d.black?.value ?? '',
-            wager: d.wager?.value ?? '0',
-            status: d.status?.value ?? '0',
-          })
-        })
-      }
-      if (stacksAddress) {
-        void getStacksStats(stacksAddress).then((s: any) => {
-          if (s) setPlayerStats({ wins: Number(s.wins?.value ?? 0), losses: Number(s.losses?.value ?? 0), rating: Number(s.rating?.value ?? 1200) })
-        })
-      }
-    }
 
   const handleJoinMatch = async () => {
     if (!gameData) return

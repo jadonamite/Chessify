@@ -2,11 +2,19 @@ import {
   makeContractCall,
   broadcastTransaction,
   fetchCallReadOnlyFunction,
+  deserializeTransaction,
+  sponsorTransaction,
   uintCV,
   cvToJSON,
   PostConditionMode,
 } from '@stacks/transactions'
 import { STACKS_CONTRACTS, HIRO_API } from '@/config/contracts'
+
+// Player actions the gas sponsor is willing to pay for (all on the engine).
+const SPONSORABLE_FNS = new Set([
+  'create-game', 'join-game', 'resign', 'propose-draw', 'accept-draw',
+  'cancel-game', 'reclaim-expired',
+])
 
 // SERVER-ONLY signing + reads for the Chessify oracle model on Stacks
 // (playchessifyEngine + playchessifyToken). NEVER import from a client component —

@@ -266,14 +266,6 @@ export default function GameClient() {
   const opponentProposedDraw = gameIsActive && isParticipant && drawProposer !== '' && drawProposer !== ZERO_ADDR.toLowerCase() && drawProposer !== myAddress
   const iAlreadyProposedDraw = gameIsActive && isParticipant && drawProposer === myAddress
 
-  // Timeout: only show claim button when the contract confirms it's claimable
-  // On Stacks we don't have a live read yet — show the button when game is active and it's not my turn
-  const canClaimTimeoutCelo = !!celoCanTimeout && !isMyTurn && isParticipant
-  const canClaimTimeoutStacks = gameIsActive && isParticipant && !isMyTurn  // conservative; actual check is on-chain
-  // Base contract has no claimTimeout — never show the claim control there.
-  const canClaimTimeoutNow = !isBotGame && activeChain !== 'base'
-    && (activeChain === 'celo' ? canClaimTimeoutCelo : canClaimTimeoutStacks)
-
   // Color assignment: creator (player1) is white, opponent (player2) is black.
   // Mirrors the contract's assignment in chess-game.clar / ChessGame.sol.
   const myColor: 'white' | 'black' | null = isBotGame
@@ -286,6 +278,14 @@ export default function GameClient() {
   const isMyTurn = isBotGame
     ? game.turn() === 'w'
     : (game.turn() === 'w' && myColor === 'white') || (game.turn() === 'b' && myColor === 'black')
+
+  // Timeout: only show claim button when the contract confirms it's claimable
+  // On Stacks we don't have a live read yet — show the button when game is active and it's not my turn
+  const canClaimTimeoutCelo = !!celoCanTimeout && !isMyTurn && isParticipant
+  const canClaimTimeoutStacks = gameIsActive && isParticipant && !isMyTurn  // conservative; actual check is on-chain
+  // Base contract has no claimTimeout — never show the claim control there.
+  const canClaimTimeoutNow = !isBotGame && activeChain !== 'base'
+    && (activeChain === 'celo' ? canClaimTimeoutCelo : canClaimTimeoutStacks)
 
   const canAct = !txPending && (isBotGame || (isParticipant && (isConnected || isStacksConnected)))
   const gameOver = game.isGameOver()

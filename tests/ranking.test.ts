@@ -18,11 +18,6 @@ function rating(addr: string): number {
   return Number((result as any).value.value)
 }
 
-function gamesPlayed(addr: string): number {
-  const { result } = simnet.callReadOnlyFn(GAME, "get-player-stats", [Cl.principal(addr)], addr)
-  return Number((result as any).value.value["games-played"].value)
-}
-
 function playGame(white: string, black: string, winner: "white" | "black") {
   const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], white)
   const id = Number((result as any).value.value)

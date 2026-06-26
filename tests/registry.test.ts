@@ -22,11 +22,6 @@ function seed(addr: string, amount = 1_000_000_000n) {
   simnet.callPublicFn(TOKEN, "mint", [Cl.uint(amount), Cl.principal(addr)], deployer)
 }
 
-function nextId(): number {
-  const { result } = simnet.callReadOnlyFn(GAME, "get-total-games", [], wallet1)
-  return Number((result as any).value.value)
-}
-
 describe("create-game (free)", () => {
   it("first game on a fresh simnet has id 0", () => {
     const { result } = simnet.callPublicFn(GAME, "create-game", [Cl.uint(0)], wallet1)

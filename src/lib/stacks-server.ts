@@ -5,7 +5,6 @@ import {
   uintCV,
   cvToJSON,
   PostConditionMode,
-  AnchorMode,
 } from '@stacks/transactions'
 import { STACKS_CONTRACTS, HIRO_API } from '@/config/contracts'
 
@@ -94,7 +93,6 @@ export async function settleOnChain(gameId: number, result: StacksGameResult): P
     // The token's gateway-release moves CHESS out of the vault (not the oracle's
     // own assets), so no post-conditions on the oracle's tx.
     postConditionMode: PostConditionMode.Allow,
-    anchorMode: AnchorMode.Any,
   })
   const res = await broadcastTransaction({ transaction: tx, network: NETWORK })
   if ('error' in res && res.error) {

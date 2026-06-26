@@ -14,7 +14,7 @@ export type HistoryItem = {
   opponent: string
   wager: string
   status: string
-  timestamp: number
+  timestamp: number,
 }
 
 const ZERO_ADDR = '0x0000000000000000000000000000000000000000'

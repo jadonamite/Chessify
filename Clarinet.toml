@@ -7,41 +7,6 @@ cache_dir = './.cache'
 requirements = []
 
 
-[contracts.automata-agent]
-path = 'contracts/automata-agent.clar'
-clarity_version = 2
-epoch = 'latest'
-
-[contracts.chess-token-v3]
-path = 'contracts/chess-token-v3.clar'
-clarity_version = 2
-epoch = 'latest'
-
-[contracts.chess-game]
-path = 'contracts/chess-game.clar'
-clarity_version = 2
-epoch = 'latest'
-
-[contracts.chess-token-v4]
-path = 'contracts/chess-token-v4.clar'
-clarity_version = 2
-epoch = 'latest'
-
-[contracts.chess-game-v2]
-path = 'contracts/chess-game-v2.clar'
-clarity_version = 2
-epoch = 'latest'
-
-[contracts.chess-game-oracle]
-path = 'contracts/chess-game-oracle.clar'
-clarity_version = 2
-epoch = 'latest'
-
-[contracts.logic-v2]
-path = 'contracts/logic-v2.clar'
-clarity_version = 2
-epoch = 'latest'
-
 [contracts.playchessifyToken]
 path = 'contracts/playchessifyToken.clar'
 clarity_version = 2

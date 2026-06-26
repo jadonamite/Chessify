@@ -8,10 +8,17 @@ plan:
   - id: 0
     transactions:
     - transaction-type: contract-publish
-      contract-name: chess-game-oracle
+      contract-name: playchessifyToken
       expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
-      cost: 578759
-      path: contracts/chess-game-oracle.clar
+      cost: 1808071
+      path: contracts/playchessifyToken.clar
+      anchor-block-only: true
+      clarity-version: 2
+    - transaction-type: contract-publish
+      contract-name: playchessifyEngine
+      expected-sender: SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39
+      cost: 1812206
+      path: contracts/playchessifyEngine.clar
       anchor-block-only: true
       clarity-version: 2
     epoch: '3.4'

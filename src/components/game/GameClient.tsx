@@ -60,7 +60,10 @@ export default function GameClient() {
 
   const handleReportWin = async () => {
     await withTx(async () => {
-      if (activeChain === 'stacks') await reportStacksWin(gameId)
+      // Stacks oracle model: the player can't declare a win on-chain. Ask the backend
+      // to replay the move list and settle via the oracle (the cron worker is the
+      // guaranteed fallback). Celo/Base still run the legacy player-submitted reportWin.
+      if (activeChain === 'stacks') await fetch(`/api/games/stacks/${gameId}/settle`, { method: 'POST' })
       else if (activeChain === 'base') await reportBaseWin(gameId)
       else await reportCeloWin(gameId)
     })
@@ -68,7 +71,7 @@ export default function GameClient() {
 
   // @ts-ignore - intentional
   const { stacksAddress, isStacksConnected, activeChain, address: celoAddress, isConnected, connectWallet, setActiveChain } = useWallet()
-  const { submitMove: submitStacksMove, joinGame: joinStacks, resign: resignStacks, reportWin: reportStacksWin, claimTimeout: claimStacksTimeout, proposeDraw: proposeStacksDraw, acceptDraw: acceptStacksDraw, cancelGame: cancelStacksGame } = useStacksChess()
+  const { joinGame: joinStacks, resign: resignStacks, proposeDraw: proposeStacksDraw, acceptDraw: acceptStacksDraw, cancelGame: cancelStacksGame, reclaimExpired: reclaimStacksExpired } = useStacksChess()
   // @ts-ignore - intentional
   const { getGame: getStacksGame, getPlayerStats: getStacksStats } = useStacksRead()
 
@@ -564,10 +567,9 @@ export default function GameClient() {
 
   const handleMoveSubmit = async () => {
     await withTx(async () => {
-      // Base has no on-chain submitMove (no move clock) — moves are relay-only.
-      if (activeChain === 'base') return
-      if (activeChain === 'stacks') await submitStacksMove(gameId)
-      else await submitCeloMove(gameId)
+      // Base + Stacks have no on-chain submitMove (no move clock) — moves are relay-only.
+      if (activeChain === 'base' || activeChain === 'stacks') return
+      await submitCeloMove(gameId)
     })
   }
 
@@ -581,7 +583,9 @@ export default function GameClient() {
 
   const handleClaimTimeout = async () => {
     await withTx(async () => {
-      if (activeChain === 'stacks') await claimStacksTimeout(gameId)
+      // Stacks oracle model: no move-clock timeout; the claim control triggers the
+      // expiry backstop (reclaim-expired, split refund after ~1 day).
+      if (activeChain === 'stacks') await reclaimStacksExpired(gameId)
       else await claimCeloTimeout(gameId)
     })
   }

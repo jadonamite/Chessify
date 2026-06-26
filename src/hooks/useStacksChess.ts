@@ -144,51 +144,27 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  // ── reportWin ───────────────────────────────────────────────────────────────
-  const reportWin = useCallback(async (gameId: number) => {
+  // ── reclaimExpired ────────────────────────────────────────────────────────────
+  // Oracle-down backstop: after EXPIRY-BLOCKS (~1 day) either player split-refunds
+  // the escrow. Replaces the legacy claim-timeout (the engine has no move clock).
+  const reclaimExpired = useCallback(async (gameId: number) => {
     if (!isStacksConnected || !userSession) {
-      throw new Error(`${LOG_PREFIX} reportWin: Stacks wallet not connected`)
+      throw new Error(`${LOG_PREFIX} reclaimExpired: Stacks wallet not connected`)
     }
     const { openContractCall } = await import('@stacks/connect')
-    console.info(`${LOG_PREFIX} reportWin`, { gameId })
+    console.info(`${LOG_PREFIX} reclaimExpired`, { gameId })
 
     return new Promise((resolve, reject) => {
       openContractCall({
         contractAddress: STACKS_CONTRACTS.game.address,
         contractName: STACKS_CONTRACTS.game.name,
-        functionName: 'report-win',
+        functionName: 'reclaim-expired',
         functionArgs: [uintCV(gameId)],
         anchorMode: AnchorMode.Any,
         postConditionMode: PostConditionMode.Allow,
         onFinish: (data) => resolve(data),
         onCancel: () => {
-          console.warn(`${LOG_PREFIX} reportWin: user cancelled`)
-          reject(new Error('Transaction cancelled'))
-        },
-        userSession,
-      })
-    })
-  }, [isStacksConnected, userSession])
-
-  // ── claimTimeout ────────────────────────────────────────────────────────────
-  const claimTimeout = useCallback(async (gameId: number) => {
-    if (!isStacksConnected || !userSession) {
-      throw new Error(`${LOG_PREFIX} claimTimeout: Stacks wallet not connected`)
-    }
-    const { openContractCall } = await import('@stacks/connect')
-    console.info(`${LOG_PREFIX} claimTimeout`, { gameId })
-
-    return new Promise((resolve, reject) => {
-      openContractCall({
-        contractAddress: STACKS_CONTRACTS.game.address,
-        contractName: STACKS_CONTRACTS.game.name,
-        functionName: 'claim-timeout',
-        functionArgs: [uintCV(gameId)],
-        anchorMode: AnchorMode.Any,
-        postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => resolve(data),
-        onCancel: () => {
-          console.warn(`${LOG_PREFIX} claimTimeout: user cancelled`)
+          console.warn(`${LOG_PREFIX} reclaimExpired: user cancelled`)
           reject(new Error('Transaction cancelled'))
         },
         userSession,
@@ -274,5 +250,5 @@ export function useStacksChess() {
     })
   }, [isStacksConnected, userSession])
 
-  return { createGame, joinGame, submitMove, resign, reportWin, claimTimeout, proposeDraw, acceptDraw, cancelGame }
+  return { createGame, joinGame, resign, proposeDraw, acceptDraw, cancelGame, reclaimExpired }
 }

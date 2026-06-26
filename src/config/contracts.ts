@@ -3,10 +3,12 @@
 
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? ''
 
-// Stacks contracts — consolidated 2-contract system (chess-token-v3 + chess-game)
+// Stacks contracts — oracle-settlement system (playchessifyToken + playchessifyEngine).
+// Engine settles via a backend oracle; moves are relay-only (no on-chain submit-move /
+// report-win / claim-timeout). The token's FT asset name is still `chess-token`.
 export const STACKS_CONTRACTS = {
-  token: { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-token-v3' },
-  game:  { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'chess-game'     },
+  token: { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'playchessifyToken' },
+  game:  { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'playchessifyEngine' },
 } as const
 
 

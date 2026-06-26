@@ -43,7 +43,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           },
           loginMethods: ['google', 'twitter', 'github', 'email', 'wallet'],
           embeddedWallets: {
-            createOnLogin: 'users-without-wallets',
+            ethereum: {
+              createOnLogin: 'users-without-wallets',
+            },
           },
           plugins: BUILDER_CODE_SUFFIX ? [dataSuffix(BUILDER_CODE_SUFFIX)] : [],
         }}

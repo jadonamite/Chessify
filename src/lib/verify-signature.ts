@@ -21,7 +21,8 @@ export async function verifyProfileSignature(opts: { address: string; message: s
     }
   }
 
-  if (chain === 'stacks' && !opts.publicKey) return false;
+  const publicKey = opts.publicKey;
+  if (!publicKey) return false;
 
   try {
     const { verifyMessageSignatureRsv } = await import('@stacks/encryption');
@@ -29,11 +30,11 @@ export async function verifyProfileSignature(opts: { address: string; message: s
     const sigValid = verifyMessageSignatureRsv({
       message: opts.message,
       signature: opts.signature,
-      publicKey: opts.publicKey,
+      publicKey,
     });
     if (!sigValid) return false;
     const network = (opts.address.startsWith('ST') || opts.address.startsWith('SN')) ? 'testnet' : 'mainnet';
-    const derived = getAddressFromPublicKey(opts.publicKey, network as any);
+    const derived = getAddressFromPublicKey(publicKey, network as any);
     return derived === opts.address;
   } catch {
     return false;

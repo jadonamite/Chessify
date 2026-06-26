@@ -81,7 +81,7 @@ const _publicClients: Partial<Record<EvmChain, ReturnType<typeof createPublicCli
 export function getPublicClient(chain: EvmChain) {
   if (!_publicClients[chain]) {
     const c = cfg(chain)
-    _publicClients[chain] = createPublicClient({ chain: c.chain, transport: http(c.rpc) })
+    _publicClients[chain] = createPublicClient({ chain: c.chain, transport: http(c.rpc) }) as ReturnType<typeof createPublicClient>
   }
   return _publicClients[chain]!
 }

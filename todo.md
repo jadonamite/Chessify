@@ -1,3 +1,25 @@
+# Chessify — TODO
+
+## Playchessify Oracle (Stacks) — Remaining (2026-06-26)
+
+Contracts live + wired + frontend flipped (see `docs/PLAYCHESSIFY_ORACLE.md`). `tsc` clean.
+Two items left to close the gasless oracle work:
+
+- [ ] **Client sponsored-tx wiring** — make `useStacksChess` player actions use
+  `openContractCall({ sponsored: true })` and POST the signed `txRaw` to
+  `/api/stacks/sponsor` (backend already built). Gate behind `NEXT_PUBLIC_STACKS_GASLESS`
+  (default off) so the self-pay path stays default until verified. **Needs a real
+  browser + a 0-STX Leather/Xverse wallet to test** — sponsored support is wallet-dependent.
+- [ ] **`npm run build`** — final gate on the flip + sponsor backend (tsc is clean; build
+  catches Next route/runtime issues).
+
+Env to set before the backend functions (server-side, not committed):
+- [ ] `STACKS_ORACLE_PRIVATE_KEY` — settle route (value in gitignored `.env.oracle.local`, oracle `SP3AB4M3W69SXTBNVR09FGZ7HX0ESY222545SM914`)
+- [ ] `STACKS_GAS_SPONSOR_PRIVATE_KEY` — sponsor route; **create + fund a dedicated sponsor wallet** with STX
+- [ ] Fund the oracle wallet `SP3AB4…` with a little STX (it pays its own `settle-game` fees)
+
+---
+
 # Chessify — Base Migration TODO
 
 ## Done This Session

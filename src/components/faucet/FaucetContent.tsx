@@ -29,16 +29,14 @@ const KEYFRAMES = `
 }
 `
 
-
-
-/* ── 3D Background Scene ── */
-function FaucetScene() {
-  return (
-    <>
-      <ambientLight intensity={1.5} />
-      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
-      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
-      <Environment files="/textures/environment/city.hdr" />
+/* ═══════════════════════════════════════════
+   MAIN FAUCET CONTENT
+   ═══════════════════════════════════════════ */
+export default function FaucetContent() {
+  const router = useRouter()
+  const { isConnected, activeChain, address: celoAddress, stacksAddress, isStacksConnected, connectWallet } = useWallet()
+  const { getTokenBalance: getStacksBalance } = useStacksRead()
+  const { writeContractAsync } = useWriteContract()
 
       {/* Large background king */}
       <King position={[0, -0.5, -2]} color="#0f172a" emissive="#00ccff" emissiveIntensity={0.15} floatSpeed={0.5} floatIntensity={0.3} rotationIntensity={0.1} scale={2.5} />
@@ -107,15 +105,14 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
   )
 }
 
-/* ═══════════════════════════════════════════
-   MAIN FAUCET CONTENT
-   ═══════════════════════════════════════════ */
-export default function FaucetContent() {
-  const router = useRouter()
-  const { isConnected, activeChain, address: celoAddress, stacksAddress, isStacksConnected, connectWallet } = useWallet()
-  const { getTokenBalance: getStacksBalance } = useStacksRead()
-  const { writeContractAsync } = useWriteContract()
-
+/* ── 3D Background Scene ── */
+function FaucetScene() {
+  return (
+    <>
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
+      <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
+      <Environment files="/textures/environment/city.hdr" />
 
   const [isClaiming, setIsClaiming] = useState(false)
   const [balance, setBalance] = useState('0.00')

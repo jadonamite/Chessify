@@ -121,6 +121,7 @@ export async function updateProfile(
   const now = Date.now()
   const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000
 
+  // Handle username change
   if (updates.username && updates.username.toLowerCase() !== existing.username.toLowerCase()) {
     const sinceLastChange = now - (existing.usernameChangedAt ?? existing.createdAt)
     if (sinceLastChange < THIRTY_DAYS) {

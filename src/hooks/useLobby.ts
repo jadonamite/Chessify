@@ -18,7 +18,6 @@ export function useLobby() {
   const { getTotalGames: getStacksTotal, getGame: getStacksGame } = useStacksRead()
   const publicClient = usePublicClient()
   const basePublicClient = usePublicClient({ chainId: BASE_CHAIN_ID })
-
   const [games, setGames] = useState<Game[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -30,31 +29,28 @@ export function useLobby() {
         abi: CHESS_GAME_ABI,
         functionName: 'gameNonce',
       }) as bigint
-      
       const celoGames: Game[] = []
       // gameNonce is the NEXT id to assign; valid IDs are 0..nonce-1
       const start = Number(nonce) - 1
       const end = Math.max(0, start - 9)
-
-      for (let i = start; i >= end; i--) {
+      const gameIds = Array.from({ length: start - end + 1 }, (_, i) => start - i)
+      const promises = gameIds.map(async (id) => {
         const g = await publicClient.readContract({
           address: CELO_CONTRACTS.game as `0x${string}`,
           abi: CHESS_GAME_ABI,
           functionName: 'getGame',
-          args: [BigInt(i)]
+          args: [BigInt(id)],
         }) as any
-        
-        if (g && Number(g.status) === 0) { // Waiting
-          celoGames.push({
-            id: i,
-            creator: g.white,
-            wager: Number(g.wager) / 1e6, // Using 6 decimals as per config
-            chain: 'celo',
-            elo: 1200 // Default for now
-          })
-        }
-      }
-      return celoGames
+        return g && Number(g.status) === 0 ? {
+          id,
+          creator: g.white,
+          wager: Number(g.wager) / 1e6, // Using 6 decimals as per config
+          chain: 'celo',
+          elo: 1200 // Default for now
+        } : null
+      })
+      const results = await Promise.all(promises)
+      return results.filter(Boolean) as Game[]
     } catch (err) {
       console.error('Celo lobby fetch error:', err)
       return []
@@ -64,24 +60,19 @@ export function useLobby() {
   const fetchStacksGames = useCallback(async () => {
     try {
       const total = await getStacksTotal()
-      const stacksGames: Game[] = []
-      // get-total-games returns game-nonce (next id); valid IDs are 0..total-1
-      const start = total - 1
-      const end = Math.max(0, start - 9)
-
-      for (let i = start; i >= end; i--) {
-        const g = await getStacksGame(i) as any
-        if (g && Number(g.status.value) === 0) { // Waiting
-          stacksGames.push({
-            id: i,
-            creator: g.white.value,
-            wager: Number(g.wager.value) / 1e6,
-            chain: 'stacks',
-            elo: 1200
-          })
-        }
-      }
-      return stacksGames
+      const gameIds = Array.from({ length: 10 }, (_, i) => total - 1 - i)
+      const promises = gameIds.map(async (id) => {
+        const g = await getStacksGame(id) as any
+        return g && Number(g.status.value) === 0 ? {
+          id,
+          creator: g.white.value,
+          wager: Number(g.wager.value) / 1e6,
+          chain: 'stacks',
+          elo: 1200
+        } : null
+      })
+      const results = await Promise.all(promises)
+      return results.filter(Boolean) as Game[]
     } catch (err) {
       console.error('Stacks lobby fetch error:', err)
       return []
@@ -96,31 +87,24 @@ export function useLobby() {
         abi: BASE_CHESS_GAME_ABI,
         functionName: 'totalGames',
       }) as bigint
-
-      const baseGames: Game[] = []
-      // totalGames is the NEXT id to assign; valid IDs are 0..total-1
-      const start = Number(total) - 1
-      const end = Math.max(0, start - 9)
-
-      for (let i = start; i >= end; i--) {
+      const gameIds = Array.from({ length: 10 }, (_, i) => Number(total) - 1 - i)
+      const promises = gameIds.map(async (id) => {
         const g = await basePublicClient.readContract({
           address: BASE_CONTRACTS.game as `0x${string}`,
           abi: BASE_CHESS_GAME_ABI,
           functionName: 'getGame',
-          args: [BigInt(i)],
+          args: [BigInt(id)],
         }) as any
-
-        if (g && Number(g.status) === 0) { // Waiting
-          baseGames.push({
-            id: i,
-            creator: g.white,
-            wager: Number(g.wager) / 1e6,
-            chain: 'base',
-            elo: 1200,
-          })
-        }
-      }
-      return baseGames
+        return g && Number(g.status) === 0 ? {
+          id,
+          creator: g.white,
+          wager: Number(g.wager) / 1e6,
+          chain: 'base',
+          elo: 1200
+        } : null
+      })
+      const results = await Promise.all(promises)
+      return results.filter(Boolean) as Game[]
     } catch (err) {
       console.error('Base lobby fetch error:', err)
       return []
@@ -134,7 +118,6 @@ export function useLobby() {
       fetchStacksGames(),
       fetchBaseGames(),
     ])
-
     setGames([...cGames, ...sGames, ...bGames])
     setIsLoading(false)
   }, [fetchCeloGames, fetchStacksGames, fetchBaseGames])
@@ -146,7 +129,7 @@ export function useLobby() {
   }, [refresh])
 
   return {
-    games: games.filter(g => g.chain === activeChain),
+    games: games.filter((g) => g.chain === activeChain),
     isLoading,
     refresh
   }

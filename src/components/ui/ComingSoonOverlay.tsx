@@ -65,12 +65,6 @@ interface ComingSoonOverlayProps {
   onClose: () => void
 }
 
-/**
- * ComingSoonOverlay
- * @param {*} { isOpen
- * @param {*} onClose }: ComingSoonOverlayProps
- * @returns {*}
- */
 export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlayProps) {
   const [mounted, setMounted] = useState(false)
 

@@ -55,8 +55,64 @@ Two clean sub-patterns:
 **Chessify-only connector hooks (13-file bucket):** `useBaseChess`, `useBaseLeaderboard`, `useStacksChess`, `useStacksLeaderboard`, `useStacksRead`, `useSignProfileMessage` — these have **no playchessify counterpart by design** (it dropped Base+Stacks). Keep in Chessify; only port to playchessify if multi-chain is re-added.
 
 ⚠️ **Protocol divergence:** `useGameMoves` move-signing message prefix differs — Chessify `canonicalMoveMessage` (in settlement.ts) vs playchessify inline `playchessify:move`. Signatures won't cross-verify; must align before sharing a relay/server.
-### lib/ — pending
-### api/ — pending
-### app pages — pending
-### components — pending
+### lib/ — DONE
+| File | Direction | Notes |
+|---|---|---|
+| `settlement.ts` | ⚠️ conflict | Same logic, but **canonical message prefix `chessify:move` vs `playchessify:move`**, and Chessify uses `addrEq`/`normalizeAddress` (multi-chain) vs playchessify `.toLowerCase()` (EVM). Must unify prefix or signatures break. |
+| `settle-game.ts` | Chessify ahead (breadth) | Chessify dispatches celo+base+stacks settlement; playchessify celo-only (101L) |
+| `chess-engine.ts` | playchessify ahead | +`getCaptureSummary`, `getCoachMove`, `CaptureSummary` (training/coach) |
+| `moves-store.ts` | playchessify ahead | +`repairGameHistory` (TOCTOU append-race fix), celo-only typing |
+| `profile-store.ts` | playchessify ahead | +`getProfileDirect`, `linkProfileAlias` (alias self-heal for smart-account/EOA split + streak/link) |
+| `avatar.ts` | Chessify ahead | 63 vs 52L, multi-chain addr handling |
+| `game-index.ts`,`audio.ts`,`chessPieces.tsx` | minor | small diffs, reconcile by hand |
+| `index.ts` | cosmetic | "built on Stacks" vs "built on Celo" tagline |
+
+**Counterpart (renamed) pair — NOT unique-by-design:**
+- Chessify `lib/evm-server.ts` ⇄ playchessify `lib/celo-server.ts`: same core (getOnchainGame, settleOnChain, mintChessTo, verifyWalletSignature) but Chessify generalized to EVM (`sponsorNative`/`sponsorUsdm`, native+chess+usdm balances → celo+base) while playchessify specialized to Celo (`sponsorCelo`, `celoBalanceOf`, `sponsorGas`). **Reconcile as one file**, ideally Chessify's EVM-generic with Celo as a case.
+
+**Chessify-only lib (keep; multi-chain infra):** `builder-code.ts` (Divvi suffix), `onchain-read.ts` (multi-chain read aggregator), `profile-address.ts` (multi-chain normalize), `stacks-server.ts`, `verify-signature.ts`.
+**playchessify-only lib (training stack — port to Chessify):** `analysis/engine.ts`, `coach/client.ts`, `coach/lines.ts`, `coach/voice.ts`, `streak-store.ts`, `train-store.ts`.
+### api/ — DONE
+| Route | Direction | Notes |
+|---|---|---|
+| `gas/sponsor` | Chessify ahead (breadth) | Identical logic; Chessify is chain-generic (celo+base, `EvmChain`, scoped redis keys, `sponsorUsdm`/`sponsorNative`); playchessify Celo-specialized (`sponsorGas`/`sponsorCelo`). Chessify version is the superset. |
+| `games/[chain]/[id]/moves` (relay) | ⚠️ true merge | **playchessify ahead:** `appendMove(chain,id,record,existing.length)` CAS append = TOCTOU race fix; one-clock move-timeout. **Chessify ahead:** Stacks `publicKey` signature verification, celo+base+stacks. Merge both. |
+| `games/[chain]/[id]/settle` | Chessify ahead | multi-chain settle dispatch |
+| `cron/settle` | Chessify ahead | multi-chain auto-settle |
+| `history` | Chessify ahead | celo+base vs celo-only |
+| `leaderboard` | Chessify ahead | celo+base vs celo-only |
+| `profile/[address]`,`profile/claim` | playchessify ahead | +alias linking / streak fields (489/83L vs 75L) |
+| `profile/name/[username]`,`profile/batch` | minor | small diffs |
+
+**playchessify-only routes (port to Chessify — training/streak/alias):** `coach/explain`, `profile/link`, `profile/streak`, `train/[address]`, `admin/relay/repair`.
+**Chessify-only route (keep — Stacks):** `stacks/sponsor`.
+### app pages — DONE
+| Page | Direction | Notes |
+|---|---|---|
+| `app/layout.tsx` | playchessify ahead (SEO) | Full OG/twitter/robots/keywords metadata, metadataBase `celo.playchessify.xyz`, icon `playchessify.svg`. ⚠️ **`talentapp:project_verification` token differs per-project — do NOT copy.** Chessify-only: `base:app_id` meta (Base mini-app) — keep. |
+| `app/page.tsx` | playchessify ahead | renders `landing/v2/ChessifyLanding`; Chessify still old Hero/Features/CTAFooter |
+| `app/profile/[identifier]` | playchessify ahead | +streak UI, alias linking (489 vs 418L) |
+| `app/settings` | playchessify ahead | +coach selection, elo (398 vs 363L) |
+| `faucet`, `game/[id]`, `leaderboard` pages | cosmetic | import-style / formatting only |
+| `not-found.tsx` | cosmetic | trivial |
+
+**playchessify-only pages (port to Chessify):** `app/layout.tsx` (training nav shell), `app/train/*` (coach/[id], game, lesson/[id], placement, page), `landing-v2/page.tsx`.
+### components — DONE
+**Architecture refactor (key insight):** playchessify **decomposed** the monolithic `game/GameClient.tsx` (Chessify 1043L, multi-chain) into 8 presentational sub-components — `AmbientBackground, GameHeader, BoardPanel, GameSidebar, GameActionBar, GameResultOverlay, MatchIntro, JoinRoom` (+`MoveLog, CapturedTray, types.ts`) — and slimmed GameClient to 702L (Celo-only). Merge = adopt playchessify's decomposition, re-inject Chessify's celo/base/stacks logic into the slimmed container.
+
+**Big UI redesigns — playchessify newer design, Chessify multi-chain wiring (careful manual merge):**
+| File | Diff | Notes |
+|---|---|---|
+| `lobby/LobbyContent.tsx` | 1043L diff | largest UI delta; playchessify 815 vs 696L redesign, celo-only |
+| `lobby/LeaderboardContent.tsx` | 543L | playchessify 603 vs 576 |
+| `faucet/FaucetContent.tsx` | 473L | playchessify 411 vs 446 (Chessify multi-chain faucet) |
+| `ui/Navbar.tsx` | 431L | playchessify 525 vs 508 (train nav links) |
+| `lobby/HistoryContent.tsx` | 145L | |
+| `ui/ChainSelectModal.tsx` | 129L | Chessify ahead — multi-chain selector (302 vs 334); playchessify trimmed to celo |
+| `ui/ChessModels.tsx`, `ui/FaucetResultModal.tsx` | 119L each | |
+
+**Smaller component diffs (manual reconcile):** `ClaimModal, ComingSoonOverlay, GlowButton, PromotionModal, GameStatusModal, landing/Hero, landing/Features` — cosmetic-to-moderate.
+
+**playchessify-only components (port to Chessify — UI redesign + training):** game sub-components above; `landing/v2/*` (ChessifyLanding, MagicRings); `train/*` (TrainingBoard, TrainingGame, TrapButton); `ui/*` (BottomNav, CoachNavIcon, Confetti, HoldButton, icons/index, PageBackground, PlayCard, SceneBoundary, SideNav, StreakCelebration).
+**Chessify-only component (keep — theming):** `ui/ThemeToggle.tsx`.
 ### one-sided stacks — pending

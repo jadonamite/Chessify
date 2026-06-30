@@ -155,3 +155,29 @@ A naive "make every file identical in both" would re-burden playchessify with ev
 3. Resolve the ⚠️ conflicts deliberately: **canonical move prefix** (`chessify:` vs `playchessify:`), USDm/Alfajores config merge, `evm-server`⇄`celo-server` unification, per-project Talent verification token (do NOT copy).
 
 This makes **Chessify a true superset**; playchessify stays the lean Celo cut.
+
+---
+
+## IMPLEMENTATION PROGRESS (uplift INTO Chessify; playchessify untouched)
+
+Order in execution: **1 → 3 → 2** (UI consumes the new engine, so identity/protocol lands before UI).
+
+### ✅ Phase 1 — training/coach/streak stack — DONE (tsc 0 errors)
+Ported verbatim: `config/{coaches,curriculum,openings,placement}.ts`, `types/training.ts`, `lib/analysis/engine.ts`, `lib/coach/{client,lines,voice}.ts`, `lib/{streak,train}-store.ts`, `hooks/{useAnalysis,useCoachStore,useProfileLink,useLearner,useStreak}.ts`, `components/game/types.ts`, api `coach/explain` + `profile/streak` + `train/[address]`. Deps added: `openai`, `stockfish`. Stockfish worker assets copied to `public/engine/`.
+- Wired: `useGameData.ts` + `usePlayerStats.ts` use `EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI` (live Celo game is the oracle model — same contract `0xf85f…` both repos).
+
+### ✅ Phase 3 (server/identity, non-UI-breaking parts) — DONE (tsc 0 errors)
+- `app/providers.tsx`: added `SmartWalletsProvider` (ERC-4337) + discord login. **Kept** base in supportedChains, builder-code `dataSuffix`, Piece.svg.
+- `components/wallet-provider.tsx`: **merged** — playchessify smart-identity model (`playerAddress` pinned to smart account, `identityReady`/`isReady`, MiniPay injected auto-connect, `smartTimedOut` self-heal) **+ kept** Chessify multi-chain (Stacks session, Base, `activeChain`, `isWrongChain`/`switchToCelo`, chain-select modal).
+- `config/wagmi.ts`: added `injected()` connector (kept base). `config/contracts.ts`: added `USDM_ADDRESS`.
+- `lib/profile-store.ts`: added `getProfileDirect`, `linkProfileAlias`, `K.alias`.
+- `lib/moves-store.ts`: added atomic CAS `appendMove(…, expectedLen)` (TOCTOU fix) + `repairGameHistory` + `longestLegalPrefix`. Kept multi-chain `Chain`.
+- `api/games/[chain]/[id]/moves/route.ts`: append now uses CAS (`existing.length`), rejects lost races.
+- Ported routes: `api/profile/link`, `api/admin/relay/repair`. Deps added: `permissionless`.
+
+### ⏳ REMAINING — the atomic gameplay engine+UI chunk (Phase 3-engine + Phase 2)
+Must land together (current GameClient consumes OLD hook signatures; new GameClient consumes NEW). Not yet started:
+- **Engine hooks:** `useCeloChess.ts` (per-tier sponsorship via `evm-server` — map playchessify's celo-server calls to Chessify's EVM-generic `sponsorUsdm`/`sponsorNative`), `useMoveSigner.ts` (walletTier `signMove` smart/eoa + **keep Stacks no-sign branch**), `useGameMoves.ts` (new `submitMove(san,player,fen,sign)`, **keep multi-chain `Chain`**, import `canonicalMoveMessage` from settlement — do NOT inline `playchessify:move`).
+- **Trap to honor:** keep `settlement.ts` prefix `chessify:move` (client+server already agree in Chessify); make ported `useGameMoves` use it.
+- **UI (Phase 2):** decomposed `game/*` components (BoardPanel, GameSidebar, GameHeader, MoveLog, CapturedTray, GameActionBar, GameResultOverlay, MatchIntro, JoinRoom, AmbientBackground), slimmed `GameClient.tsx` with multi-chain logic re-injected, `landing/v2/*`, `globals.css` (455L), layout SEO (keep Chessify's own `talentapp` token + `base:app_id`), new `ui/*` (BottomNav, SideNav, Confetti, PlayCard, etc.), `train/*` components + `app/train/*` pages.
+- Then `npm run build` + manual gameplay smoke test (touches live wagers — verify before any deploy).

@@ -101,3 +101,37 @@ export async function getMoves(chain: Chain, gameId: number): Promise<MoveRecord
     return entry as MoveRecord
   })
 }
+
+// Replay moves through chess.js and return how many form a legal prefix.
+function longestLegalPrefix(moves: MoveRecord[]): number {
+  const board = new Chess()
+  for (let i = 0; i < moves.length; i++) {
+    try {
+      board.move(moves[i].san)
+    } catch {
+      return i
+    }
+  }
+  return moves.length
+}
+
+/**
+ * Trim a game's stored history back to its longest legal prefix. Repairs a list
+ * corrupted by a past race (an out-of-order/illegal move that slipped in before
+ * the CAS append existed). Returns how many plies were kept vs trimmed.
+ */
+export async function repairGameHistory(
+  chain: Chain,
+  gameId: number,
+): Promise<{ before: number; after: number; trimmed: number }> {
+  const moves = await getMoves(chain, gameId)
+  const keep = longestLegalPrefix(moves)
+  if (keep < moves.length) {
+    if (keep === 0) {
+      await getRedis().del(key(chain, gameId))
+    } else {
+      await getRedis().ltrim(key(chain, gameId), 0, keep - 1)
+    }
+  }
+  return { before: moves.length, after: keep, trimmed: moves.length - keep }
+}

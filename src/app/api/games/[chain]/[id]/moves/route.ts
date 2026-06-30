@@ -159,9 +159,16 @@ export async function POST(
       signer = player
     }
 
-    // 5. Persist + register the game for any settlement sweep.
+    // 5. Persist + register the game for any settlement sweep. The append is
+    //    atomic and conditional on the history still being `existing.length`
+    //    long — if another writer won this slot between our read and write, we
+    //    reject rather than corrupt the history.
     const record: MoveRecord = { san: applied.san, player, moveNumber, ts: Date.now(), ...(signer ? { sig, signer } : {}) }
-    const newLen = await appendMove(chain, gameId, record)
+    const newLen = await appendMove(chain, gameId, record, existing.length)
+    if (newLen === null) {
+      const moves = await getMoves(chain, gameId)
+      return NextResponse.json({ error: 'move number already recorded', moves }, { status: 409 })
+    }
     await registerActiveGame(chain, gameId)
     return NextResponse.json({ ok: true, moveCount: newLen, move: record })
   } catch (err: any) {

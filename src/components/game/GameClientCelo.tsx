@@ -676,7 +676,7 @@ export default function GameClientCelo() {
         pot={potFormatted}
         profileMap={gameProfileMap}
         gameId={gameId}
-        botLabel="PLAYCHESSIFY AI"
+        botLabel="CHESSIFY AI"
         onDone={finishIntro}
         onLeave={() => router.push('/app/lobby')}
       />

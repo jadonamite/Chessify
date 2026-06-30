@@ -58,6 +58,22 @@
 
   --hero-text-shadow: 0 4px 40px rgba(0, 0, 0, .7);
   --king-text-shadow: 0 0 80px rgba(0, 204, 255, .45), 0 0 160px rgba(0, 204, 255, .15);
+
+  /* ── CANDY ACCENTS (playful makeover) — used only on icons/badges/rewards/active-nav ── */
+  --candy-grape: #a78bfa;
+  --candy-lime:  #84e36b;
+  --candy-amber: #ffb74d;
+  --candy-rose:  #ff7ab6;
+
+  /* Bottom-nav chrome */
+  --bottom-nav-h: 64px;
+  --bottom-nav-bg: linear-gradient(180deg, #14142b 0%, #0b0b1a 100%);
+  --bottom-nav-border: rgba(255, 255, 255, .08);
+  --bottom-nav-shadow: 0 -1px 0 rgba(255, 255, 255, .05) inset, 0 -8px 28px rgba(0, 0, 0, .55);
+
+  /* Vertical chrome budget reserved around the chess board so it can grow to fill
+     the remaining height while staying square. Mobile value is overridden below. */
+  --board-reserve: 340px;
 }
 
 /* ── LIGHT TOKENS ── */
@@ -103,6 +119,17 @@
 
   --hero-text-shadow: 2px 4px 0 rgba(0, 80, 140, .12), 4px 8px 0 rgba(0, 80, 140, .07), 0 12px 32px rgba(0, 80, 140, .08);
   --king-text-shadow: 2px 4px 0 rgba(0, 60, 110, .15), 4px 8px 0 rgba(0, 60, 110, .08), 0 0 40px rgba(0, 136, 187, .2);
+
+  /* Candy accents — slightly deepened for contrast on the light surface */
+  --candy-grape: #7c3aed;
+  --candy-lime:  #4faf37;
+  --candy-amber: #e08600;
+  --candy-rose:  #e1488f;
+
+  --bottom-nav-h: 64px;
+  --bottom-nav-bg: linear-gradient(180deg, #ffffff 0%, #eef0ff 100%);
+  --bottom-nav-border: rgba(0, 80, 160, .12);
+  --bottom-nav-shadow: 0 -1px 0 rgba(255, 255, 255, .8) inset, 0 -8px 24px rgba(0, 0, 80, .08);
 }
 
 /* ── BASE ── */
@@ -171,13 +198,139 @@ body {
   border-radius: 999px;
 }
 
-/* Navbar responsive helpers */
-.nav-desktop { display: flex; }
-.nav-mobile  { display: none !important; } /* must beat inline display:flex on the button */
+/* ── MOBILE-SAFE MODAL SHEETS ──
+   `.m-sheet-wrap` goes on the fixed overlay, `.m-sheet` on the card.
+   Desktop: centered card capped at 90vh with internal scroll.
+   Mobile (≤640px): card docks to the bottom as a full-width sheet capped at
+   92dvh, flat bottom corners, safe-area padding, scrolls internally so action
+   buttons are always reachable even with the keyboard open. */
+.m-sheet {
+  max-height: 90vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 640px) {
+  .m-sheet-wrap {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .m-sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92dvh;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    padding-bottom: max(env(safe-area-inset-bottom), 8px);
+  }
+}
 
 /* ── MOBILE RESPONSIVE ── */
 @media (max-width: 1024px) {
   .hero-pieces { pointer-events: none; }
+}
+
+/* Navbar responsive helpers */
+.nav-desktop { display: flex; }
+.nav-mobile  { display: none !important; } /* must beat inline display:flex on the button */
+
+/* ── BOTTOM NAV (mobile-first makeover) ──
+   Hidden on desktop; shown ≤768px to match the .nav-desktop/.nav-mobile switch.
+   `.pc-app-scroll` adds clearance so fixed bottom nav never covers content. */
+.pc-bottom-nav { display: none; }
+.pc-app-scroll { padding-bottom: 0; }
+@media (max-width: 768px) {
+  .pc-bottom-nav { display: flex; }
+  .pc-app-scroll { padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 12px); }
+}
+@media (max-width: 768px) {
+  /* Top chrome condensed + the game action bar (= --bottom-nav-h) replaces the
+     nav, so the board grows to fill nearly the whole remaining height. */
+  :root { --board-reserve: 150px; }
+
+  /* Full-bleed board card: break out of page gutters so the board touches both
+     screen edges. The card itself becomes 100vw; the square board fills it. */
+  .pc-board-card {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+}
+
+/* ── DESKTOP SIDE NAV (Duolingo-style left rail) ──
+   Mirror image of the mobile chrome: on desktop (≥769px, i.e. where the bottom
+   nav disappears) the top Navbar is replaced by a fixed left rail; on mobile the
+   rail is hidden and the top Navbar + bottom nav own the chrome. Exactly one
+   primary nav is visible at any width. `.pc-app-shell` offsets page content by
+   the rail width on desktop. */
+:root { --side-nav-w: 248px; }
+.pc-side-nav { display: none; }
+.pc-mobile-chrome { display: block; }
+@media (min-width: 769px) {
+  .pc-side-nav { display: flex; }
+  .pc-mobile-chrome { display: none; }
+  .pc-app-shell { padding-left: var(--side-nav-w); }
+}
+
+/* Board sizing.
+   • Mobile (≤768px): height-aware so the full-bleed board fills the screen
+     without pushing the action bar off — clamped by viewport height.
+   • Desktop/tablet (≥769px): width-based and bigger; the side rail replaced the
+     old top navbar, so the board no longer needs to reserve that vertical space.
+     The page scrolls if a short window can't fit the trays + bars. */
+.pc-board-wrap {
+  width: min(100%, calc(100svh - var(--board-reserve)));
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 769px) {
+  /* Scale with the viewport (smaller on tablets, larger on desktop) while still
+     capped by available height so it never overflows a short window. */
+  .pc-board-wrap {
+    width: min(100%, calc(100svh - 210px));
+    max-width: clamp(360px, 48vw, 600px);
+  }
+}
+
+/* In-game action bar — fixed to the viewport bottom at all widths; on desktop it
+   starts after the side rail so it never sits beneath it. */
+.pc-game-bar {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+}
+@media (min-width: 769px) {
+  .pc-game-bar { left: var(--side-nav-w); }
+}
+
+/* Glowing hint bulb — gentle accent pulse via drop-shadow. */
+.pc-bulb-glow { animation: bulbGlow 1.8s ease-in-out infinite; }
+@keyframes bulbGlow {
+  0%, 100% { filter: drop-shadow(0 0 2px currentColor); opacity: .92; }
+  50%      { filter: drop-shadow(0 0 7px currentColor); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-bulb-glow { animation: none; filter: drop-shadow(0 0 3px currentColor); }
+}
+
+/* "Pick a coach" placeholder — sits still, then wiggles every few seconds. */
+@keyframes pc-coach-wiggle {
+  0%, 82%, 100% { transform: rotate(0deg); }
+  86%  { transform: rotate(-9deg); }
+  90%  { transform: rotate(9deg); }
+  94%  { transform: rotate(-5deg); }
+  98%  { transform: rotate(3deg); }
+}
+.pc-coach-wiggle { animation: pc-coach-wiggle 3.2s ease-in-out infinite; transform-origin: center 70%; }
+@media (prefers-reduced-motion: reduce) {
+  .pc-coach-wiggle { animation: none; }
 }
 
 @media (max-width: 768px) {
@@ -222,4 +375,82 @@ body {
 
 .btn-brand-para-mobile {
   padding: 18px 56px;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   NEON DESIGN FOUNDATION (#8) — shared primitives so the inner screens speak the
+   same cyber-neon language as the v2 landing. Built on the EXISTING tokens
+   (--c cyan, --bg navy, --fd Unbounded) — the inner app's display font
+   (Unbounded) is intentionally kept; only the candy/clay skin is being retired.
+   These classes are inert until a screen opts in, so adding them breaks nothing.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Glass panel — the landing's frosted card. Replaces ClayCard on re-skinned screens. */
+.neon-panel {
+  position: relative;
+  background: linear-gradient(180deg, rgba(19, 19, 42, .92), rgba(9, 9, 26, .92));
+  border: 1px solid var(--b2);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 18px 50px rgba(0, 0, 0, .45);
+}
+.neon-panel-hover {
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.neon-panel-hover:hover {
+  border-color: var(--c);
+  box-shadow: 0 0 0 1px var(--b2) inset, 0 22px 60px rgba(0, 0, 0, .5), 0 0 32px rgba(0, 204, 255, .18);
+  transform: translateY(-2px);
+}
+
+/* Trapezoid panel — the landing's tapered nav/CTA shape. */
+.neon-trapezoid {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 18px 100%);
+}
+
+/* Section heading — Unbounded, uppercase, cyan glow (KEEPS the inner-app font). */
+.neon-heading {
+  font-family: var(--fd);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--t1);
+  text-shadow: 0 0 26px rgba(0, 204, 255, .35), 0 4px 16px rgba(0, 0, 0, .6);
+}
+.neon-heading-accent { color: var(--c); }
+
+/* Text glow utilities. */
+.neon-glow { text-shadow: 0 0 18px rgba(0, 204, 255, .55); }
+.neon-text-cyan { color: var(--c); }
+
+/* Faint animated grid backdrop — mount behind a screen's content. */
+.neon-grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, #000, transparent 78%);
+  mask-image: radial-gradient(circle at 50% 0%, #000, transparent 78%);
+}
+
+/* Hairline divider in the brand cyan. */
+.neon-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--b2), transparent);
+  border: 0;
+}
+
+/* Small uppercase label/eyebrow (Unbounded). */
+.neon-eyebrow {
+  font-family: var(--fd);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--c);
 }

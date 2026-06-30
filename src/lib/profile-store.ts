@@ -24,6 +24,7 @@ const K = {
   total:     ()          => `chess:profile:total`,
   recent:    ()          => `chess:profile:recent`,
   rl:        (a: string, action: string) => `chess:profile:rl:${action}:${normalizeAddress(a)}`,
+  alias:     (a: string) => `chess:profile:alias:${normalizeAddress(a)}`,
 }
 
 // ── Reserved / blocked names ──────────────────────────────────────────────────
@@ -72,6 +73,19 @@ export async function getProfileByAddress(address: string): Promise<ChessProfile
   const raw = await redis.get(K.addr(address))
   if (!raw) return null
   return (typeof raw === 'string' ? JSON.parse(raw) : raw) as ChessProfile
+}
+
+// Direct address read with no alias resolution. Used by the identity-link flow
+// to inspect each address (EOA / smart account) on its own before aliasing.
+export async function getProfileDirect(address: string): Promise<ChessProfile | null> {
+  return getProfileByAddress(address)
+}
+
+// Point one address at another's profile so a single .chess name resolves for
+// both — the embedded-EOA ↔ smart-account self-heal (see useProfileLink). The
+// caller authorizes this with an EOA signature; this only writes name resolution.
+export async function linkProfileAlias(from: string, to: string): Promise<void> {
+  await getRedis().set(K.alias(from), normalizeAddress(to))
 }
 
 export async function getProfileByUsername(username: string): Promise<ChessProfile | null> {

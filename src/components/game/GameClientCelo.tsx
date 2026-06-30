@@ -29,7 +29,7 @@ import MatchIntro from './MatchIntro'
 import JoinRoom from './JoinRoom'
 import { BOT_SAVE_KEY, TURN_TIMEOUT_SECS, type GameResult } from './types'
 
-export default function GameClient() {
+export default function GameClientCelo() {
   const params  = useParams()
   const router  = useRouter()
 

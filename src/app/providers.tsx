@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import { WagmiProvider } from '@privy-io/wagmi'
 import { PrivyProvider, dataSuffix } from '@privy-io/react-auth'
+import { SmartWalletsProvider } from '@privy-io/react-auth/smart-wallets'
 import dynamic from 'next/dynamic'
 import { celo, base } from 'viem/chains'
 import { wagmiConfig } from '@/config/wagmi'
@@ -41,7 +42,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             logo: '/Piece.svg',
             walletChainType: 'ethereum-only',
           },
-          loginMethods: ['google', 'twitter', 'github', 'email', 'wallet'],
+          loginMethods: ['google', 'twitter', 'discord', 'github', 'email', 'wallet'],
           embeddedWallets: {
             ethereum: {
               createOnLogin: 'users-without-wallets',
@@ -51,13 +52,18 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }}
       >
         <WagmiProvider config={wagmiConfig} reconnectOnMount>
-          <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-            <WalletProvider>
-              <AudioManager />
-              {children}
-              <CenterToast />
-            </WalletProvider>
-          </ThemeProvider>
+          {/* Tier A — ERC-4337 smart wallets for social/email/embedded users.
+              The Celo custom-chain config (forno RPC + Pimlico bundler/paymaster URLs,
+              PIMLICO_API_KEY) is set in the Privy dashboard; sponsorship is then automatic. */}
+          <SmartWalletsProvider>
+            <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
+              <WalletProvider>
+                <AudioManager />
+                {children}
+                <CenterToast />
+              </WalletProvider>
+            </ThemeProvider>
+          </SmartWalletsProvider>
         </WagmiProvider>
       </PrivyProvider>
     </QueryClientProvider>

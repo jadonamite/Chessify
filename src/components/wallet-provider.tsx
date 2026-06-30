@@ -1,8 +1,9 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
 import { usePrivy, useWallets, useCreateWallet } from '@privy-io/react-auth'
-import { useAccount, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
+import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
+import { useAccount, useDisconnect, useChainId, useSwitchChain, useConnect, useConnectors } from 'wagmi'
 import { CELO_CHAIN_ID, BASE_CHAIN_ID } from '@/config/contracts'
 
 // Active chain. Celo and Base share the same Privy EVM wallet/address; Stacks is
@@ -11,8 +12,7 @@ export type ActiveChain = 'celo' | 'stacks' | 'base'
 
 // Capability tier drives how EVM (Celo/Base) writes are sponsored:
 //   'minipay' → legacy tx + USDm gas-drip (MiniPay can't sign typed data)
-//   'smart'   → ERC-4337 userOp sponsored by a paymaster (dormant until a
-//               SmartWalletsProvider/Pimlico pass is added)
+//   'smart'   → ERC-4337 userOp sponsored by the Pimlico paymaster
 //   'eoa'     → embedded Privy or external wallet; pays its own gas (native drip)
 export type WalletTier = 'minipay' | 'smart' | 'eoa'
 
@@ -21,17 +21,22 @@ interface WalletContextType {
   address: string | null
   stacksAddress: string | null
   // On-chain EVM identity used as the game "player": the smart-account address
-  // for Tier A, otherwise the connected EOA. Equals `address` until Tier A lands.
+  // for Tier A (embedded/social), otherwise the connected EOA. Always matches
+  // white/black on-chain.
   playerAddress: string | null
 
   // ── Connection State ──
   isConnected: boolean
   isStacksConnected: boolean
+  isReady: boolean
+  // True once the user's real on-chain identity is resolved (the smart account for
+  // embedded users). Gate create/join/claim on this to avoid the EOA-split bug.
+  identityReady: boolean
   isMiniPay: boolean
   walletTier: WalletTier      // EVM sponsorship capability tier
   activeChain: ActiveChain
   isWrongChain: boolean       // EVM wallet connected but not on the active EVM chain
-  switchToCelo: () => void    // request chain switch to Celo
+  switchToCelo: () => void    // request chain switch to the active EVM chain
 
   // ── Unified Auth ──
   connectWallet: () => void       // Opens chain select modal
@@ -58,6 +63,8 @@ const WalletContext = createContext<WalletContextType>({
   playerAddress: null,
   isConnected: false,
   isStacksConnected: false,
+  isReady: false,
+  identityReady: false,
   isMiniPay: false,
   walletTier: 'eoa',
   activeChain: 'celo',
@@ -86,6 +93,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const { wallets } = useWallets()
   const { createWallet } = useCreateWallet()
   const { disconnect: wagmiDisconnect } = useDisconnect()
+  const { connect: wagmiConnect } = useConnect()
+  const connectors = useConnectors()
+  const { client: smartWalletClient } = useSmartWallets()
   const currentChainId = useChainId()
   const { switchChain } = useSwitchChain()
 
@@ -97,21 +107,65 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [isMiniPay, setIsMiniPay] = useState(false)
   const [activeChain, setActiveChainState] = useState<ActiveChain>('celo')
   const [showChainSelect, setShowChainSelect] = useState(false)
+  const miniPayConnectTried = useRef(false)
 
   // Prefer wagmi (external wallet), fall back to Privy embedded wallet
   const privyAddress = wallets[0]?.address as `0x${string}` | undefined
-  const evmResolvedAddress = evmAddress ?? privyAddress ?? null
+  const address = evmAddress ?? privyAddress ?? null
 
-  const isConnected = ready && authenticated
+  // Authenticated via Privy, OR auto-connected MiniPay (injected wallet, no Privy session)
+  const isConnected = (ready && authenticated) || (isMiniPay && !!evmAddress)
   const isStacksConnected = !!stacksAddress
 
-  // Capability tier — MiniPay first (most constrained), otherwise a plain EOA
-  // (embedded Privy or external). The 'smart' tier is dormant until a
-  // SmartWalletsProvider/Pimlico pass is added.
-  const walletTier: WalletTier = isMiniPay ? 'minipay' : 'eoa'
-  // On-chain EVM identity = the connected/embedded EOA today; becomes the
-  // smart-account address once Tier A is wired.
-  const playerAddress = evmResolvedAddress
+  // A user with an embedded Privy wallet WILL get a smart account — so their true
+  // on-chain identity is the smart account, not the embedded EOA. We must not let
+  // them act under the EOA in the window before the smart client resolves, or a
+  // profile/game gets recorded under the wrong address (the dual-identity split).
+  const hasEmbeddedWallet = wallets.some(
+    (w) => w.connectorType === 'embedded' || w.walletClientType === 'privy',
+  )
+  const expectsSmartAccount = !isMiniPay && hasEmbeddedWallet
+  const smartAccount = smartWalletClient?.account?.address ?? null
+
+  // Safety valve: if the smart account never resolves, don't brick the user —
+  // after a grace period fall back to the EOA (the alias self-heal covers the
+  // rare split that creates).
+  const [smartTimedOut, setSmartTimedOut] = useState(false)
+  useEffect(() => {
+    if (!expectsSmartAccount || smartAccount) {
+      if (smartTimedOut) setSmartTimedOut(false)
+      return
+    }
+    const t = setTimeout(() => setSmartTimedOut(true), 8_000)
+    return () => clearTimeout(t)
+  }, [expectsSmartAccount, smartAccount, smartTimedOut])
+
+  // Capability tier — MiniPay first; an embedded user is 'smart' (even while the
+  // account is still resolving) unless we've given up waiting; else external EOA.
+  const walletTier: WalletTier = isMiniPay
+    ? 'minipay'
+    : expectsSmartAccount && (smartAccount || !smartTimedOut)
+      ? 'smart'
+      : 'eoa'
+
+  // Pinned on-chain EVM identity:
+  //   • MiniPay / external EOA → the connected EOA
+  //   • embedded (smart) user  → the smart account ONLY. Intentionally null until
+  //     it resolves, so create/join/claim (which all bail on a null identity) wait
+  //     instead of acting under the EOA. Degrades to the EOA only after the timeout.
+  const playerAddress = isMiniPay
+    ? address
+    : expectsSmartAccount
+      ? smartAccount ?? (smartTimedOut ? address : null)
+      : address
+
+  // Fully ready = connected AND the real identity is resolved (or we gave up waiting).
+  const identityReady = isMiniPay
+    ? !!address
+    : expectsSmartAccount
+      ? !!smartAccount || smartTimedOut
+      : !!address
+  const isReady = isConnected && !!playerAddress && identityReady
 
   // True when an EVM wallet is connected but on the wrong network for the active
   // EVM chain. Embedded Privy wallets auto-switch; this catches external wallets.
@@ -157,12 +211,19 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('chessify_active_chain', chain)
   }, [])
 
-  // 3. Detect MiniPay
+  // 3. Detect MiniPay and auto-connect its injected wallet. MiniPay runs the dApp
+  //    in an in-app browser and grants without a prompt, so the user lands
+  //    logged-in without tapping "connect".
   useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).ethereum?.isMiniPay) {
-      setIsMiniPay(true)
-    }
-  }, [])
+    if (typeof window === 'undefined') return
+    if (!(window as unknown as { ethereum?: { isMiniPay?: boolean } }).ethereum?.isMiniPay) return
+    setIsMiniPay(true)
+    if (miniPayConnectTried.current || evmAddress) return
+    const injectedConnector = connectors.find((c) => c.type === 'injected')
+    if (!injectedConnector) return
+    miniPayConnectTried.current = true
+    wagmiConnect({ connector: injectedConnector })
+  }, [connectors, wagmiConnect, evmAddress])
 
   // 4. If authenticated but no wallet exists yet, create an embedded one
   useEffect(() => {
@@ -251,11 +312,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   return (
     <WalletContext.Provider
       value={{
-        address: evmResolvedAddress,
+        address,
         stacksAddress,
         playerAddress,
         isConnected,
         isStacksConnected,
+        isReady,
+        identityReady,
         isMiniPay,
         walletTier,
         activeChain,

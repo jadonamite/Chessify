@@ -20,6 +20,12 @@ export const CELO_CONTRACTS = {
 
 export const CELO_CHAIN_ID = 42220 // Celo Mainnet
 
+// USDm (Mento Dollar — the cUSD rebrand: same contract, 18 decimals) — the only
+// fee currency MiniPay supports for gasless (legacy) txns. Used as `feeCurrency`
+// on the Celo MiniPay write path and dripped by the gas sponsor.
+export const USDM_ADDRESS = (process.env.NEXT_PUBLIC_FEE_CURRENCY ??
+  '0x765DE816845861e75A25fCA122bb6898B8B1282a') as `0x${string}` // Mainnet USDm
+
 // Base contracts configuration
 export const BASE_CONTRACTS = {
   token: process.env.NEXT_PUBLIC_BASE_TOKEN ?? '0x6aab785e1fa220eefe74d90a143e0a4a3c36e4e4',

@@ -1,4 +1,54 @@
 import { Chess, Move } from 'chess.js'
+import type { CoachEngine, StyleWeights } from '@/config/coaches'
+
+// Standard human-facing piece values for material tracking (pawn = 1).
+const MATERIAL_VALUES: Record<string, number> = { p: 1, n: 3, b: 3, r: 5, q: 9 }
+
+export interface CaptureSummary {
+  // Piece types each side has captured (i.e. removed from the opponent),
+  // ordered highest value first.
+  whiteCaptured: string[]
+  blackCaptured: string[]
+  // Net material on the board. Positive = White ahead, negative = Black ahead.
+  advantage: number
+}
+
+const START_COUNTS: Record<string, number> = { p: 8, n: 2, b: 2, r: 2, q: 1 }
+const DISPLAY_ORDER = ['q', 'r', 'b', 'n', 'p'] as const
+
+// Derive captured pieces and material balance from the current board position.
+// Working from the board (not move history) keeps this correct even when the
+// game is rebuilt from a FEN — which drops chess.js move history — and naturally
+// accounts for promotions in the material count.
+export function getCaptureSummary(board: ReturnType<Chess['board']>): CaptureSummary {
+  const remaining = {
+    w: { p: 0, n: 0, b: 0, r: 0, q: 0 } as Record<string, number>,
+    b: { p: 0, n: 0, b: 0, r: 0, q: 0 } as Record<string, number>,
+  }
+  let whiteMaterial = 0
+  let blackMaterial = 0
+
+  for (const row of board) {
+    for (const sq of row) {
+      if (!sq || sq.type === 'k') continue
+      remaining[sq.color][sq.type] = (remaining[sq.color][sq.type] ?? 0) + 1
+      const value = MATERIAL_VALUES[sq.type] ?? 0
+      if (sq.color === 'w') whiteMaterial += value
+      else blackMaterial += value
+    }
+  }
+
+  const whiteCaptured: string[] = [] // black pieces White has removed
+  const blackCaptured: string[] = [] // white pieces Black has removed
+  for (const t of DISPLAY_ORDER) {
+    const blackMissing = Math.max(0, START_COUNTS[t] - remaining.b[t])
+    const whiteMissing = Math.max(0, START_COUNTS[t] - remaining.w[t])
+    for (let i = 0; i < blackMissing; i++) whiteCaptured.push(t)
+    for (let i = 0; i < whiteMissing; i++) blackCaptured.push(t)
+  }
+
+  return { whiteCaptured, blackCaptured, advantage: whiteMaterial - blackMaterial }
+}
 
 // Piece values for material evaluation (centipawn-style, scaled by 10).
 const PIECE_VALUES: Record<string, number> = {
@@ -157,8 +207,6 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
   return bestMove
 }
 
-// Best move for whichever side is to move — used for the GET HINT feature
-// (getBestMove assumes the bot is Black, so it can't suggest for White).
 export function getHintMove(game: Chess, depth = 3): Move | null {
   const moves = orderMoves(game.moves({ verbose: true }))
   if (game.isGameOver() || moves.length === 0) return null
@@ -177,6 +225,89 @@ export function getHintMove(game: Chess, depth = 3): Move | null {
     }
   }
   return best
+}
+
+/* ── coach move (style-biased, ELO-scaled) ───────────────────────────────────
+ * The coach's OWN move in teacher/opponent mode. Unlike getBestMove this is
+ * deliberately imperfect and flavoured: it scores root moves with minimax,
+ * adds a personality bonus, takes the top-K, then softmax-samples by
+ * temperature — so a high-ELO coach (topK=1, temp=0) is near-best while a
+ * lower one occasionally plays an inferior move (felt weakness). Side-agnostic:
+ * the coach is whichever side is to move. */
+
+function fileRank(square: string): [number, number] {
+  return [square.charCodeAt(0) - 97, Number(square[1]) - 1] // file 0-7, rank 0-7
+}
+
+function enemyKingSquare(game: Chess, coachColor: 'w' | 'b'): [number, number] | null {
+  const enemy = coachColor === 'w' ? 'b' : 'w'
+  const board = game.board() // board[0] = rank 8
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c]
+      if (p && p.type === 'k' && p.color === enemy) return [c, 7 - r]
+    }
+  }
+  return null
+}
+
+function styleBonus(move: Move, game: Chess, coachColor: 'w' | 'b', s: StyleWeights, ahead: boolean): number {
+  let b = 0
+  // forcing — checks and captures keep the initiative
+  if (move.san.includes('#')) b += s.forcing * 60
+  else if (move.san.includes('+')) b += s.forcing * 45
+  if (move.captured) b += s.forcing * 18
+  // sacrifice — trading a higher piece for a lower one / speculative captures
+  if (move.captured && (PIECE_VALUES[move.piece] || 0) > (PIECE_VALUES[move.captured] || 0)) b += s.sacrifice * 14
+  // king attack — landing near the enemy king
+  const ek = enemyKingSquare(game, coachColor)
+  if (ek) {
+    const [tf, tr] = fileRank(move.to)
+    const d = Math.max(Math.abs(tf - ek[0]), Math.abs(tr - ek[1]))
+    if (d <= 2) b += s.kingAttack * (3 - d) * 18
+  }
+  // simplify — trade down when ahead (endgame grind)
+  if (move.captured && ahead) b += s.simplify * 20
+  // positional — gravitate to the centre
+  const [tf, tr] = fileRank(move.to)
+  const central = 3.5 - Math.max(Math.abs(tf - 3.5), Math.abs(tr - 3.5))
+  b += s.positional * central * 6
+  return b
+}
+
+export function getCoachMove(game: Chess, engine: CoachEngine): Move | null {
+  const moves = orderMoves(game.moves({ verbose: true }))
+  if (game.isGameOver() || moves.length === 0) return null
+
+  const coachColor = game.turn() as 'w' | 'b'
+  const evalNow = evaluateBoard(game) // White-positive
+  const ahead = coachColor === 'w' ? evalNow > 150 : evalNow < -150
+
+  const scored = moves.map((m) => {
+    game.move(m)
+    // After the coach moves it's the opponent's turn: White maximizes the
+    // White-positive eval, Black minimizes → isMax = (coach is Black).
+    const val = minimax(game, engine.depth - 1, -Infinity, Infinity, coachColor === 'b')
+    game.undo()
+    const coachVal = coachColor === 'w' ? val : -val // convert to "higher = better for coach"
+    return { m, score: coachVal + styleBonus(m, game, coachColor, engine.style, ahead) }
+  })
+
+  scored.sort((a, b) => b.score - a.score)
+  const top = scored.slice(0, Math.max(1, engine.topK))
+  if (engine.temperature <= 0 || top.length === 1) return top[0].m
+
+  // Softmax sample among the top-K (temperature scaled from cp to a usable range).
+  const T = engine.temperature * 200
+  const max = top[0].score
+  const weights = top.map((t) => Math.exp((t.score - max) / T))
+  const sum = weights.reduce((a, b) => a + b, 0)
+  let r = Math.random() * sum
+  for (let i = 0; i < top.length; i++) {
+    r -= weights[i]
+    if (r <= 0) return top[i].m
+  }
+  return top[0].m
 }
 
 function minimax(

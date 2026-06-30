@@ -151,7 +151,7 @@ function Side({
                 Finding<motion.span animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity }}>…</motion.span>
               </span>
             ) : mode === 'bot' ? (
-              <span className="font-black tracking-wide text-lg md:text-xl text-white">{botLabel ?? 'PLAYCHESSIFY AI'}</span>
+              <span className="font-black tracking-wide text-lg md:text-xl text-white">{botLabel ?? 'CHESSIFY AI'}</span>
             ) : (
               <ChessName address={address} profile={profileMap[address.toLowerCase()]} className="font-black tracking-wide text-lg md:text-xl text-white" />
             )}
@@ -228,7 +228,7 @@ function MatchIntroInner({
   const share = async () => {
     const url = typeof window !== 'undefined' ? window.location.href : ''
     if (typeof navigator !== 'undefined' && navigator.share) {
-      try { await navigator.share({ title: 'Chess match', text: `Join my match #${gameId} on playchessify`, url }) } catch { /* dismissed */ }
+      try { await navigator.share({ title: 'Chess match', text: `Join my match #${gameId} on Chessify`, url }) } catch { /* dismissed */ }
     } else {
       navigator.clipboard.writeText(url)
       showToast('Match link copied!', 'info')

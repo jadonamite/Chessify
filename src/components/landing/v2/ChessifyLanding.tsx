@@ -771,7 +771,7 @@ export default function ChessifyLanding() {
             <div style={css('display:flex;align-items:center;gap:12px;')}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/chessify.png" alt="Chessify" style={css('height:26px;width:auto;object-fit:contain;')} />
-              <span style={css('font-size:13px;color:#5b7290;')}>© 2026 Playchessify</span>
+              <span style={css('font-size:13px;color:#5b7290;')}>© 2026 Chessify</span>
             </div>
             <div style={css('display:flex;align-items:center;gap:clamp(16px,3vw,28px);flex-wrap:wrap;justify-content:center;')}>
               <div style={css('display:flex;align-items:center;gap:10px;')}>

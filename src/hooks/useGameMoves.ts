@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { canonicalMoveMessage } from '@/lib/settlement'
 
 const LOG_PREFIX = '[useGameMoves]'
-const POLL_INTERVAL_MS = 2_000
+const POLL_INTERVAL_MS = 1_500
 
 export type Chain = 'celo' | 'stacks' | 'base'
 
@@ -17,15 +17,7 @@ export interface MoveRecord {
   signer?: string
 }
 
-// Optional per-move signing. `fen` is the position AFTER the move; `sign`
-// produces a signature over the canonical message (or null if the wallet can't
-// sign — the move still relays, turn-bound only). `publicKey` is required for
-// Stacks signature verification on the server.
-export interface SignContext {
-  fen: string
-  sign?: (message: string) => Promise<string | null>
-  publicKey?: string
-}
+export type SignMove = (message: string) => Promise<`0x${string}` | null>
 
 interface UseGameMovesOptions {
   chain: Chain | null
@@ -37,12 +29,13 @@ interface UseGameMovesResult {
   moves: MoveRecord[]
   isLoading: boolean
   error: string | null
-  submitMove: (san: string, player: string, signCtx?: SignContext) => Promise<boolean>
+  // fen = resulting position after the move; sign = optional per-tier signer.
+  submitMove: (san: string, player: string, fen: string, sign?: SignMove) => Promise<boolean>
   refresh: () => Promise<void>
 }
 
 /**
- * Sync moves for a game via the relay API. Polls every 2s for opponent moves;
+ * Sync moves for a game via the relay API. Polls for opponent moves;
  * submitMove appends a new move to the relay. Race-safe via moveNumber on POST.
  */
 export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): UseGameMovesResult {
@@ -56,7 +49,7 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
   useEffect(() => { movesRef.current = moves }, [moves])
 
   const refresh = useCallback(async () => {
-    if (!chain || !gameId) return
+    if (!chain || gameId === undefined || gameId === null) return
     try {
       const res = await fetch(`/api/games/${chain}/${gameId}/moves`, { cache: 'no-store' })
       if (!res.ok) {
@@ -71,15 +64,15 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
       // shorter list and revert the player's just-committed move.
       setMoves((prev) => (incoming.length > prev.length ? incoming : prev))
       setError(null)
-    } catch (err: any) {
+    } catch (err) {
       console.error(`${LOG_PREFIX} refresh failed`, err)
-      setError(err?.message ?? 'relay error')
+      setError(err instanceof Error ? err.message : 'relay error')
     }
   }, [chain, gameId])
 
   // Initial load + polling
   useEffect(() => {
-    if (!enabled || !chain || !gameId) return
+    if (!enabled || !chain || gameId === undefined || gameId === null) return
 
     setIsLoading(true)
     void refresh().finally(() => setIsLoading(false))
@@ -88,18 +81,19 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
     return () => clearInterval(interval)
   }, [enabled, chain, gameId, refresh])
 
-  const submitMove = useCallback(async (san: string, player: string, signCtx?: SignContext): Promise<boolean> => {
-    if (!chain || !gameId) return false
+  const submitMove = useCallback(async (san: string, player: string, fen: string, sign?: SignMove): Promise<boolean> => {
+    if (!chain || gameId === undefined || gameId === null) return false
 
     const moveNumber = movesRef.current.length + 1
 
-    // Sign the move when the wallet supports it. A null/failed signature falls
-    // back to an unsigned (turn-bound) submission rather than blocking play.
-    let sig: string | null = null
-    if (signCtx?.sign) {
+    // Sign the move where the wallet supports it (Tier A/C EVM). MiniPay and
+    // Stacks return null and the move is submitted unsigned — the relay still
+    // binds it to the turn. Uses the shared canonical message so client and
+    // server (and every chain) agree on the `chessify:move` prefix.
+    let sig: `0x${string}` | null = null
+    if (sign) {
       try {
-        const message = canonicalMoveMessage({ chain, gameId, moveNumber, san, fen: signCtx.fen })
-        sig = await signCtx.sign(message)
+        sig = await sign(canonicalMoveMessage({ chain, gameId, moveNumber, san, fen }))
       } catch (err) {
         console.warn(`${LOG_PREFIX} sign failed — submitting unsigned`, err)
         sig = null
@@ -110,13 +104,7 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
       const res = await fetch(`/api/games/${chain}/${gameId}/moves`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          san,
-          player,
-          moveNumber,
-          ...(sig ? { sig } : {}),
-          ...(sig && signCtx?.publicKey ? { publicKey: signCtx.publicKey } : {}),
-        }),
+        body: JSON.stringify({ san, player, moveNumber, ...(sig ? { sig } : {}) }),
       })
       const body = await res.json().catch(() => ({}))
 
@@ -135,9 +123,9 @@ export function useGameMoves({ chain, gameId, enabled }: UseGameMovesOptions): U
       setMoves((prev) => [...prev, newMove])
       console.info(`${LOG_PREFIX} submitMove ok`, { gameId, moveNumber, san })
       return true
-    } catch (err: any) {
+    } catch (err) {
       console.error(`${LOG_PREFIX} submitMove failed`, err)
-      setError(err?.message ?? 'submit failed')
+      setError(err instanceof Error ? err.message : 'submit failed')
       return false
     }
   }, [chain, gameId])

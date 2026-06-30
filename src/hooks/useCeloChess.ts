@@ -1,12 +1,17 @@
 'use client'
 
-import { useWriteContract, useAccount, usePublicClient } from 'wagmi'
-import { decodeEventLog } from 'viem'
-import { CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
-import { CELO_CONTRACTS, TOKEN_DECIMALS, CELO_CHAIN_ID } from '@/config/contracts'
+import { useWriteContract, usePublicClient } from 'wagmi'
+import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
+import { decodeEventLog, encodeFunctionData, type Abi, type Address } from 'viem'
+// The live Celo game (0xf85f…) runs the oracle model — settlement is server-side
+// via settleGame, draws via propose/accept. Chessify keeps the legacy Celo shape
+// under CHESS_GAME_ABI, so alias the oracle ABI to the name this hook uses.
+import { EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
+import { CELO_CONTRACTS, TOKEN_DECIMALS, CELO_CHAIN_ID, USDM_ADDRESS } from '@/config/contracts'
 import { parseUnits } from 'viem'
 import { useState, useCallback } from 'react'
 import { useToastStore } from '@/hooks/useToastStore'
+import { useWallet } from '@/components/wallet-provider'
 
 const LOG_PREFIX = '[useCeloChess]'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

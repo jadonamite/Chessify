@@ -115,4 +115,43 @@ Two clean sub-patterns:
 
 **playchessify-only components (port to Chessify — UI redesign + training):** game sub-components above; `landing/v2/*` (ChessifyLanding, MagicRings); `train/*` (TrainingBoard, TrainingGame, TrapButton); `ui/*` (BottomNav, CoachNavIcon, Confetti, HoldButton, icons/index, PageBackground, PlayCard, SceneBoundary, SideNav, StreakCelebration).
 **Chessify-only component (keep — theming):** `ui/ThemeToggle.tsx`.
-### one-sided stacks — pending
+### One-sided stacks & non-src — DONE
+
+**Dependencies (the cleanest summary of intent):**
+- **Chessify-only deps:** all `@stacks/*`, `@reown/appkit*`, `@web3auth/*`, `@jadonamite/chessify-sdk`+`fundxagon-sdk`+`stacks-core`, `tsup`, `vitest`+`clarinet-sdk` → multi-chain + **SDK-publishing monorepo** + Clarity tests.
+- **playchessify-only deps:** `openai` (AI coach), `permissionless` (ERC-4337 smart accounts), `stockfish` (analysis engine).
+
+**Contracts:** Chessify has `contracts/`(Clarity), `base-contracts/`, `celo-contracts/`, `stellar-contracts/`. playchessify has **only** `celo-contracts/`.
+
+**Top-level:** Chessify = protocol+SDK+ops monorepo (distribution/rebalance/topup scripts, `dist/`, Clarinet, deploy logs). playchessify = clean app repo.
+
+**playchessify-only feature stack to port INTO Chessify (training/coach/streak/smart-wallet):**
+- config: `coaches.ts`, `curriculum.ts`, `openings.ts`, `placement.ts`
+- hooks: `useAnalysis`, `useCoachStore`, `useGameData`, `useLearner`, `usePlayerStats`, `useProfileLink`, `useStreak`
+- lib: `analysis/engine.ts`, `coach/{client,lines,voice}.ts`, `streak-store.ts`, `train-store.ts`
+- types: `training.ts`; deps: `openai`, `permissionless`, `stockfish`
+- plus all UI/pages/components listed in their layers above
+- `globals.css`: playchessify 455 vs 224L — full redesign + training styles (superset, port over)
+
+**Chessify-only chain/infra to (optionally) port INTO playchessify — only if re-multichaining:**
+- hooks: `useBaseChess`, `useBaseLeaderboard`, `useStacksChess`, `useStacksLeaderboard`, `useStacksRead`, `useSignProfileMessage`
+- lib: `onchain-read`, `profile-address`, `stacks-server`, `verify-signature`, `builder-code`
+- api: `stacks/sponsor`; contracts: `contracts/`(Clarity), `base-contracts/`, `stellar-contracts/`
+- deps: `@stacks/*`, `@reown/*`, `@web3auth/*`
+
+---
+
+## Reconciliation strategy (recommendation)
+
+These are **not** "one repo behind the other." They forked in opposite directions:
+- **playchessify** = focused **Celo/MiniPay consumer product** — smart wallets (ERC-4337/Pimlico), AI coach (OpenAI), Stockfish training, redesigned decomposed UI, race-safe relay, alias/streak. It *deliberately stripped* Stacks/Base/SDK/ops.
+- **Chessify** = **multi-chain protocol + SDK + ops monorepo** (Celo+Base+Stacks+Stellar, distribution scripts, published SDKs) with the *older* app UI and *simpler* EVM identity model.
+
+A naive "make every file identical in both" would re-burden playchessify with everything it intentionally shed. So the realistic target is a **one-directional uplift, not symmetric identity**:
+
+**Recommended: port playchessify's app-layer advances UP into Chessify**, keeping Chessify multi-chain:
+1. Adopt in Chessify: smart-wallet identity model (`wallet-provider`, `providers`, `useMoveSigner`, `useCeloChess` sponsorship), race-safe relay (`appendMove` CAS), alias/streak (`profile-store`, profile routes), the whole training/coach/analysis stack, redesigned decomposed UI + `globals.css` + `landing/v2`.
+2. Keep in Chessify: Base/Stacks connectors, multi-chain hooks/routes, SDK build, contracts dirs.
+3. Resolve the ⚠️ conflicts deliberately: **canonical move prefix** (`chessify:` vs `playchessify:`), USDm/Alfajores config merge, `evm-server`⇄`celo-server` unification, per-project Talent verification token (do NOT copy).
+
+This makes **Chessify a true superset**; playchessify stays the lean Celo cut.

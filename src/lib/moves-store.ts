@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis'
+import { Chess } from 'chess.js'
 
 // Shared Redis client. Reads env vars at module load — if they're missing the
 // client will throw on first use, which is the correct fail-loud behaviour.
@@ -57,14 +58,37 @@ export async function getActiveGameIds(chain: Chain): Promise<number[]> {
     .filter((n) => Number.isInteger(n) && n >= 0)
 }
 
-/** Append a move to a game's history. Returns the new move count. */
-export async function appendMove(chain: Chain, gameId: number, move: MoveRecord): Promise<number> {
-  const redis = getRedis()
-  const k = key(chain, gameId)
-  const newLen = await redis.rpush(k, JSON.stringify(move))
-  // Reset TTL on every write so an active game never expires mid-play
-  await redis.expire(k, TTL_SECONDS)
-  return newLen
+// Atomic compare-and-append: only push when the list is still exactly
+// `expectedLen` long, so two writers racing for the same ply can't both land
+// (the loser sees a length mismatch). Closes the TOCTOU append race that could
+// otherwise corrupt game history. Returns -1 on mismatch.
+const APPEND_LUA = `
+local len = redis.call('LLEN', KEYS[1])
+if len ~= tonumber(ARGV[2]) then
+  return -1
+end
+redis.call('RPUSH', KEYS[1], ARGV[1])
+redis.call('EXPIRE', KEYS[1], tonumber(ARGV[3]))
+return len + 1
+`
+
+/**
+ * Append a move, conditional on the history still being `expectedLen` long.
+ * Returns the new move count, or `null` if we lost the race for this slot (the
+ * caller should re-read and reject the move rather than corrupt the list).
+ */
+export async function appendMove(
+  chain: Chain,
+  gameId: number,
+  move: MoveRecord,
+  expectedLen: number,
+): Promise<number | null> {
+  const res = (await getRedis().eval(
+    APPEND_LUA,
+    [key(chain, gameId)],
+    [JSON.stringify(move), String(expectedLen), String(TTL_SECONDS)],
+  )) as number
+  return res < 0 ? null : res
 }
 
 /** Fetch all moves for a game in submission order. */

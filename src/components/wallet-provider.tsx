@@ -261,8 +261,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const connectStacks = useCallback(async () => {
     if (!userSession) return
     try {
-      const { showConnect } = await import('@stacks/connect')
-      showConnect({
+      // @stacks/connect v8 removed the `showConnect` runtime export (its .d.ts
+      // still declares it, but the value is undefined). `authenticate` is the
+      // documented legacy replacement — same AuthOptions, still populates
+      // userSession — so the rest of the Stacks flow (openContractCall in the
+      // game hooks) keeps working unchanged.
+      const { authenticate } = await import('@stacks/connect')
+      authenticate({
         appDetails: {
           name: 'Chessify Protocol',
           icon: window.location.origin + '/Piece.svg',

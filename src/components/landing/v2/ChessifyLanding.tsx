@@ -7,6 +7,7 @@ import { Environment } from '@react-three/drei'
 import { King } from '@/components/ui/ChessModels'
 import MagicRings from './MagicRings'
 import { useWallet } from '@/components/wallet-provider'
+import ChainSelectModal from '@/components/ui/ChainSelectModal'
 import GlowButton from '@/components/ui/GlowButton'
 import { startAmbient, stopAmbient, setMuted } from '@/lib/audio'
 import { COACHES, type Coach } from '@/config/coaches'
@@ -205,7 +206,14 @@ const STYLE = `
 
 export default function ChessifyLanding() {
   const router = useRouter()
-  const { isConnected, connectWallet } = useWallet()
+  // connectWallet() flips showChainSelect; the modal that reads it lives per-surface
+  // (the app Navbar mounts its own). The landing uses its own nav, so mount the
+  // modal here too — otherwise the CONNECT / PLAY buttons flip the flag with no UI.
+  const {
+    isConnected, connectWallet,
+    showChainSelect, setShowChainSelect,
+    connect, connectStacks, connectBase, connectSocial,
+  } = useWallet()
   const setCoachId = useCoachStore((s) => s.setCoachId)
 
   const [coach, setCoach] = useState(0)
@@ -788,6 +796,15 @@ export default function ChessifyLanding() {
         </div>
 
       </div>
+
+      <ChainSelectModal
+        isOpen={showChainSelect}
+        onClose={() => setShowChainSelect(false)}
+        onSelectCelo={connect}
+        onSelectStacks={connectStacks}
+        onSelectBase={connectBase}
+        onSelectSocial={connectSocial}
+      />
     </main>
   )
 }

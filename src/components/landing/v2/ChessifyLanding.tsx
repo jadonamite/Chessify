@@ -210,11 +210,14 @@ export default function ChessifyLanding() {
   // (the app Navbar mounts its own). The landing uses its own nav, so mount the
   // modal here too — otherwise the CONNECT / PLAY buttons flip the flag with no UI.
   const {
-    isConnected, connectWallet,
+    isConnected, isStacksConnected, connectWallet,
     showChainSelect, setShowChainSelect,
     connect, connectStacks, connectBase, connectSocial,
   } = useWallet()
   const setCoachId = useCoachStore((s) => s.setCoachId)
+  // "Connected" for routing = EVM (Privy/MiniPay) OR Stacks. isConnected alone is
+  // EVM-only, so a Stacks connect would otherwise never leave the landing.
+  const connected = isConnected || isStacksConnected
 
   const [coach, setCoach] = useState(0)
   const [board, setBoard] = useState<Board>(() => makeBoard())
@@ -268,8 +271,8 @@ export default function ChessifyLanding() {
     return () => handlers.forEach((h) => { h.el.removeEventListener('mousemove', h.move); h.el.removeEventListener('mouseleave', h.leave) })
   }, [])
 
-  /* redirect once connected */
-  useEffect(() => { if (isConnected) router.replace('/app/lobby') }, [isConnected, router])
+  /* redirect once connected (EVM or Stacks) */
+  useEffect(() => { if (connected) router.replace('/app/lobby') }, [connected, router])
 
   /* pause the hero 3D render loop when it's off-screen or the tab is hidden */
   useEffect(() => {
@@ -290,17 +293,17 @@ export default function ChessifyLanding() {
   }, [])
 
   const start = useCallback(() => {
-    if (isConnected) { router.push('/app/lobby'); return }
-    connectWallet() // straight to Privy — no intermediary modal
-  }, [isConnected, router, connectWallet])
+    if (connected) { router.push('/app/lobby'); return }
+    connectWallet() // opens the chain-select modal
+  }, [connected, router, connectWallet])
 
   // "TRAIN WITH {coach}" — into the teacher flow, carrying the chosen coach so
   // the training hub can adopt it. Gated like start: connect first if needed.
   const trainWith = useCallback((coachId: string) => {
     setCoachId(coachId) // populate nav/lobby coach face instantly
-    if (isConnected) { router.push(`/app/train/coach/${coachId}`); return }
+    if (connected) { router.push(`/app/train/coach/${coachId}`); return }
     connectWallet()
-  }, [isConnected, router, connectWallet, setCoachId])
+  }, [connected, router, connectWallet, setCoachId])
 
   const toggleSound = useCallback(() => {
     setSound((on) => {

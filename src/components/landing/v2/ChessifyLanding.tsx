@@ -17,6 +17,11 @@ import { useCoachStore } from '@/hooks/useCoachStore'
 
 // Parse a CSS declaration string into a React style object so the design's
 // dynamically-built style strings can be ported close to verbatim.
+/**
+ * css
+ * @param {*} s: string
+ * @returns {*}
+ */
 function css(s: string): React.CSSProperties {
   const o: Record<string, string> = {}
   s.split(';').forEach((rule) => {

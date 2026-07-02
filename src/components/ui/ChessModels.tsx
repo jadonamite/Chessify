@@ -22,6 +22,7 @@ interface PieceProps {
   rotation?: [number, number, number]
   floatSpeed?: number
   floatIntensity?: number
+  // TODO: add input validation
   rotationIntensity?: number
   // Optional PBR overrides so a caller can dial in a more physical, reflective
   // material (e.g. the hero king) without affecting the default matte pieces.

@@ -1,6 +1,6 @@
+import { Providers } from './providers'
 import './globals.css'
 import type { Metadata } from 'next'
-import { Providers } from './providers'
 
 export const metadata: Metadata = {
   // Set NEXT_PUBLIC_SITE_URL in prod so OG/canonical URLs resolve absolutely.

@@ -23,11 +23,6 @@ import LoadingState from '@/components/ui/LoadingState'
 import { useReadContract, useAccount } from 'wagmi'
 import { CHESS_GAME_ABI, BASE_CHESS_GAME_ABI, CHESS_TOKEN_ABI } from '@/config/abis'
 import { formatUnits } from 'viem'
-/**
- * BgIcon
- * @param {*} { children }: { children: React.ReactNode }
- * @returns {*}
- */
 function BgIcon({ children }: { children: React.ReactNode }) {
   return (
     <div style={{

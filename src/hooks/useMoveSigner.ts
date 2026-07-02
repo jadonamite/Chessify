@@ -29,17 +29,16 @@ export function useMoveSigner() {
 
   const signMove = useCallback(
     async (message: string): Promise<`0x${string}` | null> => {
-      if (activeChain === 'stacks') return null
-      if (walletTier === 'minipay') return null
-
       try {
+        // Stacks would pop a wallet dialog per move → relay unsigned.
+        if (activeChain === 'stacks') return null
         if (walletTier === 'smart' && smartClient) {
           return await smartClient.signMessage({ message })
         }
         if (walletTier === 'eoa') {
           return await signMessageAsync({ message })
         }
-        return null
+        return null // minipay
       } catch (err) {
         console.warn('[useMoveSigner] sign failed, submitting unsigned', err)
         return null

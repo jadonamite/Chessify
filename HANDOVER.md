@@ -2,7 +2,67 @@
 
 **Goal:** bring the original multi-chain **Chessify** (Stacks + Celo + Stellar) up to date with all the UI/UX, features, and architecture introduced in **playchessify** (the Celo-only redesign) — **with Stacks as the first-class chain** in every chain-aware decision.
 
-**Last updated:** 2026-06-17 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
+**Last updated:** 2026-07-01 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
+
+> **Reading order:** the **2026-07-01** section directly below is the current source of truth.
+> Everything under it is a reverse-chronological log; treat pre-07-01 entries as history and
+> cross-check against the "STALE / CONTRADICTORY" list before trusting any specific claim.
+
+---
+
+## ⚡ 2026-07-01 — Engine + game/landing/train UI chunk LANDED; app-page re-merges OPEN
+
+Supersedes the "why you see nothing" gap notes (§3) and the Phase A–F plan (§0/§4) below —
+those are **historical**. Current ground truth:
+
+### DONE (committed; `tsc` clean; `next build` exit 0)
+- **Engine hooks:** `useCeloChess` (per-tier gas sponsorship: smart→Pimlico userOp, minipay→USDm
+  feeCurrency, eoa→native drip), `useMoveSigner` (walletTier smart/eoa + **Stacks no-sign** branch),
+  `useGameMoves` (flat `submitMove(san,player,fen,sign)`, multi-chain `Chain`, **`chessify:move`** prefix kept).
+- **Game screen:** decomposed `game/*` + **dispatcher** `GameClient.tsx` → `GameClientCelo` (Celo, oracle-
+  settled, new decomposed UI) / `GameClientMultichain` (Base+Stacks, prior container, updated hook sigs).
+  Strangler-fig on purpose — did NOT rewrite 3 settlement models into one oracle-shaped container.
+- **Landing v2:** `landing/v2/ChessifyLanding` wired to `/`; `ChainSelectModal` mounted on it; hero 3D
+  perf (`dpr={[1,2]}` + pause R3F loop & MagicRings rAF when off-screen / tab hidden).
+- **Train:** `app/train/*` + `train/*` (identical to playchessify). Plus coach/streak/analysis stack,
+  smart-wallet identity in `wallet-provider`, `globals.css` (455L), `chess-engine` superset, `ui/*` new set.
+- **Fixes this pass:** Stacks connect `showConnect`→`authenticate` (@stacks/connect v8 killed the
+  `showConnect` runtime export); landing routes on `isConnected || isStacksConnected`; coach/support
+  `public/` assets copied; layout SEO carries **Chessify's own** Talent token + `base:app_id`.
+
+### OPEN — bring these app pages to playchessify's CURRENT redesign
+They were redesigned in the earlier Phase A–F pass (multi-chain-adapted) but predate playchessify's
+v2 / bottom-nav / coach-nav / streak era, so they read as "old" next to playchessify now. **Each is a
+multi-chain MERGE, never a copy** — copying playchessify's Celo-only file silently deletes Base+Stacks.
+
+| File | diff vs playchessify | preserve (multi-chain) | adopt |
+|---|---|---|---|
+| `components/ui/Navbar.tsx` | ~317 | `activeChain`, `ChainSelectModal` | coach nav, streak, train links, BottomNav/SideNav |
+| `components/lobby/LobbyContent.tsx` | ~779 | `activeChain`, `useLobby`, `useBaseChess`, `useStacksChess`, `useStacksRead` | redesign, coach face, streak |
+| `components/lobby/LeaderboardContent.tsx` | ~379 | `useLeaderboard` + base + stacks | redesign |
+| `components/lobby/HistoryContent.tsx` | ~83 | `useHistory` | redesign (mind `PieceView` vs `PieceIcon`) |
+| `components/faucet/FaucetContent.tsx` | ~305 | `activeChain`, `useStacksRead` | redesign |
+| `app/app/profile/[identifier]/page.tsx` | ~227 | `activeChain`, `useSignProfileMessage` | streak UI, alias linking |
+| `app/app/settings/page.tsx` | ~77 | `activeChain`, `useSignProfileMessage` | coach selection, elo |
+
+Merge method in §4/§5 below is still valid — but target playchessify's **current** files, not a Phase-F snapshot.
+Suggested order: **Navbar → Lobby → Leaderboard → History → Faucet → Profile → Settings** (shell first).
+
+### OPEN — 3D perf items 3–5 (separate track)
+Items 1–2 done (dpr clamp; pause loops off-screen/hidden). Open: (3) replace/share the 1.5 MB
+`city.hdr` env map, (4) half-res the MagicRings buffer, (5) consolidate the ~13 WebGL contexts.
+
+### ⚠️ STALE / CONTRADICTORY — verify, then delete the offending lines below
+- **Oracle deploy status (both 06-17 sections):** they state the EVM oracle contracts are UNDEPLOYED and
+  the legacy `reportWin` model is live. But current engine code (`useGameData`, `useCeloChess`) treats the
+  **live Celo game as the ORACLE** (`EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI`, live `0xf85f…`). These
+  contradict — **reconcile before trusting either.** If the oracle is now live, the entire 06-17
+  "gated deploy / backend flip / Stacks Clarity oracle" remainder is obsolete and should be cut.
+- **"STX connect confirmed working live" (§1 table):** FALSE as of 2026-07-01 — `showConnect` was broken by
+  @stacks/connect v8 and only just fixed. Remove the "confirmed working" claim.
+- **"set Chessify's own Talent token" (§ headers, lines ~209/271):** DONE — it's set in `layout.tsx`. Remove.
+- **"swap the borrowed Privy app ID for a dedicated Chessify Privy app":** still open (confirm if still wanted).
+- **§0 "what went wrong" + §3 "Why you see nothing":** obsolete — the pages they call missing now exist. Archive.
 
 ---
 
@@ -222,7 +282,7 @@ The first pass treated this as a *backend port* and missed that playchessify is 
 
 | Area | Status |
 |---|---|
-| **Wallet** — Privy for Celo/EVM + social, `@stacks/connect` kept for Stacks, `activeChain` toggle, `ChainSelectModal` | ✅ Done, **STX connect confirmed working live** |
+| **Wallet** — Privy for Celo/EVM + social, `@stacks/connect` kept for Stacks, `activeChain` toggle, `ChainSelectModal` | ✅ Done · ⚠️ ~~STX connect confirmed working~~ **broke under @stacks/connect v8, fixed 2026-07-01 (`showConnect`→`authenticate`)** |
 | `reown.ts` / `web3auth.ts` / `web3auth-connector.ts` removed; `config/wagmi.ts` (Privy) added | ✅ |
 | `NEXT_PUBLIC_PRIVY_APP_ID` in `.env` (reused playchessify's public client ID) | ✅ (swap for a dedicated Chessify Privy app + domains later) |
 | **`.chess` profile backend** — 7 API routes, `profile-store.ts`, `useProfile`, `useBatchProfiles` | ✅ |

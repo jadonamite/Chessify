@@ -23,6 +23,20 @@ interface ConfettiProps {
   className?: string
 }
 
+const generateConfettiPieces = (count: number, isBurst: boolean, colors: string[]) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * (isBurst ? 0.2 : 2),
+    duration: (isBurst ? 0.9 : 2) + Math.random() * (isBurst ? 1 : 3),
+    size: 4 + Math.random() * 7,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    spin: 360 + Math.random() * 540,
+    angle: Math.random() * Math.PI * 2,
+    dist: 130 + Math.random() * 230,
+  }))
+}
+
 export default function Confetti({
   count = 28,
   palette = 'brand',
@@ -33,19 +47,7 @@ export default function Confetti({
   const isBurst = variant === 'burst'
 
   // Generate once via lazy initial state — particles stay stable across re-renders.
-  const [pieces] = useState(() =>
-    Array.from({ length: count }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      delay: Math.random() * (isBurst ? 0.2 : 2),
-      duration: (isBurst ? 0.9 : 2) + Math.random() * (isBurst ? 1 : 3),
-      size: 4 + Math.random() * 7,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      spin: 360 + Math.random() * 540,
-      angle: Math.random() * Math.PI * 2,
-      dist: 130 + Math.random() * 230,
-    })),
-  )
+  const [pieces] = useState(() => generateConfettiPieces(count, isBurst, colors))
 
   return (
     <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`} aria-hidden>

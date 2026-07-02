@@ -5,11 +5,7 @@ const getFaucetMetadata = () => ({
   description: 'Claim free CHESS tokens daily to fuel your on-chain chess matches.',
 })
 
-const useFaucetMetadata = () => {
-  return getFaucetMetadata()
-}
-
-export const metadata = useFaucetMetadata()
+export const metadata = getFaucetMetadata()
 export default function FaucetPage() {
   return <FaucetContent />
 }

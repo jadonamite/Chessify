@@ -61,6 +61,7 @@ export type Terminal =
  * client — the SAN list is replayed move-by-move with chess.js, and an illegal
  * sequence is rejected.
  */
+// TODO: add error boundary here
 export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
   const chess = new Chess()
   for (const m of moves) {

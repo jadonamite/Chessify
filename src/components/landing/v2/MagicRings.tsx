@@ -211,7 +211,7 @@ export default function MagicRings({
     mount.addEventListener('mouseleave', onMouseLeave)
     mount.addEventListener('click', onClick)
 
-    let frameId: number = 0
+    let frameId = 0
     let running = false
     let inView = true
     const animate = (t: number) => {

@@ -231,7 +231,7 @@ export function getHintMove(game: Chess, depth = 3): Move | null {
  * The coach's OWN move in teacher/opponent mode. Unlike getBestMove this is
  * deliberately imperfect and flavoured: it scores root moves with minimax,
  * adds a personality bonus, takes the top-K, then softmax-samples by
- * temperature — so a high-ELO coach (topK=1, temporary=0) is near-best while a
+ * temperature — so a high-ELO coach (topK=1, temp=0) is near-best while a
  * lower one occasionally plays an inferior move (felt weakness). Side-agnostic:
  * the coach is whichever side is to move. */
 

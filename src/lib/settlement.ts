@@ -19,6 +19,12 @@ export type ResultValue = (typeof RESULT)[keyof typeof RESULT]
 // forfeits on time. Mirrors the in-game move clock.
 export const MOVE_TIMEOUT_MS = 5 * 60 * 1000
 
+// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
+// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
+export function addrEq(a: string, b: string): boolean {
+  return normalizeAddress(a) === normalizeAddress(b)
+}
+
 /**
  * The exact message a player signs to authenticate a move. Deterministic and
  * identical on client (signing) and server (verification): it binds the move to
@@ -45,34 +51,26 @@ export function canonicalMoveMessage(p: {
   ].join('\n')
 }
 
-// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
-// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
-export function addrEq(a: string, b: string): boolean {
-  return normalizeAddress(a) === normalizeAddress(b)
-}
-
 export type Terminal =
   | { kind: 'result'; result: ResultValue }
   | { kind: 'not-terminal' }
   | { kind: 'illegal' }
 
 /**
- * Whose turn is it after replaying `moves`, expressed as the player address.
- * Returns null if the sequence is illegal. Used by the relay to enforce that a
- * submitted move actually comes from the side to move.
+ * Replay the authoritative move list and decide the result. NEVER trusts the
+ * client — the SAN list is replayed move-by-move with chess.js, and an illegal
+ * sequence is rejected.
  */
-export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
+export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
   const chess = new Chess()
   for (const m of moves) {
     try {
-      if (!chess.move(m.san)) return null
+      const applied = chess.move(m.san)
+      if (!applied) return { kind: 'illegal' }
     } catch {
-      return null
+      return { kind: 'illegal' }
     }
   }
-  return chess.turn() === 'w' ? white : black
-}
-
 
   // Checkmate: the side to move is mated → opponent wins.
   if (chess.isCheckmate()) {
@@ -102,17 +100,18 @@ export function sideToMoveAddress(moves: MoveRecord[], white: string, black: str
 }
 
 /**
- * Replay the authoritative move list and decide the result. NEVER trusts the
- * client — the SAN list is replayed move-by-move with chess.js, and an illegal
- * sequence is rejected.
+ * Whose turn is it after replaying `moves`, expressed as the player address.
+ * Returns null if the sequence is illegal. Used by the relay to enforce that a
+ * submitted move actually comes from the side to move.
  */
-export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
+export function sideToMoveAddress(moves: MoveRecord[], white: string, black: string): string | null {
   const chess = new Chess()
   for (const m of moves) {
     try {
-      const applied = chess.move(m.san)
-      if (!applied) return { kind: 'illegal' }
+      if (!chess.move(m.san)) return null
     } catch {
-      return { kind: 'illegal' }
+      return null
     }
   }
+  return chess.turn() === 'w' ? white : black
+}

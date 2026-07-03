@@ -1,9 +1,9 @@
-import { CELO_CONTRACTS, CELO_CHAIN_ID } from '@/config/contracts'
+import { useReadContract } from 'wagmi'
 // Live Celo game is the oracle model — read against EVM_CHESS_ORACLE_ABI,
 // aliased so the ported body stays byte-for-byte.
 import { EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI } from '@/config/abis'
+import { CELO_CONTRACTS, CELO_CHAIN_ID } from '@/config/contracts'
 import { ZERO } from '@/components/game/types'
-import { useReadContract } from 'wagmi'
 
 export interface PlayerStats {
   wins: number

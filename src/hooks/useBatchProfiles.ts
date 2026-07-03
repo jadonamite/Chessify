@@ -1,8 +1,8 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import type { ChessProfile } from '@/types/profile'
 import { normalizeAddress } from '@/lib/profile-address'
-import { useQuery } from '@tanstack/react-query'
 
 export function useBatchProfiles(addresses: string[]) {
   const sorted = [...addresses].map((a) => normalizeAddress(a)).sort()

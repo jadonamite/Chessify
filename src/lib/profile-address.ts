@@ -1,4 +1,5 @@
 // Chain-aware address handling for the .chess profile system.
+// Shared by client hooks and server routes — keep it dependency-free.
 export type ProfileChain = 'celo' | 'stacks'
 
 const CELLO_RE = /^0x[a-fA-F0-9]{40}$/

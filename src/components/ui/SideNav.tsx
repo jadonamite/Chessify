@@ -131,10 +131,6 @@ function NavRow({ item, active, href, streakLabel }: { item: ItemDef; active: bo
   )
 }
 
-/**
- * SideNav
- * @returns {*}
- */
 export default function SideNav() {
   const pathname = usePathname()
   const { isReady, address, connect, disconnectAll } = useWallet()

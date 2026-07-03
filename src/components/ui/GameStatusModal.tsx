@@ -6,11 +6,6 @@ import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { King, Pawn, Knight } from './ChessModels'
 
-export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
-  const [mounted, setMounted] = useState(false)
-  
-  useEffect(() => { setMounted(true) }, [])
-
 function WarningScene() {
   return (
     <>
@@ -29,6 +24,18 @@ function CheckScene() {
       <pointLight position={[10, 10, 10]} intensity={3} color="#ff4466" />
       <Environment preset="night" />
       <Knight color="#ff4466" emissive="#ff4466" emissiveIntensity={0.6} position={[0, -0.5, 0]} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.8} />
+    </>
+  )
+}
+
+function CheckmateScene() {
+  return (
+    <>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} intensity={3} color="#6a0dad" />
+      <pointLight position={[-10, -5, 5]} intensity={2} color="#ff4466" />
+      <Environment preset="night" />
+      <King color="#111111" emissive="#ff4466" emissiveIntensity={0.2} position={[0, -0.5, 0]} floatSpeed={0.2} floatIntensity={0.2} rotationIntensity={0} />
     </>
   )
 }
@@ -99,17 +106,10 @@ const STATUS_CONFIG = {
   }
 }
 
-function CheckmateScene() {
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={3} color="#6a0dad" />
-      <pointLight position={[-10, -5, 5]} intensity={2} color="#ff4466" />
-      <Environment preset="night" />
-      <King color="#111111" emissive="#ff4466" emissiveIntensity={0.2} position={[0, -0.5, 0]} floatSpeed={0.2} floatIntensity={0.2} rotationIntensity={0} />
-    </>
-  )
-}
+export default function GameStatusModal({ type, message, onClose }: GameStatusModalProps) {
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     if (type === 'invalid_move' || type === 'check') {

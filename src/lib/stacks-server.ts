@@ -1,4 +1,4 @@
-import { STACKS_CONTRACTS, HIRO_API } from '@/config/contracts'
+import {
   makeContractCall,
   broadcastTransaction,
   fetchCallReadOnlyFunction,
@@ -8,7 +8,7 @@ import { STACKS_CONTRACTS, HIRO_API } from '@/config/contracts'
   cvToJSON,
   PostConditionMode,
 } from '@stacks/transactions'
-import {
+import { STACKS_CONTRACTS, HIRO_API } from '@/config/contracts'
 
 // Player actions the gas sponsor is willing to pay for (all on the engine).
 const SPONSORABLE_FNS = new Set([

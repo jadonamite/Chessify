@@ -15,37 +15,6 @@ function principalOf(field: any): string | null {
   return null
 }
 
-function processGame(game: any): string[] {
-  const white = principalOf(game.white)
-  const black = principalOf(game.black)
-  const addresses = []
-  if (white) addresses.push(white)
-  if (black) addresses.push(black)
-  return addresses
-}
-
-function calculateLeaderboard(entries: any[], addresses: string[]): LeaderboardEntry[] {
-  const leaderboard: LeaderboardEntry[] = []
-  for (let i = 0; i < addresses.length; i++) {
-    const s = entries[i]
-    if (!s) continue
-    const gamesPlayed = Number(s['games-played']?.value ?? 0)
-    if (gamesPlayed === 0) continue
-    leaderboard.push({
-      address: addresses[i],
-      wins: Number(s.wins?.value ?? 0),
-      losses: Number(s.losses?.value ?? 0),
-      draws: Number(s.draws?.value ?? 0),
-      rating: Number(s.rating?.value ?? 0),
-      gamesPlayed,
-      rank: 0,
-    })
-  }
-  leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
-  leaderboard.forEach((e, i) => { e.rank = i + 1 })
-  return leaderboard
-}
-
 // Stacks sibling of useLeaderboard: scans every game on chess-game.clar to find
 // unique players, reads get-player-stats for each, ranks by ELO.
 export function useStacksLeaderboard(enabled = true) {
@@ -71,10 +40,10 @@ export function useStacksLeaderboard(enabled = true) {
       const addressSet = new Set<string>()
       for (const g of games) {
         if (!g) continue
-        const addresses = processGame(g)
-        for (const address of addresses) {
-          addressSet.add(address)
-        }
+        const white = principalOf(g.white)
+        const black = principalOf(g.black)
+        if (white) addressSet.add(white)
+        if (black) addressSet.add(black)
       }
 
       const addresses = Array.from(addressSet)
@@ -85,7 +54,25 @@ export function useStacksLeaderboard(enabled = true) {
 
       const statsResults = await Promise.all(addresses.map((a) => getPlayerStats(a)))
 
-      const leaderboard = calculateLeaderboard(statsResults, addresses)
+      const leaderboard: LeaderboardEntry[] = []
+      for (let i = 0; i < addresses.length; i++) {
+        const s = statsResults[i]
+        if (!s) continue
+        const gamesPlayed = Number(s['games-played']?.value ?? 0)
+        if (gamesPlayed === 0) continue
+        leaderboard.push({
+          address: addresses[i],
+          wins: Number(s.wins?.value ?? 0),
+          losses: Number(s.losses?.value ?? 0),
+          draws: Number(s.draws?.value ?? 0),
+          rating: Number(s.rating?.value ?? 0),
+          gamesPlayed,
+          rank: 0,
+        })
+      }
+
+      leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
+      leaderboard.forEach((e, i) => { e.rank = i + 1 })
       setEntries(leaderboard)
     } catch (err) {
       console.error('[useStacksLeaderboard] fetch failed:', err)

@@ -24,11 +24,6 @@ function isFastFinality(chain: Chain): boolean {
   return chain === 'celo' || chain === 'base'
 }
 
-/**
- * parseGameId
- * @param {*} value: string
- * @returns {*}
- */
 function parseGameId(value: string): number | null {
   const n = Number(value)
   if (!Number.isInteger(n) || n < 0) return null  // 0 is a valid game ID

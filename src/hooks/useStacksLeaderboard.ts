@@ -12,7 +12,7 @@ function principalOf(field: any): string | null {
   if (typeof field === 'string') return field
   if (typeof field.value === 'string') return field.value
   if (field.value && typeof field.value.value === 'string') return field.value.value
-  return null,
+  return null
 }
 
 // Stacks sibling of useLeaderboard: scans every game on chess-game.clar to find

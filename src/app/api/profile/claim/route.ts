@@ -1,13 +1,13 @@
-import type { ChessProfile } from '@/types/profile'
+import { NextRequest, NextResponse } from 'next/server'
 import {
   getProfileByAddress,
   validateUsername,
   claimProfile,
   checkRateLimit,
 } from '@/lib/profile-store'
-import { NextRequest, NextResponse } from 'next/server'
 import { isValidProfileAddress, normalizeAddress } from '@/lib/profile-address'
 import { verifyProfileSignature } from '@/lib/verify-signature'
+import type { ChessProfile } from '@/types/profile'
 
 export async function POST(req: NextRequest) {
   let body: any

@@ -52,6 +52,8 @@ interface SettingsState {
   setShowMoveHints: (v: boolean) => void
 }
 
+const createSetter = (set: any, key: string) => (value: any) => set({ [key]: value })
+
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
@@ -60,11 +62,11 @@ export const useSettingsStore = create<SettingsState>()(
       pieceSet: 'chessnut',
       aiDifficulty: 'medium',
       showMoveHints: true,
-      setSoundEnabled: (v) => set({ soundEnabled: v }),
-      setBoardTheme: (t) => set({ boardTheme: t }),
-      setPieceSet: (p) => set({ pieceSet: p }),
-      setAiDifficulty: (d) => set({ aiDifficulty: d }),
-      setShowMoveHints: (v) => set({ showMoveHints: v }),
+      setSoundEnabled: createSetter(set, 'soundEnabled'),
+      setBoardTheme: createSetter(set, 'boardTheme'),
+      setPieceSet: createSetter(set, 'pieceSet'),
+      setAiDifficulty: createSetter(set, 'aiDifficulty'),
+      setShowMoveHints: createSetter(set, 'showMoveHints'),
     }),
     { name: 'chessify-settings' },
   ),

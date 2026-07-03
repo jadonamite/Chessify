@@ -15,7 +15,7 @@ export async function verifyProfileSignature(opts: { address: string; message: s
         address: opts.address as `0x${string}`,
         message: opts.message,
         signature: opts.signature as `0x${string}`,
-      });,
+      });
     } catch {
       return false;
     }

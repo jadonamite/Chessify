@@ -164,7 +164,7 @@ function Side({
         {mode === 'player' && (
           <>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-3xl md:text-4xl font-black text-white leading-none" style={{ fontFamily: 'var(--fd)' }}>
+              <span className='text-3xl md:text-4xl font-black text-white leading-none' style={{ fontFamily: 'var(--fd)' }}>
                 {stats ? stats.rating : '—'}
               </span>
               <span className="text-[11px] font-bold tracking-widest" style={{ color: accent }}>ELO</span>

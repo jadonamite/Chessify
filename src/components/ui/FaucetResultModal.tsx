@@ -319,7 +319,7 @@ export default function FaucetResultModal({
                 )}
 
                 {/* Separator */}
-                <div className='w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-1' />
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-1" />
 
                 {/* Action Button */}
                 <GlowButton

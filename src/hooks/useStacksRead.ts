@@ -10,89 +10,91 @@ import {
 import { useWallet } from '@/components/wallet-provider'
 import { STACKS_CONTRACTS } from '@/config/contracts'
 
+
 export function useStacksRead() {
   const { stacksAddress } = useWallet()
-
-  const fetchContractData = useCallback(
-    async (
-      contractAddress: string,
-      contractName: string,
-      functionName: string,
-      functionArgs: any[],
-      senderAddress: string,
-      parseResponse: (json: any) => any
-    ) => {
-      try {
-        const result = await fetchCallReadOnlyFunction({
-          contractAddress,
-          contractName,
-          functionName,
-          functionArgs,
-          senderAddress,
-        })
-        const json = cvToJSON(result)
-        return parseResponse(json)
-      } catch (err) {
-        console.error(`Failed to fetch contract data: ${functionName}`, err)
-        return null
-      }
-    },
-    [stacksAddress]
-  )
 
   const getPlayerStats = useCallback(async (address?: string) => {
     const target = address || stacksAddress
     if (!target) return null
 
-    return fetchContractData(
-      STACKS_CONTRACTS.game.address,
-      STACKS_CONTRACTS.game.name,
-      'get-player-stats',
-      [principalCV(target)],
-      target,
-      (json: any) => json.value.value
-    )
+    try {
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'get-player-stats',
+        functionArgs: [principalCV(target)],
+        senderAddress: target,
+      })
+      
+      const json = cvToJSON(result)
+      return json.value.value // Clarity response (ok { ... })
+    } catch (err) {
+      console.error('Failed to fetch player stats:', err)
+      return null
+    }
   }, [stacksAddress])
 
   const getTokenBalance = useCallback(async (address?: string) => {
     const target = address || stacksAddress
     if (!target) return 0n
 
-    return fetchContractData(
-      STACKS_CONTRACTS.token.address,
-      STACKS_CONTRACTS.token.name,
-      'get-balance',
-      [principalCV(target)],
-      target,
-      (json: any) => BigInt(json.value.value)
-    )
+    try {
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: STACKS_CONTRACTS.token.address,
+        contractName: STACKS_CONTRACTS.token.name,
+        functionName: 'get-balance',
+        functionArgs: [principalCV(target)],
+        senderAddress: target,
+      })
+      
+      const json = cvToJSON(result)
+      return BigInt(json.value.value) // Clarity response (ok uint)
+    } catch (err) {
+      console.error('Failed to fetch token balance:', err)
+      return 0n
+    }
   }, [stacksAddress])
 
   const getGame = useCallback(async (gameId: number) => {
-    return fetchContractData(
-      STACKS_CONTRACTS.game.address,
-      STACKS_CONTRACTS.game.name,
-      'get-game',
-      [uintCV(gameId)],
-      stacksAddress || STACKS_CONTRACTS.game.address,
-      (json: any) => {
-        const outer = json?.value
-        const inner = outer?.value
-        if (!inner || inner.type === '(none)' || inner.value === null) return null
-        return inner.value ?? inner
-      }
-    )
+    try {
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'get-game',
+        functionArgs: [uintCV(gameId)],
+        senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
+      })
+
+      // get-game returns (ok (some { ... })) or (ok none)
+      // cvToJSON shape: { value: { value: { value: { ... } } | null } }
+      const json = cvToJSON(result)
+      const outer = json?.value         // unwrap (ok ...)
+      const inner = outer?.value        // unwrap (some ...)
+      if (!inner || inner.type === '(none)' || inner.value === null) return null
+      return inner.value ?? inner       // unwrap inner value if present
+    } catch (err) {
+      console.error('Failed to fetch game data:', err)
+      return null
+    }
   }, [stacksAddress])
 
   const getTotalGames = useCallback(async () => {
-    return fetchContractData(
-      STACKS_CONTRACTS.game.address,
-      STACKS_CONTRACTS.game.name,
-      'get-total-games',
-      [],
-      stacksAddress || STACKS_CONTRACTS.game.address,
-      (json: any) => Number(json.value.value)
-    )
+    try {
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: STACKS_CONTRACTS.game.address,
+        contractName: STACKS_CONTRACTS.game.name,
+        functionName: 'get-total-games',
+        functionArgs: [],
+        senderAddress: stacksAddress || STACKS_CONTRACTS.game.address,
+      })
+      
+      const json = cvToJSON(result)
+      return Number(json.value.value) // (ok uint)
+    } catch (err) {
+      console.error('Failed to fetch total games:', err)
+      return 0
+    }
   }, [stacksAddress])
 
   return {

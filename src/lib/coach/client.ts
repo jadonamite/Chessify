@@ -11,13 +11,13 @@ export async function fetchCoachVoice(
   facts: ExplainFacts & { fen?: string },
 ): Promise<{ text: string; source: 'llm' | 'template' }> {
   try {
-    const res = await fetch('/api/coach/explain', {
+    const response = await fetch('/api/coach/explain', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(facts),
     })
-    if (!res.ok) throw new Error('explain failed')
-    const data = await res.json()
+    if (!response.ok) throw new Error('explain failed')
+    const data = await response.json()
     return { text: data.text, source: data.source }
   } catch {
     return { text: localTemplate(facts), source: 'template' }

@@ -54,7 +54,7 @@ interface WalletContextType {
   setActiveChain: (chain: ActiveChain) => void
 
   // ── Session ──
-  userSession: any | null,
+  userSession: any | null
 }
 
 const WalletContext = createContext<WalletContextType>({

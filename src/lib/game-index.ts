@@ -8,6 +8,7 @@ import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
 // append-only index of which addresses appeared in games and which gameIds each
 // played, so the leaderboard and history don't re-scan the whole chain on every
 // load. A per-chain cursor records the highest gameId already folded in; each
+// sync only scans the delta (cursor+1 .. current gameNonce).
 //
 // EVM-only: Stacks history/leaderboard read via @stacks read-only fns elsewhere.
 

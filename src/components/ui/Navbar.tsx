@@ -19,6 +19,10 @@ const NAV_LINKS = [
   { label: 'Settings',    path: '/app/settings' },
 ]
 
+/**
+ * LogoutIcon
+ * @returns {*}
+ */
 function LogoutIcon() {
   return (
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"

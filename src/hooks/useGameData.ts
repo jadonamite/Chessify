@@ -12,7 +12,7 @@ interface UseGameDataArgs {
   gameId: number
   isBotGame: boolean
   celoAddress: string | null | undefined
-  isConnected: boolean
+  isConnected: boolean,
 }
 
 /**

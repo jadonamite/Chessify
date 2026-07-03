@@ -135,7 +135,7 @@ export default function GameClientMultichain() {
     abi: BASE_CHESS_GAME_ABI,
     functionName: 'getGame',
     chainId: BASE_CHAIN_ID,
-    args: [BigInt(gameId)],
+    params: [BigInt(gameId)],
     query: { enabled: activeChain === 'base' && !!gameId, refetchInterval: 5_000 },
   })
 
@@ -145,7 +145,7 @@ export default function GameClientMultichain() {
     abi: BASE_CHESS_GAME_ABI,
     functionName: 'drawProposal',
     chainId: BASE_CHAIN_ID,
-    args: [BigInt(gameId)],
+    params: [BigInt(gameId)],
     query: { enabled: activeChain === 'base' && !!gameId && gameData?.status === '1', refetchInterval: 4_000 },
   })
 

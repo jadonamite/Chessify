@@ -166,7 +166,6 @@ function evaluateBoard(game: Chess): number {
 }
 
 // MVV-LVA-style move ordering — captures of high-value victims by low-value
-// attackers come first, then other captures, promotions, checks, then quiet
 // moves. Better ordering = better alpha-beta pruning = a stronger bot at the
 // same depth.
 function orderMoves(moves: Move[]): Move[] {

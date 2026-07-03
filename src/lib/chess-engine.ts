@@ -16,17 +16,10 @@ export interface CaptureSummary {
 const START_COUNTS: Record<string, number> = { p: 8, n: 2, b: 2, r: 2, q: 1 }
 const DISPLAY_ORDER = ['q', 'r', 'b', 'n', 'p'] as const
 
-// Derive captured pieces and material balance from the current board position.
-// Working from the board (not move history) keeps this correct even when the
-// game is rebuilt from a FEN — which drops chess.js move history — and naturally
-// accounts for promotions in the material count.
-export function getCaptureSummary(board: ReturnType<Chess['board']>): CaptureSummary {
-  const remaining = {
-    w: { p: 0, n: 0, b: 0, r: 0, q: 0 } as Record<string, number>,
-    b: { p: 0, n: 0, b: 0, r: 0, q: 0 } as Record<string, number>,
-  }
-  let whiteMaterial = 0
-  let blackMaterial = 0
+function evaluateBoard(game: Chess): number {
+  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
+  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
+  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
 
   for (const row of board) {
     for (const sq of row) {
@@ -139,17 +132,41 @@ const TABLES: Record<string, number[][]> = {
   k: KING_TABLE,
 }
 
-function squareValue(type: string, color: 'w' | 'b', row: number, col: number): number {
-  const table = TABLES[type]
-  if (!table) return 0
-  // White uses the table as-is (row 0 is Black's back rank). For Black, mirror vertically.
-  return color === 'w' ? table[row][col] : table[7 - row][col]
+function styleBonus(move: Move, game: Chess, coachColor: 'w' | 'b', s: StyleWeights, ahead: boolean): number {
+  let b = 0
+  // forcing — checks and captures keep the initiative
+  if (move.san.includes('#')) b += s.forcing * 60
+  else if (move.san.includes('+')) b += s.forcing * 45
+  if (move.captured) b += s.forcing * 18
+  // sacrifice — trading a higher piece for a lower one / speculative captures
+  if (move.captured && (PIECE_VALUES[move.piece] || 0) > (PIECE_VALUES[move.captured] || 0)) b += s.sacrifice * 14
+  // king attack — landing near the enemy king
+  const ek = enemyKingSquare(game, coachColor)
+  if (ek) {
+    const [tf, tr] = fileRank(move.to)
+    const d = Math.max(Math.abs(tf - ek[0]), Math.abs(tr - ek[1]))
+    if (d <= 2) b += s.kingAttack * (3 - d) * 18
+  }
+  // simplify — trade down when ahead (endgame grind)
+  if (move.captured && ahead) b += s.simplify * 20
+  // positional — gravitate to the centre
+  const [tf, tr] = fileRank(move.to)
+  const central = 3.5 - Math.max(Math.abs(tf - 3.5), Math.abs(tr - 3.5))
+  b += s.positional * central * 6
+  return b
 }
 
-function evaluateBoard(game: Chess): number {
-  // Terminal-state shortcuts — checkmate is decisive, stalemate / draw is neutral.
-  if (game.isCheckmate()) return game.turn() === 'w' ? -Infinity : Infinity
-  if (game.isDraw() || game.isStalemate() || game.isThreefoldRepetition()) return 0
+// Derive captured pieces and material balance from the current board position.
+// Working from the board (not move history) keeps this correct even when the
+// game is rebuilt from a FEN — which drops chess.js move history — and naturally
+// accounts for promotions in the material count.
+export function getCaptureSummary(board: ReturnType<Chess['board']>): CaptureSummary {
+  const remaining = {
+    w: { p: 0, n: 0, b: 0, r: 0, q: 0 } as Record<string, number>,
+    b: { p: 0, n: 0, b: 0, r: 0, q: 0 } as Record<string, number>,
+  }
+  let whiteMaterial = 0
+  let blackMaterial = 0
 
   let totalEvaluation = 0
   const board = game.board()
@@ -165,14 +182,6 @@ function evaluateBoard(game: Chess): number {
   return totalEvaluation
 }
 
-// MVV-LVA-style move ordering — captures of high-value victims by low-value
-// attackers come first, then other captures, promotions, checks, then quiet
-// moves. Better ordering = better alpha-beta pruning = a stronger bot at the
-// same depth.
-function orderMoves(moves: Move[]): Move[] {
-  return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
-}
-
 function scoreMove(m: Move): number {
   let score = 0
   if (m.captured) {
@@ -185,9 +194,13 @@ function scoreMove(m: Move): number {
   return score
 }
 
-export function getBestMove(game: Chess, depth: number = 3): Move | null {
-  const possibleMoves = orderMoves(game.moves({ verbose: true }))
-  if (game.isGameOver() || possibleMoves.length === 0) return null
+function fileRank(square: string): [number, number] {
+  return [square.charCodeAt(0) - 97, Number(square[1]) - 1] // file 0-7, rank 0-7
+}
+
+export function getCoachMove(game: Chess, engine: CoachEngine): Move | null {
+  const moves = orderMoves(game.moves({ verbose: true }))
+  if (game.isGameOver() || moves.length === 0) return null
 
   // The bot always plays Black (enforced by GameClient): Black minimizes.
   let bestMove: Move | null = null
@@ -207,9 +220,13 @@ export function getBestMove(game: Chess, depth: number = 3): Move | null {
   return bestMove
 }
 
-export function getHintMove(game: Chess, depth = 3): Move | null {
-  const moves = orderMoves(game.moves({ verbose: true }))
-  if (game.isGameOver() || moves.length === 0) return null
+// MVV-LVA-style move ordering — captures of high-value victims by low-value
+// attackers come first, then other captures, promotions, checks, then quiet
+// moves. Better ordering = better alpha-beta pruning = a stronger bot at the
+// same depth.
+function orderMoves(moves: Move[]): Move[] {
+  return [...moves].sort((a, b) => scoreMove(b) - scoreMove(a))
+}
 
   const isWhite = game.turn() === 'w'
   let best: Move | null = null
@@ -235,49 +252,29 @@ export function getHintMove(game: Chess, depth = 3): Move | null {
  * lower one occasionally plays an inferior move (felt weakness). Side-agnostic:
  * the coach is whichever side is to move. */
 
-function fileRank(square: string): [number, number] {
-  return [square.charCodeAt(0) - 97, Number(square[1]) - 1] // file 0-7, rank 0-7
+export function getBestMove(game: Chess, depth: number = 3): Move | null {
+  const possibleMoves = orderMoves(game.moves({ verbose: true }))
+  if (game.isGameOver() || possibleMoves.length === 0) return null
+
+function squareValue(type: string, color: 'w' | 'b', row: number, col: number): number {
+  const table = TABLES[type]
+  if (!table) return 0
+  // White uses the table as-is (row 0 is Black's back rank). For Black, mirror vertically.
+  return color === 'w' ? table[row][col] : table[7 - row][col]
 }
 
-function enemyKingSquare(game: Chess, coachColor: 'w' | 'b'): [number, number] | null {
-  const enemy = coachColor === 'w' ? 'b' : 'w'
-  const board = game.board() // board[0] = rank 8
-  for (let r = 0; r < 8; r++) {
-    for (let c = 0; c < 8; c++) {
-      const p = board[r][c]
-      if (p && p.type === 'k' && p.color === enemy) return [c, 7 - r]
-    }
-  }
-  return null
-}
-
-function styleBonus(move: Move, game: Chess, coachColor: 'w' | 'b', s: StyleWeights, ahead: boolean): number {
-  let b = 0
-  // forcing — checks and captures keep the initiative
-  if (move.san.includes('#')) b += s.forcing * 60
-  else if (move.san.includes('+')) b += s.forcing * 45
-  if (move.captured) b += s.forcing * 18
-  // sacrifice — trading a higher piece for a lower one / speculative captures
-  if (move.captured && (PIECE_VALUES[move.piece] || 0) > (PIECE_VALUES[move.captured] || 0)) b += s.sacrifice * 14
-  // king attack — landing near the enemy king
-  const ek = enemyKingSquare(game, coachColor)
-  if (ek) {
-    const [tf, tr] = fileRank(move.to)
-    const d = Math.max(Math.abs(tf - ek[0]), Math.abs(tr - ek[1]))
-    if (d <= 2) b += s.kingAttack * (3 - d) * 18
-  }
-  // simplify — trade down when ahead (endgame grind)
-  if (move.captured && ahead) b += s.simplify * 20
-  // positional — gravitate to the centre
-  const [tf, tr] = fileRank(move.to)
-  const central = 3.5 - Math.max(Math.abs(tf - 3.5), Math.abs(tr - 3.5))
-  b += s.positional * central * 6
-  return b
-}
-
-export function getCoachMove(game: Chess, engine: CoachEngine): Move | null {
+export function getHintMove(game: Chess, depth = 3): Move | null {
   const moves = orderMoves(game.moves({ verbose: true }))
   if (game.isGameOver() || moves.length === 0) return null
+
+function minimax(
+  game: Chess,
+  depth: number,
+  alpha: number,
+  beta: number,
+  isMaximizingPlayer: boolean
+): number {
+  if (depth === 0 || game.isGameOver()) return evaluateBoard(game)
 
   const coachColor = game.turn() as 'w' | 'b'
   const evalNow = evaluateBoard(game) // White-positive
@@ -310,14 +307,17 @@ export function getCoachMove(game: Chess, engine: CoachEngine): Move | null {
   return top[0].m
 }
 
-function minimax(
-  game: Chess,
-  depth: number,
-  alpha: number,
-  beta: number,
-  isMaximizingPlayer: boolean
-): number {
-  if (depth === 0 || game.isGameOver()) return evaluateBoard(game)
+function enemyKingSquare(game: Chess, coachColor: 'w' | 'b'): [number, number] | null {
+  const enemy = coachColor === 'w' ? 'b' : 'w'
+  const board = game.board() // board[0] = rank 8
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c]
+      if (p && p.type === 'k' && p.color === enemy) return [c, 7 - r]
+    }
+  }
+  return null
+}
 
   const possibleMoves = orderMoves(game.moves({ verbose: true }))
 

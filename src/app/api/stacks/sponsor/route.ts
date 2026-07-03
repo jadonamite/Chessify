@@ -42,8 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'missing txHex' }, { status: 400 })
   }
   if (!isStacksAddress(address)) {
-    const result = NextResponse.json({ error: 'invalid address' }, { status: 400 });
-    return result;
+    return NextResponse.json({ error: 'invalid address' }, { status: 400 })
   }
 
   // Rate limit (best-effort; skipped if Redis isn't configured).

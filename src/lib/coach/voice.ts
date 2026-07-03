@@ -25,15 +25,9 @@ interface Provider {
   model: string
 }
 
-/**
- * Run the provider chain. Each provider gets a 4s timeout + 1 retry; on
- * failure we drop to the next. Throws only if EVERY provider fails — callers
- * (coachExplain) catch that and fall back to the template.
- */
-async function complete(messages: AIMessage[], opts: { maxTokens?: number; temperature?: number } = {}): Promise<string> {
-  const { maxTokens = 160, temperature = 0.5 } = opts
-  const chain = providers()
-  if (chain.length === 0) throw new Error('no LLM providers configured')
+/** Build the provider chain from whichever keys are present, in priority order. */
+function buildProviders(): Provider[] {
+  const providers: Provider[] = []
 
   if (process.env.NVIDIA_API_KEY) {
     providers.push({
@@ -59,18 +53,11 @@ async function complete(messages: AIMessage[], opts: { maxTokens?: number; tempe
   return providers
 }
 
-/**
- * Produce a coach-voiced lesson. Tries the LLM chain; on any failure returns
- * the deterministic template. The chess content is identical either way —
- * only the wording degrades.
- */
-export async function coachExplain(f: ExplainFacts): Promise<{ text: string; source: 'llm' | 'template' }> {
-  const fallback = renderTemplate(f)
-  if (providers().length === 0) return { text: fallback, source: 'template' }
-
-/** Build the provider chain from whichever keys are present, in priority order. */
-function buildProviders(): Provider[] {
-  const providers: Provider[] = []
+let cachedProviders: Provider[] | null = null
+function providers(): Provider[] {
+  if (!cachedProviders) cachedProviders = buildProviders()
+  return cachedProviders
+}
 
 async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
   const ctrl = new AbortController()
@@ -81,6 +68,16 @@ async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
     clearTimeout(timer)
   }
 }
+
+/**
+ * Run the provider chain. Each provider gets a 4s timeout + 1 retry; on
+ * failure we drop to the next. Throws only if EVERY provider fails — callers
+ * (coachExplain) catch that and fall back to the template.
+ */
+async function complete(messages: AIMessage[], opts: { maxTokens?: number; temperature?: number } = {}): Promise<string> {
+  const { maxTokens = 160, temperature = 0.5 } = opts
+  const chain = providers()
+  if (chain.length === 0) throw new Error('no LLM providers configured')
 
   let lastErr: Error | null = null
   for (const p of chain) {
@@ -149,11 +146,14 @@ export function renderTemplate(f: ExplainFacts): string {
   }
 }
 
-let cachedProviders: Provider[] | null = null
-function providers(): Provider[] {
-  if (!cachedProviders) cachedProviders = buildProviders()
-  return cachedProviders
-}
+/**
+ * Produce a coach-voiced lesson. Tries the LLM chain; on any failure returns
+ * the deterministic template. The chess content is identical either way —
+ * only the wording degrades.
+ */
+export async function coachExplain(f: ExplainFacts): Promise<{ text: string; source: 'llm' | 'template' }> {
+  const fallback = renderTemplate(f)
+  if (providers().length === 0) return { text: fallback, source: 'template' }
 
   const facts = [
     `Coach: ${f.coachName}`,

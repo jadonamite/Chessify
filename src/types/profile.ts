@@ -17,13 +17,3 @@ export interface ProfileCheckResult {
 export interface BatchProfileResult {
   profiles: Record<string, ChessProfile | null>
 }
-
-export function validateProfile(profile: ChessProfile): ProfileCheckResult {
-  if (profile.displayName.length > 30) {
-    return { available: false, reason: 'Display name exceeds 30 characters' };
-  }
-  if (profile.bio.length > 120) {
-    return { available: false, reason: 'Bio exceeds 120 characters' };
-  }
-  return { available: true };
-}

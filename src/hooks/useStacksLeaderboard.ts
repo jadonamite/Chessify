@@ -37,16 +37,7 @@ export function useStacksLeaderboard(enabled = true) {
       const ids = Array.from({ length: total }, (_, i) => i)
       const games = await Promise.all(ids.map((id) => getGame(id)))
 
-      const addressSet = new Set<string>()
-      for (const g of games) {
-        if (!g) continue
-        const white = principalOf(g.white)
-        const black = principalOf(g.black)
-        if (white) addressSet.add(white)
-        if (black) addressSet.add(black)
-      }
-
-      const addresses = Array.from(addressSet)
+      const addresses = getUniqueAddresses(games)
       if (addresses.length === 0) {
         setEntries([])
         return
@@ -54,25 +45,7 @@ export function useStacksLeaderboard(enabled = true) {
 
       const statsResults = await Promise.all(addresses.map((a) => getPlayerStats(a)))
 
-      const leaderboard: LeaderboardEntry[] = []
-      for (let i = 0; i < addresses.length; i++) {
-        const s = statsResults[i]
-        if (!s) continue
-        const gamesPlayed = Number(s['games-played']?.value ?? 0)
-        if (gamesPlayed === 0) continue
-        leaderboard.push({
-          address: addresses[i],
-          wins: Number(s.wins?.value ?? 0),
-          losses: Number(s.losses?.value ?? 0),
-          draws: Number(s.draws?.value ?? 0),
-          rating: Number(s.rating?.value ?? 0),
-          gamesPlayed,
-          rank: 0,
-        })
-      }
-
-      leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
-      leaderboard.forEach((e, i) => { e.rank = i + 1 })
+      const leaderboard = calculateLeaderboard(addresses, statsResults)
       setEntries(leaderboard)
     } catch (err) {
       console.error('[useStacksLeaderboard] fetch failed:', err)
@@ -91,4 +64,39 @@ export function useStacksLeaderboard(enabled = true) {
     : null
 
   return { entries, isLoading, myRank, refresh: fetchLeaderboard }
+}
+
+function getUniqueAddresses(games: any[]) {
+  const addressSet = new Set<string>()
+  for (const g of games) {
+    if (!g) continue
+    const white = principalOf(g.white)
+    const black = principalOf(g.black)
+    if (white) addressSet.add(white)
+    if (black) addressSet.add(black)
+  }
+  return Array.from(addressSet)
+}
+
+function calculateLeaderboard(addresses: string[], statsResults: any[]) {
+  const leaderboard: LeaderboardEntry[] = []
+  for (let i = 0; i < addresses.length; i++) {
+    const s = statsResults[i]
+    if (!s) continue
+    const gamesPlayed = Number(s['games-played']?.value ?? 0)
+    if (gamesPlayed === 0) continue
+    leaderboard.push({
+      address: addresses[i],
+      wins: Number(s.wins?.value ?? 0),
+      losses: Number(s.losses?.value ?? 0),
+      draws: Number(s.draws?.value ?? 0),
+      rating: Number(s.rating?.value ?? 0),
+      gamesPlayed,
+      rank: 0,
+    })
+  }
+
+  leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
+  leaderboard.forEach((e, i) => { e.rank = i + 1 })
+  return leaderboard
 }

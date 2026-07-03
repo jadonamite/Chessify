@@ -231,8 +231,8 @@ export default function FaucetContent() {
       setResultType('success')
       // Refresh balance after short delay
       setTimeout(refreshBalance, 3000)
-    } catch (err: any) {
-      const msg = err?.message || 'Unknown error'
+    } catch (error: any) {
+      const msg = error?.message || 'Unknown error'
 
       if (msg === 'TIMEOUT') {
         setResultType('timeout')

@@ -12,8 +12,8 @@ async function fetchProfile(address: string): Promise<ChessProfile | null> {
   const res = await fetch(`/api/profile/${address}`)
   if (res.status === 404) return null
   if (!res.ok) throw new Error('Failed to fetch profile')
-  const data = await res.json()
-  return data.profile as ChessProfile
+  const payload = await res.json()
+  return payload.profile as ChessProfile
 }
 
 export function useProfile(address: string | null | undefined) {
@@ -57,9 +57,9 @@ export function useClaimProfile() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Claim failed')
-      return data
+      const payload = await res.json()
+      if (!res.ok) throw new Error(payload.error ?? 'Claim failed')
+      return payload
     },
     onSuccess: (_data, vars) => {
       qc.invalidateQueries({ queryKey: profileKey(vars.address) })
@@ -85,9 +85,9 @@ export function useUpdateProfile() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(rest),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Update failed')
-      return data
+      const payload = await res.json()
+      if (!res.ok) throw new Error(payload.error ?? 'Update failed')
+      return payload
     },
     onSuccess: (_data, vars) => {
       qc.invalidateQueries({ queryKey: profileKey(vars.address) })

@@ -30,17 +30,6 @@ function LogoutIcon() {
   )
 }
 
-const getChainLabelAndColor = (activeChain: string) => {
-  switch (activeChain) {
-    case 'stacks':
-      return { label: 'STX', color: '#ff9900' }
-    case 'base':
-      return { label: 'BASE', color: '#0052ff' }
-    default:
-      return { label: 'CELO', color: '#35ee66' }
-  }
-}
-
 export default function Navbar() {
   const {
     isConnected, address,
@@ -64,10 +53,456 @@ export default function Navbar() {
 
   const connected = isConnected || isStacksConnected
   const displayAddress = activeChain === 'stacks' ? stacksAddress : address
-  const { label: chainLabel, color: chainColor } = getChainLabelAndColor(activeChain)
+  const chainLabel = activeChain === 'stacks' ? 'STX' : activeChain === 'base' ? 'BASE' : 'CELO'
+  const chainColor = activeChain === 'stacks' ? '#ff9900' : activeChain === 'base' ? '#0052ff' : '#35ee66'
   const showWallet = mounted && connected && !!displayAddress
 
   return (
-    // ...
+    <>
+      <nav style={{
+        width: '100%',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        background: 'rgba(6,6,15,0.95)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderBottom: '1px solid rgba(255,255,255,0.055)',
+      }}>
+        {/* ── Main bar ── */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: 58,
+          padding: '0 28px',
+          position: 'relative',
+        }}>
+
+          {/* Logo — bare, far left */}
+          <Link href="/" style={{ flexShrink: 0, lineHeight: 0, display: 'block', position: 'relative', zIndex: 2 }}>
+            <Image
+              src="/chessify.png"
+              alt="Chessify"
+              width={140}
+              height={36}
+              priority
+              style={{ width: 'clamp(96px, 10vw, 128px)', height: 'auto', objectFit: 'contain' }}
+            />
+          </Link>
+
+          {/* Trapezoid — centered, hugs the top edge, desktop only */}
+          <div
+            className="nav-desktop"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              height: '100%',
+              alignItems: 'center',
+              padding: '0 44px',
+              gap: 0,
+              /* wider at top (flush with nav top), tapers at bottom */
+              clipPath: 'polygon(0% 0%, 100% 0%, calc(100% - 22px) 100%, 22px 100%)',
+              background: 'rgba(255,255,255,0.042)',
+              filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.09))',
+              zIndex: 1,
+            }}
+          >
+            {NAV_LINKS.map(({ label, path }, i) => (
+              <span key={label} style={{ display: 'flex', alignItems: 'center' }}>
+                <Link
+                  href={path}
+                  style={{
+                    fontFamily: 'var(--fd)',
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: 'var(--t2)',
+                    textDecoration: 'none',
+                    letterSpacing: '.09em',
+                    padding: '0 18px',
+                    whiteSpace: 'nowrap',
+                    transition: 'color .15s',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--c)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--t2)' }}
+                >
+                  {label}
+                </Link>
+                {i < NAV_LINKS.length - 1 && (
+                  <span style={{
+                    color: 'rgba(255,255,255,0.14)',
+                    fontSize: 11,
+                    lineHeight: 1,
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                  }}>|</span>
+                )}
+              </span>
+            ))}
+          </div>
+
+          {/* Right — parallelogram wallet/connect + mobile hamburger */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, position: 'relative', zIndex: 2 }}>
+
+            {/* Music toggle — desktop */}
+            {mounted && (
+              <button
+                className="nav-desktop"
+                onClick={() => {
+                  const next = !soundEnabled
+                  setSoundEnabled(next)
+                  if (!next) stopAmbient()
+                }}
+                title={soundEnabled ? 'Mute music' : 'Play music'}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 34,
+                  height: 34,
+                  borderRadius: 10,
+                  border: `1px solid ${soundEnabled ? 'rgba(0,204,255,0.22)' : 'rgba(255,255,255,0.08)'}`,
+                  background: soundEnabled ? 'rgba(0,204,255,0.06)' : 'rgba(255,255,255,0.03)',
+                  color: soundEnabled ? 'var(--c)' : 'var(--t3)',
+                  cursor: 'pointer',
+                  transition: 'all .15s',
+                  flexShrink: 0,
+                  fontSize: 14,
+                }}
+              >
+                {soundEnabled ? '♪' : '♩'}
+              </button>
+            )}
+
+            {/* Desktop: wallet parallelogram or connect button */}
+            <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {showWallet ? (
+                <>
+                  {/* Active-chain badge */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    padding: '5px 9px',
+                    borderRadius: 8,
+                    background: `${chainColor}15`,
+                    border: `1px solid ${chainColor}30`,
+                    flexShrink: 0,
+                  }}>
+                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: chainColor, boxShadow: `0 0 5px ${chainColor}` }} />
+                    <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: '.14em', color: chainColor, fontFamily: 'var(--fd)' }}>
+                      {chainLabel}
+                    </span>
+                  </div>
+
+                  {/* Connected — parallelogram pill */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    clipPath: 'polygon(14px 0%, 100% 0%, calc(100% - 14px) 100%, 0% 100%)',
+                    background: 'rgba(0,204,255,0.07)',
+                    border: 'none',
+                  }}>
+                    {/* Profile link area */}
+                    <Link
+                      href={`/app/profile/${displayAddress}`}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 7,
+                        padding: '10px 14px 10px 22px',
+                        textDecoration: 'none',
+                        transition: 'background .15s',
+                      }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,204,255,0.07)' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+                    >
+                      <ChessAvatar address={displayAddress!} size={18} />
+                      <ChessName
+                        address={displayAddress!}
+                        short
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          color: 'var(--t1)',
+                          fontFamily: 'var(--fb)',
+                          letterSpacing: '.02em',
+                        }}
+                      />
+                    </Link>
+
+                    {/* Thin divider */}
+                    <div style={{ width: 1, height: 18, background: 'rgba(0,204,255,0.18)', flexShrink: 0 }} />
+
+                    {/* Logout icon button */}
+                    <button
+                      onClick={disconnectAll}
+                      title="Disconnect"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '10px 20px 10px 13px',
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--t3)',
+                        cursor: 'pointer',
+                        transition: 'color .15s, background .15s',
+                        flexShrink: 0,
+                      }}
+                      onMouseEnter={e => {
+                        const el = e.currentTarget as HTMLElement
+                        el.style.color = '#f87171'
+                        el.style.background = 'rgba(239,68,68,0.1)'
+                      }}
+                      onMouseLeave={e => {
+                        const el = e.currentTarget as HTMLElement
+                        el.style.color = 'var(--t3)'
+                        el.style.background = 'transparent'
+                      }}
+                    >
+                      <LogoutIcon />
+                    </button>
+                  </div>
+                </>
+              ) : mounted ? (
+                <GlowButton
+                  variant="brand"
+                  parallelogram
+                  onClick={connectWallet}
+                  style={{ padding: '10px 28px', fontSize: '11px' }}
+                >
+                  CONNECT
+                </GlowButton>
+              ) : (
+                <div style={{ width: 110, height: 38 }} />
+              )}
+            </div>
+
+            {/* Mobile hamburger — no inline display so .nav-mobile CSS controls it */}
+            <button
+              className="nav-mobile"
+              onClick={() => setMobileOpen(o => !o)}
+              aria-label="Toggle menu"
+              aria-expanded={mobileOpen}
+              style={{
+                width: 36,
+                height: 36,
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 5,
+                borderRadius: 10,
+                border: `1px solid ${mobileOpen ? 'rgba(0,204,255,0.28)' : 'rgba(255,255,255,0.09)'}`,
+                background: mobileOpen ? 'rgba(0,204,255,0.07)' : 'rgba(255,255,255,0.03)',
+                cursor: 'pointer',
+                transition: 'background .15s, border-color .15s',
+                flexShrink: 0,
+              }}
+            >
+              {[0, 1, 2].map(i => (
+                <span key={i} style={{
+                  display: 'block',
+                  width: 18,
+                  height: 1.5,
+                  borderRadius: 1,
+                  background: mobileOpen ? 'var(--c)' : 'var(--t2)',
+                  transition: 'transform .2s ease, opacity .15s, background .15s',
+                  transformOrigin: 'center',
+                  transform: mobileOpen
+                    ? i === 0 ? 'translateY(6.5px) rotate(45deg)'
+                    : i === 2 ? 'translateY(-6.5px) rotate(-45deg)'
+                    : 'scaleX(0)'
+                    : 'none',
+                  opacity: mobileOpen && i === 1 ? 0 : 1,
+                }} />
+              ))}
+            </button>
+          </div>
+        </div>
+
+        {/* ── Mobile drawer ── */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.05)' }}
+            >
+              <div style={{
+                padding: '10px 20px 20px',
+                background: 'rgba(8,8,20,0.98)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+              }}>
+                {/* Music toggle — mobile */}
+                <button
+                  onClick={() => {
+                    const next = !soundEnabled
+                    setSoundEnabled(next)
+                    if (!next) stopAmbient()
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '11px 14px',
+                    borderRadius: 12,
+                    fontFamily: 'var(--fd)',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: soundEnabled ? 'var(--c)' : 'var(--t2)',
+                    background: soundEnabled ? 'rgba(0,204,255,0.05)' : 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    letterSpacing: '.07em',
+                    transition: 'background .12s, color .12s',
+                    width: '100%',
+                    textAlign: 'left',
+                  }}
+                >
+                  <span style={{ fontSize: 14 }}>{soundEnabled ? '♪' : '♩'}</span>
+                  {soundEnabled ? 'MUSIC ON' : 'MUSIC OFF'}
+                </button>
+
+                {NAV_LINKS.map(({ label, path }) => (
+                  <Link
+                    key={label}
+                    href={path}
+                    onClick={() => setMobileOpen(false)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      padding: '11px 14px',
+                      borderRadius: 12,
+                      fontFamily: 'var(--fd)',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: 'var(--t2)',
+                      textDecoration: 'none',
+                      letterSpacing: '.07em',
+                      transition: 'background .12s, color .12s',
+                    }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.background = 'rgba(0,204,255,0.05)'
+                      el.style.color = 'var(--t1)'
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.background = 'transparent'
+                      el.style.color = 'var(--t2)'
+                    }}
+                  >
+                    <span style={{ color: 'var(--c)', fontSize: 8, opacity: 0.6 }}>◈</span>
+                    {label}
+                  </Link>
+                ))}
+
+                <div style={{ marginTop: 10, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                  {showWallet ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                      <Link
+                        href={`/app/profile/${displayAddress}`}
+                        onClick={() => setMobileOpen(false)}
+                        style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flex: 1, minWidth: 0 }}
+                      >
+                        <ChessAvatar address={displayAddress!} size={30} />
+                        <div style={{ minWidth: 0 }}>
+                          <ChessName address={displayAddress!} short style={{ fontSize: 12, fontWeight: 700, color: 'var(--t1)', display: 'block' }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                            <div style={{ width: 5, height: 5, borderRadius: '50%', background: chainColor }} />
+                            <span style={{ fontSize: 8, fontWeight: 700, color: chainColor, letterSpacing: '.12em', fontFamily: 'var(--fd)' }}>{chainLabel}</span>
+                          </div>
+                        </div>
+                      </Link>
+                      <button
+                        onClick={() => { disconnectAll(); setMobileOpen(false) }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          fontSize: 9,
+                          fontWeight: 800,
+                          letterSpacing: '.1em',
+                          textTransform: 'uppercase',
+                          color: 'rgba(248,113,113,0.55)',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          transition: 'color .15s',
+                          padding: '4px 0',
+                          flexShrink: 0,
+                          fontFamily: 'var(--fd)',
+                        }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#f87171' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(248,113,113,0.55)' }}
+                      >
+                        <LogoutIcon />
+                        Disconnect
+                      </button>
+                    </div>
+                  ) : (
+                    <GlowButton variant="brand" fullWidth onClick={() => { connectWallet(); setMobileOpen(false) }}>
+                      CONNECT WALLET
+                    </GlowButton>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Wrong-network banner — shown when EVM wallet is on a non-Celo chain */}
+      {isWrongChain && (
+        <div style={{
+          background: 'rgba(239,68,68,0.12)',
+          borderBottom: '1px solid rgba(239,68,68,0.25)',
+          padding: '8px 28px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 12,
+        }}>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', color: '#fca5a5', textTransform: 'uppercase' }}>
+            Wrong network — please switch to Celo
+          </span>
+          <button
+            onClick={switchToCelo}
+            style={{
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: '0.2em',
+              color: '#ef4444',
+              textTransform: 'uppercase',
+              background: 'rgba(239,68,68,0.15)',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: 6,
+              padding: '3px 10px',
+              cursor: 'pointer',
+            }}
+          >
+            Switch
+          </button>
+        </div>
+      )}
+
+      {/* Chain Select Modal — lives with the nav so it's available app-wide */}
+      <ChainSelectModal
+        isOpen={showChainSelect}
+        onClose={() => setShowChainSelect(false)}
+        onSelectCelo={connect}
+        onSelectStacks={connectStacks}
+        onSelectBase={connectBase}
+        onSelectSocial={connectSocial}
+      />
+    </>
   )
 }

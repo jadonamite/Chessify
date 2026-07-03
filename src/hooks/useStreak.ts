@@ -55,8 +55,7 @@ export function useStreak(address?: string | null) {
     queryFn: async () => {
       const res = await fetch(`/api/profile/streak?address=${address}`, { cache: 'no-store' })
       if (!res.ok) throw new Error('streak fetch failed')
-      const result = res.json();
-      return result;
+      return res.json()
     },
   })
   return {

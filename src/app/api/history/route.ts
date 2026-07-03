@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { isAddress, formatUnits, type Abi } from 'viem'
-import { getPublicClient, type EvmChain } from '@/lib/evm-server'
-import { syncGameIndex, getPlayerGameIds } from '@/lib/game-index'
 import { CELO_CONTRACTS, BASE_CONTRACTS, TOKEN_DECIMALS } from '@/config/contracts'
 import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
+import { NextRequest, NextResponse } from 'next/server'
+import { getPublicClient, type EvmChain } from '@/lib/evm-server'
+import { isAddress, formatUnits, type Abi } from 'viem'
+import { syncGameIndex, getPlayerGameIds } from '@/lib/game-index'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

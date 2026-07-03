@@ -404,7 +404,6 @@ export function useCeloChess() {
         if (amount > 0n) {
           await ensureBalance(amount, wagerAmount)
           await ensureApproval(amount)
-        // TODO: consider memoizing this value
         }
 
         showToast('Please confirm the transaction to join this match...', 'info')

@@ -25,11 +25,9 @@ interface Provider {
   model: string
 }
 
-let cachedProviders: Provider[] | null = null
-function providers(): Provider[] {
-  if (!cachedProviders) cachedProviders = buildProviders()
-  return cachedProviders
-}
+/** Build the provider chain from whichever keys are present, in priority order. */
+function buildProviders(): Provider[] {
+  const providers: Provider[] = []
 
   if (process.env.NVIDIA_API_KEY) {
     providers.push({
@@ -55,31 +53,19 @@ function providers(): Provider[] {
   return providers
 }
 
-/** Deterministic floor — correct lesson text from engine facts, no network. */
-export function renderTemplate(f: ExplainFacts): string {
-  const lost = f.evalDeltaCp != null ? Math.round(f.evalDeltaCp) / 100 : null
-  switch (f.kind) {
-    case 'blunder': {
-      const bits: string[] = []
-      bits.push(f.detail ? `Careful — ${f.detail}.` : 'Careful — that move gives something away.')
-      if (f.concept) bits.push(`This is about ${f.concept}.`)
-      if (f.bestMoveSan) bits.push(`A stronger try is ${f.bestMoveSan}.`)
-      if (lost != null && lost >= 1) bits.push(`It costs roughly ${lost.toFixed(1)} points of advantage.`)
-      return bits.join(' ')
-    }
-    case 'good': {
-      const head = f.playerMoveSan ? `Good — ${f.playerMoveSan} is the right idea.` : 'Good — that\'s the right idea.'
-      return f.concept ? `${head} You spotted the ${f.concept}.` : head
-    }
-    case 'coach-move': {
-      return f.detail
-        ? `I'll play ${f.playerMoveSan ?? 'this'} — ${f.detail}.`
-        : `I'll play ${f.playerMoveSan ?? 'this'}.`
-    }
-    case 'review': {
-      const head = f.movesPlayed ? `Nice work over ${f.movesPlayed} moves.` : 'Nice work.'
-      return f.concept ? `${head} Next, let's sharpen your ${f.concept}.` : `${head} Let's keep building.`
-    }
+let cachedProviders: Provider[] | null = null
+function providers(): Provider[] {
+  if (!cachedProviders) cachedProviders = buildProviders()
+  return cachedProviders
+}
+
+async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  const ctrl = new AbortController()
+  const timer = setTimeout(() => ctrl.abort(), ms)
+  try {
+    return await p
+  } finally {
+    clearTimeout(timer)
   }
 }
 
@@ -92,10 +78,6 @@ async function complete(messages: AIMessage[], opts: { maxTokens?: number; tempe
   const { maxTokens = 160, temperature = 0.5 } = opts
   const chain = providers()
   if (chain.length === 0) throw new Error('no LLM providers configured')
-
-/** Build the provider chain from whichever keys are present, in priority order. */
-function buildProviders(): Provider[] {
-  const providers: Provider[] = []
 
   let lastErr: Error | null = null
   for (const p of chain) {
@@ -136,13 +118,31 @@ export interface ExplainFacts {
   movesPlayed?: number   // for review framing
 }
 
-async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
-  const ctrl = new AbortController()
-  const timer = setTimeout(() => ctrl.abort(), ms)
-  try {
-    return await p
-  } finally {
-    clearTimeout(timer)
+/** Deterministic floor — correct lesson text from engine facts, no network. */
+export function renderTemplate(f: ExplainFacts): string {
+  const lost = f.evalDeltaCp != null ? Math.round(f.evalDeltaCp) / 100 : null
+  switch (f.kind) {
+    case 'blunder': {
+      const bits: string[] = []
+      bits.push(f.detail ? `Careful — ${f.detail}.` : 'Careful — that move gives something away.')
+      if (f.concept) bits.push(`This is about ${f.concept}.`)
+      if (f.bestMoveSan) bits.push(`A stronger try is ${f.bestMoveSan}.`)
+      if (lost != null && lost >= 1) bits.push(`It costs roughly ${lost.toFixed(1)} points of advantage.`)
+      return bits.join(' ')
+    }
+    case 'good': {
+      const head = f.playerMoveSan ? `Good — ${f.playerMoveSan} is the right idea.` : 'Good — that\'s the right idea.'
+      return f.concept ? `${head} You spotted the ${f.concept}.` : head
+    }
+    case 'coach-move': {
+      return f.detail
+        ? `I'll play ${f.playerMoveSan ?? 'this'} — ${f.detail}.`
+        : `I'll play ${f.playerMoveSan ?? 'this'}.`
+    }
+    case 'review': {
+      const head = f.movesPlayed ? `Nice work over ${f.movesPlayed} moves.` : 'Nice work.'
+      return f.concept ? `${head} Next, let's sharpen your ${f.concept}.` : `${head} Let's keep building.`
+    }
   }
 }
 

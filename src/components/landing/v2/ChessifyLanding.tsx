@@ -113,12 +113,6 @@ function legalMoves(b: Board, r: number, c: number): [number, number][] {
 
 /* ───────────────────────── coach art (real coach portraits) ───────────────────────── */
 
-/**
- * CoachArt
- * @param {*} { coach
- * @param {*} size }: { coach: Coach; size: number }
- * @returns {*}
- */
 function CoachArt({ coach, size }: { coach: Coach; size: number }) {
   return (
     <div

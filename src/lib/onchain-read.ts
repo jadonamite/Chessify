@@ -3,15 +3,15 @@
 // Read-only: holds no private keys. Settlement-side writes (oracle) are a
 // separate, deferred concern.
 
-import { createPublicClient, http, type Address } from 'viem'
-import { celo, base } from 'viem/chains'
-import { fetchCallReadOnlyFunction, uintCV, cvToJSON } from '@stacks/transactions'
+import type { Chain } from '@/lib/moves-store'
 import {
+import { celo, base } from 'viem/chains'
+import { createPublicClient, http, type Address } from 'viem'
   CELO_CONTRACTS,
   BASE_CONTRACTS,
   STACKS_CONTRACTS,
 } from '@/config/contracts'
-import type { Chain } from '@/lib/moves-store'
+import { fetchCallReadOnlyFunction, uintCV, cvToJSON } from '@stacks/transactions'
 
 // Minimal, per-chain shape the relay needs. status follows the shared enum:
 // 0 Waiting · 1 Active · 2 Finished · 3 Cancelled/Draw · 4 Draw (chain-dependent

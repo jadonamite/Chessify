@@ -84,8 +84,6 @@ const WalletContext = createContext<WalletContextType>({
   userSession: null
 })
 
-export const useWallet = () => useContext(WalletContext)
-
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // --- EVM state (Privy) ---
   const { login, logout, authenticated, ready } = usePrivy()
@@ -98,6 +96,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const { client: smartWalletClient } = useSmartWallets()
   const currentChainId = useChainId()
   const { switchChain } = useSwitchChain()
+
+export const useWallet = () => useContext(WalletContext)
 
   // --- Stacks State (Lazy Init) ---
   const [userSession, setUserSession] = useState<any>(null)

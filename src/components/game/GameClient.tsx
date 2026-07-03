@@ -14,8 +14,9 @@ import GameClientMultichain from './GameClientMultichain'
  */
 export default function GameClient() {
   const params = useParams()
+  const isBotGame = params?.id === 'bot'
   const { activeChain } = useWallet()
 
-  if (!params || !params.id || params.id !== 'bot' && activeChain !== 'celo') return <GameClientMultichain />
-  return <GameClientCelo />
+  if (isBotGame || activeChain === 'celo') return <GameClientCelo />
+  return <GameClientMultichain />
 }

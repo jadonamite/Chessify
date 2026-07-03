@@ -8,11 +8,7 @@
 
 export const VERSION = "0.1.0";
 
-const logInitialization = () => {
-  console.log("Chessify Protocol Initialized/>
-  // Add more logging or initialization logic here if needed
-  
-
 export const initProtocol = () => {
-  logInitialization();
+  console.log("Chessify Protocol Initialized");
 };
+

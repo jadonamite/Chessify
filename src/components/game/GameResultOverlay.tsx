@@ -12,17 +12,6 @@ interface GameResultOverlayProps {
   onBackToLobby: () => void
 }
 
-/**
- * GameResultOverlay
- * @param {*} { gameResult
- * @param {*} resultMessage
- * @param {*} gameData
- * @param {*} wagerFormatted
- * @param {*} potFormatted
- * @param {*} payoutSettled
- * @param {*} onBackToLobby }: GameResultOverlayProps
- * @returns {*}
- */
 export default function GameResultOverlay({ gameResult, resultMessage, gameData, wagerFormatted, potFormatted, payoutSettled, onBackToLobby }: GameResultOverlayProps) {
   return (
     <AnimatePresence>

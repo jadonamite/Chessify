@@ -23,7 +23,7 @@ export function ratingTier(rating: number): string {
   return 'Novice'
 }
 
-const BASE_RATING: number = 1200
+const BASE_RATING = 1200
 
 /**
  * Reads a single player's on-chain `playerStats` and derives the rating tier.

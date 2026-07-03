@@ -62,7 +62,6 @@ export default function PlacementPage() {
       setPhase('solving')
       return
     }
-    // Finished — score, seed the learner model, route to the hub.
     setPhase('done')
     setSaving(true)
     const outcome = scorePlacement(results)

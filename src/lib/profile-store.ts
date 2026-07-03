@@ -4,14 +4,14 @@ import { normalizeAddress } from './profile-address'
 
 let _redis: Redis | null = null
 
-export async function updateProfile(
-  address: string,
-  updates: Partial<Pick<ChessProfile, 'username' | 'displayName' | 'bio'>>,
-): Promise<{ ok: boolean; reason?: string }> {
-  const redis = getRedis()
-  const addr = normalizeAddress(address)
-  const existing = await getProfileByAddress(addr)
-  if (!existing) return { ok: false, reason: 'Profile not found' }
+function getRedis(): Redis {
+  if (_redis) return _redis
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+  if (!url || !token) throw new Error('[profile-store] Missing Upstash env vars')
+  _redis = new Redis({ url, token })
+  return _redis
+}
 
 // ── Key builders ─────────────────────────────────────────────────────────────
 // Addresses are normalised per-chain (EVM lowercased, Stacks preserved).
@@ -38,33 +38,20 @@ const RESERVED = new Set([
 
 const USERNAME_RE = /^[a-z0-9][a-z0-9-]{1,18}[a-z0-9]$/
 
-export async function getBatchProfiles(
-  addresses: string[],
-): Promise<Record<string, ChessProfile | null>> {
-  if (addresses.length === 0) return {}
-  const redis = getRedis()
-  const keys = addresses.map((a) => K.addr(a))
-  const results = await redis.mget<(ChessProfile | string | null)[]>(...keys)
-  const out: Record<string, ChessProfile | null> = {}
-  addresses.forEach((addr, i) => {
-    const raw = results[i]
-    const key = normalizeAddress(addr)
-    if (!raw) { out[key] = null; return }
-    out[key] = typeof raw === 'string' ? JSON.parse(raw) : raw
-  })
-  return out
+export function validateUsername(raw: string): { ok: boolean; reason?: string } {
+  const name = raw.toLowerCase().trim()
+  if (name.length < 3 || name.length > 20)
+    return { ok: false, reason: 'Username must be 3–20 characters' }
+  if (!USERNAME_RE.test(name))
+    return { ok: false, reason: 'Only lowercase letters, numbers, and hyphens. No leading/trailing hyphens.' }
+  if (name.includes('--'))
+    return { ok: false, reason: 'No consecutive hyphens' }
+  if (RESERVED.has(name))
+    return { ok: false, reason: 'That name is reserved' }
+  return { ok: true }
 }
 
 // ── Rate limiting (simple Redis counter) ─────────────────────────────────────
-
-export async function getProfileByUsername(username: string): Promise<ChessProfile | null> {
-  const redis = getRedis()
-  const address = await redis.get(K.name(username.toLowerCase()))
-  if (!address) return null
-  return getProfileByAddress(address as string)
-}
-
-// ── Profile CRUD ──────────────────────────────────────────────────────────────
 
 export async function checkRateLimit(
   address: string,
@@ -79,11 +66,19 @@ export async function checkRateLimit(
   return count <= limit
 }
 
+// ── Profile CRUD ──────────────────────────────────────────────────────────────
+
 export async function getProfileByAddress(address: string): Promise<ChessProfile | null> {
   const redis = getRedis()
   const raw = await redis.get(K.addr(address))
   if (!raw) return null
   return (typeof raw === 'string' ? JSON.parse(raw) : raw) as ChessProfile
+}
+
+// Direct address read with no alias resolution. Used by the identity-link flow
+// to inspect each address (EOA / smart account) on its own before aliasing.
+export async function getProfileDirect(address: string): Promise<ChessProfile | null> {
+  return getProfileByAddress(address)
 }
 
 // Point one address at another's profile so a single .chess name resolves for
@@ -93,22 +88,11 @@ export async function linkProfileAlias(from: string, to: string): Promise<void> 
   await getRedis().set(K.alias(from), normalizeAddress(to))
 }
 
-export async function getRecentProfiles(limit = 10): Promise<ChessProfile[]> {
+export async function getProfileByUsername(username: string): Promise<ChessProfile | null> {
   const redis = getRedis()
-  const addresses = await redis.lrange(K.recent(), 0, limit - 1)
-  if (!addresses.length) return []
-  const batch = await getBatchProfiles(addresses as string[])
-  return (addresses as string[]).map((a) => batch[normalizeAddress(a)]).filter(Boolean) as ChessProfile[]
-}
-
-
-function getRedis(): Redis {
-  if (_redis) return _redis
-  const url = process.env.UPSTASH_REDIS_REST_URL
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN
-  if (!url || !token) throw new Error('[profile-store] Missing Upstash env vars')
-  _redis = new Redis({ url, token })
-  return _redis
+  const address = await redis.get(K.name(username.toLowerCase()))
+  if (!address) return null
+  return getProfileByAddress(address as string)
 }
 
 export async function isUsernameAvailable(username: string): Promise<boolean> {
@@ -116,6 +100,11 @@ export async function isUsernameAvailable(username: string): Promise<boolean> {
   const existing = await redis.get(K.name(username.toLowerCase()))
   return !existing
 }
+
+export async function claimProfile(profile: ChessProfile): Promise<{ ok: boolean; reason?: string }> {
+  const redis = getRedis()
+  const name = profile.username.toLowerCase()
+  const addr = normalizeAddress(profile.address)
 
   // Atomic name reservation — SETNX: only succeeds if key doesn't exist
   const reserved = await redis.setnx(K.name(name), addr)
@@ -134,18 +123,14 @@ export async function isUsernameAvailable(username: string): Promise<boolean> {
   return { ok: true }
 }
 
-export function validateUsername(raw: string): { ok: boolean; reason?: string } {
-  const name = raw.toLowerCase().trim()
-  if (name.length < 3 || name.length > 20)
-    return { ok: false, reason: 'Username must be 3–20 characters' }
-  if (!USERNAME_RE.test(name))
-    return { ok: false, reason: 'Only lowercase letters, numbers, and hyphens. No leading/trailing hyphens.' }
-  if (name.includes('--'))
-    return { ok: false, reason: 'No consecutive hyphens' }
-  if (RESERVED.has(name))
-    return { ok: false, reason: 'That name is reserved' }
-  return { ok: true }
-}
+export async function updateProfile(
+  address: string,
+  updates: Partial<Pick<ChessProfile, 'username' | 'displayName' | 'bio'>>,
+): Promise<{ ok: boolean; reason?: string }> {
+  const redis = getRedis()
+  const addr = normalizeAddress(address)
+  const existing = await getProfileByAddress(addr)
+  if (!existing) return { ok: false, reason: 'Profile not found' }
 
   const now = Date.now()
   const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000
@@ -182,13 +167,27 @@ export function validateUsername(raw: string): { ok: boolean; reason?: string } 
   return { ok: true }
 }
 
-export async function claimProfile(profile: ChessProfile): Promise<{ ok: boolean; reason?: string }> {
+export async function getBatchProfiles(
+  addresses: string[],
+): Promise<Record<string, ChessProfile | null>> {
+  if (addresses.length === 0) return {}
   const redis = getRedis()
-  const name = profile.username.toLowerCase()
-  const addr = normalizeAddress(profile.address)
+  const keys = addresses.map((a) => K.addr(a))
+  const results = await redis.mget<(ChessProfile | string | null)[]>(...keys)
+  const out: Record<string, ChessProfile | null> = {}
+  addresses.forEach((addr, i) => {
+    const raw = results[i]
+    const key = normalizeAddress(addr)
+    if (!raw) { out[key] = null; return }
+    out[key] = typeof raw === 'string' ? JSON.parse(raw) : raw
+  })
+  return out
+}
 
-// Direct address read with no alias resolution. Used by the identity-link flow
-// to inspect each address (EOA / smart account) on its own before aliasing.
-export async function getProfileDirect(address: string): Promise<ChessProfile | null> {
-  return getProfileByAddress(address)
+export async function getRecentProfiles(limit = 10): Promise<ChessProfile[]> {
+  const redis = getRedis()
+  const addresses = await redis.lrange(K.recent(), 0, limit - 1)
+  if (!addresses.length) return []
+  const batch = await getBatchProfiles(addresses as string[])
+  return (addresses as string[]).map((a) => batch[normalizeAddress(a)]).filter(Boolean) as ChessProfile[]
 }

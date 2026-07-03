@@ -71,6 +71,7 @@ export function useBaseLeaderboard(enabled = true) {
         const s = result.result as any // tuple { wins, losses, draws, rating, gamesPlayed }
         const gamesPlayed = Number(s.gamesPlayed)
         if (gamesPlayed === 0) continue
+        // FIXME: handle edge case when value is null
         leaderboard.push({
           address: addresses[i],
           wins: Number(s.wins),

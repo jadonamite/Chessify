@@ -14,7 +14,6 @@ export const CONCEPTS = [
   'fork',
   'pin',
   'opening-principles',// develop, centre, castle
-  // intermediate
   'skewer',
   'discovered-attack',
   'pawn-structure',

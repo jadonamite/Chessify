@@ -17,7 +17,7 @@ interface JoinRoomProps {
   isConnected: boolean
   onJoin: () => void
   onConnectWallet: () => void
-  onLeave: () => void
+  onLeave: () => void,
 }
 
 export default function JoinRoom({

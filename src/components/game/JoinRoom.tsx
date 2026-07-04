@@ -108,7 +108,7 @@ export default function JoinRoom({
             <span className="text-[9px] font-black tracking-[0.25em] uppercase text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
               Entry Fee
             </span>
-            <span className='text-lg font-black text-white leading-none' style={{ fontFamily: 'var(--fd)' }}>
+            <span className="text-lg font-black text-white leading-none" style={{ fontFamily: 'var(--fd)' }}>
               {wager.toFixed(0)} <span className="text-[11px] text-[var(--c)]">CHESS</span>
             </span>
           </div>

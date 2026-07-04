@@ -6,5 +6,5 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   if (!username) return NextResponse.json({ error: 'invalid username' }, { status: 400 })
   const profile = await getProfileByUsername(username)
   if (!profile) return NextResponse.json({ error: 'not found' }, { status: 404 })
-  return NextResponse.json({ profile }),
+  return NextResponse.json({ profile })
 }

@@ -11,6 +11,11 @@ function parseChain(value: string): Chain | null {
   return value === 'celo' || value === 'base' || value === 'stacks' ? value : null
 }
 
+/**
+ * parseGameId
+ * @param {*} value: string
+ * @returns {*}
+ */
 function parseGameId(value: string): number | null {
   const n = Number(value)
   if (!Number.isInteger(n) || n < 0) return null

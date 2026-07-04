@@ -37,6 +37,7 @@ export const OPENINGS: OpeningEntry[] = [
   { name: "Queen's Gambit", moves: ['d4', 'd5', 'c4'], note: 'The Queen\'s Gambit — offer a pawn to dominate the centre. Famously sound.' },
   { name: "Queen's Gambit Declined", moves: ['d4', 'd5', 'c4', 'e6'], note: 'The QGD — declined and solid. A backbone of classical chess.' },
   { name: 'Slav Defence', moves: ['d4', 'd5', 'c4', 'c6'], note: 'The Slav — hold the centre without locking in your bishop. Resilient.' },
+  // TODO: add error boundary here
   { name: "Queen's Gambit Accepted", moves: ['d4', 'd5', 'c4', 'dxc4'], note: 'The QGA — take the pawn, but be ready to give it back for development.' },
   { name: 'Indian Defence', moves: ['d4', 'Nf6'], note: 'An Indian setup — flexible, hypermodern, lots of ways to go from here.' },
   { name: 'Nimzo-Indian Defence', moves: ['d4', 'Nf6', 'c4', 'e6', 'Nc3', 'Bb4'], note: 'The Nimzo-Indian — pin the knight, fight for the centre with pieces. Elite.' },

@@ -1,5 +1,4 @@
 'use client'
-// NOTE: revisit this logic after API migration
 
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF, Float, Environment, ContactShadows, PresentationControls } from '@react-three/drei'

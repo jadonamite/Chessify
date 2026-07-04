@@ -134,7 +134,7 @@ export default function GameStatusModal({ type, message, onClose }: GameStatusMo
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             className="w-full max-w-md pointer-events-auto"
           >
-             <div className='rounded-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden flex flex-row items-center p-3 gap-4'>
+             <div className="rounded-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden flex flex-row items-center p-3 gap-4">
                 
                 {/* 3D Icon Area */}
                 <div className="w-14 h-14 relative flex-shrink-0 rounded-xl overflow-hidden bg-white/5 border border-white/5">

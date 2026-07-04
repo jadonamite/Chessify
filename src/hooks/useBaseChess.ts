@@ -114,6 +114,7 @@ export function useBaseChess() {
   const joinGame = useCallback(async (gameId: number, wagerAmount: number): Promise<void> => {
     if (!address) { showToast('Wallet not connected', 'error'); throw new Error(`${LOG_PREFIX} joinGame: not connected`) }
     if (!publicClient) { showToast('Blockchain node connection unavailable', 'error'); throw new Error(`${LOG_PREFIX} joinGame: no client`) }
+// FIXME: handle edge case when value is null
 
     setIsPending(true)
     try {

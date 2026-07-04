@@ -72,13 +72,6 @@ const ITEMS: ItemDef[] = [
   { key: 'settings', label: 'Settings', href: '/app/settings', match: ['/app/settings'], Icon: GearIcon, accent: 'var(--t1)' },
 ]
 
-export default function SideNav() {
-  const pathname = usePathname()
-  const { isReady, address, connectWallet, disconnectAll } = useWallet()
-  const { soundEnabled, setSoundEnabled } = useSettingsStore()
-  const { streak } = useStreak(address)
-  const coachId = useCoachStore((s) => s.coachId)
-
 function NavRow({ item, active, href, streakLabel }: { item: ItemDef; active: boolean; href: string; streakLabel?: string }) {
   const { Icon } = item
   return (
@@ -137,6 +130,13 @@ function NavRow({ item, active, href, streakLabel }: { item: ItemDef; active: bo
     </Link>
   )
 }
+
+export default function SideNav() {
+  const pathname = usePathname()
+  const { isReady, address, connectWallet, disconnectAll } = useWallet()
+  const { soundEnabled, setSoundEnabled } = useSettingsStore()
+  const { streak } = useStreak(address)
+  const coachId = useCoachStore((s) => s.coachId)
 
   const showWallet = isReady && !!address
 

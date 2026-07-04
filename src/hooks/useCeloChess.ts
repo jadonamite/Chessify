@@ -13,15 +13,8 @@ import { useCallback, useState } from 'react'
 import { useToastStore } from '@/hooks/useToastStore'
 import { useWallet } from '@/components/wallet-provider'
 
-// Heuristic: did a write fail because sponsorship (paymaster/bundler/userOp) was
-// unavailable, rather than a genuine revert? Used to retry once and to message clearly.
-function isSponsorshipError(err: unknown): boolean {
-  const m = (err instanceof Error ? err.message : String(err)).toLowerCase()
-  return (
-    m.includes('paymaster') || m.includes('sponsor') || m.includes('bundler') ||
-    m.includes('user operation') || m.includes('useroperation') || m.includes('aa2') || m.includes('aa3')
-  )
-}
+const LOG_PREFIX = '[useCeloChess]'
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Option A — approve a large-but-finite allowance so repeat games skip the approve tx
 // (the allowance check below only re-approves once this is exhausted). A finite cap keeps
@@ -46,16 +39,15 @@ const ERC20_BALANCE_ABI = [
   { type: 'function', name: 'balanceOf', stateMutability: 'view', inputs: [{ name: 'a', type: 'address' }], outputs: [{ type: 'uint256' }] },
 ] as const
 
-      const allowance = (await publicClient.readContract({
-        address: CELO_CONTRACTS.token as Address,
-        abi: CHESS_TOKEN_ABI,
-        functionName: 'allowance',
-        args: [playerAddress, CELO_CONTRACTS.game as Address],
-      })) as bigint
-      if (allowance >= amount) {
-        console.info(`${LOG_PREFIX} allowance sufficient (${allowance} >= ${amount})`)
-        return
-      }
+// Heuristic: did a write fail because sponsorship (paymaster/bundler/userOp) was
+// unavailable, rather than a genuine revert? Used to retry once and to message clearly.
+function isSponsorshipError(err: unknown): boolean {
+  const m = (err instanceof Error ? err.message : String(err)).toLowerCase()
+  return (
+    m.includes('paymaster') || m.includes('sponsor') || m.includes('bundler') ||
+    m.includes('user operation') || m.includes('useroperation') || m.includes('aa2') || m.includes('aa3')
+  )
+}
 
 interface WriteRequest {
   address: Address
@@ -64,8 +56,13 @@ interface WriteRequest {
   args: readonly unknown[]
 }
 
-const LOG_PREFIX = '[useCeloChess]'
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export function useCeloChess() {
+  const { writeContractAsync } = useWriteContract()
+  const publicClient = usePublicClient({ chainId: CELO_CHAIN_ID })
+  const { walletTier, playerAddress: pinnedAddress } = useWallet()
+  const { client: smartClient } = useSmartWallets()
+  const [isPending, setIsPending] = useState(false)
+  const showToast = useToastStore((state) => state.showToast)
 
   // Single source of truth: the pinned identity from wallet-provider (smart account
   // for embedded users, EOA otherwise — and null until resolved, so writes wait
@@ -283,13 +280,16 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
     async (amount: bigint): Promise<void> => {
       if (!publicClient || !playerAddress) throw new Error(`${LOG_PREFIX} not ready`)
 
-export function useCeloChess() {
-  const { writeContractAsync } = useWriteContract()
-  const publicClient = usePublicClient({ chainId: CELO_CHAIN_ID })
-  const { walletTier, playerAddress: pinnedAddress } = useWallet()
-  const { client: smartClient } = useSmartWallets()
-  const [isPending, setIsPending] = useState(false)
-  const showToast = useToastStore((state) => state.showToast)
+      const allowance = (await publicClient.readContract({
+        address: CELO_CONTRACTS.token as Address,
+        abi: CHESS_TOKEN_ABI,
+        functionName: 'allowance',
+        args: [playerAddress, CELO_CONTRACTS.game as Address],
+      })) as bigint
+      if (allowance >= amount) {
+        console.info(`${LOG_PREFIX} allowance sufficient (${allowance} >= ${amount})`)
+        return
+      }
 
       showToast('Please approve the CHESS token spending limit...', 'info')
       const approveHash = await sendWrite({

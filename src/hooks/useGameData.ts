@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
 // Chessify keeps the legacy Celo ABI under CHESS_GAME_ABI and the live oracle
-// shape under EVM_CHESS_ORACLE_ABI. The live Celo game (0xf85f…) is the oracle
-// model, so read against that — aliased so the ported body is unchanged.
+// shape under EVM_CHESS_ORACLE_ABI. The live Celo game (0xf85f…)
+// is the oracle model, so read against that — aliased so the ported body is unchanged.
 import { EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, CELO_CHAIN_ID, TOKEN_DECIMALS } from '@/config/contracts'
 import { useBatchProfiles } from '@/hooks/useBatchProfiles'
@@ -78,15 +78,11 @@ export function useGameData({ gameId, isBotGame, celoAddress, isConnected }: Use
   const chainResult       = resultForColor(gameData?.result, myColor)
   const canJoinFromPage   = gameIsWaiting && !isParticipant && !isBotGame && isConnected
 
-  const wagerFormatted = gameData
-    ? (Number(gameData.wager) / Math.pow(10, TOKEN_DECIMALS)).toFixed(0)
-    : '0'
-  const statusLabel = gameData ? (STATUS_LABELS[gameData.status] ?? 'UNKNOWN') : ''
+  const wagerFormatted = getWagerFormatted(gameData)
+  const statusLabel = getStatusLabel(gameData)
 
   // ── player profiles ──
-  const playerAddrs = gameData
-    ? [gameData.white, gameData.black].filter((a) => a && a !== ZERO && a.startsWith('0x'))
-    : []
+  const playerAddrs = getPlayerAddrs(gameData)
   const { data: gameProfileMap = {} } = useBatchProfiles(playerAddrs)
 
   return {
@@ -97,4 +93,16 @@ export function useGameData({ gameId, isBotGame, celoAddress, isConnected }: Use
     payoutSettled, gameEnded, chainResult, canJoinFromPage,
     wagerFormatted, statusLabel, gameProfileMap,
   }
+}
+
+function getWagerFormatted(gameData: GameData | null): string {
+  return gameData ? (Number(gameData.wager) / Math.pow(10, TOKEN_DECIMALS)).toFixed(0) : '0'
+}
+
+function getStatusLabel(gameData: GameData | null): string {
+  return gameData ? (STATUS_LABELS[gameData.status] ?? 'UNKNOWN') : ''
+}
+
+function getPlayerAddrs(gameData: GameData | null): string[] {
+  return gameData ? [gameData.white, gameData.black].filter((a) => a && a !== ZERO && a.startsWith('0x')) : []
 }

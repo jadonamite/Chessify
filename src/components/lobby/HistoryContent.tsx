@@ -6,11 +6,13 @@ import { Float, Environment, Text } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import GlowButton from '@/components/ui/GlowButton'
+import PlayCard from '@/components/ui/PlayCard'
 import LoadingState from '@/components/ui/LoadingState'
 import { useHistory } from '@/hooks/useHistory'
-import { Queen, PieceView } from '@/components/ui/ChessModels'
+import { Queen, PieceIcon } from '@/components/ui/ChessModels'
 import ChessName from '@/components/ui/ChessName'
 import ChessAvatar from '@/components/ui/ChessAvatar'
+import SceneBoundary from '@/components/ui/SceneBoundary'
 
 function Scene() {
   return (
@@ -61,11 +63,13 @@ export function HistoryContent() {
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">
       {/* ── BACKGROUND ── */}
       <div className="fixed inset-0 z-0 h-screen w-full pointer-events-none">
-        <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-          <Suspense fallback={null}>
-            <Scene />
-          </Suspense>
-        </Canvas>
+        <SceneBoundary>
+          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+            <Suspense fallback={null}>
+              <Scene />
+            </Suspense>
+          </Canvas>
+        </SceneBoundary>
       </div>
 
       {/* ── GRID OVERLAY ── */}
@@ -91,7 +95,7 @@ export function HistoryContent() {
           </div>
 
           {/* History List */}
-          <div className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden">
+          <PlayCard size="hero">
             <div className="p-1 md:p-2">
               <div className="flex flex-col">
                 {isLoading ? (
@@ -104,7 +108,11 @@ export function HistoryContent() {
                 ) : (
                   <div className="divide-y divide-white/5">
                     <AnimatePresence mode="popLayout">
-                      {history.map((item, idx) => (
+                      {history.map((item, idx) => {
+                        const isCreator = item.role === 'white'
+                        // Placeholder opponents ("Waiting...", "On-Chain") aren't addresses
+                        const opponentIsAddress = item.opponent.startsWith('0x') || item.opponent.startsWith('S')
+                        return (
                         <motion.div
                           key={item.id + item.timestamp}
                           initial={{ opacity: 0, x: -20 }}
@@ -114,10 +122,10 @@ export function HistoryContent() {
                           className="p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 hover:bg-white/[0.02] transition-colors"
                         >
                           <div className="flex items-center gap-6 w-full sm:w-auto">
-                            <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group">
-                              <PieceView
-                                type={item.role.toLowerCase() === 'creator' ? 'king' : 'rook'}
-                                color={item.chain === 'stacks' ? '#ff9900' : item.chain === 'base' ? '#0052ff' : '#35ee66'}
+                            <div className="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center border border-white/10 bg-black/40 overflow-hidden relative group p-2.5">
+                              <PieceIcon
+                                type={isCreator ? 'king' : 'rook'}
+                                color={isCreator ? 'white' : 'black'}
                                 className="w-full h-full"
                               />
                             </div>
@@ -127,17 +135,26 @@ export function HistoryContent() {
                                   {item.role}
                                 </span>
                                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">vs</span>
-                                <ChessAvatar address={item.opponent} size={18} />
-                                <ChessName
-                                  address={item.opponent}
-                                  short
-                                  asLink
-                                  className="text-[11px] font-bold text-gray-300 tracking-wide truncate max-w-[150px]"
-                                />
+                                {opponentIsAddress ? (
+                                  <>
+                                    <ChessAvatar address={item.opponent} size={18} />
+                                    <ChessName
+                                      address={item.opponent}
+                                      short
+                                      asLink
+                                      className="text-[11px] font-bold text-gray-300 tracking-wide truncate max-w-[150px]"
+                                    />
+                                  </>
+                                ) : (
+                                  <span className="text-[11px] font-bold text-gray-300 tracking-wide truncate max-w-[150px]">{item.opponent}</span>
+                                )}
                               </div>
-                              <span className="font-black text-xl text-white tracking-tight">
+                              <button
+                                onClick={() => router.push(`/app/game/${item.id}`)}
+                                className="font-black text-xl text-white tracking-tight hover:text-[var(--c)] transition-colors text-left"
+                              >
                                 MATCH #{item.id}
-                              </span>
+                              </button>
                             </div>
                           </div>
 
@@ -151,22 +168,26 @@ export function HistoryContent() {
 
                             <div className="flex flex-col text-right">
                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Status</span>
-                              <div className="flex items-center gap-2 justify-end">
-                                <div className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
-                                <span className={`text-sm font-black uppercase italic ${item.status === 'Active' ? 'text-green-400' : 'text-gray-300'}`}>
-                                  {item.status}
-                                </span>
-                              </div>
+                              <span
+                                className="text-sm font-black uppercase px-3 py-1 rounded-lg"
+                                style={{
+                                  background: item.status === 'Active' ? 'rgba(34,211,238,0.12)' : 'rgba(255,255,255,0.06)',
+                                  color: item.status === 'Active' ? '#22d3ee' : '#9ca3af',
+                                }}
+                              >
+                                {item.status}
+                              </span>
                             </div>
                           </div>
                         </motion.div>
-                      ))}
+                        )
+                      })}
                     </AnimatePresence>
                   </div>
                 )}
               </div>
             </div>
-          </div>
+          </PlayCard>
         </div>
       </div>
     </main>

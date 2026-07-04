@@ -133,7 +133,7 @@ function NavRow({ item, active, href, streakLabel }: { item: ItemDef; active: bo
 
 export default function SideNav() {
   const pathname = usePathname()
-  const { isReady, address, connect, disconnectAll } = useWallet()
+  const { isReady, address, connectWallet, disconnectAll } = useWallet()
   const { soundEnabled, setSoundEnabled } = useSettingsStore()
   const { streak } = useStreak(address)
   const coachId = useCoachStore((s) => s.coachId)
@@ -264,7 +264,7 @@ export default function SideNav() {
             </button>
           </div>
         ) : (
-          <GlowButton variant="brand" fullWidth onClick={connect}>
+          <GlowButton variant="brand" fullWidth onClick={connectWallet}>
             CONNECT
           </GlowButton>
         )}

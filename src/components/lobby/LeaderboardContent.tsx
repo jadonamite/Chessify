@@ -1,11 +1,12 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import GlowButton from '@/components/ui/GlowButton'
-import LoadingState from '@/components/ui/LoadingState'
-import { Navbar } from '@/components/landing/Hero'
 import { useWallet } from '@/components/wallet-provider'
+import GlowButton from '@/components/ui/GlowButton'
+import PlayCard from '@/components/ui/PlayCard'
+import LoadingState from '@/components/ui/LoadingState'
 import { useLeaderboard, type LeaderboardEntry } from '@/hooks/useLeaderboard'
 import { useBaseLeaderboard } from '@/hooks/useBaseLeaderboard'
 import { useStacksLeaderboard } from '@/hooks/useStacksLeaderboard'
@@ -13,36 +14,39 @@ import { useBatchProfiles } from '@/hooks/useBatchProfiles'
 import { normalizeAddress } from '@/lib/profile-address'
 import ChessName from '@/components/ui/ChessName'
 import ChessAvatar from '@/components/ui/ChessAvatar'
+import PageBackground from '@/components/ui/PageBackground'
 
 // ── constants ───────────────────────────────────────────────────────────────
+
+const RANKS_PER_PAGE = 10
 
 const MEDAL = {
   1: {
     color: '#FFD700',
     glow: 'rgba(255,215,0,0.28)',
     border: 'rgba(255,215,0,0.35)',
-    bg: 'rgba(255,215,0,0.06)',
+    bg: 'rgba(255,215,0,0.04)',
     icon: '♛',
     title: 'GRANDMASTER',
-    minH: 'min-h-[360px]',
+    baseH: 96,
   },
   2: {
     color: '#C0C0C0',
     glow: 'rgba(192,192,192,0.18)',
     border: 'rgba(192,192,192,0.28)',
-    bg: 'rgba(255,255,255,0.025)',
+    bg: 'rgba(255,255,255,0.02)',
     icon: '♜',
     title: 'MASTER',
-    minH: 'min-h-[300px]',
+    baseH: 66,
   },
   3: {
     color: '#CD7F32',
     glow: 'rgba(205,127,50,0.18)',
     border: 'rgba(205,127,50,0.28)',
-    bg: 'rgba(205,127,50,0.03)',
+    bg: 'rgba(205,127,50,0.025)',
     icon: '♝',
     title: 'EXPERT',
-    minH: 'min-h-[270px]',
+    baseH: 48,
   },
 } as const
 
@@ -66,152 +70,148 @@ function PodiumCard({
 }) {
   const rank = entry.rank as 1 | 2 | 3
   const m = MEDAL[rank]
-  const orderClass = rank === 2 ? 'order-1' : rank === 1 ? 'order-2' : 'order-3'
+  const isFirst = rank === 1
+  const avatar = isFirst ? 60 : 46
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 48, scale: 0.86 }}
-      animate={{ opacity: 1, y: 0, scale: rank === 1 ? 1.04 : 1 }}
+      initial={{ opacity: 0, y: 44, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay, type: 'spring', damping: 18, stiffness: 180 }}
-      className={`${orderClass} flex-1 min-w-0`}
+      className="flex-1 min-w-0 flex flex-col items-center"
+      style={{ maxWidth: isFirst ? 200 : 168 }}
     >
-      <div
-        className={`rounded-[28px] border p-6 flex flex-col items-center gap-3 relative overflow-hidden ${m.minH}`}
-        style={{
-          background: `linear-gradient(160deg, ${m.bg} 0%, rgba(0,0,0,0.55) 100%)`,
-          borderColor: m.border,
-          boxShadow: `0 0 60px ${m.glow}, 0 24px 60px rgba(0,0,0,0.55)`,
-          backdropFilter: 'blur(24px)',
-        }}
-      >
-        {/* top ambient bloom */}
-        <div
-          className="absolute -top-10 left-1/2 -translate-x-1/2 w-28 h-28 rounded-full blur-3xl opacity-25 pointer-events-none"
-          style={{ background: m.color }}
-        />
+      {/* ── floating champion card ── */}
+      <div className="relative flex flex-col items-center gap-1.5 w-full px-1 pb-3">
 
-        {/* inset top highlight for #1 */}
-        {rank === 1 && (
-          <div
-            className="absolute inset-0 rounded-[28px] pointer-events-none"
-            style={{ boxShadow: `inset 0 1px 0 ${m.color}35` }}
-          />
+        {/* crown — only the leader wears it */}
+        {isFirst && (
+          <motion.div
+            initial={{ y: -8, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: delay + 0.22, type: 'spring', damping: 12 }}
+            className="text-2xl sm:text-3xl leading-none -mb-1 select-none"
+            style={{ color: m.color, filter: `drop-shadow(0 0 16px ${m.glow})` }}
+          >
+            {m.icon}
+          </motion.div>
         )}
 
-        {/* Rank number */}
-        <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: delay + 0.12, type: 'spring', damping: 14, stiffness: 200 }}
-          className="text-[60px] font-black leading-none select-none"
-          style={{
-            fontFamily: 'var(--fd)',
-            color: m.color,
-            textShadow: `0 0 50px ${m.glow}`,
-          }}
-        >
-          {rank}
-        </motion.div>
-
-        {/* Piece icon badge */}
+        {/* avatar — radial bloom + spinning dashed ring + accent frame */}
         <div
-          className="w-11 h-11 rounded-full flex items-center justify-center text-xl border shrink-0"
-          style={{
-            borderColor: m.border,
-            background: `${m.color}12`,
-            color: m.color,
-            boxShadow: `0 0 20px ${m.glow}`,
-          }}
+          className="relative flex items-center justify-center shrink-0"
+          style={{ width: avatar + 18, height: avatar + 18 }}
         >
-          {m.icon}
-        </div>
-
-        {/* Title */}
-        <div
-          className="text-[9px] font-black tracking-[0.28em] uppercase"
-          style={{ fontFamily: 'var(--fd)', color: m.color }}
-        >
-          {m.title}
-        </div>
-
-        {/* Identity */}
-        <div className="text-center flex flex-col items-center gap-1.5">
-          <ChessAvatar address={entry.address} size={36} />
+          <div
+            className="absolute rounded-full pointer-events-none"
+            style={{ width: avatar + 30, height: avatar + 30, background: `radial-gradient(circle, ${m.color}55, transparent 70%)` }}
+          />
+          <motion.div
+            aria-hidden
+            animate={{ rotate: 360 }}
+            transition={{ duration: isFirst ? 16 : 24, ease: 'linear', repeat: Infinity }}
+            className="absolute rounded-full pointer-events-none"
+            style={{ width: avatar + 18, height: avatar + 18, border: `2px dashed ${m.color}`, opacity: 0.45 }}
+          />
+          <div
+            className="relative rounded-full overflow-hidden flex items-center justify-center"
+            style={{
+              width: avatar,
+              height: avatar,
+              border: `2px solid ${m.color}`,
+              background: `radial-gradient(circle at 50% 38%, ${m.color}30, rgba(8,13,26,0.94))`,
+              boxShadow: `0 0 0 4px ${m.color}1f, 0 0 26px ${m.glow}`,
+            }}
+          >
+            <ChessAvatar address={entry.address} size={avatar - 8} />
+          </div>
           {isMe && (
             <div
-              className="text-[8px] font-black tracking-widest uppercase"
-              style={{ color: 'var(--c)', fontFamily: 'var(--fd)' }}
-            >
-              ⚡ YOU
-            </div>
+              className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full animate-pulse"
+              style={{ background: 'var(--c)', boxShadow: '0 0 8px var(--c)' }}
+            />
           )}
-          <ChessName
-            address={entry.address}
-            profile={profileMap[normalizeAddress(entry.address)]}
-            badge
-            asLink
-            className="font-bold text-xs tracking-wide"
-            style={{ color: isMe ? 'var(--c)' : 'var(--t1)' }}
-          />
         </div>
 
-        {/* ELO */}
-        <div className="text-center mt-1">
-          <div
-            className="text-4xl font-black leading-none"
+        {/* rarity-style title pill */}
+        <div
+          className="px-2 py-0.5 rounded-full"
+          style={{ background: 'rgba(4,6,15,0.72)', border: `1px solid ${m.border}` }}
+        >
+          <span
+            className="text-[7px] sm:text-[8px] font-black tracking-[0.12em] whitespace-nowrap"
             style={{ fontFamily: 'var(--fd)', color: m.color }}
+          >
+            {m.title}
+          </span>
+        </div>
+
+        {/* name */}
+        <ChessName
+          address={entry.address}
+          profile={profileMap[normalizeAddress(entry.address)]}
+          badge
+          asLink
+          className="font-bold text-[10px] sm:text-xs tracking-wide truncate max-w-full text-center"
+          style={{ color: isMe ? 'var(--c)' : 'var(--t1)' }}
+        />
+        {isMe && (
+          <span
+            className="text-[7px] font-black tracking-widest uppercase -mt-0.5"
+            style={{ color: 'var(--c)', fontFamily: 'var(--fd)' }}
+          >
+            ⚡ YOU
+          </span>
+        )}
+
+        {/* ELO */}
+        <div className="text-center leading-none mt-0.5">
+          <div
+            className="font-black"
+            style={{ fontFamily: 'var(--fd)', color: m.color, fontSize: isFirst ? 30 : 22, textShadow: `0 0 28px ${m.glow}` }}
           >
             {entry.rating}
           </div>
-          <div
-            className="text-[8px] font-black tracking-[0.25em] uppercase mt-1"
-            style={{ color: 'var(--t3)', fontFamily: 'var(--fd)' }}
-          >
-            ELO RATING
-          </div>
+          <div className="text-[7px] font-black tracking-[0.2em] uppercase mt-1 text-[var(--t3)]">ELO</div>
         </div>
 
-        {/* W / L / D */}
-        <div className="flex w-full border-t border-white/5 pt-3 mt-auto">
-          <div className="flex-1 text-center">
-            <div
-              className="text-base font-black text-green-400"
-              style={{ fontFamily: 'var(--fd)' }}
-            >
-              {entry.wins}
-            </div>
-            <div className="text-[7px] text-gray-500 uppercase tracking-widest font-bold mt-0.5">WIN</div>
-          </div>
-          <div className="w-px bg-white/5" />
-          <div className="flex-1 text-center">
-            <div
-              className="text-base font-black text-red-400"
-              style={{ fontFamily: 'var(--fd)' }}
-            >
-              {entry.losses}
-            </div>
-            <div className="text-[7px] text-gray-500 uppercase tracking-widest font-bold mt-0.5">LOSS</div>
-          </div>
-          <div className="w-px bg-white/5" />
-          <div className="flex-1 text-center">
-            <div
-              className="text-base font-black text-gray-400"
-              style={{ fontFamily: 'var(--fd)' }}
-            >
-              {entry.draws}
-            </div>
-            <div className="text-[7px] text-gray-500 uppercase tracking-widest font-bold mt-0.5">DRAW</div>
-          </div>
+        {/* compact W / L / D */}
+        <div className="flex items-center gap-1 text-[9px] font-black mt-0.5" style={{ fontFamily: 'var(--fd)' }}>
+          <span className="text-green-400">{entry.wins}</span>
+          <span className="text-gray-600">/</span>
+          <span className="text-red-400">{entry.losses}</span>
+          <span className="text-gray-600">/</span>
+          <span className="text-gray-400">{entry.draws}</span>
         </div>
-
-        {/* Connected pulse dot */}
-        {isMe && (
-          <div
-            className="absolute top-4 right-4 w-2 h-2 rounded-full animate-pulse"
-            style={{ background: 'var(--c)' }}
-          />
-        )}
       </div>
+
+      {/* ── podium base step (stair-stepped by rank) ── */}
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ delay: delay + 0.1, type: 'spring', damping: 20, stiffness: 160 }}
+        className="w-full rounded-t-2xl relative overflow-hidden flex items-start justify-center origin-bottom"
+        style={{
+          height: m.baseH,
+          background: `linear-gradient(180deg, ${m.color}24, ${m.bg})`,
+          borderTop: `1.5px solid ${m.border}`,
+          borderLeft: `1px solid ${m.border}`,
+          borderRight: `1px solid ${m.border}`,
+          boxShadow: `inset 0 1px 0 ${m.color}40, 0 -10px 34px ${m.glow}`,
+        }}
+      >
+        {/* faint vertical sheen */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: `linear-gradient(90deg, transparent, ${m.color}10 50%, transparent)` }}
+        />
+        <span
+          className="font-black leading-none mt-2 select-none"
+          style={{ fontFamily: 'var(--fd)', fontSize: isFirst ? 32 : 24, color: m.color, opacity: 0.92, textShadow: `0 0 22px ${m.glow}` }}
+        >
+          {rank}
+        </span>
+      </motion.div>
     </motion.div>
   )
 }
@@ -330,13 +330,25 @@ export default function LeaderboardContent() {
   const chainColor = isStacks ? '#ff9900' : isBase ? '#0052ff' : '#35ee66'
 
   const top3 = entries.slice(0, 3)
+  // Arrange the podium into classic stage order — 2nd · 1st · 3rd — so the
+  // leader sits centre-stage and elevated. Holds on mobile (always a flex row).
+  const podium = ([2, 1, 3] as const)
+    .map((r) => top3.find((e) => e.rank === r))
+    .filter((e): e is LeaderboardEntry => Boolean(e))
   const rest = entries.slice(3)
   const myEntry = myAddress ? entries.find((e) => normalizeAddress(e.address) === myAddress) : null
   const myEntryNotInPodium = myEntry && (myEntry.rank ?? 0) > 3
 
+  // Pagination — 10 commanders per page (ranks 4+)
+  const [page, setPage] = useState(1)
+  const totalPages = Math.max(1, Math.ceil(rest.length / RANKS_PER_PAGE))
+  const currentPage = Math.min(page, totalPages) // clamp if the list shrank after a refresh
+  const pageItems = rest.slice((currentPage - 1) * RANKS_PER_PAGE, currentPage * RANKS_PER_PAGE)
+
   return (
     <main className="min-h-screen w-full bg-[var(--bg)] text-[var(--t1)] relative overflow-x-hidden flex flex-col">
-      <Navbar />
+
+      <PageBackground hero="queen" />
 
       {/* Ambient blobs */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -501,10 +513,10 @@ export default function LeaderboardContent() {
             </motion.div>
           ) : (
             <>
-              {/* ── Podium (top 3) ── */}
-              {top3.length > 0 && (
-                <div className="flex gap-3 md:gap-5 items-end">
-                  {top3.map((entry, i) => (
+              {/* ── Podium (top 3) — always a horizontal stage, even on mobile ── */}
+              {podium.length > 0 && (
+                <div className="flex items-end justify-center gap-1.5 sm:gap-4 px-1">
+                  {podium.map((entry, i) => (
                     <PodiumCard
                       key={entry.address}
                       entry={entry}
@@ -522,8 +534,8 @@ export default function LeaderboardContent() {
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                  className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden"
                 >
+                 <PlayCard size="hero">
                   {/* Table header */}
                   <div className="px-6 md:px-8 py-4 border-b border-white/5 flex items-center justify-between">
                     <span
@@ -542,7 +554,7 @@ export default function LeaderboardContent() {
 
                   <div className="divide-y divide-white/5">
                     <AnimatePresence mode="popLayout">
-                      {rest.map((entry, idx) => (
+                      {pageItems.map((entry, idx) => (
                         <RankRow
                           key={entry.address}
                           entry={entry}
@@ -553,6 +565,35 @@ export default function LeaderboardContent() {
                       ))}
                     </AnimatePresence>
                   </div>
+
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="px-6 md:px-8 py-4 border-t border-white/5 flex items-center justify-between gap-4">
+                      <GlowButton
+                        variant="ghost"
+                        size="sm"
+                        disabled={currentPage === 1}
+                        onClick={() => setPage(currentPage - 1)}
+                      >
+                        ← PREV
+                      </GlowButton>
+                      <span
+                        className="text-[10px] font-black tracking-[0.25em] uppercase text-[var(--t3)] whitespace-nowrap"
+                        style={{ fontFamily: 'var(--fd)' }}
+                      >
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <GlowButton
+                        variant="ghost"
+                        size="sm"
+                        disabled={currentPage === totalPages}
+                        onClick={() => setPage(currentPage + 1)}
+                      >
+                        NEXT →
+                      </GlowButton>
+                    </div>
+                  )}
+                 </PlayCard>
                 </motion.div>
               )}
 

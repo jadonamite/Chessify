@@ -1,18 +1,20 @@
 'use client'
 
 import { useState, useEffect, Suspense, useCallback } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
-import { Float, Environment, Text } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
 import { useWallet } from '@/components/wallet-provider'
 import { useWriteContract, useReadContract } from 'wagmi'
 import { useStacksRead } from '@/hooks/useStacksRead'
 import GlowButton from '@/components/ui/GlowButton'
+import PlayCard from '@/components/ui/PlayCard'
 import LoadingState from '@/components/ui/LoadingState'
+import SceneBoundary from '@/components/ui/SceneBoundary'
 import FaucetResultModal, { type FaucetResultType } from '@/components/ui/FaucetResultModal'
-import { Navbar } from '@/components/landing/Hero'
-import { King, Pawn, Bishop, Knight } from '@/components/ui/ChessModels'
+import { King, Pawn, Bishop, Knight, PieceIcon } from '@/components/ui/ChessModels'
 import { CHESS_TOKEN_ABI } from '@/config/abis'
 import { CELO_CONTRACTS, BASE_CONTRACTS, BASE_CHAIN_ID, STACKS_CONTRACTS, TOKEN_DECIMALS, FAUCET_AMOUNT } from '@/config/contracts'
 import { formatUnits } from 'viem'
@@ -28,8 +30,6 @@ const KEYFRAMES = `
   50%      { transform: translateY(-8px); }
 }
 `
-
-
 
 /* ── 3D Background Scene ── */
 function FaucetScene() {
@@ -47,30 +47,6 @@ function FaucetScene() {
       <Pawn position={[-4, 2, -3]} color="#1e293b" emissive="#00ccff" emissiveIntensity={0.1} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.5} />
       <Bishop position={[4, -2, -2]} color="#1e293b" emissive="#6a0dad" emissiveIntensity={0.1} floatSpeed={2} floatIntensity={0.8} rotationIntensity={0.4} />
       <Knight position={[3.5, 2.5, -4]} color="#1e293b" emissive="#00ccff" emissiveIntensity={0.08} floatSpeed={1} floatIntensity={0.6} rotationIntensity={0.3} />
-
-      {/* Floating labels */}
-      <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.5}>
-        <Text
-          position={[-4, 3, -3]}
-          fontSize={0.6}
-          color="#00ccff"
-          material-transparent={true}
-          material-opacity={0.08}
-        >
-          FAUCET
-        </Text>
-      </Float>
-      <Float speed={2} rotationIntensity={0.15} floatIntensity={0.8}>
-        <Text
-          position={[4, -3, -2]}
-          fontSize={0.45}
-          color="#6a0dad"
-          material-transparent={true}
-          material-opacity={0.06}
-        >
-          CHESS
-        </Text>
-      </Float>
     </>
   )
 }
@@ -78,12 +54,7 @@ function FaucetScene() {
 /* ── TOKEN DISPLAY ── */
 function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      className="rounded-2xl border border-white/10 bg-black/30 backdrop-blur-sm p-5 flex items-center justify-between"
-    >
+    <PlayCard size="rail" tone="candy" accent="var(--candy-lime)" className="p-5 flex items-center justify-between">
       <div className="flex flex-col gap-1">
         <span className="text-[9px] font-bold tracking-[0.3em] text-white/40 uppercase" style={{ fontFamily: 'var(--fd)' }}>
           Current Balance
@@ -103,7 +74,7 @@ function TokenDisplay({ balance, chain }: { balance: string; chain: string }) {
           </span>
         </div>
       </div>
-    </motion.div>
+    </PlayCard>
   )
 }
 
@@ -115,7 +86,7 @@ export default function FaucetContent() {
   const { isConnected, activeChain, address: celoAddress, stacksAddress, isStacksConnected, connectWallet } = useWallet()
   const { getTokenBalance: getStacksBalance } = useStacksRead()
   const { writeContractAsync } = useWriteContract()
-
+  const queryClient = useQueryClient()
 
   const [isClaiming, setIsClaiming] = useState(false)
   const [balance, setBalance] = useState('0.00')
@@ -229,7 +200,10 @@ export default function FaucetContent() {
       const hash = activeChain === 'stacks' ? await claimStacks() : activeChain === 'base' ? await claimBase() : await claimCelo()
       setTxHash(hash || '')
       setResultType('success')
-      // Refresh balance after short delay
+      // Bust cached wagmi reads (this page's + the lobby's balance/stats) so a
+      // return to the lobby fetches the fresh balance instead of stale cache.
+      queryClient.invalidateQueries()
+      // Refresh balance after short delay (covers the Stacks non-wagmi read)
       setTimeout(refreshBalance, 3000)
     } catch (err: any) {
       const msg = err?.message || 'Unknown error'
@@ -253,16 +227,15 @@ export default function FaucetContent() {
     <main className="relative min-h-screen w-full bg-[#06060f] text-[#eeeeff] overflow-x-hidden flex flex-col font-body">
       <style>{KEYFRAMES}</style>
 
-      {/* ── NAVBAR ── */}
-      <Navbar />
-
       {/* ── 3D BACKGROUND ── */}
       <div className="fixed inset-0 z-0 h-screen w-full pointer-events-none">
-        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-          <Suspense fallback={null}>
-            <FaucetScene />
-          </Suspense>
-        </Canvas>
+        <SceneBoundary>
+          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+            <Suspense fallback={null}>
+              <FaucetScene />
+            </Suspense>
+          </Canvas>
+        </SceneBoundary>
       </div>
 
       {/* ── GRID OVERLAY ── */}
@@ -299,12 +272,7 @@ export default function FaucetContent() {
           </div>
 
           {/* ── MAIN CARD ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-[32px] border border-white/10 bg-slate-900/60 backdrop-blur-xl shadow-2xl overflow-hidden"
-          >
+          <PlayCard size="hero">
             <div className="p-6 md:p-10 flex flex-col gap-8">
 
               {/* Balance Display */}
@@ -377,22 +345,15 @@ export default function FaucetContent() {
                   </div>
 
                   {/* CLAIM BUTTON */}
-                  {/* <div
-                    style={{
-                      background: 'linear-gradient(135deg, #00ccff, #6a0dad, #00ccff)',
-                      animation: 'drip-pulse 3s ease-in-out infinite',
-                    }}
-                  > */}
                   <GlowButton
                     variant="brand"
                     size="lg"
                     parallelogram
                     onClick={handleClaim}
-                    className="min-w-[280px]"
+                    className="w-full sm:w-auto sm:min-w-[280px]"
                   >
                     CLAIM {faucetAmountFormatted} CHESS
                   </GlowButton>
-                  {/* </div> */}
 
                   <span className="text-[9px] font-bold tracking-[0.2em] text-white/25 uppercase">
                     One claim per day • {activeChain === 'stacks' ? 'Stacks Network' : activeChain === 'base' ? 'Base Network' : 'Celo Network'}
@@ -400,27 +361,30 @@ export default function FaucetContent() {
                 </div>
               )}
             </div>
-          </motion.div>
+          </PlayCard>
 
           {/* ── INFO CARDS ── */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { icon: '⚡', title: 'INSTANT', desc: 'Tokens arrive in your wallet within seconds of confirmation.' },
-              { icon: '🔄', title: 'DAILY RESET', desc: 'The cooldown resets every ~24 hours. Come back daily.' },
-              { icon: '🎯', title: 'PLAY READY', desc: 'Use claimed tokens to create matches and wager in games.' },
+              { piece: 'knight' as const, color: 'var(--c)', title: 'INSTANT', desc: 'Tokens arrive in your wallet within seconds of confirmation.' },
+              { piece: 'pawn' as const, color: 'var(--candy-grape)', title: 'DAILY RESET', desc: 'The cooldown resets every ~24 hours. Come back daily.' },
+              { piece: 'king' as const, color: 'var(--candy-amber)', title: 'PLAY READY', desc: 'Use claimed tokens to create matches and wager in games.' },
             ].map((card, i) => (
               <motion.div
                 key={card.title}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + i * 0.1 }}
-                className="rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-sm p-5 flex flex-col gap-3"
               >
-                <span className="text-2xl">{card.icon}</span>
-                <span className="text-[10px] font-black tracking-[0.25em] text-[var(--c)] uppercase" style={{ fontFamily: 'var(--fd)' }}>
-                  {card.title}
-                </span>
-                <p className="text-[11px] text-white/40 leading-relaxed">{card.desc}</p>
+                <PlayCard size="rail" tone="candy" accent={card.color} className="p-5 flex flex-col gap-3 h-full">
+                  <div className="h-12 flex items-center -ml-2">
+                    <PieceIcon type={card.piece} className="w-12 h-12" />
+                  </div>
+                  <span className="text-[10px] font-black tracking-[0.25em] uppercase" style={{ fontFamily: 'var(--fd)', color: card.color }}>
+                    {card.title}
+                  </span>
+                  <p className="text-[11px] text-white/40 leading-relaxed">{card.desc}</p>
+                </PlayCard>
               </motion.div>
             ))}
           </div>

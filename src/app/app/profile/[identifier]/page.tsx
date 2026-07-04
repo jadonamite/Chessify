@@ -7,28 +7,76 @@ import { useQuery } from '@tanstack/react-query'
 import { useReadContract } from 'wagmi'
 import { useWallet } from '@/components/wallet-provider'
 import { useProfile, useUpdateProfile } from '@/hooks/useProfile'
+import { useStreak } from '@/hooks/useStreak'
 import { useSignProfileMessage } from '@/hooks/useSignProfileMessage'
-import { Navbar } from '@/components/landing/Hero'
 import GlowButton from '@/components/ui/GlowButton'
+import { FlameIcon } from '@/components/ui/icons'
 import ClayCard from '@/components/ui/ClayCard'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 import LoadingState from '@/components/ui/LoadingState'
 import ClaimModal from '@/components/ui/ClaimModal'
 import ChessName from '@/components/ui/ChessName'
+import PageBackground from '@/components/ui/PageBackground'
 import { CHESS_GAME_ABI } from '@/config/abis'
 import { CELO_CONTRACTS } from '@/config/contracts'
 import { detectChain, isValidProfileAddress, normalizeAddress } from '@/lib/profile-address'
 import type { ChessProfile } from '@/types/profile'
-import { usePlayerHistory } from '@/hooks/usePlayerHistory'
+import { usePlayerHistory, type PlayerHistoryItem } from '@/hooks/usePlayerHistory'
 
-function StatBox({ label, value, accent }: { label: string; value: string | number; accent?: boolean }) {
+function StatBox({ label, value, accent, color }: { label: string; value: string | number; accent?: boolean; color?: string }) {
   return (
     <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-2xl bg-black/30 border border-white/5 min-w-[80px]">
       <span className="text-[8px] font-black tracking-[0.25em] uppercase text-[var(--t3)]">{label}</span>
       <span
         className="text-xl font-black leading-none"
-        style={{ fontFamily: 'var(--fd)', color: accent ? 'var(--c)' : 'var(--t1)' }}
+        style={{ fontFamily: 'var(--fd)', color: color ?? (accent ? 'var(--c)' : 'var(--t1)') }}
       >{value}</span>
+    </div>
+  )
+}
+
+const RESULT_BADGE: Record<PlayerHistoryItem['result'], { label: string; bg: string; color: string }> = {
+  win: { label: 'WIN', bg: 'rgba(74,222,128,0.12)', color: '#4ade80' },
+  loss: { label: 'LOSS', bg: 'rgba(239,68,68,0.12)', color: '#f87171' },
+  draw: { label: 'DRAW', bg: 'rgba(255,255,255,0.05)', color: 'var(--t3)' },
+  active: { label: 'LIVE', bg: 'rgba(255,255,255,0.04)', color: 'var(--c)' },
+  waiting: { label: 'WAITING', bg: 'rgba(251,191,36,0.12)', color: '#fbbf24' },
+}
+
+function GameRow({ g, cta, onClick }: { g: PlayerHistoryItem; cta: string; onClick: () => void }) {
+  const badge = RESULT_BADGE[g.result]
+  const live = g.result === 'active'
+  return (
+    <div className="flex items-center justify-between py-3 gap-4">
+      <div className="flex items-center gap-3 min-w-0">
+        <span
+          className="flex items-center gap-1.5 text-[8px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded"
+          style={{ background: badge.bg, color: badge.color }}
+        >
+          {live && <span className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />}
+          {badge.label}
+        </span>
+        {g.opponent ? (
+          <div className="flex items-center gap-2 min-w-0">
+            <ChessAvatar address={g.opponent} size={20} />
+            <ChessName address={g.opponent} short asLink className="text-xs text-[var(--t2)] truncate" />
+          </div>
+        ) : (
+          <span className="text-xs text-[var(--t3)]">Open challenge</span>
+        )}
+      </div>
+      <div className="flex items-center gap-4 shrink-0">
+        <span className="text-[9px] text-[var(--t3)] font-bold uppercase tracking-widest">{g.role}</span>
+        <span className="text-xs font-black text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
+          {g.wager} <span className="text-[9px] opacity-60">CHESS</span>
+        </span>
+        <button
+          onClick={onClick}
+          className="text-[8px] font-black tracking-widest uppercase text-[var(--t3)] hover:text-[var(--c)] transition-colors"
+        >
+          {cta}
+        </button>
+      </div>
     </div>
   )
 }
@@ -56,7 +104,7 @@ export default function ProfilePage() {
   const params = useParams()
   const router = useRouter()
   const identifier = decodeURIComponent(params.identifier as string)
-  const { address: evmAddress, stacksAddress, activeChain } = useWallet()
+  const { address: evmAddress, stacksAddress, activeChain, playerAddress } = useWallet()
   // The "me" address is whichever chain is currently active.
   const myAddress = activeChain === 'stacks' ? stacksAddress : evmAddress
   const signMessage = useSignProfileMessage()
@@ -67,6 +115,7 @@ export default function ProfilePage() {
   const [editBio, setEditBio] = useState('')
   const [editError, setEditError] = useState('')
   const [claimOpen, setClaimOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   // Resolve profile — address (EVM or Stacks) or .chess username
   const isAddress = isValidProfileAddress(identifier)
@@ -89,8 +138,12 @@ export default function ProfilePage() {
   const profile: ChessProfile | null | undefined = isAddress ? profileByAddress : profileByName
   const profileAddress = profile?.address ?? (isAddress ? identifier : null)
   const isLoading = isAddress ? loadingByAddr : loadingByName
-  const isOwn = !!myAddress && !!profileAddress &&
-    normalizeAddress(myAddress) === normalizeAddress(profileAddress)
+  // Own profile if the target matches the active-chain address OR the on-chain
+  // player identity (smart account) — the EOA↔smart alias link.
+  const isOwn = !!profileAddress && (
+    (!!myAddress && normalizeAddress(myAddress) === normalizeAddress(profileAddress)) ||
+    (!!playerAddress && normalizeAddress(playerAddress) === normalizeAddress(profileAddress))
+  )
 
   const isCeloProfile = !!profileAddress && detectChain(profileAddress) === 'celo'
 
@@ -103,15 +156,23 @@ export default function ProfilePage() {
     query: { enabled: isCeloProfile },
   })
 
-  const wins = stats ? Number((stats as any)[0]) : 0
-  const losses = stats ? Number((stats as any)[1]) : 0
-  const draws = stats ? Number((stats as any)[2]) : 0
-  const rating = stats ? Number((stats as any)[3]) : 0
-  const gamesPlayed = stats ? Number((stats as any)[4]) : 0
+  const s = stats as readonly bigint[] | undefined
+  const wins = s ? Number(s[0]) : 0
+  const losses = s ? Number(s[1]) : 0
+  const draws = s ? Number(s[2]) : 0
+  const rating = s ? Number(s[3]) : 0
+  const gamesPlayed = s ? Number(s[4]) : 0
   const winRate = gamesPlayed > 0 ? `${Math.round((wins / gamesPlayed) * 100)}%` : '—'
+
+  const { streak } = useStreak(profileAddress)
 
   const { data: recentGames = [], isLoading: historyLoading } = usePlayerHistory(
     isCeloProfile ? profileAddress : null
+  )
+
+  const activeGames = recentGames.filter((g) => g.result === 'active' || g.result === 'waiting')
+  const finishedGames = recentGames.filter(
+    (g) => g.result === 'win' || g.result === 'loss' || g.result === 'draw',
   )
 
   const startEdit = () => {
@@ -148,6 +209,7 @@ export default function ProfilePage() {
 
   return (
     <main className="min-h-screen w-full bg-[var(--bg)] text-[var(--t1)] relative overflow-x-hidden">
+      <PageBackground hero="king" />
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[10%] right-[10%] w-[30%] h-[30%] bg-[var(--c)] blur-[150px] rounded-full opacity-[0.05]" />
@@ -160,8 +222,6 @@ export default function ProfilePage() {
           backgroundSize: '52px 52px',
         }}
       />
-
-      <Navbar />
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 md:px-8 py-12 md:py-24">
         <GlowButton variant="ghost" size="sm" onClick={() => router.back()} className="mb-8">
@@ -275,6 +335,39 @@ export default function ProfilePage() {
               )}
             </ClayCard>
 
+            {/* Dashboard quick actions — own profile only */}
+            {isOwn && (
+              <div className="flex gap-3">
+                <GlowButton variant="brand" fullWidth parallelogram onClick={() => router.push('/app/lobby')}>
+                  ▶ NEW GAME
+                </GlowButton>
+                <GlowButton variant="ghost" fullWidth onClick={() => router.push('/app/leaderboard')}>
+                  RANKINGS
+                </GlowButton>
+              </div>
+            )}
+
+            {/* In Play — active & waiting games */}
+            {activeGames.length > 0 && (
+              <ClayCard className="p-6">
+                <p className="flex items-center gap-2 text-[10px] font-black tracking-[0.25em] uppercase text-[var(--t3)] mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--c)] animate-pulse" />
+                  In Play
+                  <span className="text-[var(--c)]">{activeGames.length}</span>
+                </p>
+                <div className="flex flex-col divide-y divide-white/5">
+                  {activeGames.map((g) => (
+                    <GameRow
+                      key={g.id}
+                      g={g}
+                      cta={isOwn ? (g.result === 'waiting' ? 'OPEN' : 'RESUME') : 'WATCH'}
+                      onClick={() => router.push(`/app/game/${g.id}`)}
+                    />
+                  ))}
+                </div>
+              </ClayCard>
+            )}
+
             {/* On-chain stats */}
             <ClayCard className="p-6">
               <p className="text-[10px] font-black tracking-[0.25em] uppercase text-[var(--t3)] mb-4">
@@ -293,8 +386,28 @@ export default function ProfilePage() {
               )}
             </ClayCard>
 
+            {/* Daily streak */}
+            <ClayCard className="p-6">
+              <p className="text-[10px] font-black tracking-[0.25em] uppercase text-[var(--t3)] mb-4 flex items-center gap-2">
+                <span style={{ color: '#ff8a3d' }}><FlameIcon size={14} /></span>
+                Daily Streak
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <StatBox
+                  label="Current"
+                  value={streak.current > 0 ? `${streak.current}d` : '—'}
+                  color={streak.current > 0 ? '#ff8a3d' : undefined}
+                />
+                <StatBox
+                  label="Longest"
+                  value={streak.longest > 0 ? `${streak.longest}d` : '—'}
+                  color={streak.longest > 0 ? '#ff8a3d' : undefined}
+                />
+              </div>
+            </ClayCard>
+
             {/* Recent Games */}
-            {(recentGames.length > 0 || historyLoading) && (
+            {(finishedGames.length > 0 || historyLoading) && (
               <ClayCard className="p-6">
                 <p className="text-[10px] font-black tracking-[0.25em] uppercase text-[var(--t3)] mb-4">
                   Recent Games
@@ -305,46 +418,13 @@ export default function ProfilePage() {
                   </div>
                 ) : (
                   <div className="flex flex-col divide-y divide-white/5">
-                    {recentGames.slice(0, 10).map((g) => (
-                      <div key={g.id} className="flex items-center justify-between py-3 gap-4">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <span
-                            className="text-[8px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded"
-                            style={{
-                              background: g.result === 'win' ? 'rgba(74,222,128,0.12)' :
-                                g.result === 'loss' ? 'rgba(239,68,68,0.12)' :
-                                'rgba(255,255,255,0.05)',
-                              color: g.result === 'win' ? '#4ade80' :
-                                g.result === 'loss' ? '#f87171' :
-                                'var(--t3)',
-                            }}
-                          >
-                            {g.result === 'win' ? 'WIN' : g.result === 'loss' ? 'LOSS' : g.result.toUpperCase()}
-                          </span>
-                          {g.opponent ? (
-                            <div className="flex items-center gap-2 min-w-0">
-                              <ChessAvatar address={g.opponent} size={20} />
-                              <ChessName address={g.opponent} short asLink className="text-xs text-[var(--t2)] truncate" />
-                            </div>
-                          ) : (
-                            <span className="text-xs text-[var(--t3)]">Open challenge</span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-4 shrink-0">
-                          <span className="text-[9px] text-[var(--t3)] font-bold uppercase tracking-widest">
-                            {g.role}
-                          </span>
-                          <span className="text-xs font-black text-[var(--c)]" style={{ fontFamily: 'var(--fd)' }}>
-                            {g.wager} <span className="text-[9px] opacity-60">CHESS</span>
-                          </span>
-                          <button
-                            onClick={() => router.push(`/app/game/${g.id}`)}
-                            className="text-[8px] font-black tracking-widest uppercase text-[var(--t3)] hover:text-[var(--c)] transition-colors"
-                          >
-                            VIEW
-                          </button>
-                        </div>
-                      </div>
+                    {finishedGames.slice(0, 10).map((g) => (
+                      <GameRow
+                        key={g.id}
+                        g={g}
+                        cta="VIEW"
+                        onClick={() => router.push(`/app/game/${g.id}`)}
+                      />
                     ))}
                   </div>
                 )}
@@ -357,10 +437,15 @@ export default function ProfilePage() {
                 <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--t3)]">ADDRESS</span>
                 <span className="text-xs font-mono text-[var(--t2)] break-all flex-1">{profileAddress}</span>
                 <button
-                  onClick={() => navigator.clipboard.writeText(profileAddress)}
-                  className="text-[9px] font-black tracking-widest uppercase text-[var(--t3)] hover:text-[var(--c)] transition-colors shrink-0"
+                  onClick={() => {
+                    navigator.clipboard.writeText(profileAddress)
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 2000)
+                  }}
+                  className="text-[9px] font-black tracking-widest uppercase transition-colors shrink-0"
+                  style={{ color: copied ? 'var(--c)' : 'var(--t3)' }}
                 >
-                  COPY
+                  {copied ? '✓ COPIED' : 'COPY'}
                 </button>
               </div>
             )}

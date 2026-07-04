@@ -88,6 +88,38 @@ export const Pawn = (props: PieceProps) => <BasePiece modelPath="/models/pawn.gl
 export const Bishop = (props: PieceProps) => <BasePiece modelPath="/models/Bishop.glb" scale={1.45} {...props} />
 export const Knight = (props: PieceProps) => <BasePiece modelPath="/models/WhiteKnight.glb" scale={1.4} {...props} />
 
+/* ── 2D PIECE ICON FOR LISTS / CARDS / PICKERS ──
+   Replaces the old per-element 3D <Canvas> (PieceView), which minted a WebGL
+   context per icon and blew the browser's context budget on list-heavy screens.
+   A crisp 2D sprite is sharper at icon sizes and costs zero GL contexts. The
+   decorative 3D now lives only in page backgrounds (see PageBackground). */
+const PIECE_LETTER: Record<'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight', string> = {
+  king: 'K', queen: 'Q', rook: 'R', pawn: 'P', bishop: 'B', knight: 'N',
+}
+
+export function PieceIcon({
+  type,
+  color = 'white',
+  set = 'maestro',
+  className = 'w-12 h-12',
+}: {
+  type: 'king' | 'queen' | 'rook' | 'pawn' | 'bishop' | 'knight'
+  color?: 'white' | 'black'
+  set?: string
+  className?: string
+}) {
+  const prefix = color === 'black' ? 'b' : 'w'
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/pieces/${set}/${prefix}${PIECE_LETTER[type]}.svg`}
+      alt={type}
+      draggable={false}
+      className={`${className} object-contain select-none pointer-events-none`}
+    />
+  )
+}
+
 /* ── SMALL CANVAS COMPONENT FOR LISTS ── */
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'

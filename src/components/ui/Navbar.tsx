@@ -8,8 +8,10 @@ import { useWallet } from '@/components/wallet-provider'
 import ChessName from '@/components/ui/ChessName'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 import GlowButton from '@/components/ui/GlowButton'
-import ChainSelectModal from '@/components/ui/ChainSelectModal'
+import CoachNavIcon from '@/components/ui/CoachNavIcon'
+import { FlameIcon } from '@/components/ui/icons'
 import { useSettingsStore } from '@/hooks/useSettingsStore'
+import { useStreak } from '@/hooks/useStreak'
 import { stopAmbient } from '@/lib/audio'
 
 const NAV_LINKS = [
@@ -18,6 +20,10 @@ const NAV_LINKS = [
   { label: 'Faucet',      path: '/app/faucet' },
   { label: 'Settings',    path: '/app/settings' },
 ]
+
+// On mobile the bottom nav owns Play/Ranks/History/Faucet/Profile, so the
+// hamburger drawer only needs the overflow items not covered there (Settings).
+const MOBILE_DRAWER_LINKS = NAV_LINKS.filter((l) => l.path === '/app/settings')
 
 function LogoutIcon() {
   return (
@@ -35,9 +41,6 @@ export default function Navbar() {
     isConnected, address,
     isStacksConnected, stacksAddress,
     activeChain, connectWallet, disconnectAll,
-    showChainSelect, setShowChainSelect,
-    connect, connectStacks, connectSocial, connectBase,
-    isWrongChain, switchToCelo,
   } = useWallet()
 
   const { soundEnabled, setSoundEnabled } = useSettingsStore()
@@ -56,6 +59,7 @@ export default function Navbar() {
   const chainLabel = activeChain === 'stacks' ? 'STX' : activeChain === 'base' ? 'BASE' : 'CELO'
   const chainColor = activeChain === 'stacks' ? '#ff9900' : activeChain === 'base' ? '#0052ff' : '#35ee66'
   const showWallet = mounted && connected && !!displayAddress
+  const { streak } = useStreak(displayAddress)
 
   return (
     <>
@@ -75,7 +79,7 @@ export default function Navbar() {
           alignItems: 'center',
           justifyContent: 'space-between',
           height: 58,
-          padding: '0 28px',
+          padding: '0 clamp(14px,4vw,28px)',
           position: 'relative',
         }}>
 
@@ -87,7 +91,7 @@ export default function Navbar() {
               width={140}
               height={36}
               priority
-              style={{ width: 'clamp(96px, 10vw, 128px)', height: 'auto', objectFit: 'contain' }}
+              style={{ width: 'clamp(112px, 11vw, 148px)', height: 'auto', objectFit: 'contain' }}
             />
           </Link>
 
@@ -191,7 +195,7 @@ export default function Navbar() {
                     border: `1px solid ${chainColor}30`,
                     flexShrink: 0,
                   }}>
-                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: chainColor, boxShadow: `0 0 5px ${chainColor}` }} />
+                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: chainColor, boxShadow: `0 0 5px ${chainColor}`, animation: 'pulseDot 2s ease-in-out infinite' }} />
                     <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: '.14em', color: chainColor, fontFamily: 'var(--fd)' }}>
                       {chainLabel}
                     </span>
@@ -281,6 +285,44 @@ export default function Navbar() {
               )}
             </div>
 
+            {/* Coach avatar — mobile, beside the streak. Always shown when signed
+                in; routes to training. Shows the "pick a coach" wiggle when none. */}
+            {showWallet && (
+              <Link href="/app/train" aria-label="Your coach" className="nav-mobile"
+                    style={{ alignItems: 'center', flexShrink: 0, textDecoration: 'none' }}>
+                <CoachNavIcon size={30} />
+              </Link>
+            )}
+
+            {/* Streak chip — mobile, beside the hamburger (only with a live streak) */}
+            {showWallet && streak.current > 0 && (
+              <Link
+                href={`/app/profile/${displayAddress}`}
+                aria-label={`${streak.current} day streak`}
+                className="nav-mobile"
+                style={{
+                  alignItems: 'center',
+                  gap: 4,
+                  height: 36,
+                  padding: '0 10px',
+                  borderRadius: 10,
+                  border: '1px solid #ff8a3d',
+                  background: 'rgba(255,138,61,0.08)',
+                  color: '#ff8a3d',
+                  textDecoration: 'none',
+                  fontFamily: 'var(--fd)',
+                  fontWeight: 900,
+                  fontSize: 13,
+                  lineHeight: 1,
+                  flexShrink: 0,
+                  boxShadow: '0 0 12px rgba(255,138,61,0.25)',
+                }}
+              >
+                <FlameIcon size={16} />
+                {streak.current}
+              </Link>
+            )}
+
             {/* Mobile hamburger — no inline display so .nav-mobile CSS controls it */}
             <button
               className="nav-mobile"
@@ -320,6 +362,36 @@ export default function Navbar() {
                 }} />
               ))}
             </button>
+
+            {/* Music toggle — always visible on mobile, next to hamburger */}
+            {mounted && (
+              <button
+                className="nav-mobile"
+                onClick={() => {
+                  const next = !soundEnabled
+                  setSoundEnabled(next)
+                  if (!next) stopAmbient()
+                }}
+                title={soundEnabled ? 'Mute music' : 'Play music'}
+                aria-label={soundEnabled ? 'Mute music' : 'Play music'}
+                style={{
+                  width: 36,
+                  height: 36,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 10,
+                  border: `1px solid ${soundEnabled ? 'rgba(0,204,255,0.22)' : 'rgba(255,255,255,0.08)'}`,
+                  background: soundEnabled ? 'rgba(0,204,255,0.06)' : 'rgba(255,255,255,0.03)',
+                  color: soundEnabled ? 'var(--c)' : 'var(--t3)',
+                  cursor: 'pointer',
+                  transition: 'all .15s',
+                  flexShrink: 0,
+                  fontSize: 15,
+                }}
+              >
+                {soundEnabled ? '♪' : '♩'}
+              </button>
+            )}
           </div>
         </div>
 
@@ -370,7 +442,7 @@ export default function Navbar() {
                   {soundEnabled ? 'MUSIC ON' : 'MUSIC OFF'}
                 </button>
 
-                {NAV_LINKS.map(({ label, path }) => (
+                {MOBILE_DRAWER_LINKS.map(({ label, path }) => (
                   <Link
                     key={label}
                     href={path}
@@ -459,50 +531,6 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </nav>
-
-      {/* Wrong-network banner — shown when EVM wallet is on a non-Celo chain */}
-      {isWrongChain && (
-        <div style={{
-          background: 'rgba(239,68,68,0.12)',
-          borderBottom: '1px solid rgba(239,68,68,0.25)',
-          padding: '8px 28px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 12,
-        }}>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', color: '#fca5a5', textTransform: 'uppercase' }}>
-            Wrong network — please switch to Celo
-          </span>
-          <button
-            onClick={switchToCelo}
-            style={{
-              fontSize: 10,
-              fontWeight: 800,
-              letterSpacing: '0.2em',
-              color: '#ef4444',
-              textTransform: 'uppercase',
-              background: 'rgba(239,68,68,0.15)',
-              border: '1px solid rgba(239,68,68,0.3)',
-              borderRadius: 6,
-              padding: '3px 10px',
-              cursor: 'pointer',
-            }}
-          >
-            Switch
-          </button>
-        </div>
-      )}
-
-      {/* Chain Select Modal — lives with the nav so it's available app-wide */}
-      <ChainSelectModal
-        isOpen={showChainSelect}
-        onClose={() => setShowChainSelect(false)}
-        onSelectCelo={connect}
-        onSelectStacks={connectStacks}
-        onSelectBase={connectBase}
-        onSelectSocial={connectSocial}
-      />
     </>
   )
 }

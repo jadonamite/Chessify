@@ -4,9 +4,54 @@
 
 **Last updated:** 2026-07-01 · **Repo:** github.com/jadonamite/Chessify (branch `main`)
 
-> **Reading order:** the **2026-07-01** section directly below is the current source of truth.
-> Everything under it is a reverse-chronological log; treat pre-07-01 entries as history and
+> **Reading order:** the **2026-07-03** section directly below is the current source of truth.
+> Everything under it is a reverse-chronological log; treat pre-07-03 entries as history and
 > cross-check against the "STALE / CONTRADICTORY" list before trusting any specific claim.
+
+---
+
+## ⚡ 2026-07-03 — App-page redesign merge COMPLETE (the 7 OPEN files landed; `tsc` clean)
+
+Finished the "OPEN — bring these app pages to playchessify's CURRENT redesign" chunk from
+the 2026-07-01 section below. All seven were **multi-chain merges** (adopt playchessify's v2
+UI, keep Chessify's Celo/Base/Stacks data layer) — never copies. `tsc --noEmit` clean.
+
+### Shell first (new — the redesign moved chrome into a shared layout)
+- **`app/app/layout.tsx` (NEW):** shared `/app` chrome — `SideNav` (desktop rail) + `Navbar`
+  (mobile, in `.pc-mobile-chrome`) + `BottomNav` + `StreakCelebration` + `useProfileLink`.
+  **ChainSelectModal + wrong-network banner hoisted here** (multi-chain fix: the desktop
+  SideNav has no Navbar to host them). The **game route opts out** entirely (`if (isGame)
+  return children`) so `GameClient` keeps its own header — no double nav, game left untouched.
+- **`ui/Navbar.tsx`:** adopted coach avatar + streak chip + always-on mobile music +
+  `MOBILE_DRAWER_LINKS` (Settings only; BottomNav owns the rest). Kept multi-chain
+  `displayAddress`/chain badge/`connectWallet`. **Removed** its ChainSelectModal + wrong-chain
+  banner (now in the layout).
+- **`ui/SideNav.tsx`:** `connect` → `connectWallet` (opens the chain picker, per §5) so desktop
+  isn't Celo-only.
+- **`ui/ChessModels.tsx`:** ported **`PieceIcon`** (2D SVG sprite from `/pieces/{set}`) — the
+  perf-safe replacement for per-row `PieceView` WebGL canvases. `PieceView` kept for now.
+
+### The 7 pages (each: adopt redesign, preserve multi-chain)
+| File | adopted | multi-chain preserved |
+|---|---|---|
+| `lobby/LobbyContent` | PlayCard hero+rail, coach CTA (`TrapButton`), streak card + daily nudge, redesigned create modal (balance-gated), mobile stat chips, **silent-redirect gate** (killed the "Connection Required" card) + "SETTING UP WALLET" | `activeChain`, `useLobby`, celo/base `useReadContract` + stacks `useStacksRead`, per-chain create/join, `draws` added |
+| `lobby/LeaderboardContent` | floating podium + stair-step base steps, pagination (10/pg), `PageBackground`/`PlayCard` | 3 readers (`useLeaderboard`/`useBaseLeaderboard`/`useStacksLeaderboard`), `normalizeAddress` (Stacks case-safe, **not** `.toLowerCase()`), chain badge |
+| `lobby/HistoryContent` | `PlayCard`, `SceneBoundary`, **`PieceIcon`**, clickable MATCH link | multi-chain opponent render (guards `0x`/`S` vs placeholders), kept `status` (no `result` field in `useHistory`) |
+| `faucet/FaucetContent` | `PlayCard`, `PieceIcon` info cards, `SceneBoundary`, cache-bust on claim | celo/base/stacks claim handlers + `activeChain` dispatch (skipped the Celo-only cooldown pre-check to keep the path uniform) |
+| `profile/[identifier]` | `PageBackground`, streak card, "In Play" section, quick actions, `GameRow`/`RESULT_BADGE`, copy feedback, **alias-linking `isOwn`** (matches EOA **or** smart account) | `useSignProfileMessage` (+`publicKey`), `isValidProfileAddress`/`normalizeAddress`, `isCeloProfile`-gated stats/history |
+| `settings/page` | `PageBackground`, **coach picker** section (`useLearner`+`useCoachStore`+`COACHES`) | `activeAddress`, `useSignProfileMessage`, `connected = isConnected||isStacksConnected` |
+
+**Deliberate divergences from playchessify (multi-chain / correctness):**
+- Dropped `useBatchProfiles` + `profileMap[addr.toLowerCase()]` in Lobby/History — `ChessName`
+  resolves per-address instead (playchessify's lowercase key breaks case-sensitive Stacks addrs).
+- Leaderboard keeps `normalizeAddress` everywhere (never lowercases Stacks).
+- "elo" in the 2026-07-01 Settings row was imprecise — there is no ELO control in playchessify's
+  settings; only the coach picker was adopted.
+
+**Still open / untouched (unchanged by this pass):** the game route redesign (already done via
+`GameClient` dispatcher on 07-01), the 3D perf items 3–5, and the oracle/settlement deploy track.
+`not-found.tsx` still renders `Navbar` outside `/app`; its connect can't open the chain picker
+(no modal there) — marginal 404-only edge case, left as-is.
 
 ---
 

@@ -6,13 +6,16 @@ import { motion } from 'framer-motion'
 import { useWallet } from '@/components/wallet-provider'
 import { useProfile, useUpdateProfile } from '@/hooks/useProfile'
 import { useSignProfileMessage } from '@/hooks/useSignProfileMessage'
+import { useLearner } from '@/hooks/useLearner'
+import { useCoachStore } from '@/hooks/useCoachStore'
+import { COACHES } from '@/config/coaches'
 import { useSettingsStore, BOARD_THEMES, AI_DIFFICULTY_LABELS, PIECE_SETS, type BoardTheme, type AiDifficulty } from '@/hooks/useSettingsStore'
 import { piecePath } from '@/lib/chessPieces'
-import { Navbar } from '@/components/landing/Hero'
 import GlowButton from '@/components/ui/GlowButton'
 import ClayCard from '@/components/ui/ClayCard'
 import ChessAvatar from '@/components/ui/ChessAvatar'
 import ClaimModal from '@/components/ui/ClaimModal'
+import PageBackground from '@/components/ui/PageBackground'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -63,6 +66,14 @@ export default function SettingsPage() {
   const { data: profile } = useProfile(activeAddress ?? null)
   const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile()
   const signProfileMessage = useSignProfileMessage()
+  const { learner, update: updateLearner } = useLearner()
+  const coachId = useCoachStore((s) => s.coachId) ?? learner?.coachId ?? null
+  const setCoachId = useCoachStore((s) => s.setCoachId)
+
+  const chooseCoach = (id: string) => {
+    setCoachId(id) // instant UI everywhere (no signature — training is low-stakes)
+    void updateLearner({ coachId: id }).catch(() => {})
+  }
 
   const [claimOpen, setClaimOpen] = useState(false)
   const [editDisplayName, setEditDisplayName] = useState('')
@@ -100,6 +111,7 @@ export default function SettingsPage() {
 
   return (
     <main className="min-h-screen w-full bg-[var(--bg)] text-[var(--t1)] relative overflow-x-hidden">
+      <PageBackground hero="king" />
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[8%] right-[10%] w-[28%] h-[28%] bg-[var(--c)] blur-[150px] rounded-full opacity-[0.045]" />
@@ -112,8 +124,6 @@ export default function SettingsPage() {
           backgroundSize: '52px 52px',
         }}
       />
-
-      <Navbar />
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 md:px-8 py-12 md:py-24">
         <div className="flex items-center justify-between mb-10">
@@ -128,6 +138,31 @@ export default function SettingsPage() {
         </div>
 
         <div className="flex flex-col gap-10">
+
+          {/* ── COACH ── the one place to change your locked-in coach ── */}
+          <Section title="Your Coach">
+            <ClayCard className="p-4">
+              <p className="mb-3 text-sm text-[var(--t3)]">Your coach is locked in for training. Switch here anytime.</p>
+              <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+                {COACHES.map((c) => {
+                  const active = c.id === coachId
+                  return (
+                    <button key={c.id} onClick={() => chooseCoach(c.id)}
+                      className="flex flex-col items-center gap-1.5 rounded-xl p-2 transition"
+                      style={{ background: active ? `${c.accent}1a` : 'transparent', opacity: active ? 1 : 0.7 }}>
+                      <span className="h-14 w-14 overflow-hidden rounded-full border-2"
+                            style={{ borderColor: active ? c.accent : 'rgba(255,255,255,0.15)' }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={encodeURI(c.img)} alt={c.name} className="h-full w-full object-cover object-top" />
+                      </span>
+                      <span className="text-[11px] font-semibold uppercase tracking-wide"
+                            style={{ color: active ? '#eaf6ff' : '#7f94ad' }}>{c.short}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </ClayCard>
+          </Section>
 
           {/* ── SOUND ── */}
           <Section title="Sound">

@@ -13,6 +13,14 @@ import { King, Queen, Pawn, Bishop, Knight } from '@/components/ui/ChessModels'
  * doesn't cost what the landing king does. Wrapped in SceneBoundary so a lost
  * context degrades to "no background" rather than crashing the page.
  */
+function renderChessPiece(hero: 'king' | 'queen', position: number[], color: string, emissive: string, emissiveIntensity: number, floatSpeed: number, floatIntensity: number, rotationIntensity: number, scale: number) {
+  if (hero === 'queen') {
+    return <Queen position={position} color={color} emissive={emissive} emissiveIntensity={emissiveIntensity} floatSpeed={floatSpeed} floatIntensity={floatIntensity} rotationIntensity={rotationIntensity} scale={scale} />
+  } else {
+    return <King position={position} color={color} emissive={emissive} emissiveIntensity={emissiveIntensity} floatSpeed={floatSpeed} floatIntensity={floatIntensity} rotationIntensity={rotationIntensity} scale={scale} />
+  }
+}
+
 function Scene({ hero }: { hero: 'king' | 'queen' }) {
   return (
     <>
@@ -20,12 +28,7 @@ function Scene({ hero }: { hero: 'king' | 'queen' }) {
       <directionalLight position={[10, 10, 5]} intensity={2} color="#00ccff" />
       <directionalLight position={[-10, -10, -5]} intensity={1} color="#6a0dad" />
 
-      {hero === 'queen' ? (
-        <Queen position={[0, -0.5, -2]} color="#0f172a" emissive="#00ccff" emissiveIntensity={0.15} floatSpeed={0.5} floatIntensity={0.3} rotationIntensity={0.1} scale={2.5} />
-      ) : (
-        <King position={[0, -0.5, -2]} color="#0f172a" emissive="#00ccff" emissiveIntensity={0.15} floatSpeed={0.5} floatIntensity={0.3} rotationIntensity={0.1} scale={2.5} />
-      )}
-
+      {renderChessPiece(hero, [0, -0.5, -2], '#0f172a', '#00ccff', 0.15, 0.5, 0.3, 0.1, 2.5)}
       <Pawn position={[-4, 2, -3]} color="#1e293b" emissive="#00ccff" emissiveIntensity={0.1} floatSpeed={1.5} floatIntensity={1} rotationIntensity={0.5} />
       <Bishop position={[4, -2, -2]} color="#1e293b" emissive="#6a0dad" emissiveIntensity={0.1} floatSpeed={2} floatIntensity={0.8} rotationIntensity={0.4} />
       <Knight position={[3.5, 2.5, -4]} color="#1e293b" emissive="#00ccff" emissiveIntensity={0.08} floatSpeed={1} floatIntensity={0.6} rotationIntensity={0.3} />

@@ -27,14 +27,7 @@ function coachEngineForLevel(base: CoachEngine, level: LearnerLevel): CoachEngin
   return base
 }
 
-function uciToSan(fen: string, uci: string | null): string | null {
-  if (!uci) return null
-  try {
-    const g = new Chess(fen)
-    const m = g.move({ from: uci.slice(0, 2), to: uci.slice(2, 4), promotion: (uci[4] as 'q' | 'r' | 'b' | 'n') || 'q' })
-    return m?.san ?? null
-  } catch { return null }
-}
+const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export default function TrainingGame() {
   const { analyze } = useAnalysis()
@@ -300,7 +293,14 @@ export default function TrainingGame() {
   )
 }
 
-const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
+function uciToSan(fen: string, uci: string | null): string | null {
+  if (!uci) return null
+  try {
+    const g = new Chess(fen)
+    const m = g.move({ from: uci.slice(0, 2), to: uci.slice(2, 4), promotion: (uci[4] as 'q' | 'r' | 'b' | 'n') || 'q' })
+    return m?.san ?? null
+  } catch { return null }
+}
 
 function resultText(g: Chess, mode: Mode): string {
   if (g.isCheckmate()) {

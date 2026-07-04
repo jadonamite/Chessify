@@ -45,7 +45,7 @@ export default function StreakCelebration() {
       const key = detail.mode === 'nudge' ? STREAK_NUDGE_KEY : STREAK_CELEBRATED_KEY
 
       if (detail.mode === 'nudge') {
-        if (detail.current > 0) return // they already have a streak — nothing to nudge,
+        if (detail.current > 0) return // they already have a streak — nothing to nudge
       } else if (detail.current < 1) {
         return
       }

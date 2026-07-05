@@ -56,6 +56,14 @@ async function readEvmGame(chain: 'celo' | 'base', gameId: number): Promise<Onch
   return { white: g.white, black: g.black, status: Number(g.status) }
 }
 
+/** Read the minimal on-chain game state the relay needs, dispatched by chain. */
+export async function getOnchainGame(chain: Chain, gameId: number): Promise<OnchainGame> {
+  if (chain === 'celo' || chain === 'base') return readEvmGame(chain, gameId)
+  if (chain === 'stacks') return readStacksGame(gameId)
+  throw new Error(`unsupported chain: ${chain}`)
+}
+
+
 async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const result = await fetchCallReadOnlyFunction({
     contractAddress: STACKS_CONTRACTS.game.address,
@@ -73,11 +81,4 @@ async function readStacksGame(gameId: number): Promise<OnchainGame> {
   const black = tuple.black?.value?.value ?? tuple.black?.value ?? ''
   const status = Number(tuple.status?.value ?? -1)
   return { white, black, status }
-}
-
-/** Read the minimal on-chain game state the relay needs, dispatched by chain. */
-export async function getOnchainGame(chain: Chain, gameId: number): Promise<OnchainGame> {
-  if (chain === 'celo' || chain === 'base') return readEvmGame(chain, gameId)
-  if (chain === 'stacks') return readStacksGame(gameId)
-  throw new Error(`unsupported chain: ${chain}`)
 }

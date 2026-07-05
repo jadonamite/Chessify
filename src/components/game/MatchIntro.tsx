@@ -28,29 +28,7 @@ interface MatchIntroProps {
   onLeave: () => void
 }
 
-  const copyId = () => {
-    navigator.clipboard.writeText(String(gameId))
-    showToast('Match ID copied!', 'info')
-  }
-  const share = async () => {
-    const url = typeof window !== 'undefined' ? window.location.href : ''
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      try { await navigator.share({ title: 'Chess match', text: `Join my match #${gameId} on Chessify`, url }) } catch { /* dismissed */ }
-    } else {
-      navigator.clipboard.writeText(url)
-      showToast('Match link copied!', 'info')
-    }
-  }
-
-/* ── the actual VS page (only mounted while open) ── */
-function MatchIntroInner({
-  isBot, myAddress, opponentAddress, myColor, opponentReady, pot, profileMap, gameId, botLabel, onDone, onLeave,
-}: Omit<MatchIntroProps, 'open'>) {
-  const isDesktop = useIsDesktop()
-  const showToast = useToastStore((s) => s.showToast)
-  const [count, setCount] = useState<number | null>(null)
-  const [botFound, setBotFound] = useState(false)
-  const oppColor: Color = myColor === 'white' ? 'black' : 'white'
+const colorOf = (c: Color) => (c === 'white' ? 'var(--c)' : 'var(--candy-grape)')
 
 /** `(min-width:1024px)` reactive flag — drives the slide direction per layout. */
 function useIsDesktop() {
@@ -64,6 +42,26 @@ function useIsDesktop() {
   }, [])
   return desktop
 }
+
+/* ── one side of the split — player / bot / searching ── */
+function Side({
+  mode, address, color, isMe, botLabel, profileMap, slide, order,
+}: {
+  mode: SideMode
+  address: string
+  color: Color
+  isMe: boolean
+  botLabel?: string
+  profileMap: Record<string, ChessProfile | null>
+  slide: { x?: number; y?: number }
+  order: string
+}) {
+  // Hook is always called; disabled (returns null) unless this is a real player.
+  const stats = usePlayerStats(mode === 'player' ? address : null)
+  const accent = colorOf(color)
+  const tint = color === 'white'
+    ? 'radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--c) 15%, transparent), transparent 70%)'
+    : 'radial-gradient(circle at 50% 68%, color-mix(in srgb, var(--candy-grape) 17%, transparent), transparent 70%)'
 
   return (
     <motion.div
@@ -185,14 +183,15 @@ function useIsDesktop() {
   )
 }
 
-export default function MatchIntro(props: MatchIntroProps) {
-  return (
-    <AnimatePresence>
-      {props.open && <MatchIntroInner {...props} />}
-    </AnimatePresence>
-  )
-}
-
+/* ── the actual VS page (only mounted while open) ── */
+function MatchIntroInner({
+  isBot, myAddress, opponentAddress, myColor, opponentReady, pot, profileMap, gameId, botLabel, onDone, onLeave,
+}: Omit<MatchIntroProps, 'open'>) {
+  const isDesktop = useIsDesktop()
+  const showToast = useToastStore((s) => s.showToast)
+  const [count, setCount] = useState<number | null>(null)
+  const [botFound, setBotFound] = useState(false)
+  const oppColor: Color = myColor === 'white' ? 'black' : 'white'
 
   const hasOpponent = !!opponentAddress && opponentAddress !== '0x0000000000000000000000000000000000000000'
   const found = isBot ? botFound : (opponentReady && hasOpponent)
@@ -222,7 +221,19 @@ export default function MatchIntro(props: MatchIntroProps) {
   const oppSlide = isDesktop ? { x: 70 } : { y: -70 }
   const oppMode: SideMode = found ? (isBot ? 'bot' : 'player') : 'searching'
 
-const colorOf = (c: Color) => (c === 'white' ? 'var(--c)' : 'var(--candy-grape)')
+  const copyId = () => {
+    navigator.clipboard.writeText(String(gameId))
+    showToast('Match ID copied!', 'info')
+  }
+  const share = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : ''
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try { await navigator.share({ title: 'Chess match', text: `Join my match #${gameId} on Chessify`, url }) } catch { /* dismissed */ }
+    } else {
+      navigator.clipboard.writeText(url)
+      showToast('Match link copied!', 'info')
+    }
+  }
 
   // Only a present opponent + reveal can be skipped; you can't skip "finding".
   const handleTap = () => { if (found) onDone() }
@@ -352,22 +363,10 @@ const colorOf = (c: Color) => (c === 'white' ? 'var(--c)' : 'var(--candy-grape)'
   )
 }
 
-/* ── one side of the split — player / bot / searching ── */
-function Side({
-  mode, address, color, isMe, botLabel, profileMap, slide, order,
-}: {
-  mode: SideMode
-  address: string
-  color: Color
-  isMe: boolean
-  botLabel?: string
-  profileMap: Record<string, ChessProfile | null>
-  slide: { x?: number; y?: number }
-  order: string
-}) {
-  // Hook is always called; disabled (returns null) unless this is a real player.
-  const stats = usePlayerStats(mode === 'player' ? address : null)
-  const accent = colorOf(color)
-  const tint = color === 'white'
-    ? 'radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--c) 15%, transparent), transparent 70%)'
-    : 'radial-gradient(circle at 50% 68%, color-mix(in srgb, var(--candy-grape) 17%, transparent), transparent 70%)'
+export default function MatchIntro(props: MatchIntroProps) {
+  return (
+    <AnimatePresence>
+      {props.open && <MatchIntroInner {...props} />}
+    </AnimatePresence>
+  )
+}

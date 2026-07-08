@@ -11,7 +11,6 @@ export const STACKS_CONTRACTS = {
   game:  { address: 'SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39', name: 'playchessifyEngine' },
 } as const
 
-
 // Celo contracts configuration
 export const CELO_CONTRACTS = {
   token: process.env.NEXT_PUBLIC_CELO_TOKEN ?? '0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197',
@@ -36,10 +35,11 @@ export const BASE_CHAIN_ID = 8453 // Base Mainnet
 
 export const STACKS_NETWORK = process.env.NEXT_PUBLIC_NETWORK ?? 'mainnet'
 
-export const HIRO_API =
-  STACKS_NETWORK === 'mainnet'
-    ? 'https://api.mainnet.hiro.so'
-    : 'https://api.testnet.hiro.so'
+function getHiroApiUrl(network: string): string {
+  return network === 'mainnet' ? 'https://api.mainnet.hiro.so' : 'https://api.testnet.hiro.so'
+}
+
+export const HIRO_API = getHiroApiUrl(STACKS_NETWORK)
 
 // Token constants
 export const TOKEN_DECIMALS  = 6

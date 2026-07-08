@@ -465,6 +465,7 @@ export function useCeloChess() {
         console.error(`${LOG_PREFIX} proposeDraw failed:`, err)
         throw err
       }
+    // TODO: add input validation
     },
     [sendWrite, ensureGasSponsored],
   )

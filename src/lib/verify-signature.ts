@@ -5,11 +5,6 @@ import { detectChain } from './profile-address';
 // `address`. EVM uses viem's recover; Stacks uses RSV verification plus an
 // address-derivation check so a valid signature from a *different* key can't
 // claim someone else's address.
-/**
- * verifyProfileSignature
- * @param {*} opts: { address: string; message: string; signature: string; publicKey?: string }
- * @returns {*}
- */
 export async function verifyProfileSignature(opts: { address: string; message: string; signature: string; publicKey?: string }): Promise<boolean> {
   const chain = detectChain(opts.address);
   if (chain !== 'celo' && chain !== 'stacks') return false;

@@ -20,6 +20,11 @@ function parseChain(value: string): Chain | null {
 // Slow-finality chains play off a predicted gameId before the create tx
 // confirms, so the on-chain game may legitimately be unreadable for a while.
 // EVM (fast blocks) is gated strictly; others degrade to legality+signature.
+/**
+ * isFastFinality
+ * @param {*} chain: Chain
+ * @returns {*}
+ */
 function isFastFinality(chain: Chain): boolean {
   return chain === 'celo' || chain === 'base'
 }

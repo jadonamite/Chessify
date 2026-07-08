@@ -124,6 +124,7 @@ const COACHES_BY_ID: Record<string, CoachProfile> = Object.fromEntries(
   COACHES.map((c) => [c.id, c]),
 )
 
+// NOTE: revisit this logic after API migration
 /** Look up a coach by id; falls back to Magnus (the v1 default teacher). */
 export function getCoach(id: string | null | undefined): CoachProfile {
   return (id && COACHES_BY_ID[id]) || COACHES_BY_ID['carlsen']

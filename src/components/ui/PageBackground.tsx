@@ -30,7 +30,7 @@ function Scene({ hero }: { hero: 'king' | 'queen' }) {
       <Bishop position={[4, -2, -2]} color="#1e293b" emissive="#6a0dad" emissiveIntensity={0.1} floatSpeed={2} floatIntensity={0.8} rotationIntensity={0.4} />
       <Knight position={[3.5, 2.5, -4]} color="#1e293b" emissive="#00ccff" emissiveIntensity={0.08} floatSpeed={1} floatIntensity={0.6} rotationIntensity={0.3} />
     </>
-  ),
+  )
 }
 
 export default function PageBackground({

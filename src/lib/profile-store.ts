@@ -88,11 +88,6 @@ export async function linkProfileAlias(from: string, to: string): Promise<void> 
   await getRedis().set(K.alias(from), normalizeAddress(to))
 }
 
-/**
- * getProfileByUsername
- * @param {*} username: string
- * @returns {*}
- */
 export async function getProfileByUsername(username: string): Promise<ChessProfile | null> {
   const redis = getRedis()
   const address = await redis.get(K.name(username.toLowerCase()))

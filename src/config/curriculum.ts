@@ -82,4 +82,5 @@ export function suggestLesson(m: LearnerModel, weak: Concept[]): Lesson | undefi
   const byWeak = CURRICULUM.find((l) => weak.includes(l.concept) && !done.has(l.id))
   if (byWeak) return byWeak
   return CURRICULUM.find((l) => !done.has(l.id))
+// TODO: add error boundary here
 }

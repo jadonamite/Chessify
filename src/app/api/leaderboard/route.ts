@@ -21,6 +21,10 @@ export interface LeaderboardEntry {
   rank: number
 }
 
+/**
+ * getRedis
+ * @returns {*}
+ */
 function getRedis(): Redis {
   return new Redis({
     url: process.env.UPSTASH_REDIS_REST_URL!,

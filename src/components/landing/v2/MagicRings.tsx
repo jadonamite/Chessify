@@ -179,20 +179,6 @@ export default function MagicRings({
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material)
     scene.add(quad)
 
-    const resize = () => {
-      const w = mount.clientWidth
-      const h = mount.clientHeight
-      const dpr = Math.min(window.devicePixelRatio, 2)
-      renderer.setSize(w, h)
-      renderer.setPixelRatio(dpr)
-      uniforms.uResolution.value.set(w * dpr, h * dpr)
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    const ro = new ResizeObserver(resize)
-    ro.observe(mount)
-
     const onMouseMove = (e: MouseEvent) => {
       const rect = mount.getBoundingClientRect()
       mouseRef.current[0] = (e.clientX - rect.left) / rect.width - 0.5
@@ -205,6 +191,20 @@ export default function MagicRings({
       mouseRef.current[1] = 0
     }
     const onClick = () => { burstRef.current = 1 }
+
+    const ro = new ResizeObserver(resize)
+    ro.observe(mount)
+
+    const resize = () => {
+      const w = mount.clientWidth
+      const h = mount.clientHeight
+      const dpr = Math.min(window.devicePixelRatio, 2)
+      renderer.setSize(w, h)
+      renderer.setPixelRatio(dpr)
+      uniforms.uResolution.value.set(w * dpr, h * dpr)
+    }
+    resize()
+    window.addEventListener('resize', resize)
 
     mount.addEventListener('mousemove', onMouseMove)
     mount.addEventListener('mouseenter', onMouseEnter)

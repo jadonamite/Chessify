@@ -1,9 +1,9 @@
 'use client'
 
-import GameClientCelo from './GameClientCelo'
-import GameClientMultichain from './GameClientMultichain'
 import { useParams } from 'next/navigation'
 import { useWallet } from '@/components/wallet-provider'
+import GameClientCelo from './GameClientCelo'
+import GameClientMultichain from './GameClientMultichain'
 
 /**
  * Game-screen dispatcher. Celo runs the redesigned, decomposed, oracle-settled

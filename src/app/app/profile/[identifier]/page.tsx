@@ -120,16 +120,16 @@ export default function ProfilePage() {
   // Resolve profile — address (EVM or Stacks) or .chess username
   const isAddress = isValidProfileAddress(identifier)
 
-  const { payload: profileByAddress, isLoading: loadingByAddr } = useProfile(isAddress ? identifier : null)
+  const { data: profileByAddress, isLoading: loadingByAddr } = useProfile(isAddress ? identifier : null)
 
-  const { payload: profileByName, isLoading: loadingByName } = useQuery({
+  const { data: profileByName, isLoading: loadingByName } = useQuery({
     queryKey: ['profile-name', identifier.toLowerCase()],
     queryFn: async (): Promise<ChessProfile | null> => {
       const res = await fetch(`/api/profile/name/${identifier.toLowerCase()}`)
       if (res.status === 404) return null
       if (!res.ok) return null
-      const payload = await res.json()
-      return payload.profile ?? null
+      const data = await res.json()
+      return data.profile ?? null
     },
     enabled: !isAddress && identifier.length >= 3,
     staleTime: 5 * 60 * 1000,
@@ -148,7 +148,7 @@ export default function ProfilePage() {
   const isCeloProfile = !!profileAddress && detectChain(profileAddress) === 'celo'
 
   // On-chain stats (Celo only — Stacks ranking reader lands in a later pass)
-  const { payload: stats } = useReadContract({
+  const { data: stats } = useReadContract({
     address: CELO_CONTRACTS.game as `0x${string}`,
     abi: CHESS_GAME_ABI,
     functionName: 'playerStats',
@@ -166,7 +166,7 @@ export default function ProfilePage() {
 
   const { streak } = useStreak(profileAddress)
 
-  const { payload: recentGames = [], isLoading: historyLoading } = usePlayerHistory(
+  const { data: recentGames = [], isLoading: historyLoading } = usePlayerHistory(
     isCeloProfile ? profileAddress : null
   )
 

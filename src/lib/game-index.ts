@@ -1,8 +1,8 @@
-import { Redis } from '@upstash/redis'
 import type { Abi } from 'viem'
-import { getPublicClient, type EvmChain } from '@/lib/evm-server'
 import { CELO_CONTRACTS, BASE_CONTRACTS } from '@/config/contracts'
 import { EVM_CHESS_ORACLE_ABI } from '@/config/abis'
+import { Redis } from '@upstash/redis'
+import { getPublicClient, type EvmChain } from '@/lib/evm-server'
 
 // SERVER-ONLY off-chain game index (Upstash), per EVM chain. Keeps an
 // append-only index of which addresses appeared in games and which gameIds each

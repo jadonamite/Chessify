@@ -20,14 +20,14 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
   return NextResponse.json({ profile })
 }
 
-export async function PATCH(req: NextRequest, { params }: Ctx) {
+export async function PATCH(request: NextRequest, { params }: Ctx) {
   const { address } = await params
   if (!isValidProfileAddress(address)) {
     return NextResponse.json({ error: 'invalid address' }, { status: 400 })
   }
 
   let body: any
-  try { body = await req.json() } catch {
+  try { body = await request.json() } catch {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 })
   }
 

@@ -85,8 +85,8 @@ export function useBaseLeaderboard(enabled = true) {
       leaderboard.sort((a, b) => b.rating - a.rating || b.wins - a.wins)
       leaderboard.forEach((e, i) => { e.rank = i + 1 })
       setEntries(leaderboard)
-    } catch (error) {
-      console.error('[useBaseLeaderboard] fetch failed:', error)
+    } catch (err) {
+      console.error('[useBaseLeaderboard] fetch failed:', err)
     } finally {
       setIsLoading(false)
     }

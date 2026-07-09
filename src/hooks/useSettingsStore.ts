@@ -52,18 +52,14 @@ interface SettingsState {
   setShowMoveHints: (v: boolean) => void
 }
 
-const DEFAULT_SETTINGS: Omit<SettingsState, 'setSoundEnabled' | 'setBoardTheme' | 'setPieceSet' | 'setAiDifficulty' | 'setShowMoveHints'> = {
-  soundEnabled: true,
-  boardTheme: 'dark',
-  pieceSet: 'chessnut',
-  aiDifficulty: 'medium',
-  showMoveHints: true,
-}
-
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      ...DEFAULT_SETTINGS,
+      soundEnabled: true,
+      boardTheme: 'dark',
+      pieceSet: 'chessnut',
+      aiDifficulty: 'medium',
+      showMoveHints: true,
       setSoundEnabled: (v) => set({ soundEnabled: v }),
       setBoardTheme: (t) => set({ boardTheme: t }),
       setPieceSet: (p) => set({ pieceSet: p }),

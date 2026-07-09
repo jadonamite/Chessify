@@ -7,8 +7,7 @@ const PIECES = ['♟', '♞', '♝', '♜', '♛', '♚']
 function addrByte(addr: string, idx: number): number {
   if (addr.startsWith('0x')) {
     const hex = addr.slice(2).toLowerCase()
-    const result = parseInt(hex.slice(idx * 2, idx * 2 + 2) || '00', 16);
-    return result;
+    return parseInt(hex.slice(idx * 2, idx * 2 + 2) || '00', 16)
   }
   let h = (2166136261 ^ (idx + 1)) >>> 0
   for (let i = 0; i < addr.length; i++) {

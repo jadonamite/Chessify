@@ -320,7 +320,7 @@ export default function LeaderboardContent() {
   const stacks = useStacksLeaderboard(isStacks)
   const { entries, isLoading, myRank, refresh } = isStacks ? stacks : isBase ? base : celo
 
-  const { data: profileMap = {} } = useBatchProfiles(entries.map((e) => e.address))
+  const { payload: profileMap = {} } = useBatchProfiles(entries.map((e) => e.address))
 
   const activeAddress = isStacks ? stacksAddress : address  // EVM (celo/base) share the address
   const myAddress = activeAddress ? normalizeAddress(activeAddress) : undefined

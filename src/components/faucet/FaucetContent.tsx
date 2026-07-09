@@ -206,14 +206,14 @@ export default function FaucetContent() {
       // Refresh balance after short delay (covers the Stacks non-wagmi read)
       setTimeout(refreshBalance, 3000)
     } catch (err: any) {
-      const message = err?.message || 'Unknown error'
+      const msg = err?.message || 'Unknown error'
 
-      if (message === 'TIMEOUT') {
+      if (msg === 'TIMEOUT') {
         setResultType('timeout')
-      } else if (message.toLowerCase().includes('cooldown') || message.toLowerCase().includes('too soon') || message.toLowerCase().includes('already claimed')) {
+      } else if (msg.toLowerCase().includes('cooldown') || msg.toLowerCase().includes('too soon') || msg.toLowerCase().includes('already claimed')) {
         setResultType('cooldown')
       } else {
-        setErrorMessage(message.length > 120 ? message.slice(0, 120) + '...' : message)
+        setErrorMessage(msg.length > 120 ? msg.slice(0, 120) + '...' : msg)
         setResultType('error')
       }
     } finally {

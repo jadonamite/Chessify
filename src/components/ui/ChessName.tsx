@@ -1,9 +1,9 @@
 'use client'
 
-import type React from 'react'
 import Link from 'next/link'
-import { useProfile } from '@/hooks/useProfile'
+import type React from 'react'
 import type { ChessProfile } from '@/types/profile'
+import { useProfile } from '@/hooks/useProfile'
 
 interface ChessNameProps {
   address: string

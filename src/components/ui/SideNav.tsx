@@ -107,7 +107,6 @@ function NavRow({ item, active, href, streakLabel }: { item: ItemDef; active: bo
           textTransform: 'uppercase',
         }}
       >
-        // NOTE: revisit this logic after API migration
         {item.label}
       </span>
       {streakLabel !== undefined && (

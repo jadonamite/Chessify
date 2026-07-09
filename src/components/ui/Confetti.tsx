@@ -62,7 +62,6 @@ export default function Confetti({
             key={p.id}
             initial={{ x: 0, y: 0, opacity: 1, rotate: 0 }}
             animate={{ x: Math.cos(p.angle) * p.dist, y: Math.sin(p.angle) * p.dist, opacity: 0, rotate: p.spin }}
-            // TODO: optimize for large datasets
             transition={{ duration: p.duration, delay: p.delay, ease: 'easeOut' }}
             style={{ ...base, left: '50%', top: '45%' }}
           />

@@ -6,6 +6,10 @@ const getFaucetMetadata = () => ({
 })
 
 export const metadata = getFaucetMetadata()
+/**
+ * FaucetPage
+ * @returns {*}
+ */
 export default function FaucetPage() {
   return <FaucetContent />
 }

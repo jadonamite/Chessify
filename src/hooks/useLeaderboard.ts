@@ -13,7 +13,7 @@ export interface LeaderboardEntry {
   draws: number
   rating: number
   gamesPlayed: number
-  rank: number,
+  rank: number
 }
 
 const ZERO = '0x0000000000000000000000000000000000000000'

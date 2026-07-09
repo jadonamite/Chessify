@@ -56,11 +56,6 @@ const K = {
   daily: (scope: string) => `chess:gas:${scope}:daily:${new Date().toISOString().slice(0, 10)}`,
 }
 
-/**
- * parseEvmChain
- * @param {*} value: unknown
- * @returns {*}
- */
 function parseEvmChain(value: unknown): EvmChain | null {
   return value === 'celo' || value === 'base' ? value : null
 }

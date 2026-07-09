@@ -8,15 +8,10 @@ export function profileKey(address: string) {
   return ['profile', normalizeAddress(address ?? '')]
 }
 
-const handleFetchError = (res: Response) => {
-  if (res.status === 404) return null
-  if (!res.ok) throw new Error('Failed to fetch profile')
-}
-
 async function fetchProfile(address: string): Promise<ChessProfile | null> {
   const res = await fetch(`/api/profile/${address}`)
-  const result = handleFetchError(res)
-  if (result === null) return null
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error('Failed to fetch profile')
   const data = await res.json()
   return data.profile as ChessProfile
 }
@@ -37,8 +32,6 @@ export function useCheckUsername(username: string) {
     queryFn: async () => {
       if (username.length < 3) return { available: false, reason: 'Too short' }
       const res = await fetch(`/api/profile/check/${username.toLowerCase()}`)
-      const result = handleFetchError(res)
-      if (result === null) return { available: false, reason: 'Not found' }
       return res.json() as Promise<{ available: boolean; reason?: string }>
     },
     enabled: username.length >= 3,

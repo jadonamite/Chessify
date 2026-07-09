@@ -170,8 +170,7 @@ export async function POST(
       return NextResponse.json({ error: 'move number already recorded', moves }, { status: 409 })
     }
     await registerActiveGame(chain, gameId)
-    const result = NextResponse.json({ ok: true, moveCount: newLen, move: record });
-    return result;
+    return NextResponse.json({ ok: true, moveCount: newLen, move: record })
   } catch (err: any) {
     console.error(`${LOG_PREFIX} POST failed`, { chain, gameId, err: err?.message })
     return NextResponse.json({ error: 'relay unavailable' }, { status: 503 })

@@ -20,7 +20,6 @@ function principalOf(field: any): string | null {
 export function useStacksLeaderboard(enabled = true) {
   const { stacksAddress } = useWallet()
   const { getTotalGames, getGame, getPlayerStats } = useStacksRead()
-  // TODO: optimize for large datasets
   const [entries, setEntries] = useState<LeaderboardEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
 

@@ -1,5 +1,5 @@
-import type { MoveRecord } from '@/lib/moves-store'
 import { Chess } from 'chess.js'
+import type { MoveRecord } from '@/lib/moves-store'
 import { normalizeAddress } from '@/lib/profile-address'
 
 // Shared, client-safe settlement helpers. Imported by BOTH the browser (to sign

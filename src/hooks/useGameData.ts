@@ -1,12 +1,12 @@
-import { CELO_CONTRACTS, CELO_CHAIN_ID, TOKEN_DECIMALS } from '@/config/contracts'
-import { EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI } from '@/config/abis'
+import { useEffect, useState } from 'react'
+import { useReadContract } from 'wagmi'
 // Chessify keeps the legacy Celo ABI under CHESS_GAME_ABI and the live oracle
 // shape under EVM_CHESS_ORACLE_ABI. The live Celo game (0xf85f…) is the oracle
 // model, so read against that — aliased so the ported body is unchanged.
-import { type GameData, ZERO, STATUS_LABELS, norm, resultForColor } from '@/components/game/types'
+import { EVM_CHESS_ORACLE_ABI as CHESS_GAME_ABI } from '@/config/abis'
+import { CELO_CONTRACTS, CELO_CHAIN_ID, TOKEN_DECIMALS } from '@/config/contracts'
 import { useBatchProfiles } from '@/hooks/useBatchProfiles'
-import { useEffect, useState } from 'react'
-import { useReadContract } from 'wagmi'
+import { type GameData, ZERO, STATUS_LABELS, norm, resultForColor } from '@/components/game/types'
 
 interface UseGameDataArgs {
   gameId: number

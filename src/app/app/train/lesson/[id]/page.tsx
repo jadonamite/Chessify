@@ -39,7 +39,7 @@ export default function LessonPage() {
     if (pre.bestMove === uci) return true
     const post = await analyze(postFen, { movetime: 300 })
     if (!post) return uci === step?.expectedUci
-    return pre.whiteCp - post.whiteCp <= 60
+    return pre.whiteCp - post.whiteCp <= 60,
   }, [analyze, step])
 
   const onMove = useCallback((from: string, to: string): boolean => {

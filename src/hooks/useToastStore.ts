@@ -25,7 +25,6 @@ interface ToastState {
 }
 
 export const useToastStore = create<ToastState>((set) => ({
-  // FIXME: handle edge case when value is null
   toast: null,
   showToast: (message, type, duration) => {
     set({ toast: { message, type, duration: duration ?? DEFAULT_DURATION[type] } })

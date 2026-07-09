@@ -19,21 +19,11 @@ export type ResultValue = (typeof RESULT)[keyof typeof RESULT]
 // forfeits on time. Mirrors the in-game move clock.
 export const MOVE_TIMEOUT_MS = 5 * 60 * 1000
 
-/**
- * Replay the authoritative move list and decide the result. NEVER trusts the
- * client — the SAN list is replayed move-by-move with chess.js, and an illegal
- * sequence is rejected.
- */
-export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
-  const chess = new Chess()
-  for (const m of moves) {
-    try {
-      const applied = chess.move(m.san)
-      if (!applied) return { kind: 'illegal' }
-    } catch {
-      return { kind: 'illegal' }
-    }
-  }
+// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
+// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
+export function addrEq(a: string, b: string): boolean {
+  return normalizeAddress(a) === normalizeAddress(b)
+}
 
 /**
  * The exact message a player signs to authenticate a move. Deterministic and
@@ -66,11 +56,21 @@ export type Terminal =
   | { kind: 'not-terminal' }
   | { kind: 'illegal' }
 
-// Chain-aware address equality: EVM is case-insensitive, Stacks/Stellar are not.
-// normalizeAddress lowercases only 0x… addresses; everything else is preserved.
-export function addrEq(a: string, b: string): boolean {
-  return normalizeAddress(a) === normalizeAddress(b)
-}
+/**
+ * Replay the authoritative move list and decide the result. NEVER trusts the
+ * client — the SAN list is replayed move-by-move with chess.js, and an illegal
+ * sequence is rejected.
+ */
+export function deriveResult(moves: MoveRecord[], white: string, black: string): Terminal {
+  const chess = new Chess()
+  for (const m of moves) {
+    try {
+      const applied = chess.move(m.san)
+      if (!applied) return { kind: 'illegal' }
+    } catch {
+      return { kind: 'illegal' }
+    }
+  }
 
   // Checkmate: the side to move is mated → opponent wins.
   if (chess.isCheckmate()) {

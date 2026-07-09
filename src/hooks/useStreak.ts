@@ -53,9 +53,9 @@ export function useStreak(address?: string | null) {
     enabled: !!address,
     staleTime: 30_000,
     queryFn: async () => {
-      const response = await fetch(`/api/profile/streak?address=${address}`, { cache: 'no-store' })
-      if (!response.ok) throw new Error('streak fetch failed')
-      return response.json()
+      const res = await fetch(`/api/profile/streak?address=${address}`, { cache: 'no-store' })
+      if (!res.ok) throw new Error('streak fetch failed')
+      return res.json()
     },
   })
   return {
@@ -80,13 +80,13 @@ export function useRecordStreak() {
     async (source: ClientSource): Promise<RecordResult | null> => {
       if (!isConnected || !playerAddress) return null
       try {
-        const response = await fetch('/api/profile/streak', {
+        const res = await fetch('/api/profile/streak', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ address: playerAddress, source }),
         })
-        if (!response.ok) return null
-        return (await response.json()) as RecordResult
+        if (!res.ok) return null
+        return (await res.json()) as RecordResult
       } catch {
         return null
       }

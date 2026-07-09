@@ -6,11 +6,6 @@ import { getProfileDirect, linkProfileAlias } from '@/lib/profile-store'
 // single .chess name resolves for both. The EOA owns the smart account, so a
 // signature from the EOA authorizes the link in either direction. Off-chain only:
 // this touches name resolution, never transactions or the paymaster.
-/**
- * POST
- * @param {*} req: NextRequest
- * @returns {*}
- */
 export async function POST(req: NextRequest) {
   let body: { eoa?: string; smart?: string; signature?: string; timestamp?: string }
   try { body = await req.json() } catch {

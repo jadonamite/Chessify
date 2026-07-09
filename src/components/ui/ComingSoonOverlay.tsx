@@ -102,7 +102,7 @@ export default function ComingSoonOverlay({ isOpen, onClose }: ComingSoonOverlay
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 20 }}
-              className="flex flex-col items-center gap-5 md:gap-6 p-8 md:p-16 rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/60 shadow-[0_0_80px_rgba(0,204,255,0.15)] backdrop-blur-2xl w-full mx-auto box-border"
+              className='flex flex-col items-center gap-5 md:gap-6 p-8 md:p-16 rounded-[32px] md:rounded-[40px] border border-white/10 bg-slate-950/60 shadow-[0_0_80px_rgba(0,204,255,0.15)] backdrop-blur-2xl w-full mx-auto box-border'
             >
 
               <div className="flex items-center gap-2 bg-black/40 py-1.5 px-4 rounded-full border border-white/10 shadow-inner">

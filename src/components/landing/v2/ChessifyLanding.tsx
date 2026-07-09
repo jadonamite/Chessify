@@ -1,17 +1,17 @@
 'use client'
 
-import ChainSelectModal from '@/components/ui/ChainSelectModal'
-import GlowButton from '@/components/ui/GlowButton'
-import MagicRings from './MagicRings'
-import { COACHES, type Coach } from '@/config/coaches'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { King } from '@/components/ui/ChessModels'
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
-import { startAmbient, stopAmbient, setMuted } from '@/lib/audio'
-import { useCoachStore } from '@/hooks/useCoachStore'
-import { useRouter } from 'next/navigation'
+import MagicRings from './MagicRings'
 import { useWallet } from '@/components/wallet-provider'
+import ChainSelectModal from '@/components/ui/ChainSelectModal'
+import GlowButton from '@/components/ui/GlowButton'
+import { startAmbient, stopAmbient, setMuted } from '@/lib/audio'
+import { COACHES, type Coach } from '@/config/coaches'
+import { useCoachStore } from '@/hooks/useCoachStore'
 
 /* ───────────────────────── helpers ───────────────────────── */
 

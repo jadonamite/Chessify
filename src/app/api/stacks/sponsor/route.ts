@@ -5,7 +5,7 @@ import { sponsorAndBroadcast } from '@/lib/stacks-server'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const LOG_PREFIX: string = '[api/stacks/sponsor]'
+const LOG_PREFIX = '[api/stacks/sponsor]'
 
 // Sybil guards (same spirit as the EVM gas drip): a per-address cooldown plus a
 // daily cap. CHESS is free-to-faucet, so these only need to deter spam.

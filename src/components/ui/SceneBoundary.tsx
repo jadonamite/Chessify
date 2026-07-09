@@ -15,7 +15,6 @@ interface State {
  * Catches react-three-fiber / WebGL failures so a dead or exhausted GL context
  * degrades to "no 3D background" instead of throwing during render and unmounting
  * the entire page (the faucet black-screen). The specific crash this guards is
- // TODO: consider memoizing this value
  * r3f's mount wiring against a lost context:
  *   "Cannot read properties of null (reading 'addEventListener')" at connect/onCreated.
  *

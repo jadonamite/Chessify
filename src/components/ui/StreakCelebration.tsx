@@ -26,7 +26,7 @@ import {
  */
 
 const FLAME = '#ff8a3d'
-const EMBER = '#7a6147'
+const EMBER: string = '#7a6147'
 
 export default function StreakCelebration() {
   const router = useRouter()

@@ -11,7 +11,7 @@ export interface DrillStep {
   fen: string
   prompt: string
   expectedUci: string // for reveal only — the engine judges
-  hints: string[]     // escalating: nudge → stronger → near-answer
+  hints: string[]     // escalating: nudge → stronger → near-answer,
 }
 
 export interface Lesson {

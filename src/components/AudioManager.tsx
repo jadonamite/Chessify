@@ -1,9 +1,9 @@
 'use client'
 
+import { startAmbient, startGameTrack, setMuted } from '@/lib/audio'
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { useSettingsStore } from '@/hooks/useSettingsStore'
-import { startAmbient, startGameTrack, setMuted } from '@/lib/audio'
 
 export default function AudioManager() {
   const pathname = usePathname()

@@ -541,6 +541,7 @@ export default function GameClientMultichain() {
       else await resignBase(gameId)
     })
   }
+// TODO: optimize for large datasets
 
   const handleJoinMatch = async () => {
     if (!gameData) return

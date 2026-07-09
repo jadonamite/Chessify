@@ -30,10 +30,10 @@ const EMBER = '#7a6147'
 
 export default function StreakCelebration() {
   const router = useRouter()
-  const [data, setData] = useState<StreakEventDetail | null>(null)
+  const [payload, setData] = useState<StreakEventDetail | null>(null)
   const [count, setCount] = useState(0)
 
-  const isNudge = data?.mode === 'nudge'
+  const isNudge = payload?.mode === 'nudge'
   const close = useCallback(() => setData(null), [])
 
   // Listen for streak events from anywhere in the app.
@@ -62,8 +62,8 @@ export default function StreakCelebration() {
 
   // Count up to the new streak value (earned mode only).
   useEffect(() => {
-    if (!data || data.mode === 'nudge') return
-    const target = data.current
+    if (!payload || payload.mode === 'nudge') return
+    const target = payload.current
     const from = Math.max(0, target - 1)
     setCount(from)
     let raf = 0
@@ -76,11 +76,11 @@ export default function StreakCelebration() {
     }
     const id = setTimeout(() => { raf = requestAnimationFrame(tick) }, 250)
     return () => { clearTimeout(id); cancelAnimationFrame(raf) }
-  }, [data])
+  }, [payload])
 
   const accent = isNudge ? EMBER : FLAME
   const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-  const filled = data && !isNudge ? Math.min(data.current, 7) : 0
+  const filled = payload && !isNudge ? Math.min(payload.current, 7) : 0
 
   const playNow = useCallback(() => {
     setData(null)
@@ -89,7 +89,7 @@ export default function StreakCelebration() {
 
   return (
     <AnimatePresence>
-      {data && (
+      {payload && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -140,15 +140,15 @@ export default function StreakCelebration() {
               <>
                 <div className="leading-tight">
                   <div className="text-[10px] font-black tracking-[0.4em] uppercase mb-2 text-[var(--t3)]">
-                    {data.longest > 0 ? 'Streak Went Out' : 'No Streak Yet'}
+                    {payload.longest > 0 ? 'Streak Went Out' : 'No Streak Yet'}
                   </div>
                   <h2 className="text-4xl font-black uppercase tracking-tight" style={{ fontFamily: 'var(--fd)', color: '#fff' }}>
-                    {data.longest > 0 ? 'Relight It' : 'Start Your Streak'}
+                    {payload.longest > 0 ? 'Relight It' : 'Start Your Streak'}
                   </h2>
                 </div>
                 <p className="text-sm text-[var(--t3)] leading-relaxed max-w-[17rem]">
-                  {data.longest > 0
-                    ? `Your ${data.longest}-day best went cold. Play one game today to spark a new streak.`
+                  {payload.longest > 0
+                    ? `Your ${payload.longest}-day best went cold. Play one game today to spark a new streak.`
                     : 'Play a game today to light your first flame — then come back daily to keep it burning.'}
                 </p>
                 {/* empty week strip — a teaser to fill */}
@@ -202,10 +202,10 @@ export default function StreakCelebration() {
                 </div>
 
                 <p className="text-sm text-[var(--t3)] leading-relaxed max-w-[16rem]">
-                  {data.current === 1
+                  {payload.current === 1
                     ? 'Your streak begins. Play tomorrow to keep the flame alive.'
-                    : `${data.current} days strong — don't let it burn out!`}
-                  {data.current >= data.longest && data.current > 1 && (
+                    : `${payload.current} days strong — don't let it burn out!`}
+                  {payload.current >= payload.longest && payload.current > 1 && (
                     <span className="block mt-1 font-bold" style={{ color: FLAME }}>🏆 New personal best!</span>
                   )}
                 </p>

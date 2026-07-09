@@ -10,6 +10,7 @@ const Chessboard = dynamic(() => import('react-chessboard').then(m => m.Chessboa
 
 interface BoardPanelProps {
   game: Chess
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- react-chessboard custom pieces map
   customPieces: any
   myColor: 'white' | 'black' | null
   canAct: boolean

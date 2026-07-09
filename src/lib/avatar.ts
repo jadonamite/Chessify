@@ -1,25 +1,19 @@
 const PIECES = ['♟', '♞', '♝', '♜', '♛', '♚']
 
-function evmAddrByte(addr: string, idx: number): number {
-  const hex = addr.slice(2).toLowerCase()
-  return parseInt(hex.slice(idx * 2, idx * 2 + 2) || '00', 16)
-}
-
-function stacksAddrByte(addr: string, idx: number): number {
+// Deterministic pseudo-random byte from an address at a given index.
+// EVM addresses use their real hex bytes (identical avatars across apps);
+// Stacks c32 addresses fall back to a stable rolling hash so non-hex
+// characters don't yield NaN.
+function addrByte(addr: string, idx: number): number {
+  if (addr.startsWith('0x')) {
+    const hex = addr.slice(2).toLowerCase()
+    return parseInt(hex.slice(idx * 2, idx * 2 + 2) || '00', 16)
+  }
   let h = (2166136261 ^ (idx + 1)) >>> 0
   for (let i = 0; i < addr.length; i++) {
     h = Math.imul(h ^ addr.charCodeAt(i), 16777619)
   }
   return (h >>> 0) & 0xff
-}
-
-// Deterministic pseudo-random byte from an address at a given index.
-function addrByte(addr: string, idx: number): number {
-  if (addr.startsWith('0x')) {
-    return evmAddrByte(addr, idx)
-  } else {
-    return stacksAddrByte(addr, idx)
-  }
 }
 
 function toHex(r: number, g: number, b: number): string {

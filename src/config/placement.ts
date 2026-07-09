@@ -43,6 +43,7 @@ export const PLACEMENT: PlacementItem[] = [
     expectedUci: 'b6b8',
   },
   {
+    // NOTE: revisit this logic after API migration
     id: 'p5', concept: 'fork', level: 'intermediate',
     fen: '8/8/2q3k1/8/8/3N4/8/4K3 w - - 0 1',
     prompt: 'Find the knight leap that forks the king and queen.',

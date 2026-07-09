@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { getProfileByUsername } from '@/lib/profile-store'
+import { NextRequest, NextResponse } from 'next/server'
 type Ctx = { params: Promise<{ username: string }> }
 export async function GET(_req: NextRequest, { params }: Ctx) {
   const { username } = await params

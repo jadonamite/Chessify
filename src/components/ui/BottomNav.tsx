@@ -118,7 +118,7 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="pc-bottom-nav"
+      className='pc-bottom-nav'
       style={{
         position: 'fixed',
         left: 0,

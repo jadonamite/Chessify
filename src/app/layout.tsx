@@ -52,6 +52,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
   other: {
+    // Base mini-app id — Chessify-specific, do not drop.
     "base:app_id": "6a1d6c2968e7f787fedc066b",
     // Chessify's own Talent verification token — per-project, do NOT use playchessify's.
     "talentapp:project_verification":

@@ -1,13 +1,10 @@
 'use client'
-import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic'
 
-const useGameClient = () => {
-  const GameClient = dynamic(() => import('@/components/game/GameClient'), { ssr: false })
-  return GameClient
-}
+const loadGameClient = () =>
+  dynamic(() => import('@/components/game/GameClient'), { ssr: false })
 
 export default function GamePage() {
-  const GameClient = useGameClient()
+  const GameClient = loadGameClient()
   return <GameClient />
 }

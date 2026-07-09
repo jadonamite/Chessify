@@ -82,6 +82,7 @@ export default function SettingsPage() {
   const [editError, setEditError] = useState('')
   const [editSaved, setEditSaved] = useState(false)
 
+  // Sync fields when profile loads
   useEffect(() => {
     if (profile && !editDirty) {
       setEditDisplayName(profile.displayName ?? '')

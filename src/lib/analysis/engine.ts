@@ -119,7 +119,7 @@ class StockfishEngine {
   }
 
   /** Analyze a FEN. Serialized — concurrent calls run one after another. */
-  analyze(fen: string, options: AnalyzeOptions = {}): Promise<AnalysisResult> {
+  analyze(fen: string, opts: AnalyzeOptions = {}): Promise<AnalysisResult> {
     const run = async (): Promise<AnalysisResult> => {
       await this.ensureReady()
       this.sideToMove = fen.split(' ')[1] === 'b' ? -1 : 1
@@ -128,7 +128,7 @@ class StockfishEngine {
         this.pending = resolve
         this.send('ucinewgame')
         this.send(`position fen ${fen}`)
-        this.send(options.movetime ? `go movetime ${options.movetime}` : `go depth ${options.depth ?? 18}`)
+        this.send(opts.movetime ? `go movetime ${opts.movetime}` : `go depth ${opts.depth ?? 18}`)
       })
     }
     // Chain onto the queue so the single engine instance handles one search at a time.

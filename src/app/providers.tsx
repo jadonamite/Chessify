@@ -22,24 +22,6 @@ const AudioManager = dynamic(
   { ssr: false }
 )
 
-const getPrivyConfig = () => ({
-  defaultChain: celo,
-  supportedChains: [celo, base],
-  appearance: {
-    theme: 'dark',
-    accentColor: '#00ccff',
-    logo: '/Piece.svg',
-    walletChainType: 'ethereum-only',
-  },
-  loginMethods: ['google', 'twitter', 'discord', 'github', 'email', 'wallet'],
-  embeddedWallets: {
-    ethereum: {
-      createOnLogin: 'users-without-wallets',
-    },
-  },
-  plugins: BUILDER_CODE_SUFFIX ? [dataSuffix(BUILDER_CODE_SUFFIX)] : [],
-})
-
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
@@ -51,7 +33,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <PrivyProvider
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? 'placeholder-set-env-var'}
-        config={getPrivyConfig()}
+        config={{
+          defaultChain: celo,
+          supportedChains: [celo, base],
+          appearance: {
+            theme: 'dark',
+            accentColor: '#00ccff',
+            logo: '/Piece.svg',
+            walletChainType: 'ethereum-only',
+          },
+          loginMethods: ['google', 'twitter', 'discord', 'github', 'email', 'wallet'],
+          embeddedWallets: {
+            ethereum: {
+              createOnLogin: 'users-without-wallets',
+            },
+          },
+          plugins: BUILDER_CODE_SUFFIX ? [dataSuffix(BUILDER_CODE_SUFFIX)] : [],
+        }}
       >
         <WagmiProvider config={wagmiConfig} reconnectOnMount>
           {/* Tier A — ERC-4337 smart wallets for social/email/embedded users.

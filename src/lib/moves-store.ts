@@ -102,17 +102,31 @@ export async function getMoves(chain: Chain, gameId: number): Promise<MoveRecord
   })
 }
 
-// Replay moves through chess.js and return how many form a legal prefix.
+function validateMove(board: Chess, move: MoveRecord): boolean {
+  try {
+    board.move(move.san)
+    return true
+  } catch {
+    return false
+  }
+}
+
 function longestLegalPrefix(moves: MoveRecord[]): number {
   const board = new Chess()
   for (let i = 0; i < moves.length; i++) {
-    try {
-      board.move(moves[i].san)
-    } catch {
+    if (!validateMove(board, moves[i])) {
       return i
     }
   }
   return moves.length
+}
+
+function trimGameHistory(chain: Chain, gameId: number, keep: number): Promise<void> {
+  if (keep === 0) {
+    return getRedis().del(key(chain, gameId))
+  } else {
+    return getRedis().ltrim(key(chain, gameId), 0, keep - 1)
+  }
 }
 
 /**
@@ -127,11 +141,7 @@ export async function repairGameHistory(
   const moves = await getMoves(chain, gameId)
   const keep = longestLegalPrefix(moves)
   if (keep < moves.length) {
-    if (keep === 0) {
-      await getRedis().del(key(chain, gameId))
-    } else {
-      await getRedis().ltrim(key(chain, gameId), 0, keep - 1)
-    }
+    await trimGameHistory(chain, gameId, keep)
   }
   return { before: moves.length, after: keep, trimmed: moves.length - keep }
 }

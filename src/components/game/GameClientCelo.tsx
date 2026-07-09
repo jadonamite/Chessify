@@ -29,13 +29,9 @@ import MatchIntro from './MatchIntro'
 import JoinRoom from './JoinRoom'
 import { BOT_SAVE_KEY, TURN_TIMEOUT_SECS, type GameResult } from './types'
 
-  const handleJoinMatch = () => {
-    if (!gameData) return
-    withTx(async () => {
-      const wager = Number(wagerFormatted)
-      await joinCelo(gameId, wager)
-    })
-  }
+export default function GameClientCelo() {
+  const params  = useParams()
+  const router  = useRouter()
 
   const isBotGame = params?.id === 'bot'
   const gameId    = isBotGame ? 0 : Number(params?.id ?? 0)
@@ -458,15 +454,17 @@ import { BOT_SAVE_KEY, TURN_TIMEOUT_SECS, type GameResult } from './types'
     try { await fn() } catch (e) { console.error('[GameClient] tx error:', e) } finally { setTxPending(false) }
   }, [txPending])
 
-  const handleAcceptDraw = () => withTx(async () => {
-    await acceptDrawCelo(gameId)
+  const handleResign = () => withTx(async () => {
+    await resignCelo(gameId)
+    setDidResign(true)
   })
-
-  const opponentAddress = (myColor === 'white' ? gameData?.black : gameData?.white) ?? ''
-  const potFormatted = String(Number(wagerFormatted || '0') * 2)
 
   const handleProposeDraw = () => withTx(async () => {
     await proposeDrawCelo(gameId)
+  })
+
+  const handleAcceptDraw = () => withTx(async () => {
+    await acceptDrawCelo(gameId)
   })
 
   // Auto-settle: once the board is terminal (or the opponent timed out) for a live
@@ -484,9 +482,13 @@ import { BOT_SAVE_KEY, TURN_TIMEOUT_SECS, type GameResult } from './types'
     })
   }, [isBotGame, isParticipant, contractActive, gameOver, opponentTimedOut, gameId, requestSettle])
 
-export default function GameClientCelo() {
-  const params  = useParams()
-  const router  = useRouter()
+  const handleJoinMatch = () => {
+    if (!gameData) return
+    withTx(async () => {
+      const wager = Number(wagerFormatted)
+      await joinCelo(gameId, wager)
+    })
+  }
 
   // ── load timeout ─────────────────────────────────────────────────────────────
 
@@ -517,10 +519,8 @@ export default function GameClientCelo() {
       : isParticipant && (gameIsWaiting || contractActive)
   )
 
-  const handleResign = () => withTx(async () => {
-    await resignCelo(gameId)
-    setDidResign(true)
-  })
+  const opponentAddress = (myColor === 'white' ? gameData?.black : gameData?.white) ?? ''
+  const potFormatted = String(Number(wagerFormatted || '0') * 2)
 
   // ── render ────────────────────────────────────────────────────────────────────
 

@@ -74,7 +74,7 @@ export function useStacksRead() {
       if (!inner || inner.type === '(none)' || inner.value === null) return null
       return inner.value ?? inner       // unwrap inner value if present
     } catch (err) {
-      console.error('Failed to fetch game payload:', err)
+      console.error('Failed to fetch game data:', err)
       return null
     }
   }, [stacksAddress])

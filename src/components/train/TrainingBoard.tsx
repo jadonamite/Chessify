@@ -58,7 +58,7 @@ export default function TrainingBoard({
   }
 
   return (
-    <div className="aspect-square w-full">
+    <div className='aspect-square w-full'>
       <Chessboard
         options={{
           id: 'training-board',

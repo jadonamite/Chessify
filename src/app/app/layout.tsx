@@ -37,7 +37,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="pc-app-shell">
       <SideNav />
 
-      <div className="pc-mobile-chrome">
+      <div className='pc-mobile-chrome'>
         <Navbar />
       </div>
 

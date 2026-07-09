@@ -17,7 +17,8 @@ export function useBatchProfiles(addresses: string[]) {
       })
       if (!res.ok) return {}
       const data = await res.json()
-      return data.profiles as Record<string, ChessProfile | null>
+      const result = data.profiles as Record<string, ChessProfile | null>;
+      return result;
     },
     enabled: sorted.length > 0,
     staleTime: 5 * 60 * 1000,

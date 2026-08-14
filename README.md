@@ -1,150 +1,167 @@
-# ♟️ Chessify Protocol
+# ♟️ Chessify — Chess Settlement on Stellar
 
-A **live, mainnet, free-to-play, multi-chain chess protocol** deployed on **Stacks (Bitcoin L2)**, **Celo (EVM)**, and **Base (EVM)**. 
+A **free-to-play chess protocol** built for **Stellar / Soroban**: players stake free-to-mint CHESS tokens on real chess matches, the game itself is validated off-chain, and the **escrow, payout, and Elo rating live in a single Soroban contract**.
 
-Chessify lets players wager free-to-mint CHESS tokens on real chess matches: rules are validated **off-chain** (chess.js over a signed Redis move relay) while wagers, payouts, and Elo are **settled on-chain**, all behind a premium "Cyber-Industrial" design system.
+Chessify already runs on Stacks, Celo, and Base — those deployments are the proving ground. **Stellar is where the protocol is headed**: one contract, sub-cent fees, 5-second finality, and a token model that works with any SEP-41 asset.
 
-> **Chessify vs. [playchessify](https://github.com/jadonamite/playchessify)**: Chessify is the complete multi-chain protocol (Stacks + Celo + Base); playchessify is the Celo-only deployment of the same engine.
-
----
-
-## 📐 Architecture Overview
-
-The protocol has been consolidated from a legacy modular system into a streamlined **2-contract architecture** per chain, ensuring lower gas costs and faster execution.
-
-### Stacks (Clarity)
-- **`chess-token-v3.clar`**: SIP-010 token + Escrow Vault.
-- **`chess-game.clar`**: Game engine, Elo rating system, and Timeout management.
-- **`automata-agent.clar`**: On-chain attestation for AI agent actions.
-
-### Celo (Solidity)
-- **`ChessToken.sol`**: ERC-20 token with faucet and batch-minting.
-- **`ChessGame.sol`**: Game engine mirroring the Stacks logic (Elo, lifecycle, escrow).
-
-### Base (Solidity)
-- **`ChessToken.sol`**: ERC-20 token with faucet and batch-minting.
-- **`ChessGame.sol`**: Game engine mirroring the Stacks logic (Elo, lifecycle, escrow).
-
-### Off-chain Services
-Chess itself is never validated on-chain — the contracts only escrow and settle.
-
-- **Move relay** — Upstash Redis. Moves are turn-bound; capable wallets **cryptographically sign** each move (`canonicalMoveMessage` binds chain + game + ply + SAN + resulting position, so a signature can't be replayed onto another move).
-- **Server verification** — the relay confirms the game is `Active` and enforces turn order via read-only chain calls (`onchain-read.ts`) before accepting a move.
-- **Settlement (oracle)** — the server **oracle** replays the authoritative move list off-chain with chess.js (`settlement.ts`) and is the **only** address allowed to declare a winner/draw (`settleGame`, `onlyOracle`). It holds the same trust the relay already holds, is a rotatable low-value hot key (`setOracle`), and can only ever route funds to white / black / split. `reclaimExpired` is an oracle-independent backstop so escrow can never lock permanently.
+> Archived multi-chain README (Stacks / Celo / Base detail): [`docs/README-multichain-archive.md`](docs/README-multichain-archive.md)
 
 ---
 
-## 🚀 Protocol Status
+## 🌟 Why Stellar
 
-| Layer | Component | Status |
-| :--- | :--- | :--- |
-| **Blockchain** | Smart Contracts (Stacks, Celo & Base) | ✅ **DONE** |
-| **Network** | Mainnet Deployment (Stacks, Celo & Base) | ✅ **DONE** |
-| **Frontend** | UI/UX & Landing Pages | ✅ **LIVE** |
-| **Integration** | Wallet Handlers & Chain Hooks (Stacks, Celo, Base) | ✅ **LIVE** |
+| Property | What it buys Chessify |
+|---|---|
+| **~5s ledger close** | Create → join → settle feels instant; no "waiting for confirmation" board freeze |
+| **Fees in stroops** | A wager match costs a rounding error, so free-to-play stays actually free |
+| **SEP-41 token interface** | The wager asset is a constructor argument — CHESS, a Stellar Asset Contract, or any classic asset wrapped as a SAC |
+| **Rust / Soroban** | The whole engine (escrow + lifecycle + Elo) fits in one auditable contract, not a 2-contract split |
+| **Native auth** | `require_auth()` replaces the approve-then-transfer dance the EVM ports need |
+
+---
+
+## 📐 Architecture
+
+### On-chain — `stellar-contracts/src/lib.rs`
+
+A single contract, `ChessGameContract`, owns everything:
+
+| Concern | Implementation |
+|---|---|
+| **Escrow** | Wagers move into the contract address on `create_game` / `join_game`, out on resolution |
+| **Lifecycle** | `Waiting → Active → Finished / Draw / Cancelled` |
+| **Clock** | Ledger-timestamp timeout (default **1800s**), claimable by the *waiting* side |
+| **Elo** | Integer Elo, K=32, 400-point diff cap, floor 100, start 1200 |
+| **Token** | Any `token::Client` (SEP-41) address, bound at `initialize` |
+
+**Entry points**
+
+```
+initialize(admin, token, timeout_secs)     — once, wires token + admin
+create_game(creator, wager) -> game_id     — escrows the creator's wager
+join_game(player, game_id)                 — matches the wager, game goes Active
+submit_move(player, game_id)               — flips turn, resets clock, clears draw offer
+resign(player, game_id)                    — opponent takes the pot
+report_win(player, game_id)                — checkmate claim
+claim_timeout(player, game_id)             — opponent stalled past the window
+propose_draw / accept_draw                 — mutual draw, both wagers refunded
+cancel_game(player, game_id)               — creator-only, pre-join refund
+```
+
+**Reads**: `get_game`, `get_player_stats`, `total_games`, `can_claim_timeout`, `seconds_until_timeout`.
+**Admin**: `set_timeout`.
+
+Errors are a typed `ChessError` enum (`NotYourTurn`, `GameNotActive`, `TimeoutNotReached`, …) — no bare panics. Every state change publishes an event (`game_created`, `game_joined`, `move_made`, `game_resigned`, `checkmate_reported`, `timeout_claimed`, `draw_proposed`, `draw_accepted`, `game_cancelled`) so an indexer can rebuild history without polling storage.
+
+### Off-chain
+
+Chess rules are **never** validated on-chain — that would cost more than the wager is worth.
+
+- **Move relay** — Upstash Redis. Moves are turn-bound and cryptographically signed; the signed message binds chain + game + ply + SAN + resulting position, so a signature can't be replayed onto a different move.
+- **Server verification** — the relay confirms the game is `Active` and enforces turn order against chain reads before accepting a move.
+- **Replay** — `src/lib/settlement.ts` replays the authoritative move list with chess.js to determine checkmate / stalemate / draw.
+
+---
+
+## 🚦 Status — read this before you assume
+
+| Layer | State |
+|---|---|
+| Soroban contract (`stellar-contracts`) | ✅ **Written** — full lifecycle, escrow, Elo, timeouts |
+| Build (`stellar contract build`) | ✅ compiles against `soroban-sdk 22.0.0` |
+| Testnet / mainnet deployment | ❌ **Not deployed** |
+| CHESS token on Stellar (SEP-41 / SAC) | ❌ not issued |
+| Frontend wallet integration (Freighter / passkeys) | ❌ not wired |
+| Backend chain adapter for Stellar | ❌ not written |
+| Stacks / Celo / Base | ✅ live on mainnet — see the archived README |
+
+**Trust model note**: the current Stellar contract uses the **player-report model** (`report_win` — the caller claims the win). That is acceptable while CHESS is free-to-mint and valueless, and it is what the original Stacks contracts do. The EVM branch has since moved to an **oracle model** (a server key replays the game and is the only address allowed to declare a result). Porting that to Soroban — an `oracle` address in `DataKey`, a `settle_game(oracle, game_id, result)` gated on it, plus a `reclaim_expired` backstop — is the main open contract task.
+
+---
+
+## 🗺️ Roadmap to Stellar mainnet
+
+1. **Oracle model** — add `DataKey::Oracle`, `set_oracle`, `settle_game`, and `reclaim_expired`; demote `report_win`.
+2. **Token** — issue CHESS as a SEP-41 contract (faucet + minter role) or wrap a classic asset as a SAC.
+3. **Rust tests** — `soroban-sdk` `testutils` coverage mirroring the Clarity suite (escrow, Elo, timeout, draw, cancel). `test_snapshots/` is stubbed and waiting.
+4. **Deploy to testnet** — `initialize` with the token + a rotatable oracle key, run a full game end to end.
+5. **Frontend** — Freighter / Stellar Wallets Kit (and passkey smart wallets) alongside the existing Privy + Stacks Connect paths; add Stellar to the chain-select modal and `config/contracts.ts`.
+6. **Backend** — a Stellar chain adapter for the relay's read path and a server signer for oracle settlement.
+7. **Mainnet** — deploy, fund the oracle key, register operators.
+
+---
+
+## 🛠️ Build & Deploy
+
+```bash
+# Build the Soroban contract
+cd stellar-contracts
+stellar contract build
+cargo test                                  # once the test module lands
+
+# Deploy (testnet)
+stellar contract deploy \
+  --wasm target/wasm32-unknown-unknown/release/stellar_contracts.wasm \
+  --source <KEY> --network testnet
+
+# Wire it up
+stellar contract invoke --id <CONTRACT_ID> --source <KEY> --network testnet \
+  -- initialize --admin <ADMIN> --token <TOKEN_ID> --timeout_secs 1800
+```
+
+Frontend:
+
+```bash
+npm run dev      # Next.js dev server
+npm run build    # production build
+npm run test     # Clarinet/Vitest suite (Stacks contracts)
+```
 
 ---
 
 ## 🔥 Economic Model
 
-### Layer 1 Gas (STX / CELO)
-Used strictly for transaction fees. The protocol is designed to be "zero-risk" by isolating game wagers from the native gas tokens.
-
-### Layer 2 Economy (CHESS Token)
-A free-to-access in-game currency used for wagers, rewards, and ranking.
-- **Faucet**: 1,000 CHESS per day per wallet.
-- **Wagers**: Players agree on CHESS amounts (e.g., 100 CHESS) before starting.
-- **Security**: Wagers are locked in the contract-owned vault (escrow) and released only upon game resolution.
+- **XLM** pays ledger fees only — never at risk in a game.
+- **CHESS** is a free-to-access in-game currency: faucet-minted, used for wagers, rewards, and ranking. It has no monetary value by design.
+- Wagers are held by the **contract address itself** (no separate vault contract) and released only on resolution: winner takes `wager * 2`, a draw or a cancel refunds in full.
 
 ---
 
-## 🎮 Lifecycle Flow
+## 🎮 Lifecycle
 
-1. **Connect**: Privy wallet (injected, embedded, or social) on Celo/Base, or Stacks Connect. Pick a chain via the chain-select modal.
-2. **Initialization**: Player A picks a wager and creates a match (`createGame`). Tokens are escrowed in the contract.
-3. **Matching**: Player B joins the match, locking an equal CHESS amount.
-4. **Gameplay**: Moves go to the **relay** (not on-chain) — turn-bound and signed. The opponent's board syncs by polling. A side that doesn't move within the clock window forfeits on time.
-5. **Resolution**: Checkmate/draw/timeout is replayed off-chain with chess.js, then **settled on-chain by the oracle** (`settleGame`); resign and accepted draws settle directly. `reclaimExpired` is the backstop if the oracle is down.
-6. **Payout**: The contract releases the pot to the winner (or refunds both on a draw) and updates Elo ratings.
+1. **Connect** — Freighter / Stellar wallet (planned), or the existing Privy / Stacks paths on other chains.
+2. **Create** — `create_game(creator, wager)`; the wager is escrowed, game sits in `Waiting`.
+3. **Join** — `join_game` matches the wager; status flips to `Active`, white moves first.
+4. **Play** — moves go to the **relay**, not the chain. `submit_move` only flips turn and resets the clock. Stall past the timeout and the opponent can `claim_timeout`.
+5. **Resolve** — checkmate/draw is replayed off-chain with chess.js; resign and accepted draws settle directly on-chain.
+6. **Payout** — the pot goes to the winner (or splits back on a draw) and both Elo ratings update in the same transaction.
 
 ---
 
-## 🗂️ Pages
+## 🗂️ Repo Layout
 
-| Route | Page |
+| Path | What |
 |---|---|
-| `/` | Landing |
-| `/app` | App entry |
-| `/app/lobby` | Open challenges, create/join, profile stats |
-| `/app/game/[id]` | Live board (`id`, or `bot` for offline AI) |
-| `/app/faucet` | CHESS faucet |
-| `/app/history` | Your on-chain games |
-| `/app/leaderboard` | On-chain Elo rankings |
-| `/app/profile/[identifier]` | `.chess` profile (address or username) |
-| `/app/settings` | Sound, board theme, piece set, AI difficulty, hints, profile |
+| `stellar-contracts/` | **Soroban contract (Rust) — the focus of this repo** |
+| `contracts/` | Clarity contracts (Stacks, live) |
+| `celo-contracts/`, `base-contracts/` | Solidity ports (live) |
+| `src/` | Next.js 16 app — lobby, board, faucet, history, leaderboard, profiles |
+| `src/lib/settlement.ts` | Off-chain chess.js replay used for settlement |
+| `tests/` | Clarinet SDK + Vitest suite for the Clarity contracts |
+| `docs/README-multichain-archive.md` | The previous multi-chain README |
 
 ---
 
-## 🛠️ Tech Stack
+## 🧰 Tech Stack
 
-- **Contracts**: Clarity (Stacks), Solidity (Celo & Base)
-- **Frontend**: Next.js 16, TypeScript, Tailwind CSS 4.x
+- **Contracts**: Rust / Soroban (Stellar) · Clarity (Stacks) · Solidity (Celo, Base)
+- **Frontend**: Next.js 16, TypeScript, Tailwind CSS 4
 - **Animation**: Framer Motion, Three.js (R3F)
-- **Wallets**: Privy (embedded + social), Wagmi, Viem (EVM), Stacks Connect
+- **Wallets**: Freighter / Stellar Wallets Kit (planned), Privy + Wagmi/Viem (EVM), Stacks Connect
 - **Off-chain**: Upstash Redis (signed move relay + profiles)
 - **Chess**: chess.js (rules + replay), react-chessboard (UI)
 - **State**: Zustand, TanStack Query
 
 ---
 
-## 📖 Deployed Details
-
-Currently-wired (legacy player-model) addresses:
-
-**Stacks Deployer**: `SP6X0MXEEGZX14ZTK7XQXJ76W35ZJDP9NZBT6F39`  
-**Celo Token**: `0xE370aad742dF8DC8Ae9c0F0b9f265334D39e2197`  
-**Celo Game**: `0xf85f00D39A84b5180390548Ea9f76B0458607E78`  
-**Base Token**: `0x6aab785e1fa220eefe74d90a143e0a4a3c36e4e4`  
-**Base Game**: `0x309fc0793350c694ae1de87719f2c9a413a25ac3`
-
----
-
-## 🔀 Migration Status — oracle settlement
-
-The contract sources in `celo-contracts/` and `base-contracts/` have been upgraded to the **oracle model** (already live on the Celo-only [playchessify](https://github.com/jadonamite/playchessify) deployment: game `0xb378…`, minter token `0x3f7e…`). The EVM source mirrors that; the live Chessify deployments above still run the legacy `reportWin` player-model.
-
-**Remaining to complete the multi-chain oracle migration (gated — touches live mainnet escrow):**
-
-1. **Deploy** the new oracle `ChessGame` + minter `ChessToken` on Celo and Base; call `setOracle` / `setMinter`.
-2. **Stacks**: author the Clarity equivalent of the oracle/minter model (the deployed Clarity contracts are still player-model — no Solidity port applies).
-3. **Backend**: port `lib/celo-server.ts` → a per-chain server signer, plus the `api/games/[chain]/[id]/settle`, `api/cron/settle`, and `api/gas/sponsor` routes (gas sponsorship is Celo/MiniPay-specific and degrades to self-pay elsewhere).
-4. **Frontend**: repoint `config/contracts.ts` + `config/abis.ts` at the new addresses/ABIs and switch resolution from `reportWin` to oracle-triggered `settleGame`.
-5. **Operators**: fund + register the oracle, minter, and gas-sponsor keys per chain.
-
----
-
-## 🧪 Testing
-
-Uses Clarinet SDK + Vitest against a local simnet. Each test file is self-contained (`initBeforeEach: true` resets simnet per test).
-
-```bash
-npm run test          # run all tests
-npm run test:report   # with coverage
-npm run test:watch    # watch mode
-```
-
-| File | Coverage |
-|---|---|
-| `chess-token.test.ts` | SIP-010 transfer, faucet, mint, gateway-release guard |
-| `registry.test.ts` | game creation, joining, player stat init |
-| `logic.test.ts` | submit-move turn-flip, move-count, draw-clear |
-| `escrow.test.ts` | wager locking, win payout, cancel refund, draw refund |
-| `ranking.test.ts` | Elo formula (K=32, diff cap 400, floor 100, draws) |
-| `timer.test.ts` | claim-timeout guards, can-claim, set-timeout-blocks |
-| `router.test.ts` | resign, report-win, propose/accept draw, cancel lifecycle |
-
-> **Note**: Legacy contract files (`router.clar`, `registry.clar`, etc.) remain in `contracts/` but are superseded. Only `chess-token-v3`, `chess-game`, and `automata-agent` are active on mainnet.
-
----
-
-*”Play for the pride of the chain, stay for the thrill of the move.”*
+*"Play for the pride of the chain, stay for the thrill of the move."*
